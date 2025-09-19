@@ -8,7 +8,7 @@
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user milena.trabert@ebc.uu.se
 
-module load blast/2.15.0+
+module load bioinfo-tools blast/2.15.0+
 
 A_obtectus_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/A_obtectus.faa
 B_siliquastri_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/B_siliquastri.faa
