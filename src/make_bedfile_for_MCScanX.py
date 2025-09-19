@@ -47,5 +47,4 @@ if __name__ == "__main__":
     if not os.access(annotation_file, os.R_OK):
         raise RuntimeError(f"{annotation_file} does not exist or is not readable")
 
-    
     modify_gff_for_MCScanX(annotation_file)
