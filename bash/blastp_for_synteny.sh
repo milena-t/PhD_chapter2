@@ -1,7 +1,7 @@
 #!/bin/bash -l
 #SBATCH -A uppmax2025-2-148
 #SBATCH -p core
-#SBATCH -n b
+#SBATCH -n 5
 #SBATCH -t 2:00:00
 #SBATCH -J blastp_for_synteny
 #SBATCH -o blastp_for_synteny.log
@@ -27,16 +27,16 @@ do
         SPECIES2_name="${SPECIES2##*/}"
         SPECIES2_name="${SPECIES2_name%.*}"
 
-OUT_1v2="${SPECIES1_name}_vs_${SPECIES2_name}.blast"
-OUT_2v1="${SPECIES2_name}_vs_${SPECIES1_name}.blast"
+        OUT_1v2="${SPECIES1_name}_vs_${SPECIES2_name}.blast"
+        OUT_2v1="${SPECIES2_name}_vs_${SPECIES1_name}.blast"
 
-echo $OUT_1v2
-echo $OUT_2v1
+        makeblastdb -in $SPECIES2 -dbtype prot
+        blastp -query $SPECIES1 -db $SPECIES2 -out $OUT_1v2 -e 1e-10 -b 5 -v 5 -m 8
+        echo " =========> ${OUT_1v2} done!"
 
-# makeblastdb -in $SPECIES2 -dbtype prot
-# blastp -query $SPECIES1 -db $SPECIES2 -out $OUT_1v2 -e 1e-10 -b 5 -v 5 -m 8
-# makeblastdb -in $SPECIES1 -dbtype prot
-# blastp -query $SPECIES2 -db $SPECIES1 -out $OUT_2v1 -e 1e-10 -b 5 -v 5 -m 8
+        makeblastdb -in $SPECIES1 -dbtype prot
+        blastp -query $SPECIES2 -db $SPECIES1 -out $OUT_2v1 -e 1e-10 -b 5 -v 5 -m 8
+        echo " =========> ${OUT_2v1} done!"
 
     done
 done
