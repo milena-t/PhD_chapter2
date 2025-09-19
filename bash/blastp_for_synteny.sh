@@ -34,7 +34,8 @@ do
         SPECIES2_name="${SPECIES2##*/}"
         SPECIES2_name="${SPECIES2_name%.*}"
 
-        if [["${SPECIES1_name}" == "${SPECIES2_name}"]]
+        if [[ "${SPECIES1_name}" == "${SPECIES2_name}" ]]
+        then
             continue
         fi
 
