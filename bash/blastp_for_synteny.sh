@@ -31,11 +31,11 @@ do
         OUT_2v1="${SPECIES2_name}_vs_${SPECIES1_name}.blast"
 
         makeblastdb -in $SPECIES2 -dbtype prot
-        blastp -query $SPECIES1 -db $SPECIES2 -out $OUT_1v2 -num_threads 5 -max_target_seqs 5-evalue 1e-10  -outfmt 8
+        blastp -query $SPECIES1 -db $SPECIES2 -out $OUT_1v2 -num_threads 5 -max_target_seqs 5 -evalue 1e-10  -outfmt 8
         echo " =========> ${OUT_1v2} done!"
 
         makeblastdb -in $SPECIES1 -dbtype prot
-        blastp -query $SPECIES2 -db $SPECIES1 -out $OUT_2v1 -num_threads 5 -max_target_seqs 5-evalue 1e-10  -outfmt 8
+        blastp -query $SPECIES2 -db $SPECIES1 -out $OUT_2v1 -num_threads 5 -max_target_seqs 5 -evalue 1e-10  -outfmt 8
         echo " =========> ${OUT_2v1} done!"
 
     done
