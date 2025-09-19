@@ -2,7 +2,7 @@
 #SBATCH -A uppmax2025-2-148
 #SBATCH -p core
 #SBATCH -n 5
-#SBATCH -t 2:00:00
+#SBATCH -t 8:00:00
 #SBATCH -J blastp_for_synteny
 #SBATCH -o blastp_for_synteny.log
 #SBATCH --mail-type=ALL
