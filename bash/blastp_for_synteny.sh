@@ -34,6 +34,10 @@ do
         SPECIES2_name="${SPECIES2##*/}"
         SPECIES2_name="${SPECIES2_name%.*}"
 
+        if [["${SPECIES1_name}" == "${SPECIES2_name}"]]
+            continue
+        fi
+
         OUT_1v2="${SPECIES1_name}_vs_${SPECIES2_name}.blast"
         OUT_2v1="${SPECIES2_name}_vs_${SPECIES1_name}.blast"
 
