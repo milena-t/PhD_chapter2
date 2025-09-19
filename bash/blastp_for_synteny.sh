@@ -16,12 +16,12 @@ C_chinensis_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/C_chinens
 C_maculatus_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/C_maculatus_superscaffolded.faa
 T_castaneum_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/T_castaneum.faa
 
-for SPECIES1 in A_obtectus_proteins B_siliquastri_proteins C_chinensis_proteins C_maculatus_proteins T_castaneum_proteins
+for SPECIES1 in $A_obtectus_proteins $B_siliquastri_proteins $C_chinensis_proteins $C_maculatus_proteins $T_castaneum_proteins
 do
     SPECIES1_name="${SPECIES1##*/}"
     SPECIES1_name="${SPECIES1_name%.*}"
 
-    for SPECIES2 in A_obtectus_proteins B_siliquastri_proteins C_chinensis_proteins C_maculatus_proteins T_castaneum_proteins
+    for SPECIES2 in $A_obtectus_proteins $B_siliquastri_proteins $C_chinensis_proteins $C_maculatus_proteins $T_castaneum_proteins
     do
 
         SPECIES2_name="${SPECIES2##*/}"
