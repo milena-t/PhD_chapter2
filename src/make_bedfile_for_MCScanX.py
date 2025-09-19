@@ -21,8 +21,17 @@ def modify_gff_for_MCScanX(gff_path:str):
             if line[0] == "#":
                 # exclude comment lines
                 continue
+            
             # parse GFF line
             contig,source,category_,start,stop,score,strandedness,frame,attributes=[c for c in line.split("\t") if len(c)>0]
+            if category_ != "gene":
+                continue
+            gene_id = attributes.strip().split(";")[0].split("ID")[-1].replace("=","")
+            
+            bed_string = f"{contig}\t{start}\t{stop}\t{gene_id}\n"
+            bed_outfile.write(bed_string)
+    
+    print(f"outfile written to {outfile_bed_path}")
             
 
 
