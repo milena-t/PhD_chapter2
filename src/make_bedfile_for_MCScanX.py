@@ -10,7 +10,7 @@ python3 make_bedfile_for_MCScanX.py annotation.gff
 import sys
 import os
 
-import make_bedfile_for_MCScanX as mod_contig_names
+import make_contig_names_for_MCScanX as mod_contig_names
 
 def modify_gff_for_MCScanX(gff_path:str, species_initials:str):
     """ modify the file for MCScanX into a bedfile """
