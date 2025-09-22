@@ -22,12 +22,16 @@ C_chinensis_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/C_chinens
 C_maculatus_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/C_maculatus_superscaffolded_original_header.faa
 T_castaneum_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/T_castaneum_original_header.faa
 
+## --> re-run for new proteinfiles!
+
 ## make databases
-for SPECIES1 in $A_obtectus_proteins $B_siliquastri_proteins $C_chinensis_proteins $C_maculatus_proteins $T_castaneum_proteins
-do
-    makeblastdb -in $SPECIES1 -dbtype prot
-    echo " ---> done database ${SPECIES1}"
-done
+# for SPECIES1 in $A_obtectus_proteins $B_siliquastri_proteins $C_chinensis_proteins $C_maculatus_proteins $T_castaneum_proteins
+# do
+#     makeblastdb -in $SPECIES1 -dbtype prot
+#     echo " ---> done database ${SPECIES1}"
+# done
+
+## -->
 
 for SPECIES1 in $A_obtectus_proteins $B_siliquastri_proteins $C_chinensis_proteins $C_maculatus_proteins $T_castaneum_proteins
 do
@@ -52,8 +56,9 @@ do
         blastp -query $SPECIES1 -db $SPECIES2 -out $OUT_1v2 -num_threads 5 -max_target_seqs 5 -evalue 1e-10  -outfmt 6
         echo " =========> ${OUT_1v2} done!"
 
-        blastp -query $SPECIES2 -db $SPECIES1 -out $OUT_2v1 -num_threads 5 -max_target_seqs 5 -evalue 1e-10  -outfmt 6
-        echo " =========> ${OUT_2v1} done!"
+        ## reverse already happens automatically in the nested for loop no need to implement explicitly
+        # blastp -query $SPECIES2 -db $SPECIES1 -out $OUT_2v1 -num_threads 5 -max_target_seqs 5 -evalue 1e-10  -outfmt 6
+        # echo " =========> ${OUT_2v1} done!"
 
     done
 done
