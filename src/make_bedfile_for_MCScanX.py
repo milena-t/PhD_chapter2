@@ -30,6 +30,7 @@ def modify_gff_for_MCScanX(gff_path:str, species_initials:str):
             # parse GFF line
             contig_,source,category_,start,stop,score,strandedness,frame,attributes=[c for c in line.split("\t") if len(c)>0]
             if category_ == "transcript" or category_ == "mRNA":
+                ## cannot be "gene" because the fasta headers are always transcript IDs and then the blast search wouldn't match
                 pass
             else:
                 continue
