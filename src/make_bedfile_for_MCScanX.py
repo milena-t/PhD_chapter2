@@ -40,7 +40,7 @@ if __name__ == "__main__":
     if len(sys.argv) == 1:
         annotation_file = "/Users/miltr339/work/native_annotations/a_obtectus_native_isoform_filtered.gff"
     elif len(sys.argv) == 2:
-        annotation_file = sys.argv[2]
+        annotation_file = sys.argv[1]
     else:
         raise RuntimeError(f"please specify one annotatin file as command line argument.\nyou have specified:\n{sys.argv}")
 
