@@ -45,7 +45,7 @@ do
     OUT_2v1="${SPECIES2_name}_vs_${SPECIES1_name}.blast"
 
     # the documentation says outfmt6 but I think they mean 8
-    blastp -query $SPECIES1 -db $SPECIES2 -out $OUT_1v2 -num_threads 5 -num_alignments 5 -evalue 1e-10  -outfmt 6
+    blastp -query $SPECIES1 -db $SPECIES1 -out $OUT_1v2 -num_threads 5 -num_alignments 5 -evalue 1e-10  -outfmt 6
     echo " =========> ${OUT_1v2} done!"
     ## reverse already happens automatically in the nested for loop no need to implement explicitly
     # blastp -query $SPECIES2 -db $SPECIES1 -out $OUT_2v1 -num_threads 5 -num_alignments 5 -evalue 1e-10  -outfmt 6
