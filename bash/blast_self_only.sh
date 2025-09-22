@@ -3,8 +3,8 @@
 #SBATCH -p core
 #SBATCH -n 5
 #SBATCH -t 8:00:00
-#SBATCH -J blastp_for_synteny
-#SBATCH -o blastp_for_synteny.log
+#SBATCH -J blastp_for_synteny_self_only
+#SBATCH -o blastp_for_synteny_self_only.log
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user milena.trabert@ebc.uu.se
 
