@@ -38,27 +38,17 @@ do
     SPECIES1_name="${SPECIES1##*/}"
     SPECIES1_name="${SPECIES1_name%.*}"
 
-    for SPECIES2 in $A_obtectus_proteins $B_siliquastri_proteins $C_chinensis_proteins $C_maculatus_proteins $T_castaneum_proteins
-    do
+    SPECIES2_name="${SPECIES1##*/}"
+    SPECIES2_name="${SPECIES2_name%.*}"
 
-        SPECIES2_name="${SPECIES2##*/}"
-        SPECIES2_name="${SPECIES2_name%.*}"
+    OUT_1v2="${SPECIES1_name}_vs_${SPECIES2_name}.blast"
+    OUT_2v1="${SPECIES2_name}_vs_${SPECIES1_name}.blast"
 
-        if [[ "${SPECIES1_name}" == "${SPECIES2_name}" ]]
-        then
-            continue
-        fi
+    # the documentation says outfmt6 but I think they mean 8
+    blastp -query $SPECIES1 -db $SPECIES2 -out $OUT_1v2 -num_threads 5 -num_alignments 5 -evalue 1e-10  -outfmt 6
+    echo " =========> ${OUT_1v2} done!"
+    ## reverse already happens automatically in the nested for loop no need to implement explicitly
+    # blastp -query $SPECIES2 -db $SPECIES1 -out $OUT_2v1 -num_threads 5 -num_alignments 5 -evalue 1e-10  -outfmt 6
+    # echo " =========> ${OUT_2v1} done!"
 
-        OUT_1v2="${SPECIES1_name}_vs_${SPECIES2_name}.blast"
-        OUT_2v1="${SPECIES2_name}_vs_${SPECIES1_name}.blast"
-
-        # the documentation says outfmt6 but I think they mean 8
-        blastp -query $SPECIES1 -db $SPECIES2 -out $OUT_1v2 -num_threads 5 -num_alignments 5 -evalue 1e-10  -outfmt 6
-        echo " =========> ${OUT_1v2} done!"
-
-        ## reverse already happens automatically in the nested for loop no need to implement explicitly
-        # blastp -query $SPECIES2 -db $SPECIES1 -out $OUT_2v1 -num_threads 5 -num_alignments 5 -evalue 1e-10  -outfmt 6
-        # echo " =========> ${OUT_2v1} done!"
-
-    done
 done
