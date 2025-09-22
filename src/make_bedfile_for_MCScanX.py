@@ -34,10 +34,11 @@ def modify_gff_for_MCScanX(gff_path:str, species_initials:str):
                 pass
             else:
                 continue
-            gene_id = attributes.strip().split(";")[0].split("ID")[-1].replace("=","")
+            transcript_id = attributes.strip().split(";")[0].split("ID")[-1].replace("=","")
             contig = lookup_table_dict[contig_]
 
-            bed_string = f"{contig}\t{gene_id}\t{start}\t{stop}\n"
+            ## add _1 suffix to transcript ID to match the proteinfasta files 
+            bed_string = f"{contig}\t{transcript_id}_1\t{start}\t{stop}\n"
             bed_outfile.write(bed_string)
     
     print(f"outfile written to {outfile_bed_path}")
