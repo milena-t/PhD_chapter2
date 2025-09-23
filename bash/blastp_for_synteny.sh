@@ -10,6 +10,7 @@
 
 module load bioinfo-tools blast/2.15.0+
 
+## remove the species name prefixes I added for orthofinder
 # sed 's/>B_siliquastri__B_siliquastri__B_siliquastri_/>/g' /proj/naiss2023-6-65/Milena/chapter2/protein_data/B_siliquastri.faa > /proj/naiss2023-6-65/Milena/chapter2/protein_data/B_siliquastri_original_header.faa
 # sed 's/A_obtectus__A_obtectus__/>/g' /proj/naiss2023-6-65/Milena/chapter2/protein_data/A_obtectus.faa > /proj/naiss2023-6-65/Milena/chapter2/protein_data/A_obtectus_original_header.faa
 # sed 's/>C_chinensis__C_chinensis__C_chinensis_/>/g' /proj/naiss2023-6-65/Milena/chapter2/protein_data/C_chinensis.faa > /proj/naiss2023-6-65/Milena/chapter2/protein_data/C_chinensis_original_header.faa
@@ -22,6 +23,7 @@ C_chinensis_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/C_chinens
 C_maculatus_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/C_maculatus_superscaffolded_original_header.faa
 T_castaneum_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/T_castaneum_original_header.faa
 
+
 ## --> re-run for new proteinfiles!
 
 ## make databases
@@ -33,13 +35,13 @@ T_castaneum_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/T_castane
 
 ## -->
 
-for SPECIES1 in $A_obtectus_proteins # $B_siliquastri_proteins $C_chinensis_proteins $C_maculatus_proteins $T_castaneum_proteins
+for SPECIES1 in $A_obtectus_proteins $B_siliquastri_proteins $C_chinensis_proteins $C_maculatus_proteins $T_castaneum_proteins
 do  
 
     SPECIES1_name="${SPECIES1##*/}"
     SPECIES1_name="${SPECIES1_name%.*}"
 
-    for SPECIES2 in $A_obtectus_proteins # $B_siliquastri_proteins $C_chinensis_proteins $C_maculatus_proteins $T_castaneum_proteins
+    for SPECIES2 in $A_obtectus_proteins $B_siliquastri_proteins $C_chinensis_proteins $C_maculatus_proteins $T_castaneum_proteins
     do
 
         SPECIES2_name="${SPECIES2##*/}"
