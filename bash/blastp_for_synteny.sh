@@ -3,8 +3,8 @@
 #SBATCH -n 5
 #SBATCH -p core
 #SBATCH -t 8:00:00
-#SBATCH -J blastp_for_synteny_self_obtectus_only
-#SBATCH -o blastp_for_synteny_self_obtectus_only.log
+#SBATCH -J blastp_for_synteny_test_Bsil_Tcas
+#SBATCH -o blastp_for_synteny_test_Bsil_Tcas.log
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user milena.trabert@ebc.uu.se
 
@@ -35,13 +35,13 @@ T_castaneum_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/T_castane
 
 ## -->
 
-for SPECIES1 in $A_obtectus_proteins $B_siliquastri_proteins $C_chinensis_proteins $C_maculatus_proteins $T_castaneum_proteins
+for SPECIES1 in $B_siliquastri_proteins $T_castaneum_proteins # $C_chinensis_proteins $C_maculatus_proteins $A_obtectus_proteins 
 do  
 
     SPECIES1_name="${SPECIES1##*/}"
     SPECIES1_name="${SPECIES1_name%.*}"
 
-    for SPECIES2 in $A_obtectus_proteins $B_siliquastri_proteins $C_chinensis_proteins $C_maculatus_proteins $T_castaneum_proteins
+    for SPECIES2 in $B_siliquastri_proteins $T_castaneum_proteins # $C_chinensis_proteins $C_maculatus_proteins $A_obtectus_proteins 
     do
 
         SPECIES2_name="${SPECIES2##*/}"
