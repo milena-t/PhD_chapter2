@@ -1,7 +1,5 @@
 #!/bin/bash -l
 #SBATCH -A uppmax2025-2-148
-#SBATCH -M pelle
-#SBATCH -p core
 #SBATCH -n 1
 #SBATCH -t 1:00:00
 #SBATCH -J run_MCScanX
