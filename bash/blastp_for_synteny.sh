@@ -35,13 +35,13 @@ T_castaneum_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/T_castane
 
 ## -->
 
-for SPECIES1 in $B_siliquastri_proteins $T_castaneum_proteins # $C_chinensis_proteins $C_maculatus_proteins $A_obtectus_proteins 
+for SPECIES1 in $B_siliquastri_proteins $T_castaneum_proteins $C_chinensis_proteins $C_maculatus_proteins $A_obtectus_proteins 
 do  
 
     SPECIES1_name="${SPECIES1##*/}"
     SPECIES1_name="${SPECIES1_name%.*}"
 
-    for SPECIES2 in $B_siliquastri_proteins $T_castaneum_proteins # $C_chinensis_proteins $C_maculatus_proteins $A_obtectus_proteins 
+    for SPECIES2 in $B_siliquastri_proteins $T_castaneum_proteins $C_chinensis_proteins $C_maculatus_proteins $A_obtectus_proteins 
     do
 
         SPECIES2_name="${SPECIES2##*/}"
@@ -56,7 +56,7 @@ do
         OUT_2v1="${SPECIES2_name}_vs_${SPECIES1_name}.blast"
 
         # the documentation says outfmt6 but I think they mean 8
-        blastp -query $SPECIES1 -db $SPECIES2 -out $OUT_1v2 -num_threads 5 -num_alignments 5 -evalue 1e-10  -outfmt 6
+        echo "blastp -query $SPECIES1 -db $SPECIES2 -out $OUT_1v2 -num_threads 5 -num_alignments 5 -evalue 1e-10  -outfmt 6"
         echo " =========> ${OUT_1v2} done!"
 
         # # reverse already happens automatically in the nested for loop no need to implement explicitly
