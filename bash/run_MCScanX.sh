@@ -7,8 +7,8 @@
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user milena.trabert@ebc.uu.se
 
-module load bioinfo-tools 
-
+# Bioinfo tools not needed on pelle
+# module load bioinfo-tools 
 
 ## runs really fast for five coleopteran species
 /proj/naiss2023-6-65/Milena/chapter2/MCScanX-1.0.0/MCScanX /proj/naiss2023-6-65/Milena/chapter2/MCScanX_results
