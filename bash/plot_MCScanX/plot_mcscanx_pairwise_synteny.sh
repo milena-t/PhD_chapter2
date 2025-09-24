@@ -9,9 +9,9 @@
 
 # Bioinfo tools not needed on pelle
 
-java dual_synteny_plotter \
+java /proj/naiss2023-6-65/Milena/chapter2/MCScanX-1.0.0/downstream_analyses/dual_synteny_plotter \
     -g /proj/naiss2023-6-65/Milena/chapter2/MCScanX_results/all_species.gff \
     -s /proj/naiss2023-6-65/Milena/chapter2/MCScanX_results/all_species.collinearity \
     -c plot_ctl_Tcas_Bsil.ctl \
-    -o plot_ctl_Tcas_Bsil.png
+    -o /proj/naiss2023-6-65/Milena/chapter2/MCScanX_results/plots/plot_ctl_Tcas_Bsil.png
 
