@@ -26,3 +26,19 @@ java dual_synteny_plotter \
     -o /proj/naiss2023-6-65/Milena/chapter2/MCScanX_results/plots/plot_ctl_Cmac_Bsil.png
 
 echo "--> done Cmac Bsil"
+
+java dual_synteny_plotter \
+    -g /proj/naiss2023-6-65/Milena/chapter2/MCScanX_results/all_species.gff \
+    -s /proj/naiss2023-6-65/Milena/chapter2/MCScanX_results/all_species.collinearity \
+    -c /proj/naiss2023-6-65/Milena/chapter2/PhD_chapter2/bash/plot_MCScanX/plot_ctl_Aobt_Bsil.ctl \
+    -o /proj/naiss2023-6-65/Milena/chapter2/MCScanX_results/plots/plot_ctl_Aobt_Bsil.png
+
+echo "--> done Aobt Bsil"
+
+java dual_synteny_plotter \
+    -g /proj/naiss2023-6-65/Milena/chapter2/MCScanX_results/all_species.gff \
+    -s /proj/naiss2023-6-65/Milena/chapter2/MCScanX_results/all_species.collinearity \
+    -c /proj/naiss2023-6-65/Milena/chapter2/PhD_chapter2/bash/plot_MCScanX/plot_ctl_Cmac_Aobt.ctl \
+    -o /proj/naiss2023-6-65/Milena/chapter2/MCScanX_results/plots/plot_ctl_Cmac_Aobt.png
+
+echo "--> done Cmac Aobt"
