@@ -12,7 +12,8 @@
 module load bioinfo-tools 
 
 ## test
-/proj/naiss2023-6-65/Milena/chapter2/MCScanX-1.0.0/MCScanX /proj/naiss2023-6-65/Milena/chapter2/MCScanX_test
+# /proj/naiss2023-6-65/Milena/chapter2/MCScanX-1.0.0/MCScanX /proj/naiss2023-6-65/Milena/chapter2/MCScanX_test
+# ./MCScanX test
 
 ## runs really fast for five coleopteran species
-# /proj/naiss2023-6-65/Milena/chapter2/MCScanX-1.0.0/MCScanX /proj/naiss2023-6-65/Milena/chapter2/MCScanX_results
+./MCScanX all_species
