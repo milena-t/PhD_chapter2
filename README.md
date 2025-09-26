@@ -37,7 +37,9 @@ The order in the species in the below plot from top to bottom is:
 The sex chromosomes are these (chromosomes with no syntenic regions are excluded from the plot)
 
 * ***B. siliquastri***: X: `bs9`, Y: `bs8`
+  
 TODO others
+
 * ***A. obtectus***
 * ***C. maculatus***
 * ***T. castaneum***
