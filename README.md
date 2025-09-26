@@ -18,11 +18,10 @@ I am using the superscaffolded version of Cmac for now to get a better idea of t
 
 #### Troubleshooting
 
-* **no alighments generated:** The log file looks like this
-    ```
-Reading BLAST file and pre-processing
-Generating BLAST list
-0 matches imported (0 discarded)
-0 pairwise comparisons
-0 alignments generated
-    ```
+* **no alighments generated:** The log file reads no blast alignments. For me, this was caused by the file extension of the annotation file. I named it `.bed` but it should be `.gff` (because it is somehow hardcoded?)
+
+### Results plotted with SynVisio
+
+I have visualized the results with [SynVisio](https://synvisio.github.io/#/).
+
+![synteny plot](data/images/synvisio_plot.png)
