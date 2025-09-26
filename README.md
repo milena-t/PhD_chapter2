@@ -23,5 +23,13 @@ I am using the superscaffolded version of Cmac for now to get a better idea of t
 ### Results plotted with SynVisio
 
 I have visualized the results with [SynVisio](https://synvisio.github.io/#/).
+The order in the species in the below plot from top to bottom is:
+
+* *Acanthoscelides obtectus* (ao)
+* *Callosobruchus maculatus* (cm)
+* *Bruchidius siliquastri* (bs)
+* *Tribolium castaneum* (tc)
+  
+*C. chinensis* was included in the analysis but not the plot because the assembly is so fragmented it is not helpful to visualize here.
 
 ![synteny plot](data/images/synvisio_plot.png)
