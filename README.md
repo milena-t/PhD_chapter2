@@ -33,3 +33,11 @@ The order in the species in the below plot from top to bottom is:
 *C. chinensis* was included in the analysis but not the plot because the assembly is so fragmented it is not helpful to visualize here.
 
 ![synteny plot](data/images/synvisio_plot.png)
+
+The sex chromosomes are these (chromosomes with no syntenic regions are excluded from the plot)
+
+* ***B. siliquastri***: X: `bs9`, Y: `bs8`
+TODO others
+* ***A. obtectus***
+* ***C. maculatus***
+* ***T. castaneum***
