@@ -32,7 +32,7 @@ The order in the species in the below plot from top to bottom is:
   
 *C. chinensis* was included in the analysis but not the plot because the assembly is so fragmented it is not helpful to visualize here.
 
-![synteny plot](data/images/synvisio_plot.png)
+![synteny plot](data/images/synvisio_plot_Cmac_on_top.png)
 
 The sex chromosomes are these (chromosomes with no syntenic regions are excluded from the plot)
 
@@ -54,7 +54,8 @@ I aim to investigate the processes by which the genes migrate to the sex chromos
   * double check y linked gene presence by `blastn` against the assembly.
   * *"the best BlastN match (usually around 92–95% identity over the entire sequence) onto the annotated X chromosome of the reference genomes was considered the X gametologs"*
   * If the X gametolog is missing in the annotation, the sequene from the transcriptome was used instead
-  * [Marques 2005](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.0030357) for identifying retrogenes. blast proteins against assembly, merge nearby matches,* query and target sequences had >50% similarity on the amino acid level and over >80% of their length* \[are\] *shared*, verify absence of introns. with some `paml` stuff, they identified the ancestral gametolog that all retrogenes originate from (useful for FastX?)
+  * [Marques 2005](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.0030357) for identifying retrogenes. blast proteins against assembly, merge nearby matches, *"query and target sequences had >50% similarity on the amino acid level and over >80% of their length* \[are\] *shared"*, verify absence of introns. with some `paml` stuff, they identified the ancestral gametolog that all retrogenes originate from (useful for FastX?)
+* [Peneder 2017](https://onlinelibrary.wiley.com/doi/full/10.1002/ece3.3278)
   * 
 
 ## orthofinder results
