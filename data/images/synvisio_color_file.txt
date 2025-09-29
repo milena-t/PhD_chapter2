@@ -23,7 +23,6 @@ bs11    #b29942
 ao195   #e689e0
 ao554   #aeaeae
 ao876   #e4b32b
-ao1024  #aeaeae
 ao1189  #e4b32b
 ao1707  #8d7b62
 ao1935  #b29942
@@ -31,7 +30,6 @@ ao1950  #b692e6
 ao2050  #c96746
 ao2213  #92e6a5
 ao2951  #d18be6
-ao3694  #aeaeae
 cm7 #e4b32b
 cm38    #8d7b62
 cm44    #b29942
