@@ -1,5 +1,5 @@
 # PhD chapter II
-This is all code that was used in chapter2 of my PhD thesis
+Gene traffic to and from the sex chromosomes in coleoptera
 
 # synteny
 
@@ -25,14 +25,14 @@ I am using the superscaffolded version of Cmac for now to get a better idea of t
 I have visualized the results with [SynVisio](https://synvisio.github.io/#/).
 The order in the species in the below plot from top to bottom is:
 
-* *Acanthoscelides obtectus* (ao)
 * *Callosobruchus maculatus* (cm)
+* *Acanthoscelides obtectus* (ao)
 * *Bruchidius siliquastri* (bs)
 * *Tribolium castaneum* (tc)
   
-*C. chinensis* was included in the analysis but not the plot because the assembly is so fragmented it is not helpful to visualize here.
+All species have the same karyotype: 9 autosomal pairs + XY. *C. chinensis* was included in the analysis but not the plot because the assembly is so fragmented it is not helpful to visualize here.
 
-![synteny plot](data/images/synvisio_plot.png)
+![synteny plot](data/images/synvisio_plot_Cmac_on_top.png)
 
 The sex chromosomes are these (chromosomes with no syntenic regions are excluded from the plot)
 
@@ -44,12 +44,15 @@ TODO others
 * ***C. maculatus***:
 * ***T. castaneum***:
 
+see the [alternative synteny plot](data/images/synvisio_plot.png) for a different order of the bruchid species. Their tree topology is `((Cmac,Bsil),Aobt)`, but there is a bunch of rearrangements between all of them, and *C. maculatus* is not visibly more similar to *B. siliquastri* than to *A. obtectus*.
+
 # Translocation analysis
 
 I aim to investigate the processes by which the genes migrate to the sex chromosomes resulting in the patterns we observe today. Orthologs, including gametologs, are identified with orthofinder between all species, and with the help of the known phylogeny I will trace back when and how genes on the Y chromosome originated.
 
-## Notes
+## notes
 
+<<<<<<< HEAD
 * [Martinez-Pacheco 2020](https://academic.oup.com/gbe/article/12/11/2015/5892261), mostly about expression but they have a nice way of identifying gametologs
   * double check y linked gene presence by `blastn` against the assembly.
   * *"the best BlastN match (usually around 92–95% identity over the entire sequence) onto the annotated X chromosome of the reference genomes was considered the X gametologs"*
@@ -57,4 +60,12 @@ I aim to investigate the processes by which the genes migrate to the sex chromos
   * [Marques 2005](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.0030357) for identifying retrogenes. blast proteins against assembly, merge nearby matches,* query and target sequences had >50% similarity on the amino acid level and over >80% of their length* \[are\] *shared*, verify absence of introns. with some `paml` stuff, they identified the ancestral gametolog that all retrogenes originate from (useful for FastX?)
 *  
 
+=======
+* [Peneder 2017](https://onlinelibrary.wiley.com/doi/full/10.1002/ece3.3278): Exchange of genetic information between therian X and Y chromosome gametologs in old evolutionary strata
+* [Martinez-Pacheco 2020](https://academic.oup.com/gbe/article/12/11/2015/5892261) 
+  * double check y linked gene presence by `blastn` against the assembly.
+  * *"the best BlastN match (usually around 92–95% identity over the entire sequence) onto the annotated X chromosome of the reference genomes was considered the X gametologs"*
+  * If the X gametolog is missing in the annotation, the sequene from the transcriptome was used instead
+  
+>>>>>>> 40aa051d2739f56ada5f0c4d12c245cad281e1c3
 ## orthofinder results
