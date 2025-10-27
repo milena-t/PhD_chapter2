@@ -11,8 +11,8 @@ def make_lookup_table(annotation_path:str, species_initials:str, lookup_table_na
     generate a lookup table for contig names from an annotation to species_index and a number
     """
     if lookup_table_name == "":
-        annotation_name = annotation_path.split("/")[-1]
-        lookup_table_name = f"{annotation_name}.MCScanX_contig_name_lookup_table.tsv"
+        annotation_name = annotation_path.split(".")[-1]
+        lookup_table_name = f"{annotation_name}_{species_initials}_MCScanX_contig_name_lookup_table.tsv"
 
     ## get list of all contigs
     with open(annotation_path, "r") as annotation_file:
