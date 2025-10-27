@@ -52,10 +52,11 @@ I aim to investigate the processes by which the genes migrate to the sex chromos
 
 ## notes
 
+
 * [Peneder 2017](https://onlinelibrary.wiley.com/doi/full/10.1002/ece3.3278): Exchange of genetic information between therian X and Y chromosome gametologs in old evolutionary strata
 * [Martinez-Pacheco 2020](https://academic.oup.com/gbe/article/12/11/2015/5892261) 
   * double check y linked gene presence by `blastn` against the assembly.
   * *"the best BlastN match (usually around 92–95% identity over the entire sequence) onto the annotated X chromosome of the reference genomes was considered the X gametologs"*
   * If the X gametolog is missing in the annotation, the sequene from the transcriptome was used instead
-  
+
 ## orthofinder results
