@@ -18,7 +18,7 @@ I am using the superscaffolded version of Cmac for now to get a better idea of t
 
 ### Troubleshooting
 
-* **no alighments generated:** The log file reads no blast alignments. For me, this was caused by the file extension of the annotation file. I named it `.bed` but it should be `.gff` (because it is somehow hardcoded?)
+* **no alighments generated:** The log file reads no blast alignments. For me, this was caused by the file extension of the annotation file. I named it `.bed` but it should be `.gff` (because it is somehow hardcoded and there is no test to see if a file actually exists?)
 
 ## Results plotted with SynVisio
 
