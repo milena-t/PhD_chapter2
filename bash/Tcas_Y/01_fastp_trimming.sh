@@ -20,9 +20,9 @@ output_reports="/proj/naiss2023-6-65/Milena/chapter2/Tribolium_poolseq/raw_data/
 
 for SRR_num in  SRR23732240 SRR23732241 SRR23732242 SRR23732243 SRR23732244 SRR23732245
 do
-    # Infer the R2 filename
+    # Infer the R1 and R2 filename
     r1="${reads_dir}/${SRR_num}_1.fastq"
-    r2="${reads_dir}/${SRR_num}_1.fastq"
+    r2="${reads_dir}/${SRR_num}_2.fastq"
 
     # Defining output files
     out_r1="${output_dir}/${SRR_num}_1_trimmed.fastq.gz"
