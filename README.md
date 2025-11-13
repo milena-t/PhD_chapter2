@@ -35,7 +35,7 @@ graph TD;
     ay --> revis;
     species_rep --> revis;
 
-    revis --> ([Which TE classes are enriched in XY vs XA paralogs?])
+    revis --> questions([Which TE classes are enriched in XY vs XA paralogs?])
 ```   
 
 </details>
