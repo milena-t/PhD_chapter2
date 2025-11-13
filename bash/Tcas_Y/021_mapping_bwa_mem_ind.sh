@@ -23,7 +23,7 @@ reads_dir="/proj/naiss2023-6-65/Milena/chapter2/Tribolium_poolseq/raw_data/trimm
 mapped_dir="/proj/naiss2023-6-65/Milena/chapter2/Tribolium_poolseq/mapped_data"
 
 SRR_num=$1
-r1="${output_dir}/${SRR_num}_1_trimmed.fastq.gz"
-r2="${output_dir}/${SRR_num}_2_trimmed.fastq.gz"
+r1="${reads_dir}/${SRR_num}_1_trimmed.fastq.gz"
+r2="${reads_dir}/${SRR_num}_2_trimmed.fastq.gz"
 echo "======================>> Running bwa-mem on $sample ..."
 bwa mem -t 20 -P $TCAS_index $r1 $r2 | samtools view -u | samtools sort -o "${mapped_dir}/${SRR_num}.bam"
