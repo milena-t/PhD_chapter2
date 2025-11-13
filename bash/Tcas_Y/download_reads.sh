@@ -2,7 +2,7 @@
 #SBATCH -A uppmax2025-2-148
 #SBATCH -n 8
 #SBATCH -p core
-#SBATCH -t 10:00:00
+#SBATCH -t 1:00:00
 #SBATCH -J SRR23732241_download_sequences
 #SBATCH -o SRR23732241_download_sequences.log
 #SBATCH --mail-type=ALL
@@ -19,7 +19,7 @@ FASTQ=$BASE/raw_data/fastq
 
 mkdir -p $SRA $FASTQ
 
-prefetch $1 --output-directory $SRA # Download .sra file
-fasterq-dump $SRA/$run/$run.sra -O $FASTQ --split-files --threads 8 # Convert to FASTQ (paired-end, gzipped)
+# prefetch $1 --output-directory $SRA # Download .sra file
+fasterq-dump $SRA/$1/$1.sra -O $FASTQ --split-files --threads 8 # Convert to FASTQ (paired-end, gzipped)
 
 pigz -p 8 $FASTQ/*.fastq # Compress
