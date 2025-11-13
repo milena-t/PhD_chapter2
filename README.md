@@ -63,7 +63,7 @@ I am using the superscaffolded version of Cmac for now to get a better idea of t
 ### Verifying that linkage group 11 in tribolium is the Y chromosome
 
 I will be using the pool seq data from [Cheng 2024](https://www.nature.com/articles/s41559-023-02246-y#Sec8), BioProject PRJNA942224. There are 6 pools of 100 eggs, which means the sexes are mixed, but it is likely enough individuals that we can approximate a 50/50 sex ratio overall. I download them to uppmax with the help of [this tutorial](https://bioinformaticsworkbook.org/dataAcquisition/fileTransfer/sra.html#gsc.tab=0) 
-I will trim with fastp, map with bwa-mem, and then use samtools to analyze the coverage. 
+I will trim with fastp, map with bwa-mem, deduplicate with [picard](https://broadinstitute.github.io/picard/), and then use samtools to analyze the coverage. 
 
 
 ## MCScanX
