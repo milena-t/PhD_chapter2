@@ -8,9 +8,12 @@ Gene traffic to and from the sex chromosomes in coleoptera
 
 ```mermaid
 graph TD;
-    species_Ass(species assemblies);
-    species_Ann(species annotations, RNAseq based, native);
-    species_rep(species repeat annotation)
+
+    species([Bruchids, Tribolium castaneum]);
+
+    species --> species_Ass(species assemblies);
+    species --> species_Ann(species annotations, RNAseq based, native);
+    species --> species_rep(species repeat annotation)
     species_Ass -- T. castaneum --> Tcas_Y_chr{{identify Y through coverage}};
     Tcas_Y_chr --> all_chr(X,Y,A chromosomes);
     species_Ass --> all_chr;
@@ -32,7 +35,7 @@ graph TD;
     ay --> revis;
     species_rep --> revis;
 
-
+    revis --> ([Which TE classes are enriched in XY vs XA paralogs?])
 ```   
 
 </details>
