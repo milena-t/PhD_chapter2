@@ -33,10 +33,14 @@ graph TD;
     all_prot .-> blast_between;
     blast_between .-> Y_hom(exclusively Y-linked homologs);
     blast_between .-> YA_hom(mixed Y and A linked homologs);
+    blast_between .-> YX_hom(mixed Y and X linked homologs);
 
     all_prot --> orthofinder;
     orthofinder --> Y_hom(exclusively Y-linked homologs);
     orthofinder --> YA_hom(mixed Y and A linked homologs);
+    orthofinder --> YA_hom(mixed Y and X linked homologs);
+
+    all_chr --> wgs_al(between-species genome sequence alignment?)
 
     xy --> circos([circos plot of paralogs]);
     ay --> circos;
