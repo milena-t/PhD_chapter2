@@ -1,6 +1,33 @@
 # PhD chapter II
 Gene traffic to and from the sex chromosomes in coleoptera
 
+## workflow pipeline
+
+<details>
+<summary>Flowchart</summary>
+
+```mermaid
+graph TD;
+    species_Ass(species assemblies);
+    species_Ann(species annotations, RNAseq based, native);
+    species_Ass -- T. castaneum --> Tcas_Y_chr{{identify Y through coverage}};
+    Tcas_Y_chr --> all_Y(Y chromosomes);
+    species_Ass --> all_Y;
+    species_Ass --> all_X(X chromosomes);
+    species_Ass --> all_A(Autosomes);
+
+    species_Ann -- gffread --> proteins(protein sequences);
+    proteins --> blast_gametologs{{BRH blast}};
+
+    all_Y --> blast_gametologs;
+    all_X --> blast_gametologs;
+    blast --> xy(XY paralogs);
+    blast --> ay(AY paralogs);
+
+```   
+
+</details>
+
 # synteny
 
 I will start with a synteny analysis of the four bruchid species in this analysis and *Tribolium castaneum* as an outgroup. I will do it the same way as Höök & Näsvall [here](https://doi.org/10.1007/s10577-023-09713-z) with protein synteny via MCScanX and visualization with [SynVisio](https://synvisio.github.io/#/).
