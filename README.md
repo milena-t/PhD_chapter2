@@ -50,6 +50,10 @@ graph TD;
     species_rep --> revis;
 
     revis --> questions([Which TE classes are enriched in XY vs XA paralogs?])
+
+    Y_hom --> function([functional enrichment]);
+    YA_hom --> function;
+    YA_hom --> function;    
 ```   
 
 </details>
