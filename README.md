@@ -23,6 +23,9 @@ graph TD;
     blast_between{{BRH blast for between-species analysis, 1to1}};
     orthofinder{{orthofinder, orthogroups for between-species analysis}};
 
+    all_chr --> wgs_al(between-species genome sequence alignment);
+    wgs_al --> stats_comp([comparison of sequence characteristics such as gene density, repeat abuncance, insertions deletions, and whatever else I think of]);
+
     all_chr --> all_prot(X,Y,A proteins);
     proteins --> all_prot;
 
@@ -39,9 +42,6 @@ graph TD;
     orthofinder --> Y_hom(exclusively Y-linked homologs);
     orthofinder --> YA_hom(mixed Y and A linked homologs);
     orthofinder --> YX_hom(mixed Y and X linked homologs);
-
-    all_chr --> wgs_al(between-species genome sequence alignment);
-    wgs_al --> stats_comp([comparison of sequence characteristics such as gene density, repeat abuncance, insertions deletions, and whatever else I think of]);
 
     xy --> circos([circos plot of paralogs]);
     ay --> circos;
