@@ -2,9 +2,9 @@
 #SBATCH -A uppmax2025-2-148
 #SBATCH -p core
 #SBATCH -n 16
-#SBATCH -t 12:00:00
-#SBATCH -J multiqc
-#SBATCH -o multiqc.log
+#SBATCH -t 2:00:00
+#SBATCH -J trimming_fastp
+#SBATCH -o trimming_fastp.log
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user milena.trabert@ebc.uu.se
 
@@ -29,7 +29,7 @@ do
     out_r2="${output_dir}/${SRR_num}_2_trimmed.fastq.gz"
 
     echo "Running fastp on $sample ..."
-    # fastp -w 16 -i "$r1" -I "$r2" -o "$out_r1" -O "$out_r2" -h "$output_reports/${sample}fastp.html"
+    # fastp -w 16 -i "$r1" -I "$r2" -o "$out_r1" -O "$out_r2" -h "$output_reports/${SRR_num}fastp.html"
 done
 
 multiqc $output_reports
