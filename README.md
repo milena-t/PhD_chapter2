@@ -40,7 +40,8 @@ graph TD;
     orthofinder --> YA_hom(mixed Y and A linked homologs);
     orthofinder --> YX_hom(mixed Y and X linked homologs);
 
-    all_chr --> wgs_al(between-species genome sequence alignment?)
+    all_chr --> wgs_al(between-species genome sequence alignment);
+    wgs_al --> stats_comp([comparison of sequence characteristics such as gene density, repeat abuncance, insertions deletions, and whatever else I think of]);
 
     xy --> circos([circos plot of paralogs]);
     ay --> circos;
