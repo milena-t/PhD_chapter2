@@ -10,21 +10,36 @@ Gene traffic to and from the sex chromosomes in coleoptera
 graph TD;
     species_Ass(species assemblies);
     species_Ann(species annotations, RNAseq based, native);
+    species_rep(species repeat annotation)
     species_Ass -- T. castaneum --> Tcas_Y_chr{{identify Y through coverage}};
     Tcas_Y_chr --> all_Y(Y chromosomes);
-    species_Ass --> all_Y;
     species_Ass --> all_X(X chromosomes);
     species_Ass --> all_A(Autosomes);
+    species_Ass --> all_Y;
 
     species_Ann -- gffread --> proteins(protein sequences);
-    proteins --> blast{{BRH blast}};
+    blast{{BRH blast}};
 
-    all_Y --> blast;
-    all_X --> blast;
-    all_A --> blast;
+    all_Y --> prot_Y(Y proteins);
+    proteins --> prot_Y;
+    prot_Y --> blast;
+    all_X --> prot_X(X proteins);
+    proteins --> prot_X;
+    prot_X --> blast;
+    all_A --> prot_A(A proteins);
+    proteins --> prot_A;
+    prot_A --> blast;
+
     blast --> xy(XY paralogs);
     blast --> ay(AY paralogs);
 
+    xy --> circos([circos plot of paralogs]);
+    ay --> circos;
+
+    xy --> revis{{ReVis}};
+    ay --> revis;
+
+    
 ```   
 
 </details>
