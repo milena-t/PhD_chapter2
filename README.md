@@ -19,14 +19,24 @@ graph TD;
     species_Ass --> all_chr;
 
     species_Ann -- gffread --> proteins(protein sequences);
-    blast{{BRH blast}};
+    blast{{BRH blast for within-species analysis}};
+    blast_between{{BRH blast for between-species analysis, 1to1}};
+    orthofinder{{orthofinder, orthogroups for between-species analysis}};
 
     all_chr --> all_prot(X,Y,A proteins);
     proteins --> all_prot;
-    all_prot --> blast;
 
+    all_prot --> blast;
     blast --> xy(XY paralogs);
     blast --> ay(AY paralogs);
+
+    all_prot .-> blast_between;
+    blast_between .-> Y_hom(exclusively Y-linked homologs);
+    blast_between .-> YA_hom(mixed Y and A linked homologs);
+
+    all_prot --> orthofinder;
+    orthofinder --> Y_hom(exclusively Y-linked homologs);
+    orthofinder --> YA_hom(mixed Y and A linked homologs);
 
     xy --> circos([circos plot of paralogs]);
     ay --> circos;
