@@ -38,7 +38,7 @@ graph TD;
     all_prot --> orthofinder;
     orthofinder --> Y_hom(exclusively Y-linked homologs);
     orthofinder --> YA_hom(mixed Y and A linked homologs);
-    orthofinder --> YA_hom(mixed Y and X linked homologs);
+    orthofinder --> YX_hom(mixed Y and X linked homologs);
 
     all_chr --> wgs_al(between-species genome sequence alignment?)
 
@@ -53,7 +53,7 @@ graph TD;
 
     Y_hom --> function([functional enrichment]);
     YA_hom --> function;
-    YA_hom --> function;    
+    YX_hom --> function;    
 ```   
 
 </details>
