@@ -17,10 +17,11 @@ graph TD;
     species_Ass --> all_A(Autosomes);
 
     species_Ann -- gffread --> proteins(protein sequences);
-    proteins --> blast_gametologs{{BRH blast}};
+    proteins --> blast{{BRH blast}};
 
-    all_Y --> blast_gametologs;
-    all_X --> blast_gametologs;
+    all_Y --> blast;
+    all_X --> blast;
+    all_A --> blast;
     blast --> xy(XY paralogs);
     blast --> ay(AY paralogs);
 
