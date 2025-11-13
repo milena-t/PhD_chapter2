@@ -12,23 +12,15 @@ graph TD;
     species_Ann(species annotations, RNAseq based, native);
     species_rep(species repeat annotation)
     species_Ass -- T. castaneum --> Tcas_Y_chr{{identify Y through coverage}};
-    Tcas_Y_chr --> all_Y(Y chromosomes);
-    species_Ass --> all_X(X chromosomes);
-    species_Ass --> all_A(Autosomes);
-    species_Ass --> all_Y;
+    Tcas_Y_chr --> all_chr(X,Y,A chromosomes);
+    species_Ass --> all_chr;
 
     species_Ann -- gffread --> proteins(protein sequences);
     blast{{BRH blast}};
 
-    all_Y --> prot_Y(Y proteins);
-    proteins --> prot_Y;
-    prot_Y --> blast;
-    all_X --> prot_X(X proteins);
-    proteins --> prot_X;
-    prot_X --> blast;
-    all_A --> prot_A(A proteins);
-    proteins --> prot_A;
-    prot_A --> blast;
+    all_chr --> all_prot(X,Y,A proteins);
+    proteins --> all_prot;
+    all_prot --> blast;
 
     blast --> xy(XY paralogs);
     blast --> ay(AY paralogs);
@@ -38,8 +30,9 @@ graph TD;
 
     xy --> revis{{ReVis}};
     ay --> revis;
+    species_rep --> revis;
 
-    
+
 ```   
 
 </details>
