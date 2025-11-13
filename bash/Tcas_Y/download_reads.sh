@@ -20,6 +20,6 @@ FASTQ=$BASE/raw_data/fastq
 mkdir -p $SRA $FASTQ
 
 # prefetch $1 --output-directory $SRA # Download .sra file
-fasterq-dump $SRA/$1/$1.sra -O $FASTQ --split-files --threads 8 # Convert to FASTQ (paired-end, gzipped)
+# fasterq-dump $SRA/$1/$1.sra -O $FASTQ --split-files --threads 8 # Convert to FASTQ (paired-end, gzipped)
 
-pigz -p 8 $FASTQ/*.fastq # Compress
+gunzip "${FASTQ}"/*
