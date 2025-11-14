@@ -2,7 +2,7 @@
 #SBATCH -A uppmax2025-2-148
 #SBATCH -p core
 #SBATCH -n 1
-#SBATCH -t 5:00
+#SBATCH -t 1:00:00
 #SBATCH -J samtools_coverages
 #SBATCH -o samtools_coverages.log
 #SBATCH --mail-type=ALL
