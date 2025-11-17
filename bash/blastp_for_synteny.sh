@@ -21,27 +21,28 @@ A_obtectus_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/A_obtectus
 B_siliquastri_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/B_siliquastri_original_header.faa
 C_chinensis_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/C_chinensis_original_header.faa
 C_maculatus_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/C_maculatus_superscaffolded_original_header.faa
-# T_castaneum_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/T_castaneum_original_header.faa
+D_sublienata_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/D_sublienata.faa
+D_carinulata_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/D_carinulata.faa
 
 
 ## --> re-run for new proteinfiles!
 
 ## make databases
-# for SPECIES1 in $A_obtectus_proteins $B_siliquastri_proteins $C_chinensis_proteins $C_maculatus_proteins $T_castaneum_proteins
-# do
-#     makeblastdb -in $SPECIES1 -dbtype prot
-#     echo " ---> done database ${SPECIES1}"
-# done
+for SPECIES1 in $D_sublienata_proteins $D_carinulata_proteins # $A_obtectus_proteins $B_siliquastri_proteins $C_chinensis_proteins $C_maculatus_proteins $T_castaneum_proteins
+do
+    makeblastdb -in $SPECIES1 -dbtype prot
+    echo " ---> done database ${SPECIES1}"
+done
 
 ## -->
 
-for SPECIES1 in $B_siliquastri_proteins $T_castaneum_proteins $C_chinensis_proteins $C_maculatus_proteins $A_obtectus_proteins 
+for SPECIES1 in $B_siliquastri_proteins $T_castaneum_proteins $C_chinensis_proteins $C_maculatus_proteins $A_obtectus_proteins $D_sublienata_proteins $D_carinulata_proteins
 do  
 
     SPECIES1_name="${SPECIES1##*/}"
     SPECIES1_name="${SPECIES1_name%.*}"
 
-    for SPECIES2 in $B_siliquastri_proteins $T_castaneum_proteins $C_chinensis_proteins $C_maculatus_proteins $A_obtectus_proteins 
+    for SPECIES2 in $B_siliquastri_proteins $T_castaneum_proteins $C_chinensis_proteins $C_maculatus_proteins $A_obtectus_proteins $D_sublienata_proteins $D_carinulata_proteins
     do
 
         SPECIES2_name="${SPECIES2##*/}"
