@@ -2,7 +2,7 @@
 #SBATCH -A uppmax2025-2-148
 #SBATCH -n 5
 #SBATCH -p core
-#SBATCH -t 8:00:00
+#SBATCH -t 18:00:00
 #SBATCH -J blastp_for_synteny
 #SBATCH -o blastp_for_synteny.log
 #SBATCH --mail-type=ALL
@@ -28,15 +28,14 @@ D_carinulata_proteins=/proj/naiss2023-6-65/Milena/chapter3/protein_data/D_carinu
 ## --> re-run for new proteinfiles!
 
 ## make databases
-for SPECIES1 in $D_sublienata_proteins $D_carinulata_proteins # $A_obtectus_proteins $B_siliquastri_proteins $C_chinensis_proteins $C_maculatus_proteins $T_castaneum_proteins
-do
-    makeblastdb -in $SPECIES1 -dbtype prot
-    echo " ---> done database ${SPECIES1}"
-done
-
+# for SPECIES1 in $D_sublienata_proteins $D_carinulata_proteins # $A_obtectus_proteins $B_siliquastri_proteins $C_chinensis_proteins $C_maculatus_proteins $T_castaneum_proteins
+# do
+#     makeblastdb -in $SPECIES1 -dbtype prot
+#     echo " ---> done database ${SPECIES1}"
+# done
 ## -->
 
-for SPECIES1 in $B_siliquastri_proteins $T_castaneum_proteins $C_chinensis_proteins $C_maculatus_proteins $A_obtectus_proteins $D_sublienata_proteins $D_carinulata_proteins
+for SPECIES1 in $D_sublienata_proteins $D_carinulata_proteins # $B_siliquastri_proteins $T_castaneum_proteins $C_chinensis_proteins $C_maculatus_proteins $A_obtectus_proteins 
 do  
 
     SPECIES1_name="${SPECIES1##*/}"
