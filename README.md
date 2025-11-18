@@ -93,7 +93,7 @@ I am using the superscaffolded version of Cmac for now to get a better idea of t
     { X : ['CAVLJG010000002.1'],
       Y : ['scaffold_13', 'scaffold_86']} # some have HiC and some don't but that may just be manual renaming of the largest to chromosomes
     ``` 
-* **Diorhabada** (everyone say thank you USDA)
+* **Diorhabada** 
   * [Diorhabda sublineata](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_026230105.1/)
   ```python
   { X : ['NC_079485.1'],
