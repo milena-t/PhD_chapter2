@@ -3,8 +3,8 @@
 #SBATCH -n 5
 #SBATCH -p core
 #SBATCH -t 8:00:00
-#SBATCH -J blastp_for_synteny_test_Bsil_Tcas
-#SBATCH -o blastp_for_synteny_test_Bsil_Tcas.log
+#SBATCH -J blastp_for_synteny
+#SBATCH -o blastp_for_synteny.log
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user milena.trabert@ebc.uu.se
 
@@ -57,7 +57,8 @@ do
         OUT_2v1="${SPECIES2_name}_vs_${SPECIES1_name}.blast"
 
         # the documentation says outfmt6 but I think they mean 8
-        echo "blastp -query $SPECIES1 -db $SPECIES2 -out $OUT_1v2 -num_threads 5 -num_alignments 5 -evalue 1e-10  -outfmt 6"
+        echo "RUNNING... blastp -query $SPECIES1 -db $SPECIES2 -out $OUT_1v2 -num_threads 5 -num_alignments 5 -evalue 1e-10  -outfmt 6"
+        blastp -query $SPECIES1 -db $SPECIES2 -out $OUT_1v2 -num_threads 5 -num_alignments 5 -evalue 1e-10  -outfmt 6
         echo " =========> ${OUT_1v2} done!"
 
         # # reverse already happens automatically in the nested for loop no need to implement explicitly
