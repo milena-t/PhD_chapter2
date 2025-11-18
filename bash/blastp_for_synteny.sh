@@ -17,12 +17,12 @@ module load bioinfo-tools blast/2.15.0+
 # sed 's/>Cmac_Lome_diverse_/>/g' /proj/naiss2023-6-65/Milena/chapter2/protein_data/C_maculatus_superscaffolded.faa > /proj/naiss2023-6-65/Milena/chapter2/protein_data/C_maculatus_superscaffolded_original_header.faa
 # sed 's/>T_castaneum__T_castaneum__T_castaneum_/>/g' /proj/naiss2023-6-65/Milena/chapter2/protein_data/T_castaneum.faa > /proj/naiss2023-6-65/Milena/chapter2/protein_data/T_castaneum_original_header.faa
 
-A_obtectus_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/A_obtectus_original_header.faa
-B_siliquastri_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/B_siliquastri_original_header.faa
-C_chinensis_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/C_chinensis_original_header.faa
-C_maculatus_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/C_maculatus_superscaffolded_original_header.faa
-D_sublienata_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/D_sublienata.faa
-D_carinulata_proteins=/proj/naiss2023-6-65/Milena/chapter2/protein_data/D_carinulata.faa
+A_obtectus_proteins=/proj/naiss2023-6-65/Milena/chapter3/protein_data/A_obtectus_original_header.faa
+B_siliquastri_proteins=/proj/naiss2023-6-65/Milena/chapter3/protein_data/B_siliquastri_original_header.faa
+C_chinensis_proteins=/proj/naiss2023-6-65/Milena/chapter3/protein_data/C_chinensis_original_header.faa
+C_maculatus_proteins=/proj/naiss2023-6-65/Milena/chapter3/protein_data/C_maculatus_superscaffolded_original_header.faa
+D_sublienata_proteins=/proj/naiss2023-6-65/Milena/chapter3/protein_data/D_sublienata_original_header.faa
+D_carinulata_proteins=/proj/naiss2023-6-65/Milena/chapter3/protein_data/D_carinulata_original_header.faa
 
 
 ## --> re-run for new proteinfiles!
