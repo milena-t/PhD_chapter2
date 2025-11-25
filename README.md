@@ -58,5 +58,11 @@ I aim to investigate the processes by which the genes migrate to the sex chromos
   * double check y linked gene presence by `blastn` against the assembly.
   * *"the best BlastN match (usually around 92–95% identity over the entire sequence) onto the annotated X chromosome of the reference genomes was considered the X gametologs"*
   * If the X gametolog is missing in the annotation, the sequene from the transcriptome was used instead
+* [Bissegger 2019](https://onlinelibrary.wiley.com/doi/full/10.1111/mec.15255) A genes copied onto the Y impact the detection of between-sex F_ST and intralocus sexual conflict, with additional commentary by [Mank et al](https://onlinelibrary.wiley.com/doi/full/10.1111/mec.15311).
+
+### Reviews
+
+* [Tosto 2023](https://www.nature.com/articles/s41559-023-02019-7?fromPaywallRec=false) The roles of sexual selection and sexual conflict in shaping patterns of genome and transcriptome variation
+* [Mank 2023](https://www.nature.com/articles/s41576-022-00524-2) Sex-specific morphs: the genetics and evolution of intra-sexual variation
 
 ## orthofinder results
