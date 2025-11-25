@@ -168,5 +168,7 @@ I aim to investigate the processes by which the genes migrate to the sex chromos
 
 * [Tosto 2023](https://www.nature.com/articles/s41559-023-02019-7?fromPaywallRec=false) The roles of sexual selection and sexual conflict in shaping patterns of genome and transcriptome variation
 * [Mank 2023](https://www.nature.com/articles/s41576-022-00524-2) Sex-specific morphs: the genetics and evolution of intra-sexual variation
+* [Schenkel 2018](https://onlinelibrary.wiley.com/doi/full/10.1002/ece3.4629) Making sense of intralocus and interlocus sexual conflict 
+  * translocations to sex chromosomes to escape conflict
 
 ## orthofinder results
