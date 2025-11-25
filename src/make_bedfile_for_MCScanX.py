@@ -60,5 +60,6 @@ if __name__ == "__main__":
 
     if not os.access(annotation_file, os.R_OK):
         raise RuntimeError(f"{annotation_file} does not exist or is not readable")
+    print(f"species initials given --> {species_initials}")
 
     modify_gff_for_MCScanX(annotation_file, species_initials=species_initials)
