@@ -3,6 +3,7 @@
 #SBATCH -n 16
 #SBATCH --mem=120G
 #SBATCH -t 1-00:00:00
+#SBATCH --mail-type=ALL
 #SBATCH -J mummer_alignment
 #SBATCH -o mummer_alignment.log
 
