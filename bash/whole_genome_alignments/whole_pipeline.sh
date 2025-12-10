@@ -1,7 +1,7 @@
 #!/bin/bash -l
 #SBATCH -A uppmax2025-2-148
 #SBATCH -n 16
-#SBATCH --mem=120G
+#SBATCH --mem=150G
 #SBATCH -t 1-00:00:00
 #SBATCH --mail-type=ALL
 #SBATCH -J mummer_alignment
