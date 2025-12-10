@@ -1,16 +1,13 @@
 #!/bin/bash -l
-#SBATCH -A naiss2024-5-135
-#SBATCH -p core
+#SBATCH -A uppmax2025-2-148
 #SBATCH -n 16
 #SBATCH -t 1-00:00:00
 #SBATCH -J mummer_alignment
 #SBATCH -o mummer_alignment.log
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user milena.trabert@ebc.uu.se
 
-module load bioinfo-tools
+# module load bioinfo-tools
 module load BEDTools
-module load MUMmer/4.0.0rc1
+# module load MUMmer/4.0.0rc1
 
 REFERENCE=$1
 QUERY=$2
