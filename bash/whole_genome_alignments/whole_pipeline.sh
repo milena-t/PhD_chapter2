@@ -1,6 +1,7 @@
 #!/bin/bash -l
 #SBATCH -A uppmax2025-2-148
-#SBATCH -n 16
+#SBATCH -n 48
+#SBATCH --mem 16
 #SBATCH -t 1-00:00:00
 #SBATCH -J mummer_alignment
 #SBATCH -o mummer_alignment.log
