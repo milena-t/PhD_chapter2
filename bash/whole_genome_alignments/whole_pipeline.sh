@@ -45,10 +45,12 @@ echo "alignment done! -> ${NUCMER_OUTFILE}"
 echo 
 
 echo " >>>>>>>>>> FILTERING"
-echo "delta-filter -m -i 50 -l 2000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered"
-$MUMMER_PATH/delta-filter -m -i 50 -l 2000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
+# echo "delta-filter -m -i 50 -l 2000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered"
+# $MUMMER_PATH/delta-filter -m -i 50 -l 2000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
+echo "$MUMMER_PATH/delta-filter -m $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered"
+$MUMMER_PATH/delta-filter -m $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
 FILTERED_ALN=${NUCMER_OUTFILE}_filtered
-$MUMMER_PATH/mummerplot -t png $FILTERED_ALN
+$MUMMER_PATH/mummerplot -p $OUT_PREFIX -t png $FILTERED_ALN
 echo "show-coords -rTH -I 90 out.delta_filtered > ${FILTERED_ALN}_coords_for_CIRCOS"
 $MUMMER_PATH/show-coords -rTH -I 90 out.delta_filtered > ${FILTERED_ALN}_coords
 COORDS_ALN=${FILTERED_ALN}_coords
