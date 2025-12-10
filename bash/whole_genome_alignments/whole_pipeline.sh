@@ -1,7 +1,7 @@
 #!/bin/bash -l
 #SBATCH -A uppmax2025-2-148
 #SBATCH -n 16
-#SBATCH --mem 48GB
+#SBATCH --mem=48G
 #SBATCH -t 1-00:00:00
 #SBATCH -J mummer_alignment
 #SBATCH -o mummer_alignment.log
