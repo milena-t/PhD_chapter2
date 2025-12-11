@@ -9,4 +9,6 @@ sbatch --job-name="Cmac_Aobt_WGA" --output="Cmac_Aobt_WGA.out" $SCRIPT_DIR/whole
 sbatch --job-name="Cmac_Bsil_WGA" --output="Cmac_Bsil_WGA.out" $SCRIPT_DIR/whole_pipeline.sh "${ASS_DIR}/C_maculatus_superscaffolded_assembly.fna.fna" "${ASS_DIR}/B_siliquastri_assembly.fna"
 # sbatch --job-name="Diorhabda_WGA" --output="Diorhabda_WGA.out" $SCRIPT_DIR/whole_pipeline.sh "${ASS_DIR}/D_carinulata_assembly.fna" "${ASS_DIR}/D_sublineata_assembly.fna"
 # sbatch --job-name="Dcar_Bsil_WGA" --output="Dcar_Bsil_WGA.out" $SCRIPT_DIR/whole_pipeline.sh "${ASS_DIR}/D_carinulata_assembly.fna" "${ASS_DIR}/B_siliquastri_assembly.fna"
+
+## TODO rerun this one when the first run is done
 # sbatch --job-name="Cmac_Dcar_WGA" --output="Cmac_Dcar_WGA.out" $SCRIPT_DIR/whole_pipeline.sh "${ASS_DIR}/C_maculatus_superscaffolded_assembly.fna.fna" "${ASS_DIR}/D_carinulata_assembly.fna"
