@@ -112,6 +112,8 @@ I am using the superscaffolded version of Cmac for now to get a better idea of t
 I will be using the pool seq data from [Cheng 2024](https://www.nature.com/articles/s41559-023-02246-y#Sec8), BioProject PRJNA942224. There are 6 pools of 100 eggs, which means the sexes are mixed, but it is likely enough individuals that we can approximate a 50/50 sex ratio overall. I download them to uppmax with the help of [this tutorial](https://bioinformaticsworkbook.org/dataAcquisition/fileTransfer/sra.html#gsc.tab=0) 
 I will trim with fastp, map with bwa-mem, deduplicate with [picard](https://broadinstitute.github.io/picard/), and then use samtools to analyze the coverage. 
 
+I conclude here that this is NOT the Y chromosome, the coverage really gives no indication.
+
 
 ## MCScanX
 
@@ -149,6 +151,25 @@ TODO others
 * ***T. castaneum***:
 
 see the [alternative synteny plot](data/images/synvisio_plot.png) for a different order of the bruchid species. Their tree topology is `((Cmac,Bsil),Aobt)`, but there is a bunch of rearrangements between all of them, and *C. maculatus* is not visibly more similar to *B. siliquastri* than to *A. obtectus*.
+
+
+# Whole genome alignments
+
+It seems like the X chromosomes in *Diorhabda* are not syntenic with the other species. I want to use whole genome alignments to see if the genome sequence of the assemblies agrees with the collinearity. Potentially there are turnover events or chromosomal rearrangements, because *Diorhabda* has a different karyotype (11+XY) as opposed to the rest of the *Chrysomelidae* I include which are (9+XY). There are two approaches I try:
+
+* nucmer (part of [mummer](https://github.com/mummer4/mummer)) which does pairwise whole genome alignments. There is some filtering after the fact, and the Backström group has a script to identify breakpoints based on the many short alignments returned by mummer. 
+* Cactus (specifically [progressive cactus](https://github.com/ComparativeGenomicsToolkit/cactus/blob/master/doc/progressive.md)) which is the more modern alternative that can do multiple genome alignments.
+
+## Mummer
+
+Going a bit slow because I am trying it on pelle for the first time.
+
+## Cactus
+
+Cactus also requires a tree, I will use the one from orthofinder. 
+```
+((D_carinulata_assembly.fna:0.0134181,D_sublienata_assembly.fna:0.0125413)N1:0.207728,((B_siliquastri_assembly.fna:0.0970413,(C_chinensis_assembly.fna:0.0861114,C_maculatus_superscaffolded_assembly.fna:0.0473365)N4:0.0397501)N3:0.0316001,A_obtectus_assembly.fna:0.109523)N2:0.207728)N0;
+```
 
 # Translocation analysis
 
