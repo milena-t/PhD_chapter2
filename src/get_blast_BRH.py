@@ -8,6 +8,39 @@ import sys
 
 blast_outfmt6_headers = ["qseqid", "rseqid", "pident", "length", "mismatch", "gapopen", "qstart", "qend", "sstart", "send", "evalue", "bitscore"]
 
+def sex_chromosome_names():
+    contig_names_dict = {
+        "A_obtectus" : {
+            "X" : ["CAVLJG010000002.1","CAVLJG010003236.1","CAVLJG010003544.1","CAVLJG010000099.1","CAVLJG010000155.1","CAVLJG010000244.1","CAVLJG010000377.1","CAVLJG010000488.1",],
+            "Y" : ["CAVLJG010000343.1","CAVLJG010002896.1","CAVLJG010000233.1","CAVLJG010000566.1","CAVLJG010000588.1",]
+        },
+        "B_siliquastri" : {
+            "X" : ['X'],
+            "Y" : ['Y']
+        },
+        "C_chinensis" : {
+            "X" : ["1211|quiver","1844|quiver","854|quiver","5741|quiver","2866|quiver","658|quiver","1498|quiver","1455|quiver","2404|quiver","2935|quiver","1115|quiver","370|quiver","2273|quiver","1424|quiver","1865|quiver","767|quiver","2222|quiver","1525|quiver","5023|quiver","1925|quiver","1217|quiver","2328|quiver","2475|quiver","959|quiver","537|quiver","2776|quiver","325|quiver","2576|quiver","2336|quiver","988|quiver","2252|quiver","1388|quiver","1508|quiver","1712|quiver","1260|quiver","977|quiver","2202|quiver","2223|quiver","2397|quiver","693|quiver","1092|quiver","2189|quiver","1958|quiver","1355|quiver","2241|quiver","849|quiver","703|quiver","277|quiver","518|quiver","2589|quiver","1326|quiver","2962|quiver","2341|quiver","358|quiver","462|quiver","2786|quiver","1116|quiver","525|quiver","1358|quiver","5693|quiver","1429|quiver","1253|quiver","2372|quiver","326|quiver","474|quiver","777|quiver","955|quiver","1852|quiver","718|quiver","1024|quiver","1974|quiver","2295|quiver","2356|quiver","1484|quiver","1503|quiver","3076|quiver","2091|quiver","1262|quiver","1109|quiver","1475|quiver","1695|quiver","1168|quiver","1386|quiver","2201|quiver","2320|quiver","1117|quiver","769|quiver","2050|quiver","1805|quiver","2692|quiver","411|quiver","851|quiver","5703|quiver","1585|quiver","824|quiver","1816|quiver","1370|quiver","2416|quiver","1814|quiver","1277|quiver","619|quiver","1750|quiver","2709|quiver","2664|quiver","1250|quiver","971|quiver","3020|quiver","310|quiver","1176|quiver","2510|quiver","1699|quiver","1256|quiver","1420|quiver","5727|quiver","413|quiver","1124|quiver","682|quiver","1000|quiver","1313|quiver","5708|quiver","1556|quiver","274|quiver","1787|quiver","1137|quiver","360|quiver","1469|quiver","1853|quiver","2380|quiver","1239|quiver","993|quiver","791|quiver","2540|quiver","1510|quiver","868|quiver","505|quiver","1212|quiver","376|quiver","1564|quiver","1836|quiver","1670|quiver","500|quiver","2099|quiver","353|quiver","1042|quiver","419|quiver","1314|quiver","1339|quiver","1470|quiver","1576|quiver","1717|quiver","5692|quiver","2157|quiver","700|quiver","1284|quiver","1694|quiver","2306|quiver","2712|quiver","182|quiver","1973|quiver","882|quiver","2363|quiver","2482|quiver","1640|quiver","1913|quiver","2323|quiver","1240|quiver","161|quiver","1649|quiver","1164|quiver","1054|quiver","1096|quiver","313|quiver","1815|quiver","1831|quiver","1349|quiver","151|quiver","1478|quiver","1523|quiver","1888|quiver","739|quiver","1322|quiver","2338|quiver","1798|quiver","1391|quiver","1530|quiver","1519|quiver","1651|quiver","1105|quiver","509|quiver","1308|quiver","1833|quiver","1914|quiver","1741|quiver","1080|quiver","2292|quiver","2364|quiver","643|quiver","5745|quiver","1920|quiver","1725|quiver","125|quiver","1086|quiver","2552|quiver","5749|quiver","2120|quiver","2964|quiver","5722|quiver","2045|quiver","2422|quiver","593|quiver","1496|quiver","1772|quiver","799|quiver","2690|quiver","414|quiver","1531|quiver","1443|quiver","1408|quiver","1688|quiver","1371|quiver","1501|quiver","3090|quiver","1025|quiver","5698|quiver","347|quiver","1435|quiver","476|quiver","1883|quiver","2820|quiver","5728|quiver","342|quiver","1972|quiver","1826|quiver","968|quiver","2037|quiver","1723|quiver","252|quiver","1863|quiver","2983|quiver","1947|quiver","1430|quiver","1612|quiver","1701|quiver","839|quiver","613|quiver","1979|quiver","1584|quiver","2024|quiver","1486|quiver","1097|quiver"],
+            # ["1092|quiver","1124|quiver","1080|quiver","1105|quiver","1148|quiver","1339|quiver","1435|quiver","1482|quiver","1501|quiver","1565|quiver","1694|quiver","1688|quiver","1758|quiver","1618|quiver","1786|quiver","1816|quiver","1815|quiver","1817|quiver","1826|quiver","1889|quiver","1898|quiver","1908|quiver","1911|quiver","1933|quiver","2046|quiver","2054|quiver","2056|quiver","5713|quiver","2194|quiver","2226|quiver","2306|quiver","2357|quiver","2381|quiver","2392|quiver","2400|quiver","2435|quiver","2453|quiver","2513|quiver","2524|quiver","2569|quiver","2576|quiver","2580|quiver","2599|quiver","2693|quiver","2733|quiver","1210|quiver","2935|quiver","2958|quiver","2964|quiver","3034|quiver","3068|quiver","3080|quiver","3091|quiver"],
+            "Y" : ["850|quiver","949|quiver","1088|quiver","1125|quiver","1159|quiver","1134|quiver","1224|quiver","1369|quiver","1410|quiver","1568|quiver","1577|quiver","1619|quiver","1634|quiver","1646|quiver","1652|quiver","1665|quiver","1681|quiver","1697|quiver","1722|quiver","1766|quiver","1783|quiver","1891|quiver","1937|quiver","1963|quiver","1790|quiver","1997|quiver","2073|quiver","2113|quiver","2163|quiver","2166|quiver","5705|quiver","2245|quiver","2259|quiver","2260|quiver","2334|quiver","2340|quiver","2382|quiver","2443|quiver","2511|quiver","2534|quiver","2573|quiver","2597|quiver","2651|quiver","2707|quiver","2766|quiver","2773|quiver","2791|quiver","2830|quiver","2875|quiver","3022|quiver","3070|quiver","3074|quiver","3075|quiver","3078|quiver"]
+        },
+        # "C_maculatus_Kaufmann2023" : {
+        #     "X" : ['utg000057l_1','utg000114l_1','utg000139l_1','utg000191l_1','utg000326l_1','utg000359l_1','utg000532l_1','utg000602l_1'],
+        #     "Y" : ['utg000322l_1','utg000312c_1','utg000610l_1','utg001235l_1']
+        # },
+        "C_maculatus" : {
+            "X" : ['scaffold_10','scaffold_14','scaffold_23','scaffold_31','scaffold_34','scaffold_83'],
+            "Y" : ['scaffold_26','scaffold_48','scaffold_103','scaffold_112','scaffold_164']
+        },
+        "D_carinulata" : {
+            "X" : ['NC_079472.1'],
+            "Y" : ['NC_079473.1']
+        },
+        "D_sublineata" : {
+            "X" : ['NC_079485.1'],
+            "Y" : ['NC_079486.1']
+        },
+    }
+    return contig_names_dict
 
 class BestHit:
     """
