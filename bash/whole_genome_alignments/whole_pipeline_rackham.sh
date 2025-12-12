@@ -8,7 +8,7 @@
 #SBATCH -J mummer_alignment
 #SBATCH -o mummer_alignment.log
 
-# module load bioinfo-tools
+module load bioinfo-tools
 module load BEDTools
 module load MUMmer/4.0.0rc1
 
