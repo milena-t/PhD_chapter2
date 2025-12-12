@@ -10,7 +10,7 @@
 
 # module load bioinfo-tools
 module load BEDTools
-# module load MUMmer/4.0.0rc1
+module load MUMmer/4.0.0rc1
 
 REFERENCE=$1
 QUERY=$2
@@ -28,20 +28,12 @@ echo "QUERY assembly: ${QUERY}"
 
 echo "outfiles prefix: ${OUT_PREFIX}"
 
-### mummer installed from tarball https://github.com/mummer4/mummer/releases/download/v4.0.1/mummer-4.0.1.tar.gz
-# tar -xvzf mummer-4.0.1.tar.gz
-# cd mummer-4.0.1
-# ./configure --prefix=/proj/naiss2023-6-65/Milena/chapter2/mummer-4.0.1
-# make
-# make install
-MUMMER_PATH=/proj/naiss2023-6-65/Milena/chapter2/mummer-4.0.1
-
 ### run mummer alignment
 echo " >>>>>>>>>> ALIGNMENT"
 echo "nucmer -maxmatch -p $OUT_PREFIX -t 16 $REFERENCE $QUERY"
 echo "... running nucmer alignment"
 
-$MUMMER_PATH/nucmer --maxmatch -p $OUT_PREFIX -t 16 $REFERENCE $QUERY
+nucmer --maxmatch -p $OUT_PREFIX -t 16 $REFERENCE $QUERY
 NUCMER_OUTFILE="${OUT_PREFIX}.delta"
 echo "alignment done! -> ${NUCMER_OUTFILE}"
 echo 
@@ -49,14 +41,14 @@ echo
 echo " >>>>>>>>>> FILTERING"
 
 echo "delta-filter -m -i 50 -l 5000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered"
-$MUMMER_PATH/delta-filter -m -i 50 -l 5000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
-# echo "$MUMMER_PATH/delta-filter -m $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered"
-# $MUMMER_PATH/delta-filter -m $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
+delta-filter -m -i 50 -l 5000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
+# echo "delta-filter -m $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered"
+# delta-filter -m $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
 
 FILTERED_ALN=${NUCMER_OUTFILE}_filtered
-$MUMMER_PATH/mummerplot -p $OUT_PREFIX -t png $FILTERED_ALN
+mummerplot -p $OUT_PREFIX -t png $FILTERED_ALN
 echo "show-coords -rTH -I 90 out.delta_filtered > ${FILTERED_ALN}_coords_for_CIRCOS"
-$MUMMER_PATH/show-coords -rTH -I 90 out.delta_filtered > ${FILTERED_ALN}_coords
+show-coords -rTH -I 90 out.delta_filtered > ${FILTERED_ALN}_coords
 COORDS_ALN=${FILTERED_ALN}_coords
 echo "filtering done! -> ${COORDS_ALN}"
 echo
