@@ -64,5 +64,5 @@ echo " >>>>>>>>>> BREAKPOINTS"
 echo "using the script from the Backström group:"
 echo "https://github.com/EBC-butterfly-genomics-team/Leptidea_chromosome_research2022/blob/main/Scripts/Breakpoint_analysis/identify_chr_breakpoins.sh"
 SCRIPT_DIR=/proj/naiss2023-6-65/Milena/chapter2/PhD_chapter2/bash/whole_genome_alignments
-./$SCRIPT_DIR/identify_chr_breakpoins.sh $COORDS_ALN
+bash $SCRIPT_DIR/identify_chr_breakpoins.sh $COORDS_ALN
 echo "breakpoints done!"
