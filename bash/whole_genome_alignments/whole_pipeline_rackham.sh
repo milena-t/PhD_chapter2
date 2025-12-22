@@ -32,8 +32,8 @@ echo "outfiles prefix: ${OUT_PREFIX}"
 echo " >>>>>>>>>> ALIGNMENT"
 echo "nucmer -maxmatch -p $OUT_PREFIX -t 16 $REFERENCE $QUERY"
 
-# echo "... running nucmer alignment"
-# nucmer --maxmatch -p $OUT_PREFIX -t 16 $REFERENCE $QUERY
+echo "... running nucmer alignment"
+nucmer --maxmatch -p $OUT_PREFIX -t 16 $REFERENCE $QUERY
 
 NUCMER_OUTFILE="${OUT_PREFIX}.delta"
 echo "alignment done! -> ${NUCMER_OUTFILE}"
@@ -41,8 +41,11 @@ echo
 
 echo " >>>>>>>>>> FILTERING"
 
+## I tried these stats but they gave basically no hits in the filtering so I am running with default settings
 # echo "delta-filter -m -i 50 -l 5000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered"
 # delta-filter -m -i 50 -l 5000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
+
+## default settings
 echo "delta-filter -m $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered"
 delta-filter -m $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
 
