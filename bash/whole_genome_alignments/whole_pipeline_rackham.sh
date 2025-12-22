@@ -31,19 +31,20 @@ echo "outfiles prefix: ${OUT_PREFIX}"
 ### run mummer alignment
 echo " >>>>>>>>>> ALIGNMENT"
 echo "nucmer -maxmatch -p $OUT_PREFIX -t 16 $REFERENCE $QUERY"
-echo "... running nucmer alignment"
 
-nucmer --maxmatch -p $OUT_PREFIX -t 16 $REFERENCE $QUERY
+# echo "... running nucmer alignment"
+# nucmer --maxmatch -p $OUT_PREFIX -t 16 $REFERENCE $QUERY
+
 NUCMER_OUTFILE="${OUT_PREFIX}.delta"
 echo "alignment done! -> ${NUCMER_OUTFILE}"
 echo 
 
 echo " >>>>>>>>>> FILTERING"
 
-echo "delta-filter -m -i 50 -l 5000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered"
-delta-filter -m -i 50 -l 5000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
-# echo "delta-filter -m $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered"
-# delta-filter -m $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
+# echo "delta-filter -m -i 50 -l 5000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered"
+# delta-filter -m -i 50 -l 5000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
+echo "delta-filter -m $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered"
+delta-filter -m $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
 
 FILTERED_ALN=${NUCMER_OUTFILE}_filtered
 mummerplot -p $OUT_PREFIX -t png $FILTERED_ALN
