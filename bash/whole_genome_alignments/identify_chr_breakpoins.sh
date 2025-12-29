@@ -10,7 +10,7 @@
 # run: ./identify_chr_breakpoins.sh <filtered_alignment_1.coords>
 
 
-module load bioinfo-tools
+# module load bioinfo-tools
 module load BEDTools
 
 
