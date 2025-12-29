@@ -51,8 +51,8 @@ delta-filter -m $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
 
 FILTERED_ALN=${NUCMER_OUTFILE}_filtered
 mummerplot -p $OUT_PREFIX -t png $FILTERED_ALN
-echo "show-coords -rTH -I 90 out.delta_filtered > ${FILTERED_ALN}_coords_for_CIRCOS"
-show-coords -rTH -I 90 out.delta_filtered > ${FILTERED_ALN}_coords
+echo "show-coords -rTH -I 90 ${FILTERED_ALN} > ${FILTERED_ALN}_coords"
+show-coords -rTH -I 90 $FILTERED_ALN > ${FILTERED_ALN}_coords
 COORDS_ALN=${FILTERED_ALN}_coords
 echo "filtering done! -> ${COORDS_ALN}"
 echo

@@ -18,8 +18,7 @@ module load BEDTools
 awk '$8!=prev_ref || $9!=prev_que {print} {prev_ref=$8; prev_que=$9}' "$1" > temporary_blocks_1.temp
 
 # get end of each alignment block: same but from end of table (tac reads the file in reverse)
-tac "$1" |\ 
-	 awk '$8!=prev_ref || $9!=prev_que {print} {prev_ref=$8; prev_que=$9}' >> temporary_blocks_1.temp
+tac "$1" | awk '$8!=prev_ref || $9!=prev_que {print} {prev_ref=$8; prev_que=$9}' >> temporary_blocks_1.temp
 
 
 # restructure rows and remove singleton alignments (blocks that have the same start and end)
