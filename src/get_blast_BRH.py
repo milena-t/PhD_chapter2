@@ -32,7 +32,8 @@ def sex_chromosome_names():
             "Y" : ['scaffold_26','scaffold_48','scaffold_103','scaffold_112','scaffold_164']
         },
         "D_carinulata" : {
-            "X" : ['NC_079472.1'],
+            # "X" : ['NC_079460.1'], ## syntenic to other X chromosomes
+            "X" : ['NC_079472.1'], ## originally identified
             "Y" : ['NC_079473.1']
         },
         "D_sublineata" : {
@@ -112,12 +113,12 @@ if __name__ == "__main__":
     blast_infile_path1 = sys.argv[1]
     blast_infile_path2 = sys.argv[2]
     if len(sys.argv)==3:
-        outfile = f"{blast_infile_path1}_BRH.tsv"
+        outfile = f"{blast_infile_path1}_Dcar_syntenic_X_BRH.tsv"
     elif len(sys.argv) == 4:
         outfile_name = sys.argv[3]
 
     besthits_infile1 = read_best_hits(blast_infile_path1)
     besthits_infile2 = read_best_hits(blast_infile_path2)
-    print(besthits_infile1["rna-AOBTE_LOCUS3-2_1"])
+    # print(besthits_infile1["rna-AOBTE_LOCUS3-2_1"])
 
     BRH_dict = get_BRHs(besthits_infile1, besthits_infile2, outfile_path=outfile)
