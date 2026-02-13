@@ -120,4 +120,4 @@ if __name__ == "__main__":
     besthits_infile1 = read_best_hits(blast_infile_path1)
     besthits_infile2 = read_best_hits(blast_infile_path2)
 
-    BRH_dict = get_BRHs(besthits_infile1, besthits_infile2, outfile_path=outfile)
+    BRH_dict = get_BRHs(besthits_infile1, besthits_infile2, outfile_path=outfile_name)
