@@ -18,6 +18,8 @@ Gene traffic to and from the sex chromosomes in coleoptera
 
 ## workflow pipeline
 
+Maybe old TODO double check
+
 <details>
 <summary>Flowchart</summary>
 
@@ -108,21 +110,9 @@ I am using the superscaffolded version of Cmac for now to get a better idea of t
     { X : ['CAVLJG010000002.1'],
       Y : ['scaffold_13', 'scaffold_86']} # some have HiC and some don't but that may just be manual renaming of the largest to chromosomes
     ``` 
-* **Diorhabada** 
-  * [Diorhabda sublineata](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_026230105.1/)
-  ```python
-  { X : ['NC_079485.1'],
-    Y : ['NC_079486.1']} 
-  ``` 
-  * [Diorhabda carinulata](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_026250575.1/)
-  ```python
-  { X : ['NC_079472.1'],
-    Y : ['NC_079473.1']} 
-  ``` 
-  * There is also Diabrotica undecimpunctata but it does not have sex chromosomes identified, but it does have a giant genome at 1.7Gb
 
 
-### Verifying that linkage group 11 in tribolium is the Y chromosome
+### Testing if linkage group 11 in tribolium is the Y chromosome
 
 I will be using the pool seq data from [Cheng 2024](https://www.nature.com/articles/s41559-023-02246-y#Sec8), BioProject PRJNA942224. There are 6 pools of 100 eggs, which means the sexes are mixed, but it is likely enough individuals that we can approximate a 50/50 sex ratio overall. I download them to uppmax with the help of [this tutorial](https://bioinformaticsworkbook.org/dataAcquisition/fileTransfer/sra.html#gsc.tab=0) 
 I will trim with fastp, map with bwa-mem, deduplicate with [picard](https://broadinstitute.github.io/picard/), and then use samtools to analyze the coverage. 
@@ -159,7 +149,7 @@ The sex chromosomes are these (chromosomes with no syntenic regions are excluded
 
 * ***B. siliquastri***: X: `bs9`, Y: `bs8`
   
-TODO others
+TODO others, see chapter 4
 
 * ***A. obtectus***:
 * ***C. maculatus***:
@@ -170,7 +160,7 @@ see the [alternative synteny plot](data/images/synvisio_plot.png) for a differen
 
 # Whole genome alignments
 
-It seems like the X chromosomes in *Diorhabda* are not syntenic with the other species. I want to use whole genome alignments to see if the genome sequence of the assemblies agrees with the collinearity. Potentially there are turnover events or chromosomal rearrangements, because *Diorhabda* has a different karyotype (11+XY) as opposed to the rest of the *Chrysomelidae* I include which are (9+XY). There are two approaches I try:
+There are two approaches I try:
 
 * nucmer (part of [mummer](https://github.com/mummer4/mummer)) which does pairwise whole genome alignments. There is some filtering after the fact, and the Backström group has a script to identify breakpoints based on the many short alignments returned by mummer. 
 * Cactus (specifically [progressive cactus](https://github.com/ComparativeGenomicsToolkit/cactus/blob/master/doc/progressive.md)) which is the more modern alternative that can do multiple genome alignments.
@@ -189,6 +179,10 @@ Cactus also requires a tree, I will use the one from orthofinder.
 # Translocation analysis
 
 I aim to investigate the processes by which the genes migrate to the sex chromosomes resulting in the patterns we observe today. Orthologs, including gametologs, are identified with orthofinder between all species, and with the help of the known phylogeny I will trace back when and how genes on the Y chromosome originated.
+
+## Retrotransposition
+
+try this tool: [RetroScan](https://www.frontiersin.org/journals/genetics/articles/10.3389/fgene.2021.719204/full)
 
 ## notes
 
