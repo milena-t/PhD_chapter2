@@ -15,6 +15,7 @@ Gene traffic to and from the sex chromosomes in coleoptera
     * Vibranovski, M. D., Zhang, Y. & Long, M. General gene movement off the X chromosome in the Drosophila genus. Genome Res. 19, 897–903
   (2009)
 * [Yu 2026](https://www.pnas.org/doi/full/10.1073/pnas.2522417123) super conserved noncoding sex determining locus in (haplodiploid) hymenoptera
+* [Crepaldi 2024](https://cdnsciencepub.com/doi/full/10.1139/gen-2023-0134) TEs in fish with different sex chromosome systems
 
 ## workflow pipeline
 
