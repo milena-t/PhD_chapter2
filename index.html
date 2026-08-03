@@ -6,9 +6,12 @@
 
 <title>Chapter 2</title>
 
+<!--for the csv display-->
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<!--tabs and csv-->
 <script src="other_utils.js"></script>
 <script type="module" src="mermaid.js"></script>
+
 <link rel="stylesheet" href="style.css">
 
 </head>
@@ -48,14 +51,12 @@
 
     <pre class="mermaid">
         graph TD
-        species([Bruchids, Tribolium castaneum]);
+        species([Bruchids, maybe others from DTOL]);
 
         species --> species_Ass(species assemblies);
         species --> species_Ann(species annotations, RNAseq based, native);
         species --> species_rep(species repeat annotation)
-        species_Ass -- T. castaneum --> Tcas_Y_chr{{identify Y through coverage}};
-        Tcas_Y_chr --> all_chr(X,Y,A chromosomes);
-        species_Ass --> all_chr;
+        species_Ass --> all_chr(X,Y,A chromosomes);
 
         species_Ann -- gffread --> proteins(protein sequences);
         blast{{BRH blast for within-species analysis}};
@@ -98,7 +99,7 @@
 
 </details>
 
-<h2 id="methods-data">Data</h2>
+<h2 data-no-sidebar id="methods-data">Data</h2>
 
 <h3>Annotation version</h3>
 
@@ -109,6 +110,10 @@
 
 <h3 id="methods-species">Species selection</h3>
 
+<p>
+    This is a bit difficult, since so few Y are identified.
+</p>
+
 <div id="controls">
     <textarea id="newick">(((((Acanthoscelides obtectus)Acanthoscelides,(Bruchidius siliquastri)Bruchidius,(Callosobruchus chinensis,Callosobruchus maculatus)Callosobruchus)Bruchini)Bruchinae)Chrysomelidae);</textarea>
 </div>
@@ -116,6 +121,32 @@
     <svg id="tree-svg" xmlns="http://www.w3.org/2000/svg"></svg>
 </div>
 <script src="newick_parser.js"></script>
+
+<p>
+    I have tried to identify the <i>T. castaneum</i> Y through coverage differences with short read WGS data, but it didn't work.<br>
+    <span style="color:#BD351E"><b style="color:#BD351E">TODO</b> check the <a href="https://www.biorxiv.org/content/10.64898/2026.07.17.739156v1.full.pdf">DTOL 
+    comparative paper</a> to see if they have more relevant ones with Y identified.</span>
+</p>
+<details>
+    <summary>Species lists and notes</summary>
+    <ul>
+        <li>Maybe include different Cmac assembly? <a href="https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_058970565.1/"></a>Chinese academy of sciences one, 
+        and/or well as Y<sub>L</sub>.</li>
+        <li>
+            <span style="color:#BD351E"><b style="color:#BD351E">TODO</b> Find a way to check the NCBI automatically somehow, the filters don't work properly, even the "annotated genomes" one</span>
+        </li>
+    </ul>
+</details>
+
+<h2 data-no-sidebar id="methods-sortware">Software and methods</h2>
+
+<h3>sequence divergence</h3>
+
+<a href="https://www.nature.com/articles/s41467-017-00653-x">Mahajan 2017</a> use <i>K<sub>a</sub></i> vs. <i>K<sub>s</sub></i> to identify relative gene age, maybe re-use some chapter 3 code?
+
+<h3>pairwise wga</h3>
+
+Dig up the existing code I have.
 
 </div>
 </div>
