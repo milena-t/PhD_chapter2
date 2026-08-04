@@ -532,7 +532,7 @@ if (TRUE){
     })
   }
   # add transparency
-  point_colors <- add_alpha(point_colors, alpha=0.5)
+  point_colors <- add_alpha(point_colors, alpha=0.75)
   
 }else{
   point_colors <- rep("gray42", length(coverage_ratio))
