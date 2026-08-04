@@ -1,0 +1,6 @@
+analis_samples/WE-3665-analis-F2new_ref.bam.idxstats
+analis_samples/WE-3665-analis-F4new_ref.bam.idxstats
+analis_samples/WE-3665-analis-M3new_ref.bam.idxstats
+analis_samples/WL-3898-analis-M1new_ref.bam.idxstats
+analis_samples/WL-3898-analis-M4new_ref.bam.idxstats
+

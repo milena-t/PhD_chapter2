@@ -39,7 +39,7 @@ body {
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   }
   pre {
-    background: #eaebee;
+    background: #f8f9fa;
     padding: 1em;
     border-radius: 10px;
     overflow-x: auto;

@@ -1,0 +1,4 @@
+coleoptera_samples/chinensis-FR1new_ref.bam.idxstats
+coleoptera_samples/chinensis-FR2new_ref.bam.idxstats
+coleoptera_samples/chinensis-M1new_ref.bam.idxstats
+coleoptera_samples/chinensis-M3new_ref.bam.idxstats

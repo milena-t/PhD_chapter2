@@ -10,6 +10,7 @@
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <!--tabs and csv-->
 <script src="other_utils.js"></script>
+<script src="newick_parser.js"></script>
 <script type="module" src="mermaid.js"></script>
 
 <link rel="stylesheet" href="style.css">
@@ -35,10 +36,6 @@
 <p>
     PhD Chapter 2, <a href="https://github.com/milena-t/PhD_chapter2">Git repository</a>. File and directory paths mentioned below refer to the repository.
 </p>
-    <!--
-        grey : #9A9A9A
-        red : #BD351E
-    -->
 
 <p>
     Git repository <a href="https://github.com/milena-t/PhD_chapter2">here</a>, background reading <a href="notes_pages/reading.html">here</a>
@@ -99,7 +96,7 @@
 
 </details>
 
-<h2 data-no-sidebar id="methods-data">Data</h2>
+<h2 id="methods-data">Data</h2>
 
 <h3>Annotation version</h3>
 
@@ -115,27 +112,54 @@
 </p>
 
 <div id="controls">
-    <textarea id="newick">(((((Acanthoscelides obtectus)Acanthoscelides,(Bruchidius siliquastri)Bruchidius,(Callosobruchus chinensis,Callosobruchus maculatus)Callosobruchus)Bruchini)Bruchinae)Chrysomelidae);</textarea>
+    <textarea id="newick">(((((Acanthoscelides obtectus)Acanthoscelides,(Bruchidius siliquastri,Bruchidius varius)Bruchidius,(Callosobruchus maculatus,Callosobruchus chinensis)Callosobruchus)Bruchini)Bruchinae,((((Diorhabda carinulata,Diorhabda sublineata)Diorhabda)Atysites)Galerucini)Galerucinae)Chrysomelidae);</textarea>
 </div>
 <div id="tree-container">
     <svg id="tree-svg" xmlns="http://www.w3.org/2000/svg"></svg>
 </div>
-<script src="newick_parser.js"></script>
+<script>initTree('newick', 'tree-svg');</script>
 
 <p>
-    I have tried to identify the <i>T. castaneum</i> Y through coverage differences with short read WGS data, but it didn't work.<br>
-    <span style="color:#BD351E"><b style="color:#BD351E">TODO</b> check the <a href="https://www.biorxiv.org/content/10.64898/2026.07.17.739156v1.full.pdf">DTOL 
-    comparative paper</a> to see if they have more relevant ones with Y identified.</span>
+    I have tried to identify the <i>T. castaneum</i> Y through coverage differences with short read WGS data, but it didn't work.
 </p>
 <details>
     <summary>Species lists and notes</summary>
-    <ul>
-        <li>Maybe include different Cmac assembly? <a href="https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_058970565.1/"></a>Chinese academy of sciences one, 
-        and/or well as Y<sub>L</sub>.</li>
-        <li>
-            <span style="color:#BD351E"><b style="color:#BD351E">TODO</b> Find a way to check the NCBI automatically somehow, the filters don't work properly, even the "annotated genomes" one</span>
-        </li>
-    </ul>
+        Maybe include different Cmac assembly? <a href="https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_058970565.1/">Chinese academy of sciences one</a>, 
+        and/or well as Y<sub>L</sub>.<br>
+        &rarr; all <i>Chrysomelidae</i> that have a Y and an annotation on the NCBI
+            <pre><code>GCA_058970975.1	Acanthoscelides obtectus
+GCA_949316355.1	Bruchidius siliquastri
+GCA_964204745.1	Bruchidius varius
+GCA_058970565.1	Callosobruchus maculatus (Chinese academy of sciences)
+GCA_026250575.1	Diorhabda carinulata # this is the one with the annotation, but the ritght X is only in GCA_026250575.2
+GCA_026230105.1	Diorhabda sublineata</code></pre>
+            Additional species I have
+            <pre><code>Callosobruchus chinensis
+Callosobruchus maculatus Y_s
+Callosobruchus maculatus Y_l</code></pre>
+            other <i>Chrysomelidae</i> with no annotation:
+            <pre><code>GCA_982264245.1	Chrysolina hyperici
+GCA_958507055.1	Crioceris asparagi
+GCA_963576515.1	Cryptocephalus primarius
+GCA_029229535.1	Diorhabda carinata
+GCA_026230145.1	Diorhabda elongata
+GCA_963921935.1	Galeruca laticollis
+GCA_980434365.1	Galerucella sagittariae
+GCA_965641405.1	Gastrophysa viridula
+GCA_947563755.1	Lochmaea crataegi
+GCA_979016925.1	Phaedon cochleariae
+GCA_982319415.1	Phaedon tumidulus
+GCA_980253055.1	Podagrica fuscicornis</code></pre>
+    <p>
+        Full tree with species regardless of annotation:
+    </p>
+    <div id="controls">
+        <textarea id="newick-exp">(((((Acanthoscelides obtectus)Acanthoscelides,(Bruchidius siliquastri,Bruchidius varius)Bruchidius,(Callosobruchus maculatus,Callosobruchus chinensis)Callosobruchus)Bruchini)Bruchinae,((((Diorhabda carinulata,Diorhabda sublineata,Diorhabda carinata,Diorhabda elongata)Diorhabda,((Galerucella sagittariae)Galerucella nymphaeae complex)Galerucella)Atysites,((Galeruca laticollis)Galeruca)Galerucites,(Lochmaea crataegi)Lochmaea)Galerucini,(((Podagrica fuscicornis)Podagrica)Podagricina)Alticini)Galerucinae,((Crioceris asparagi)Crioceris)Criocerinae,((Cryptocephalus primarius)Cryptocephalus)Cryptocephalinae,(((Gastrophysa viridula)Gastrophysa,(Phaedon cochleariae,Phaedon tumidulus)Phaedon)Chrysomelini)Chrysomelinae)Chrysomelidae);</textarea>
+    </div>
+    <div id="tree-container">
+        <svg id="tree-svg-exp" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+    <script>initTree('newick-exp', 'tree-svg-exp');</script>
 </details>
 
 <h2 data-no-sidebar id="methods-sortware">Software and methods</h2>
@@ -147,6 +171,96 @@
 <h3>pairwise wga</h3>
 
 Dig up the existing code I have.
+
+<h2 id="sex-chromosome-identification">Sex chromosome identification</h2>
+
+I used the SATC package in R, code here: <code>PhD_chapter2/src/SATC_analysis_sex_chr_ident.Rmd</code>
+
+<ul>
+    <li><b><i>Acanthoscelides obtectus</i></b>: Identified by me (see below)</li>
+    <li><b><i>Bruchidius siliquastri</i></b>: Identified by DTOL</li>
+    <li><b><i>Bruchidius varius</i></b>: Identified by DTOL</li>
+    <li><b><i>Callosobruchus maculatus</i></b>: Identified by Philipp in <a href="https://academic.oup.com/mbe/article/40/8/msad167/7227908">Kaufmann 2023</a></li>
+    <li><b><i>Callosobruchus chinensis</i></b>: Identified by me (see below)</li>
+    <li>
+        <b><i>Diorhabda carinulata</i></b>: Identified by USDA (In the assembly/annotation version I use, X and chr_1 have switched labels, it has been since updated in 
+        a new version of the annotation, where the labels are corrected, but the annotation is not lifted over. Therefore I will keep this old version, and just 
+        switch the labels myself when relevant)
+    </li>
+    <li><b><i>Diorhabda sublineata</i></b>: Identified by USDA</li>
+</ul>
+
+<h3>SATC results</h3>
+
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'SATC_res_A_obtectus')"><i>A. obtectus</i></button>
+    <button class="tablinks" onclick="openTab(event, 'SATC_res_C_chinensis')"><i>C. chinensis</i></button>
+</div>
+<div id="SATC_res_A_obtectus" class="tabcontent">
+    <p>
+        The samples are the F0 from the E/L lines:
+<pre><code>obtectus/obtectus/Sample_VA-3193-EL1-F.sort.MarkDup.RG.filter.bam.idxstats  
+obtectus/obtectus/Sample_VA-3193-EL1-M.sort.MarkDup.RG.filter.bam.idxstats  
+obtectus/obtectus/Sample_VA-3193-EL4-F.sort.MarkDup.RG.filter.bam.idxstats  
+obtectus/obtectus/Sample_VA-3193-EL4-M.sort.MarkDup.RG.filter.bam.idxstats  
+obtectus/obtectus/Sample_VA-3193-LE2-F.sort.MarkDup.RG.filter.bam.idxstats  
+obtectus/obtectus/Sample_VA-3193-LE2-M.sort.MarkDup.RG.filter.bam.idxstats  
+obtectus/obtectus/Sample_VA-3193-LEfixed_F.sort.MarkDup.RG.filter.bam.idxstats
+obtectus/obtectus/Sample_VA-3193-LEfixed_M.sort.MarkDup.RG.filter.bam.idxstats</code></pre>
+    </p>
+    <p>Scaffolds are filtered for min length 1e5</p>
+    <p float="left">
+        <img loading="lazy" src="data/SATC/a_obtectus_norm_scaffold_cov.png" width="100%" />
+    </p>
+    <p>
+        <b>Sample sex determination according to SATC:</b> <br>
+        The male and female samples for <code>LE1</code> were accidentally swapped, so I renamed them <code>LEfixed</code> with the right sex assignment. But it seems like it 
+        would have been right before? I am unsure what is going on here, I will just remove the <code>LE</code> samples all together since <code>LE2</code> is also wrong.
+        <pre><code>"Sample_VA-3193-EL1-F"      "homomorphic"  
+"Sample_VA-3193-EL1-M"      "heteromorphic"
+"Sample_VA-3193-EL4-F"      "homomorphic"  
+"Sample_VA-3193-EL4-M"      "heteromorphic"
+<span style="color:#909bb5;font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;">"Sample_VA-3193-LE2-F"      "heteromorphic"
+"Sample_VA-3193-LE2-M"      "homomorphic"  
+"Sample_VA-3193-LEfixed_F"  "heteromorphic"
+"Sample_VA-3193-LEfixed_M"  "homomorphic"</span></code></pre>
+    </p>
+    <p style="padding-top: 1em;"></p>
+    <div class="left-div">
+        <p>PCA plot with only <code>EL</code> samples</p>
+        <p float="left">
+            <img loading="lazy" src="data/SATC/sexing_PCA_obtectus_F0_EL.png" width="70%" />
+        </p>
+    </div>
+    <div class="right-div">
+        <p>PCA plot with all samples (note the wrong sex assignment of <code>LE</code> samples)</p>
+        <p float="left">
+            <img loading="lazy" src="data/SATC/sexing_PCA_obtectus_F0_all_samples.png" width="70%" />
+        </p>
+    </div>
+    <div style="clear: both;"></div>
+</div>
+
+<div id="SATC_res_C_chinensis" class="tabcontent">
+    <p>
+        The samples are the ones I sequenced for sex chromosome identification:
+<pre><code>coleoptera_samples/chinensis-FR1new_ref.bam.idxstats
+coleoptera_samples/chinensis-FR2new_ref.bam.idxstats
+coleoptera_samples/chinensis-M1new_ref.bam.idxstats 
+coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
+    </p>
+    <p>Scaffolds are filtered for min length 1e5</p>
+    <p float="left">
+        <img loading="lazy" src="data/SATC/c_chinensis_norm_scaffold_cov.png" width="100%" />
+    </p>
+    <p>
+        <b>Sample sex determination according to SATC:</b>
+        <pre><code>"chinensis-FR1new_ref.bam.idxstats" "homomorphic"  
+"chinensis-FR2new_ref.bam.idxstats" "homomorphic"  
+"chinensis-M1new_ref.bam.idxstats"  "heteromorphic"
+"chinensis-M3new_ref.bam.idxstats"  "heteromorphic"</code></pre>
+    </p>
+</div>
 
 </div>
 </div>
