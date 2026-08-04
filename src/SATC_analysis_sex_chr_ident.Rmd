@@ -578,7 +578,7 @@ if (plot_coverage){
 
 
 
-Look at the scaffolds individually, 
+Look at the scaffolds individually if there are too many, e.g. when the min scaffold length threshold is really low.
 check which ones are significant corrected for multiple testing
 
 ```{r}
