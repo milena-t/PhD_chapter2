@@ -394,7 +394,15 @@ ggplot()+
                     labels=c("heteromorphic\n(XY)","homomorphic\n(XX)"),
                     values=c("blue","red"))+
   labs(title=title_str)+
-  theme_classic()+
+  theme(panel.background = element_rect(fill='transparent'),
+         plot.background = element_rect(fill='transparent', color=NA),
+         panel.grid.major = element_blank(),
+         panel.grid.minor = element_blank(),
+         legend.background = element_rect(fill='transparent'),
+         legend.box.background = element_rect(fill='transparent'),
+         axis.line = element_line(colour='black'),
+         axis.ticks = element_line(colour='black'),
+         axis.text = element_text(colour='black'))+
   theme(axis.text=element_text(size=16),
         axis.title=element_text(size=16))
 dev.off()
@@ -406,13 +414,12 @@ In the Bachtrog X paper (Figure 2D) they do this:  "Normalized female/male whole
 However, since I don't have a chromosome level assembly, and my assembly is super fragmented, I won't do windows but instead coverage by entire contig
 
 ```{r}
-
-
 # chinensis
-if (F){ 
-  
+if (T){ 
   plot_title = "C. chinensis"
-  plot_directory="chinensis_figures_and_annotation"
+  plot_directory="/Users/miltr339/work/PhD_code/PhD_chapter2/data/SATC"
+  plot_filename="contig_coverage_sex_ratio_chinensis.png"
+  table_filename="contig_coverage_sex_ratio_chinensis.csv"
   
   mean_female <- rowMeans(cbind(sex_c$dat$`chinensis-FR1new_ref.bam.idxstats`$norm,
                                 sex_c$dat$`chinensis-FR2new_ref.bam.idxstats`$norm))
@@ -429,44 +436,11 @@ if (F){
   coverage_ratio <- coverage_ratio[coverage_ratio<3]
   
   # get list of contigs with X and Y homology
-  x_homologs <- as.character(read.csv("/Users/milena/work/sex_chromosome_homology/chinensis_maculatus_x_homology_contig_list.csv", header=FALSE))
-  y_homologs <- as.character(read.csv("/Users/milena/work/sex_chromosome_homology/chinensis_maculatus_y_homology_contig_list.csv", header=FALSE))
-  homologs <- c(x_homologs, y_homologs)
-  
-  # height for the separator-lines in the plot
-  top_line = 1.5
-  bottom_line = 0.5
-}
-
-# obtectus pool-seq (change plot title to E or L lines depending on which one you used!)
-if (F){ 
-  
-  plot_title = "A. obtectus L-lines" 
-  plot_directory="obtectus"
-  
-  mean_female <- rowMeans(cbind(sex_o$dat$`LVIII-F`$norm,
-                                sex_o$dat$`LV-F`$norm,
-                                sex_o$dat$`LVII-F`$norm))
-  mean_male <- rowMeans(cbind(sex_o$dat$`LV-M`$norm,
-                              sex_o$dat$`LVII-M`$norm,
-                              sex_o$dat$`LVI-M`$norm))
-    
-  coverage_ratio <- mean_female/mean_male
-  coverage_ratio <- setNames(coverage_ratio, sex_o$dat$`LV-M`$scaffold)
-  
-  # remove inf and 0 from the vector since they are caused by contigs having a mean 0 coverage in either male or female samples
-  coverage_ratio <- coverage_ratio[!is.infinite(coverage_ratio)]
-  coverage_ratio <- coverage_ratio[coverage_ratio!=0]
-  # remove all outliers with a female/male ratio > 3
-  coverage_ratio <- coverage_ratio[coverage_ratio<3]
-  
-  # get list of contigs with X and Y homology
-  #x_homologs <- as.character(read.csv("/Users/milena/work/sex_chromosome_homology/chinensis_maculatus_x_homology_contig_list.csv", header=FALSE))
-  #y_homologs <- as.character(read.csv("/Users/milena/work/sex_chromosome_homology/chinensis_maculatus_y_homology_contig_list.csv", header=FALSE))
-  #homologs <- c(x_homologs, y_homologs)
-  
+  # x_homologs <- as.character(read.csv("/Users/milena/work/sex_chromosome_homology/chinensis_maculatus_x_homology_contig_list.csv", header=FALSE))
+  # y_homologs <- as.character(read.csv("/Users/milena/work/sex_chromosome_homology/chinensis_maculatus_y_homology_contig_list.csv", header=FALSE))
+  # homologs <- c(x_homologs, y_homologs)
   homologs <- c()
-  
+
   # height for the separator-lines in the plot
   top_line = 1.5
   bottom_line = 0.5
@@ -474,53 +448,31 @@ if (F){
 
 # obtectus F0 individuals (change plot title to E or L lines depending on which one you used!)
 if (T){ 
+  plot_title = "A. obtectus F0 individuals" 
+  plot_directory="/Users/miltr339/work/PhD_code/PhD_chapter2/data/SATC"
+  plot_filename="contig_coverage_sex_ratio_obtectus.png"
+  table_filename="contig_coverage_sex_ratio_obtectus.csv"
   
-  plot_title = "A. obtectus E and L lines F0 individuals" 
-  plot_directory="obtectus"
-  
-  if (F){ # L lines
-      mean_female <- rowMeans(cbind(sex_o$dat$`Sample_VA-3193-EL1-F.sort.MarkDup.RG.filter.bam.idxstats`$norm,
-                                sex_o$dat$`Sample_VA-3193-EL4-F.sort.MarkDup.RG.filter.bam.idxstats`$norm))
-      mean_male <- rowMeans(cbind(sex_o$dat$`Sample_VA-3193-LE2-M.sort.MarkDup.RG.filter.bam.idxstats`$norm,
-                                sex_o$dat$`Sample_VA-3193-LEfixed_M.sort.MarkDup.RG.filter.bam.idxstats`$norm))
-      coverage_ratio <- mean_female/mean_male
-      coverage_ratio <- setNames(coverage_ratio,sex_o$dat$`Sample_VA-3193-EL1-F.sort.MarkDup.RG.filter.bam.idxstats`$scaffold)
-  }else if (F){ # E lines
-      mean_female <- rowMeans(cbind(sex_o$dat$`Sample_VA-3193-LE2-F.sort.MarkDup.RG.filter.bam.idxstats`$norm,
-                                sex_o$dat$`Sample_VA-3193-LEfixed_F.sort.MarkDup.RG.filter.bam.idxstats`$norm))
-      mean_male <- rowMeans(cbind(sex_o$dat$`Sample_VA-3193-EL1-M.sort.MarkDup.RG.filter.bam.idxstats`$norm,
-                                sex_o$dat$`Sample_VA-3193-EL4-M.sort.MarkDup.RG.filter.bam.idxstats`$norm))
-      coverage_ratio <- mean_female/mean_male
-      coverage_ratio <- setNames(coverage_ratio,sex_o$dat$`Sample_VA-3193-LEfixed_F.sort.MarkDup.RG.filter.bam.idxstats`$scaffold)
-  }else{ # all samples
-      mean_female <- rowMeans(cbind(
-                                  sex_o$dat$`Sample_VA-3193-EL1-F.sort.MarkDup.RG.filter.bam.idxstats`$norm,
-                                  sex_o$dat$`Sample_VA-3193-LE2-F.sort.MarkDup.RG.filter.bam.idxstats`$norm,
-                                  sex_o$dat$`Sample_VA-3193-EL4-F.sort.MarkDup.RG.filter.bam.idxstats`$norm,
-                                  sex_o$dat$`Sample_VA-3193-LEfixed_F.sort.MarkDup.RG.filter.bam.idxstats`$norm))
-      mean_male <- rowMeans(cbind(
-                                  sex_o$dat$`Sample_VA-3193-LE2-M.sort.MarkDup.RG.filter.bam.idxstats`$norm,
-                                  sex_o$dat$`Sample_VA-3193-EL1-M.sort.MarkDup.RG.filter.bam.idxstats`$norm,
-                                  sex_o$dat$`Sample_VA-3193-LEfixed_M.sort.MarkDup.RG.filter.bam.idxstats`$norm,
-                                  sex_o$dat$`Sample_VA-3193-EL4-M.sort.MarkDup.RG.filter.bam.idxstats`$norm))
-      coverage_ratio <- mean_female/mean_male
-      coverage_ratio <- setNames(coverage_ratio,sex_o$dat$`Sample_VA-3193-LEfixed_F.sort.MarkDup.RG.filter.bam.idxstats`$scaffold)
-  }
+  # all samples
+  mean_female <- rowMeans(cbind(
+                              sex_o$dat$`Sample_VA-3193-EL1-F.sort.MarkDup.RG.filter.bam.idxstats`$norm,
+                              sex_o$dat$`Sample_VA-3193-EL4-F.sort.MarkDup.RG.filter.bam.idxstats`$norm))
+  mean_male <- rowMeans(cbind(
+                              sex_o$dat$`Sample_VA-3193-EL1-M.sort.MarkDup.RG.filter.bam.idxstats`$norm,
+                              sex_o$dat$`Sample_VA-3193-EL4-M.sort.MarkDup.RG.filter.bam.idxstats`$norm))
+  coverage_ratio <- mean_female/mean_male
+  coverage_ratio <- setNames(coverage_ratio,sex_o$dat$`Sample_VA-3193-EL1-F.sort.MarkDup.RG.filter.bam.idxstats`$scaffold)
 
-    
-
-  
   # remove inf and 0 from the vector since they are caused by contigs having a mean 0 coverage in either male or female samples
   coverage_ratio <- coverage_ratio[!is.infinite(coverage_ratio)]
   coverage_ratio <- coverage_ratio[coverage_ratio!=0]
   # remove all outliers with a female/male ratio > 3
   coverage_ratio <- coverage_ratio[coverage_ratio<3]
   
-  # get list of contigs with X and Y homology
+  # get list of contigs with X and Y homology according to blast, can be highlighted separately in the plot
   #x_homologs <- as.character(read.csv("/Users/milena/work/sex_chromosome_homology/chinensis_maculatus_x_homology_contig_list.csv", header=FALSE))
   #y_homologs <- as.character(read.csv("/Users/milena/work/sex_chromosome_homology/chinensis_maculatus_y_homology_contig_list.csv", header=FALSE))
   #homologs <- c(x_homologs, y_homologs)
-  
   homologs <- c()
   
   # height for the separator-lines in the plot
@@ -528,64 +480,11 @@ if (T){
   bottom_line = 0.5
 }
 
-# analis
-if (F){
-  
-  plot_title = "C. analis"
-  plot_directory="analis_figures"
-  
-  mean_female <- rowMeans(cbind(sex_a$dat$`WE-3665-analis-F2new_ref.bam.idxstats`$norm,
-                                sex_a$dat$`WE-3665-analis-F4new_ref.bam.idxstats`$norm))
-  mean_male <- rowMeans(cbind(sex_a$dat$`WL-3898-analis-M1new_ref.bam.idxstats`$norm,
-                              #sex_a$dat$`WE-3665-analis-M3new_ref.bam.idxstats`$norm,
-                              sex_a$dat$`WL-3898-analis-M4new_ref.bam.idxstats`$norm))
-    
-  coverage_ratio <- mean_female/mean_male
-  coverage_ratio <- setNames(coverage_ratio, sex_a$dat$`WE-3665-analis-F2new_ref.bam.idxstats`$scaffold)
-  
-  # remove inf and 0 from the vector since they are caused by contigs having a mean 0 coverage in either male or female samples
-  coverage_ratio <- coverage_ratio[!is.infinite(coverage_ratio)]
-  coverage_ratio <- coverage_ratio[coverage_ratio!=0]
-  # remove all outliers with a female/male ratio > 3
-  coverage_ratio <- coverage_ratio[coverage_ratio<3]
-  
-    # get list of contigs with X and Y homology
-  x_homologs <- as.character(read.csv("/Users/milena/work/sex_chromosome_homology/analis_maculatus_x_homology_contig_list.csv", header=FALSE))
-  y_homologs <- as.character(read.csv("/Users/milena/work/sex_chromosome_homology/analis_maculatus_y_homology_contig_list.csv", header=FALSE))
-  homologs <- c(x_homologs, y_homologs)
-  
-  
-  top_line = 1.5
-  bottom_line = 0.5
-}
-
-# maculatus
-if (F){ 
-  
-  plot_title = "C. maculatus"
-  plot_directory="maculatus_figures"
-  
-  mean_female <- rowMeans(cbind(sex_m$dat$CmacF1_filtrepsreads.idxstats$norm, sex_m$dat$CmacF2_filtrepsreads.idxstats$norm))
-  mean_male <- rowMeans(cbind(sex_m$dat$CmacM1_filtrepsreads.idxstats$norm, sex_m$dat$CmacM2_filtrepsreads.idxstats$norm))
-    
-  coverage_ratio <- mean_female/mean_male
-  coverage_ratio <- setNames(coverage_ratio, sex_m$dat$CmacF1_filtrepsreads.idxstats$scaffold)
-  
-  # remove inf and 0 from the vector since they are caused by contigs having a mean 0 coverage in either male or female samples
-  coverage_ratio <- coverage_ratio[!is.infinite(coverage_ratio)]
-  coverage_ratio <- coverage_ratio[coverage_ratio!=0]
-  # remove all outliers with a female/male ratio > 3
-  coverage_ratio <- coverage_ratio[coverage_ratio<3]
-  
-  top_line = 1.5
-  bottom_line = 0.5
-  homologs = c()
-}
 
 # if you want a color gradient to highlight X/A/Y contigs
 # also includes code that highlights the homolog contigs
 if (TRUE){
-  color_gradient <- colorRampPalette(c("blue", "gray35", "red"))
+  color_gradient <- colorRampPalette(c("#255CF5", "#909bb5", "#BD351E")) # blue,gray,red
 
   # Determine the number of colors. Let's use 200 to have an even split around zero.
   num_colors <- 2*length(coverage_ratio)
@@ -609,17 +508,11 @@ if (TRUE){
   # Assign colors to points
   point_colors <- colors[y_scaled]
   
-  plot_filename = "female_male_coverage_ratio_E_L.png"
-  
-  
   # make all points grey that aren't in the homologs list that is generated from blast hits
   if (length(homologs)>0){
-    plot_filename <- "female_male_coverage_ratio_with_homologs.png"
     
     homolog_binary <- names(coverage_ratio) %in% homologs # binary vector if the point is in the homologs list
-    
     autosome_grey <- colors[length(colors)/2]
-    
     point_colors_homologs = rep("", length(point_colors))
     
     for (i in 1:length(homolog_binary)){
@@ -631,7 +524,6 @@ if (TRUE){
     }
     point_colors <- point_colors_homologs
   }
-  
   
   # Function to add transparency to colors
   add_alpha <- function(color, alpha = 0.5) {
@@ -648,12 +540,9 @@ if (TRUE){
 
 
 ## plot
-plot_coverage <- TRUE
-
-if(plot_coverage){
-  
+if(T){
   # the plot filename is defined with the colors above
-  png(filename = paste(plot_directory, plot_filename, sep="/"), width=17, height=13, units="cm", res=200)
+  png(filename = paste(plot_directory, plot_filename, sep="/"), width=17, height=13, units="cm", res=200, bg="transparent")
   plot(coverage_ratio, xaxt = "n", xlab = "contigs (sorted by size, decreasing)", ylab = "normalized female/male coverage", 
        pch = 20, col = point_colors,
        main = plot_title)
@@ -674,9 +563,9 @@ if (T){
   contig_names = setNames(c("norm_f/m_coverage", "chromosome"), "Names")
   SC_contigs = data.frame(rbind(contig_names,X_contigs, Y_contigs))
 
-  write.csv(SC_contigs, file = paste(plot_directory, "female_male_coverage_ratio_contig_list_all.csv", sep="/"))
+  write.csv(SC_contigs, file = paste(plot_directory, table_filename, sep="/"))
   
-  print(paste("contig_list saved to:", paste(plot_directory, "female_male_coverage_ratio_contig_list.csv", sep="/"), sep=" "))
+  print(paste("contig_list saved to:", paste(plot_directory, table_filename, sep="/"), sep=" "))
 }
 
 

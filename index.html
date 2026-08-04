@@ -239,7 +239,20 @@ obtectus/obtectus/Sample_VA-3193-LEfixed_M.sort.MarkDup.RG.filter.bam.idxstats</
         </p>
     </div>
     <div style="clear: both;"></div>
+    <p style="padding-top: 1em;"><b>Results:</b></p>
+    <div class="left-div">
+        <p float="left">
+            <img loading="lazy" src="data/SATC/contig_coverage_sex_ratio_analis.png" width="100%" />
+        </p>
+    </div>
+    <div class="right-div">
+        <p>Table with contig lists assigned to X and Y: <code>data/SATC/contig_coverage_sex_ratio_analis.csv</code></p>
+        <div id="analis_SATC_res_table" class="tableframe"></div>
+        <script>loadCSVTable("data/SATC/contig_coverage_sex_ratio_analis.csv", "analis_SATC_res_table");</script>
+    </div>
+    <div style="clear: both;"></div>
 </div>
+
 
 <div id="SATC_res_C_chinensis" class="tabcontent">
     <p>
@@ -260,6 +273,24 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 "chinensis-M1new_ref.bam.idxstats"  "heteromorphic"
 "chinensis-M3new_ref.bam.idxstats"  "heteromorphic"</code></pre>
     </p>
+    <p style="padding-top: 1em;"></p>
+    <p>PCA plot (females are labelled <code>FR</code> because the sexing in the original pooled samples was not 100% right and I had to sequence more).</p>
+    <p float="left">
+        <img loading="lazy" src="data/SATC/sexing_PCA_chinensis_all_samples.png" width="35%" />
+    </p>
+
+    <p style="padding-top: 1em;"><b>Results:</b></p>
+    <div class="left-div">
+        <p float="left">
+            <img loading="lazy" src="data/SATC/contig_coverage_sex_ratio_chinensis.png" width="100%" />
+        </p>
+    </div>
+    <div class="right-div">
+        <p>Table with contig lists assigned to X and Y: <code>data/SATC/contig_coverage_sex_ratio_chinensis.csv</code></p>
+        <div id="chinensis_SATC_res_table" class="tableframe"></div>
+        <script>loadCSVTable("data/SATC/contig_coverage_sex_ratio_chinensis.csv", "chinensis_SATC_res_table");</script>
+    </div>
+    <div style="clear: both;"></div>
 </div>
 
 </div>
