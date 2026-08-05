@@ -36,7 +36,7 @@ fi
 
 SPECIES=$1
 ASSEMBLY_MASKED=$2
-PROTEIN_DATA_outside=$3
+PROTEIN_DATA=$3
 # $4 is optional for RNA reference data by SRR number 
 
 
@@ -66,8 +66,12 @@ cd $wd
 # link braker.sif file
 ln -s /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/annotation_pipeline/braker3.sif braker3.sif
 # link proteinfasta 
-ln -s ${PROTEIN_DATA_outside} .
-PROTEIN_DATA=$(basename $PROTEIN_DATA_outside)
+# ln -s ${PROTEIN_DATA_outside} .
+# PROTEIN_DATA=$(basename $PROTEIN_DATA_outside)
+
+echo "-------------------------------"
+ls -lh
+echo "-------------------------------"
 
 # check if the augustus_config direcotry exists,
 export AUGUSTUS_CONFIG_PATH=${wd}/augustus_config
@@ -84,9 +88,13 @@ fi
 
 # export PROTEIN_REF_ALL_SPECIES=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/annotation_pipeline/all_proteinrefs_annotation/orthoDB_and_species_proteins.fa
 
-export ETP=/sw/bioinfo/GeneMark-ETP/1.02-20231213-dd8b37b/rackham/bin
+export ETP=/sw/arch/eb/software/GeneMark-ET/4.72-GCCcore-13.3.0/ # on rackham: /sw/bioinfo/GeneMark-ETP/1.02-20231213-dd8b37b/rackham/bin
 # the braker example for using the container references this variable in the GENEMARK_PATH flag,
 # Just from the name I assume it's genemark-ETP and not ES
+
+echo "-------------------------------"
+ls -lh
+echo "-------------------------------"
 
 # there should not already be an existing braker output directory in the working directory, otherwise there will be an error that it can't create the genemark-es ouptut file
 if [ -d ${wd}/braker ]; then
