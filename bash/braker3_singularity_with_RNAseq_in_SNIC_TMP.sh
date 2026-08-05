@@ -36,7 +36,7 @@ fi
 
 SPECIES=$1
 ASSEMBLY_MASKED=$2
-PROTEIN_DATA=$3
+PROTEIN_DATA_outside=$3
 # $4 is optional for RNA reference data by SRR number 
 
 
@@ -63,10 +63,11 @@ fi
 
 cd $wd
 
-
-
 # link braker.sif file
 ln -s /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/annotation_pipeline/braker3.sif braker3.sif
+# link proteinfasta 
+ln -s ${PROTEIN_DATA_outside} .
+PROTEIN_DATA=$(basename $PROTEIN_DATA_outside)
 
 # check if the augustus_config direcotry exists,
 export AUGUSTUS_CONFIG_PATH=${wd}/augustus_config
