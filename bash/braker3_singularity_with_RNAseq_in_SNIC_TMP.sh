@@ -51,14 +51,14 @@ else
     echo "created directory: $home_wd"
 fi
 
-export wd=${SNIC_NOBACKUP}/${SPECIES}
+export wd=${SNIC_TMP}/${SPECIES}
 #ASSEMBLY_MASKED=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/coleoptera_sequences/c_chinensis/chinensis_from_uppmax.fasta.masked
 
 if [ -d ${wd} ]; then
     echo "Working directory in temporary directory already exists: ${wd}"
 else
     mkdir $wd
-    echo "created directory in SNIC_NOBACKUP: $wd"
+    echo "created directory in SNIC_TMP: $wd"
 fi
 
 cd $wd
@@ -75,10 +75,10 @@ if [ -d ${wd}/augustus_config ]; then
     echo "Augustus_config already exists: ${wd}/augustus_config/species"
 else
     echo "Augustus config does not exist, create it and change write permissions"
-    module load augustus/3.5.0-20231223-33fc04d # so that the source command works
+    module load AUGUSTUS/3.5.0-gfbf-2024a # so that the source command works
     source $AUGUSTUS_CONFIG_COPY
     chmod a+w -R ${wd}/augustus_config/species
-    module unload augustus/3.5.0-20231223-33fc04d # same as above, some weird shit with conflicting perl versions
+    module unload AUGUSTUS/3.5.0-gfbf-2024a # same as above, some weird shit with conflicting perl versions
     echo "augustus config path in the function: ${AUGUSTUS_CONFIG_PATH}"
 fi
 
@@ -123,7 +123,7 @@ fi
 
 
 
-echo "move SNIC_NOBACKUP directory to our storage"
+echo "move SNIC_TMP directory to our storage"
 
 if [ -d ${home_wd}/braker ]; then
   rm -r ${home_wd}/braker
