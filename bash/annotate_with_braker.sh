@@ -3,7 +3,7 @@
 ORTHODB_ARTHROPODA=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/annotation_pipeline/annotation_protein_data/OrthoDB_Arthropoda_v11.fa
 ASS_DIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/annotation_pipeline/only_orthodb_annotation
 
-sbatch --job-name="A_obtectus_annotation" --output="A_obtectus_annotation.out" -t 1:00:00 \
+sbatch --job-name="A_obtectus_annotation" --output="A_obtectus_annotation.out" -t 5-00:00:00 \
 /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/bash/braker3_singularity_with_RNAseq_in_SNIC_TMP.sh \
 A_obtectus ${ASS_DIR}/A_obtectus/assembly_genomic.fna.masked \
 $ORTHODB_ARTHROPODA SRR24951591,SRR7881623,SRR7881624,SRR7881590,SRR7881628,SRR7881629,SRR7881630,SRR7881599,SRR7881600,SRR7881604,SRR7881609,SRR7881639,SRR7881638,SRR7881643,SRR7881642,SRR7881633,SRR7881631
