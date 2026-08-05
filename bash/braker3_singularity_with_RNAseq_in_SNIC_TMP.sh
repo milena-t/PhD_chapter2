@@ -43,7 +43,7 @@ fi
 
 SPECIES=$1
 ASSEMBLY_MASKED=$2
-PROTEIN_DATA_orig=$3
+PROTEIN_DATA=$3
 # $4 is optional for RNA reference data by SRR number 
 # $5 is optional if local fastq files are used in $4 and you specify a directory
 
@@ -152,9 +152,9 @@ if [ $# -eq 5 ]; then
 elif [ $# -eq 4 ]; then
     echo " * You have included a third command line argument that is assumed to contain SRA-ids for species-specific RNAseq data"
     echo "----------------- bind mounts -----------------" 
-    echo $wd
-    echo $PROT_DIR
-    echo $ASS_DIR
+    echo "wd       : ${wd}"
+    echo "PROT_DIR : ${PROT_DIR}"
+    echo "ASS_DIR  : ${ASS_DIR}"
     echo "-----------------------------------------------"
 
 
