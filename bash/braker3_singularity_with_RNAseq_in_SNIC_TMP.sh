@@ -129,6 +129,14 @@ if [ $# -eq 5 ]; then
         IFS="," read -r RNAdir1 RNAdir2 <<< "$FASTA_dir" # split two input dirs into list
         echo "    - ${RNAdir1}"
         echo "    - ${RNAdir2}"
+
+        echo "----------------- bind mounts -----------------" 
+        echo "wd       : ${wd}"
+        echo "PROT_DIR : ${PROT_DIR}"
+        echo "ASS_DIR  : ${ASS_DIR}"
+        echo "RNAdir1  : ${RNAdir1}"
+        echo "RNAdir2  : ${RNAdir2}"
+        echo "-----------------------------------------------"
         singularity exec -B "${wd}:${wd}" -B "${AUGUSTUS_CONFIG_PATH}:${AUGUSTUS_CONFIG_PATH}" -B "${PROT_DIR}:${PROT_DIR}" -B "${ASS_DIR}:${ASS_DIR}" -B "${RNAdir1}:${RNAdir1}" -B "${RNAdir2}:${RNAdir2}" braker3.sif braker.pl \
             --genome=${ASSEMBLY_MASKED} \
             --prot_seq $PROTEIN_DATA \
@@ -139,6 +147,12 @@ if [ $# -eq 5 ]; then
             --AUGUSTUS_CONFIG_PATH=${wd}/AUGUSTUS_config \
             --useexisting
     else
+    echo "----------------- bind mounts -----------------" 
+    echo "wd        : ${wd}"
+    echo "PROT_DIR  : ${PROT_DIR}"
+    echo "ASS_DIR   : ${ASS_DIR}"
+    echo "FASTA_dir : ${FASTA_dir}"
+    echo "-----------------------------------------------"
         singularity exec -B "${wd}:${wd}" -B "${PROT_DIR}:${PROT_DIR}" -B "${ASS_DIR}:${ASS_DIR}" -B "${FASTA_dir}:${FASTA_dir}" braker3.sif braker.pl \
             --genome=${ASSEMBLY_MASKED} \
             --prot_seq $PROTEIN_DATA \
@@ -168,6 +182,12 @@ elif [ $# -eq 4 ]; then
         --AUGUSTUS_CONFIG_PATH=${wd}/AUGUSTUS_config \
         --useexisting
 else
+    echo " * You have included a no further command line argument for species specific data"
+    echo "----------------- bind mounts -----------------" 
+    echo "wd       : ${wd}"
+    echo "PROT_DIR : ${PROT_DIR}"
+    echo "ASS_DIR  : ${ASS_DIR}"
+    echo "-----------------------------------------------"
     singularity exec -B "${wd}:${wd}" -B "${PROT_DIR}:${PROT_DIR}" -B "${ASS_DIR}:${ASS_DIR}" braker3.sif braker.pl \
         --genome=${ASSEMBLY_MASKED} \
         --prot_seq $PROTEIN_DATA \
