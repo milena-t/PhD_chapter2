@@ -110,11 +110,6 @@ else
   echo " * no existing directory at: ${wd}/braker, proceed with braker run from scratch"
 fi
 
-echo ""
-echo "======================== START BRAKER RUN ========================"
-echo ""
-
-
 
 echo ""
 echo "======================== START BRAKER RUN ========================"
@@ -134,7 +129,7 @@ if [ $# -eq 5 ]; then
         IFS="," read -r RNAdir1 RNAdir2 <<< "$FASTA_dir" # split two input dirs into list
         echo "    - ${RNAdir1}"
         echo "    - ${RNAdir2}"
-        singularity exec -B ${wd}:${wd} -B ${AUGUSTUS_CONFIG_PATH}:${AUGUSTUS_CONFIG_PATH} -B ${PROT_DIR}:${PROT_DIR} -B ${ASS_DIR}:${ASS_DIR} -B ${RNAdir1}:${RNAdir1} -B ${RNAdir2}:${RNAdir2} braker3.sif braker.pl \
+        singularity exec -B "${wd}:${wd}" -B "${AUGUSTUS_CONFIG_PATH}:${AUGUSTUS_CONFIG_PATH}" -B "${PROT_DIR}:${PROT_DIR}" -B "${ASS_DIR}:${ASS_DIR}" -B "${RNAdir1}:${RNAdir1}" -B "${RNAdir2}:${RNAdir2}" braker3.sif braker.pl \
             --genome=${ASSEMBLY_MASKED} \
             --prot_seq $PROTEIN_DATA \
             --rnaseq_sets_ids=$FASTA_IDS \
@@ -144,7 +139,7 @@ if [ $# -eq 5 ]; then
             --AUGUSTUS_CONFIG_PATH=${wd}/AUGUSTUS_config \
             --useexisting
     else
-        singularity exec -B ${wd}:${wd} -B ${PROT_DIR}:${PROT_DIR} -B ${ASS_DIR}:${ASS_DIR} -B ${FASTA_dir}:${FASTA_dir} braker3.sif braker.pl \
+        singularity exec -B "${wd}:${wd}" -B "${PROT_DIR}:${PROT_DIR}" -B "${ASS_DIR}:${ASS_DIR}" -B "${FASTA_dir}:${FASTA_dir}" braker3.sif braker.pl \
             --genome=${ASSEMBLY_MASKED} \
             --prot_seq $PROTEIN_DATA \
             --rnaseq_sets_ids=$FASTA_IDS \
@@ -156,8 +151,15 @@ if [ $# -eq 5 ]; then
     fi
 elif [ $# -eq 4 ]; then
     echo " * You have included a third command line argument that is assumed to contain SRA-ids for species-specific RNAseq data"
+    echo "----------------- bind mounts -----------------" 
+    echo $wd
+    echo $PROT_DIR
+    echo $ASS_DIR
+    echo "-----------------------------------------------"
+
+
     SRA_IDS=$4
-    singularity exec -B ${wd}:${wd} -B ${PROT_DIR}:${PROT_DIR} -B ${ASS_DIR}:${ASS_DIR} braker3.sif braker.pl \
+    singularity exec -B "${wd}:${wd}" -B "${PROT_DIR}:${PROT_DIR}" -B "${ASS_DIR}:${ASS_DIR}" braker3.sif braker.pl \
         --genome=${ASSEMBLY_MASKED} \
         --prot_seq $PROTEIN_DATA \
         --rnaseq_sets_ids=$SRA_IDS \
@@ -166,7 +168,7 @@ elif [ $# -eq 4 ]; then
         --AUGUSTUS_CONFIG_PATH=${wd}/AUGUSTUS_config \
         --useexisting
 else
-    singularity exec -B ${wd}:${wd} -B ${PROT_DIR}:${PROT_DIR} -B ${ASS_DIR}:${ASS_DIR} braker3.sif braker.pl \
+    singularity exec -B "${wd}:${wd}" -B "${PROT_DIR}:${PROT_DIR}" -B "${ASS_DIR}:${ASS_DIR}" braker3.sif braker.pl \
         --genome=${ASSEMBLY_MASKED} \
         --prot_seq $PROTEIN_DATA \
         --threads 20 \
