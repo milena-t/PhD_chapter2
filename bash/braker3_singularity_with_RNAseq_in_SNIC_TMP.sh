@@ -3,11 +3,18 @@
 # this script takes input variables:
 # $1 (first after the script name) is the name of the species and also the output directory that will be created
 # $2 is the absolute path to the masked assembly of that species
+# $3 protein reference data such as orthodb arthropoda
+# optional:
+# $4 SRR numbers or sample IDs
+# $5 if sample IDs then DIR in which they are stored
+# see https://github.com/Gaius-Augustus/BRAKER#braker-with-rna-seq-data for details
+
+########!! DO NOT USE SYMLINKS OR THE SINGULARITY CONTAINER WON'T FIND THE DATA!!!
 
 # example run:
-# sbatch --job-name="C_septempunctata" --output="C_septempunctata_braker.out" /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/annotation_pipeline/braker3_singularity_all_species_proteinseqs.sh C_septempunctata assembly_genomic.fna
-# sbatch --job-name="C_maculatus" --output="C_maculatus_Lu2024_braker.out" braker3_singularity_all_species_proteinseqs.sh C_maculatus_Lu2024 /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/annotation_pipeline/Cmac_Lu2024_comparison/braker/GCA_040182625.1_Cmac_2024_genomic.fna
-# sbatch --job-name="D_ponderosae" --output="D_ponderosae_braker.out" /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/annotation_pipeline/braker3_singularity_all_species_proteinseqs.sh D_ponderosae /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/coleoptera_sequences/d_ponderosae/GCA_020466635.2_Dpon_M_20191212v2_genomic.fna
+# sbatch --job-name="C_septempunctata" --output="C_septempunctata_braker.out" /proj/naiss2023-6-65/Milena/annotation_pipeline/braker3_singularity_all_species_proteinseqs.sh C_septempunctata assembly_genomic.fna
+# sbatch --job-name="C_maculatus" --output="C_maculatus_Lu2024_braker.out" braker3_singularity_all_species_proteinseqs.sh C_maculatus_Lu2024 /proj/naiss2023-6-65/Milena/annotation_pipeline/Cmac_Lu2024_comparison/braker/GCA_040182625.1_Cmac_2024_genomic.fna
+# sbatch --job-name="D_ponderosae" --output="D_ponderosae_braker.out" /proj/naiss2023-6-65/Milena/annotation_pipeline/braker3_singularity_all_species_proteinseqs.sh D_ponderosae /proj/naiss2023-6-65/Milena/coleoptera_sequences/d_ponderosae/GCA_020466635.2_Dpon_M_20191212v2_genomic.fna
 
 
 #SBATCH -A uppmax2026-1-8
@@ -36,80 +43,114 @@ fi
 
 SPECIES=$1
 ASSEMBLY_MASKED=$2
-PROTEIN_DATA_outside=$3
+PROTEIN_DATA=$3
 # $4 is optional for RNA reference data by SRR number 
+# $5 is optional if local fastq files are used in $4 and you specify a directory
 
 
 # run the script from this directory. It's species-specific
-# export wd=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/annotation_pipeline/only_orthodb_annotation/$SPECIES
+# export wd=/proj/naiss2023-6-65/Milena/annotation_pipeline/only_orthodb_annotation/$SPECIES
 export home_wd=${PWD}/${SPECIES}
 
 if [ -d ${home_wd} ]; then
-    echo "Working directory already exists: ${home_wd}"
+    echo " * Working directory already exists: ${home_wd}"
 else
     mkdir $home_wd
-    echo "created directory: $home_wd"
+    echo " * created directory: $home_wd"
 fi
 
-export wd=${SNIC_TMP}/${SPECIES}
-#ASSEMBLY_MASKED=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/coleoptera_sequences/c_chinensis/chinensis_from_uppmax.fasta.masked
+export wd=${TMPDIR}/${SPECIES}
+#ASSEMBLY_MASKED=/proj/naiss2023-6-65/Milena/coleoptera_sequences/c_chinensis/chinensis_from_uppmax.fasta.masked
 
 if [ -d ${wd} ]; then
-    echo "Working directory in temporary directory already exists: ${wd}"
+    echo " * Working directory in temporary directory already exists: ${wd}"
 else
     mkdir $wd
-    echo "created directory in SNIC_TMP: $wd"
+    echo " * created directory in TMPDIR: $wd"
 fi
 
 cd $wd
+echo " * working in: $(pwd)"
+
 
 # link braker.sif file
-ln -s /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/annotation_pipeline/braker3.sif braker3.sif
-# link proteinfasta 
-cp ${PROTEIN_DATA_outside} .
-PROTEIN_DATA=$(basename $PROTEIN_DATA_outside)
-
-echo "-------------------------------"
-ls -lh
-echo "-------------------------------"
+ln -s /proj/naiss2023-6-65/Milena/annotation_pipeline/braker3.sif braker3.sif
+# get proteinfasta dir and assembly dir to mount to singularity container to access data
+PROT_DIR="$(dirname "${PROTEIN_DATA}")"
+echo " * inferred directory for PROT_DIR: ${PROT_DIR}"
+ASS_DIR="$(dirname "${ASSEMBLY_MASKED}")"
+echo " * inferred directory for ASS_DIR: ${ASS_DIR}"
 
 # check if the augustus_config direcotry exists,
-export AUGUSTUS_CONFIG_PATH=${wd}/augustus_config
+# export AUGUSTUS_CONFIG_PATH=${wd}/augustus_config
 if [ -d ${wd}/augustus_config ]; then
-    echo "Augustus_config already exists: ${wd}/augustus_config/species"
+    echo " * Augustus_config already exists: ${wd}/augustus_config/species"
 else
-    echo "Augustus config does not exist, create it and change write permissions"
+    echo " * Augustus config does not exist, create it and change write permissions"
     module load AUGUSTUS/3.5.0-gfbf-2024a # so that the source command works
-    source $AUGUSTUS_CONFIG_COPY
-    chmod a+w -R ${wd}/augustus_config/species
+    cp -dR --preserve=mode,timestamps --no-preserve=ownership $AUGUSTUS_CONFIG_PATH AUGUSTUS_config
+    chmod -R +w AUGUSTUS_config
     module unload AUGUSTUS/3.5.0-gfbf-2024a # same as above, some weird shit with conflicting perl versions
-    echo "augustus config path in the function: ${AUGUSTUS_CONFIG_PATH}"
+    export AUGUSTUS_CONFIG_PATH=$PWD/AUGUSTUS_config
+    AUGUSTUS_CONFIG_PATH=$PWD/AUGUSTUS_config
+    echo " * augustus config path: ${AUGUSTUS_CONFIG_PATH}"
 fi
 
-# export PROTEIN_REF_ALL_SPECIES=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/annotation_pipeline/all_proteinrefs_annotation/orthoDB_and_species_proteins.fa
+# export PROTEIN_REF_ALL_SPECIES=/proj/naiss2023-6-65/Milena/annotation_pipeline/all_proteinrefs_annotation/orthoDB_and_species_proteins.fa
 
-export ETP=/sw/arch/eb/software/GeneMark-ET/4.72-GCCcore-13.3.0/ # on rackham: /sw/bioinfo/GeneMark-ETP/1.02-20231213-dd8b37b/rackham/bin
+export ETP=/sw/bioinfo/GeneMark-ETP/1.02-20231213-dd8b37b/rackham/bin
 # the braker example for using the container references this variable in the GENEMARK_PATH flag,
 # Just from the name I assume it's genemark-ETP and not ES
-
-echo "-------------------------------"
-ls -lh
-echo "-------------------------------"
 
 # there should not already be an existing braker output directory in the working directory, otherwise there will be an error that it can't create the genemark-es ouptut file
 if [ -d ${wd}/braker ]; then
   rm -r ${wd}/braker
-  echo "removed preexisting output directory at: ${wd}/braker"
+  echo " * removed preexisting output directory at: ${wd}/braker, proceed with new braker run from scratch"
 else
-  echo "no existing directory at: ${wd}/braker, proceed"
+  echo " * no existing directory at: ${wd}/braker, proceed with braker run from scratch"
 fi
 
 
-# old header:
-# singularity exec -B ${PWD}:${PWD} braker3.sif braker.pl \
-# new: Bind the working directory to ensure it's accessible within the container
-if [ $# -eq 4 ]; then
-    echo "You have included a third command line argument that is assumed to contain SRA-ids for species-specific RNAseq data"
+echo ""
+echo "======================== START BRAKER RUN ========================"
+echo ""
+
+
+# TODO something doesn't work with the augustus config path. there's '//' at the end of it so the path specification doesn't work
+# unclear what the exact issue is, maybe something with the container and the scratch storage?
+if [ $# -eq 5 ]; then
+    echo " * You have included a third command line argument that is assumed to contain fasta-ids for species-specific RNAseq data, as well as the directory in which these are stored"
+    FASTA_IDS=$4
+    echo "FASTA_IDS = ${FASTA_IDS}"
+    FASTA_dir=$5
+    echo "FASTA_dir = ${FASTA_dir}"
+    if [[ $FASTA_dir == *","* ]]; then
+        echo "two input dirs for RNAseq data!"
+        IFS="," read -r RNAdir1 RNAdir2 <<< "$FASTA_dir" # split two input dirs into list
+        echo "    - ${RNAdir1}"
+        echo "    - ${RNAdir2}"
+        singularity exec -B ${wd}:${wd} -B ${AUGUSTUS_CONFIG_PATH}:${AUGUSTUS_CONFIG_PATH} -B ${PROT_DIR}:${PROT_DIR} -B ${ASS_DIR}:${ASS_DIR} -B ${RNAdir1}:${RNAdir1} -B ${RNAdir2}:${RNAdir2} braker3.sif braker.pl \
+            --genome=${ASSEMBLY_MASKED} \
+            --prot_seq $PROTEIN_DATA \
+            --rnaseq_sets_ids=$FASTA_IDS \
+            --rnaseq_sets_dirs=$FASTA_dir \
+            --threads 20 \
+            --GENEMARK_PATH=${ETP}/gmes \
+            --AUGUSTUS_CONFIG_PATH=${wd}/AUGUSTUS_config \
+            --useexisting
+    else
+        singularity exec -B ${wd}:${wd} -B ${PROT_DIR}:${PROT_DIR} -B ${ASS_DIR}:${ASS_DIR} -B ${FASTA_dir}:${FASTA_dir} braker3.sif braker.pl \
+            --genome=${ASSEMBLY_MASKED} \
+            --prot_seq $PROTEIN_DATA \
+            --rnaseq_sets_ids=$FASTA_IDS \
+            --rnaseq_sets_dirs=$FASTA_dir \
+            --threads 20 \
+            --GENEMARK_PATH=${ETP}/gmes \
+            --AUGUSTUS_CONFIG_PATH=${wd}/AUGUSTUS_config \
+            --useexisting
+    fi
+elif [ $# -eq 4 ]; then
+    echo " * You have included a third command line argument that is assumed to contain SRA-ids for species-specific RNAseq data"
     SRA_IDS=$4
     singularity exec -B ${wd}:${wd} braker3.sif braker.pl \
         --genome=${ASSEMBLY_MASKED} \
@@ -117,7 +158,7 @@ if [ $# -eq 4 ]; then
         --rnaseq_sets_ids=$SRA_IDS \
         --threads 20 \
         --GENEMARK_PATH=${ETP}/gmes \
-        --AUGUSTUS_CONFIG_PATH=${wd}/augustus_config \
+        --AUGUSTUS_CONFIG_PATH=${wd}/AUGUSTUS_config \
         --useexisting
 else
     singularity exec -B ${wd}:${wd} braker3.sif braker.pl \
@@ -125,19 +166,20 @@ else
         --prot_seq $PROTEIN_DATA \
         --threads 20 \
         --GENEMARK_PATH=${ETP}/gmes \
-        --AUGUSTUS_CONFIG_PATH=${wd}/augustus_config \
+        --AUGUSTUS_CONFIG_PATH=${wd}/AUGUSTUS_config \
         --useexisting
 fi
 
 
 
-echo "move SNIC_TMP directory to our storage"
+echo "move scratch directory to our storage"
 
 if [ -d ${home_wd}/braker ]; then
   rm -r ${home_wd}/braker
   echo "removed preexisting output directory at: ${home_wd}/braker"
 else
   echo "no existing directory at: ${home_wd}/braker"
+  echo "-> mv $wd/braker $home_wd/braker"
 fi
 mv $wd/braker $home_wd/braker
 
