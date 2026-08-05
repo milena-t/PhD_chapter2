@@ -12,9 +12,9 @@
 ########!! DO NOT USE SYMLINKS OR THE SINGULARITY CONTAINER WON'T FIND THE DATA!!!
 
 # example run:
-# sbatch --job-name="C_septempunctata" --output="C_septempunctata_braker.out" /proj/naiss2023-6-65/Milena/annotation_pipeline/braker3_singularity_all_species_proteinseqs.sh C_septempunctata assembly_genomic.fna
-# sbatch --job-name="C_maculatus" --output="C_maculatus_Lu2024_braker.out" braker3_singularity_all_species_proteinseqs.sh C_maculatus_Lu2024 /proj/naiss2023-6-65/Milena/annotation_pipeline/Cmac_Lu2024_comparison/braker/GCA_040182625.1_Cmac_2024_genomic.fna
-# sbatch --job-name="D_ponderosae" --output="D_ponderosae_braker.out" /proj/naiss2023-6-65/Milena/annotation_pipeline/braker3_singularity_all_species_proteinseqs.sh D_ponderosae /proj/naiss2023-6-65/Milena/coleoptera_sequences/d_ponderosae/GCA_020466635.2_Dpon_M_20191212v2_genomic.fna
+# sbatch --job-name="C_septempunctata" --output="C_septempunctata_braker.out" /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/annotation_pipeline/braker3_singularity_all_species_proteinseqs.sh C_septempunctata assembly_genomic.fna
+# sbatch --job-name="C_maculatus" --output="C_maculatus_Lu2024_braker.out" braker3_singularity_all_species_proteinseqs.sh C_maculatus_Lu2024 /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/annotation_pipeline/Cmac_Lu2024_comparison/braker/GCA_040182625.1_Cmac_2024_genomic.fna
+# sbatch --job-name="D_ponderosae" --output="D_ponderosae_braker.out" /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/annotation_pipeline/braker3_singularity_all_species_proteinseqs.sh D_ponderosae /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/coleoptera_sequences/d_ponderosae/GCA_020466635.2_Dpon_M_20191212v2_genomic.fna
 
 
 #SBATCH -A uppmax2026-1-8
@@ -49,7 +49,7 @@ PROTEIN_DATA=$3
 
 
 # run the script from this directory. It's species-specific
-# export wd=/proj/naiss2023-6-65/Milena/annotation_pipeline/only_orthodb_annotation/$SPECIES
+# export wd=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/annotation_pipeline/only_orthodb_annotation/$SPECIES
 export home_wd=${PWD}/${SPECIES}
 
 if [ -d ${home_wd} ]; then
@@ -60,7 +60,7 @@ else
 fi
 
 export wd=${TMPDIR}/${SPECIES}
-#ASSEMBLY_MASKED=/proj/naiss2023-6-65/Milena/coleoptera_sequences/c_chinensis/chinensis_from_uppmax.fasta.masked
+#ASSEMBLY_MASKED=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/coleoptera_sequences/c_chinensis/chinensis_from_uppmax.fasta.masked
 
 if [ -d ${wd} ]; then
     echo " * Working directory in temporary directory already exists: ${wd}"
@@ -74,7 +74,7 @@ echo " * working in: $(pwd)"
 
 
 # link braker.sif file
-ln -s /proj/naiss2023-6-65/Milena/annotation_pipeline/braker3.sif braker3.sif
+ln -s /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/annotation_pipeline/braker3.sif braker3.sif
 # get proteinfasta dir and assembly dir to mount to singularity container to access data
 PROT_DIR="$(dirname "${PROTEIN_DATA}")"
 echo " * inferred directory for PROT_DIR: ${PROT_DIR}"
@@ -96,7 +96,7 @@ else
     echo " * augustus config path: ${AUGUSTUS_CONFIG_PATH}"
 fi
 
-# export PROTEIN_REF_ALL_SPECIES=/proj/naiss2023-6-65/Milena/annotation_pipeline/all_proteinrefs_annotation/orthoDB_and_species_proteins.fa
+# export PROTEIN_REF_ALL_SPECIES=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/annotation_pipeline/all_proteinrefs_annotation/orthoDB_and_species_proteins.fa
 
 export ETP=/sw/bioinfo/GeneMark-ETP/1.02-20231213-dd8b37b/rackham/bin
 # the braker example for using the container references this variable in the GENEMARK_PATH flag,
