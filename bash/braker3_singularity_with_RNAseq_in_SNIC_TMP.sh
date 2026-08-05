@@ -43,7 +43,7 @@ fi
 
 SPECIES=$1
 ASSEMBLY_MASKED=$2
-PROTEIN_DATA=$3
+PROTEIN_DATA_orig=$3
 # $4 is optional for RNA reference data by SRR number 
 # $5 is optional if local fastq files are used in $4 and you specify a directory
 
@@ -110,6 +110,11 @@ else
   echo " * no existing directory at: ${wd}/braker, proceed with braker run from scratch"
 fi
 
+echo ""
+echo "======================== START BRAKER RUN ========================"
+echo ""
+
+
 
 echo ""
 echo "======================== START BRAKER RUN ========================"
@@ -152,7 +157,7 @@ if [ $# -eq 5 ]; then
 elif [ $# -eq 4 ]; then
     echo " * You have included a third command line argument that is assumed to contain SRA-ids for species-specific RNAseq data"
     SRA_IDS=$4
-    singularity exec -B ${wd}:${wd} braker3.sif braker.pl \
+    singularity exec -B ${wd}:${wd} -B ${PROT_DIR}:${PROT_DIR} -B ${ASS_DIR}:${ASS_DIR} braker3.sif braker.pl \
         --genome=${ASSEMBLY_MASKED} \
         --prot_seq $PROTEIN_DATA \
         --rnaseq_sets_ids=$SRA_IDS \
@@ -161,7 +166,7 @@ elif [ $# -eq 4 ]; then
         --AUGUSTUS_CONFIG_PATH=${wd}/AUGUSTUS_config \
         --useexisting
 else
-    singularity exec -B ${wd}:${wd} braker3.sif braker.pl \
+    singularity exec -B ${wd}:${wd} -B ${PROT_DIR}:${PROT_DIR} -B ${ASS_DIR}:${ASS_DIR} braker3.sif braker.pl \
         --genome=${ASSEMBLY_MASKED} \
         --prot_seq $PROTEIN_DATA \
         --threads 20 \
