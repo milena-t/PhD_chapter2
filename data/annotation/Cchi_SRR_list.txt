@@ -1,0 +1,25 @@
+Run,       ReleaseDate, bases,  LibraryName,      LibraryStrategy,  Platform,              SampleName,             CenterName
+SRR6167202,  2017-10-13,7199400096, T01,               RT-PCR,      Illumina HiSeq 4000,   T01,                    SHANXI AGRICULTURAL UNIVERSITY
+SRR6167201,  2017-10-13,8042179414, T02,               RT-PCR,      Illumina HiSeq 4000,   T02,                    SHANXI AGRICULTURAL UNIVERSITY
+SRR6167204,  2017-10-13,9404493446, T03,               RT-PCR,      Illumina HiSeq 4000,   T03,                    SHANXI AGRICULTURAL UNIVERSITY
+SRR6167203,  2017-10-13,9081198314, T04,               RT-PCR,      Illumina HiSeq 4000,   T04,                    SHANXI AGRICULTURAL UNIVERSITY
+SRR6167200,  2017-10-13,9314790022, T05,               RT-PCR,      Illumina HiSeq 4000,   T05,                    SHANXI AGRICULTURAL UNIVERSITY
+SRR6167199,  2017-10-13,8052995494, T06,               RT-PCR,      Illumina HiSeq 4000,   T06,                    SHANXI AGRICULTURAL UNIVERSITY
+SRR13089448, 2020-11-20,10248794100, CC,               unspecified, Illumina HiSeq 4000,   CC,                     LANZHOU UNIVERSITY
+SRR16474572, 2023-12-30,16537247265, Control,          PCR,         Illumina NovaSeq 6000, Ctontrol,               JIANGSU UNIVERSITY OF SCIENCE AND TECHNOLOGY
+SRR16474571, 2023-12-30,8346954579, Treatment,         PCR,         Illumina NovaSeq 6000, Treatment,              JIANGSU UNIVERSITY OF SCIENCE AND TECHNOLOGY
+SRR19159849, 2026-05-01,13516540500, cchi_male_rep3,   RANDOM,      DNBSEQ-T7,             Cchi_Anhui,             CHINESE ACADEMY OF SCIENCES
+SRR19159850, 2026-05-01,15594453900, cchi_male_rep2,   RANDOM,      DNBSEQ-T7,             Cchi_Anhui,             CHINESE ACADEMY OF SCIENCES
+SRR19159851, 2026-05-01,14790322500, cchi_male_rep1,   RANDOM,      DNBSEQ-T7,             Cchi_Anhui,             CHINESE ACADEMY OF SCIENCES
+SRR19159846, 2026-05-01,14840112300, cchi_female_rep3, RANDOM,      DNBSEQ-T7,             Cchi_Anhui_female,      CHINESE ACADEMY OF SCIENCES
+SRR19159847, 2026-05-01,13553757300, cchi_female_rep2, RANDOM,      DNBSEQ-T7,             Cchi_Anhui_female,      CHINESE ACADEMY OF SCIENCES
+SRR19159848, 2026-05-01,15200035500, cchi_female_rep1, RANDOM,      DNBSEQ-T7,             Cchi_Anhui_female,      CHINESE ACADEMY OF SCIENCES
+SRR18148874, 2022-02-25,7396469500, sample  C2,        RANDOM,      Illumina HiSeq 2000,   pooled_male_and_female, SHANXI AGRICULTURAL UNIVERSITY
+SRR18148875, 2022-02-25,6816939522, sample  C1,        RANDOM,      Illumina HiSeq 2000,   pooled_male_and_female, SHANXI AGRICULTURAL UNIVERSITY
+SRR18148876, 2022-02-25,8107789898, sample  C,         RANDOM,      Illumina HiSeq 2000,   pooled_male_and_female, SHANXI AGRICULTURAL UNIVERSITY
+SRR18148877, 2022-02-25,6264100102, sample  B2,        RANDOM,      Illumina HiSeq 2000,   pooled_male_and_female, SHANXI AGRICULTURAL UNIVERSITY
+SRR18148878, 2022-02-25,6957396198, sample  B1,        RANDOM,      Illumina HiSeq 2000,   pooled_male_and_female, SHANXI AGRICULTURAL UNIVERSITY
+SRR18148879, 2022-02-25,6614381630, sample  B,         RANDOM,      Illumina HiSeq 2000,   pooled_male_and_female, SHANXI AGRICULTURAL UNIVERSITY
+SRR18148880, 2022-02-25,7065711062, sample  A2,        RANDOM,      Illumina HiSeq 2000,   pooled_male_and_female, SHANXI AGRICULTURAL UNIVERSITY
+SRR18148881, 2022-02-25,6650776110, sample  A1,        RANDOM,      Illumina HiSeq 2000,   pooled_male_and_female, SHANXI AGRICULTURAL UNIVERSITY
+SRR18148882, 2022-02-25,6758356934, sample  A,         RANDOM,      Illumina HiSeq 2000,   pooled_male_and_female, SHANXI AGRICULTURAL UNIVERSITY

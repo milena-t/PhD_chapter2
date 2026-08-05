@@ -98,12 +98,57 @@
 
 <h2 id="methods-data">Data</h2>
 
-<h3>Annotation version</h3>
+<h3>Genome annotations</h3>
 
 <p>
     I have two versions of the annotation from chapter 1, the native ones from the NCBI, and the uniform ones without RNAseq data. I think the best of both worlds would be 
-    to use the uniform annotation, and supplement in <i>C. maculatus</i> with comprehensive RNAseq data to tag expressed genes.
+    to use the heterogeneous but RNA-seq supported annotation, to get genes likely to be expressed, and supplement with blast searches against the (nonmasked parts of the) assembly to identify
+    potetially nonexpressed or pseudogenized paralogs.
 </p>
+<p>
+    I will make new annotations for <i>A. obtectus</i> using the E and L expression data and that one larval sample I found, and <i>C. chinensis</i> using expsting expression data from a heatshock experiment
+    from shanxi university. for <i>C. maculatus</i> I will reuse the manually curated Lomé RNA based annotation. All other species have existing RNAseq annotations.
+</p>
+
+<p>
+    I will reuse the BRAKER3 script I wrote for chapter 1.
+</p>
+
+
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'annotation_res_A_obtectus')"><i>A. obtectus</i></button>
+    <button class="tablinks" onclick="openTab(event, 'annotation_res_C_chinensis')"><i>C. chinensis</i></button>
+</div>
+<div id="annotation_res_A_obtectus" class="tabcontent">
+    <p>
+        Since the whole RNA data from E and L lines plus that one larval sample would be 65 samples, which is a lot, I am downsampling to only biological replicates (and remove technical replicates 
+        on different lanes), as well as only two biological replicates, leaving 16 samples plus the larval data.
+    </p>
+
+    <iframe
+        src="data/annotation/Aobt_SRR_list.txt"
+        frameBorder="0"
+        class=""
+        scrolling="auto"
+        style="width:100%; height:20vh;">
+    </iframe>
+
+</div>
+
+<div id="annotation_res_C_chinensis" class="tabcontent">
+    <p>
+        All <i>C. chinensis</i> paired end RNA reads on the NCBI. I only remove SRR13089448 with an unspecified library prep strategy.
+    </p>
+    <iframe
+        src="data/annotation/Cchi_SRR_list.txt"
+        frameBorder="0"
+        class=""
+        scrolling="auto"
+        style="width:100%; height:20vh;">
+    </iframe>
+</div>
+
+
 
 <h3 id="methods-species">Species selection</h3>
 
@@ -214,8 +259,8 @@ obtectus/obtectus/Sample_VA-3193-LEfixed_M.sort.MarkDup.RG.filter.bam.idxstats</
     </p>
     <p>
         <b>Sample sex determination according to SATC:</b> <br>
-        The male and female samples for <code>LE1</code> were accidentally swapped, so I renamed them <code>LEfixed</code> with the right sex assignment. But it seems like it 
-        would have been right before? I am unsure what is going on here, I will just remove the <code>LE</code> samples all together since <code>LE2</code> is also wrong.
+        The male and female samples for <code>LE1</code> were accidentally swapped, so I renamed them <code>LEfixed</code> with the right sex assignment. From the below PCA  it looks like 
+        <code>EL</code> is separated along PC1 and <code>LE</code> along PC2, so I will just remove the <code>LE</code> samples all together since SATC seems to have problems with that diagonal.
         <pre><code>"Sample_VA-3193-EL1-F"      "homomorphic"  
 "Sample_VA-3193-EL1-M"      "heteromorphic"
 "Sample_VA-3193-EL4-F"      "homomorphic"  
@@ -294,6 +339,13 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
     </div>
     <div style="clear: both;"></div>
 </div>
+
+
+<h1 id="results">Results</h1>
+
+<h2 id="res-wga">pairwise whole genome alignments</h2>
+
+
 
 </div>
 </div>
