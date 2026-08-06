@@ -128,13 +128,20 @@ echo "======================== START BRAKER RUN ========================"
 echo ""
 
 echo "----------------- storage in the container -----------------" 
-echo "singularity exec braker3.sif df -h ${wd}"
-singularity exec braker3.sif df -h ${wd}
-echo "singularity exec braker3.sif df -i ${wd}"
-singularity exec braker3.sif df -i ${wd}
-echo "singularity exec braker3.sif env | grep -i tmp"
-singularity exec braker3.sif env | grep -i tmp
+echo "singularity exec -B "${wd}:${wd}" braker3.sif df -h ${wd}"
+singularity exec -B "${wd}:${wd}" braker3.sif df -h ${wd}
+echo "singularity exec -B "${wd}:${wd}" braker3.sif df -i ${wd}"
+singularity exec -B "${wd}:${wd}" braker3.sif df -i ${wd}
+echo "singularity exec -B "${wd}:${wd}" braker3.sif env | grep -i tmp"
+singularity exec -B "${wd}:${wd}" braker3.sif env | grep -i tmp
 echo "------------------------------------------------------------"
+
+while true; do
+  echo "----------------- $(date) -----------------"
+  singularity exec -B "${wd}:${wd}" braker3.sif df -h /scratch
+  singularity exec -B "${wd}:${wd}" braker3.sif df -i /scratch
+  sleep 300
+done >> ${SPECIES}_${SLURM_JOB_ID}_scratch_monitor.log 2>&1 &
 
 # TODO something doesn't work with the augustus config path. there's '//' at the end of it so the path specification doesn't work
 # unclear what the exact issue is, maybe something with the container and the scratch storage?
