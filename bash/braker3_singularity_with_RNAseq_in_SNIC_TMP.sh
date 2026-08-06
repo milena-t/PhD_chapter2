@@ -118,6 +118,9 @@ df -h ${wd}
 echo "df -i ${wd}   : "
 df -i ${wd}
 echo "-------------------------------------------"
+echo "df -h /dev/shm     :"
+df -h /dev/shm
+echo "-------------------------------------------"
 
 echo ""
 echo "======================== START BRAKER RUN ========================"
@@ -210,6 +213,9 @@ echo "df -h ${wd}   : "
 df -h ${wd}
 echo "df -i ${wd}   : "
 df -i ${wd}
+echo "-------------------------------------------"
+echo "df -h /dev/shm     :"
+df -h /dev/shm
 echo "-------------------------------------------"
 
 echo "move scratch directory to our storage"
