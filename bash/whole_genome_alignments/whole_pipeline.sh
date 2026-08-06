@@ -37,10 +37,10 @@ MUMMER_PATH=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/mummer-
 
 ### run mummer alignment
 echo " >>>>>>>>>> ALIGNMENT"
-echo "nucmer -maxmatch -p $OUT_PREFIX -t 16 $REFERENCE $QUERY"
+echo "nucmer -l 100 --maxmatch -p $OUT_PREFIX -t 16 $REFERENCE $QUERY"
 echo "... running nucmer alignment"
 
-$MUMMER_PATH/nucmer --maxmatch -p $OUT_PREFIX -t 16 $REFERENCE $QUERY
+$MUMMER_PATH/nucmer -l 100 --maxmatch -p $OUT_PREFIX -t 16 $REFERENCE $QUERY
 NUCMER_OUTFILE="${OUT_PREFIX}.delta"
 echo "alignment done! -> ${NUCMER_OUTFILE}"
 echo 
