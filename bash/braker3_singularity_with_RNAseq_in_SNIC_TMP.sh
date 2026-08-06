@@ -135,7 +135,8 @@ singularity exec -B "${wd}:${wd}" braker3.sif df -i ${wd}
 echo "singularity exec -B "${wd}:${wd}" braker3.sif env | grep -i tmp"
 singularity exec -B "${wd}:${wd}" braker3.sif env | grep -i tmp
 echo "--------------------------------------------------------------------"
-
+echo "real time storage monitoring in : ${SPECIES}_${SLURM_JOB_ID}_scratch_monitor.log"
+echo "--------------------------------------------------------------------"
 
 while true; do
   echo "----------------- $(date) -----------------"
