@@ -47,7 +47,9 @@ PROTEIN_DATA=$3
 # $4 is optional for RNA reference data by SRR number 
 # $5 is optional if local fastq files are used in $4 and you specify a directory
 
-
+echo "------------------- Job ID -------------------"
+echo $SLURM_JOB_ID
+echo "----------------------------------------------"
 # run the script from this directory. It's species-specific
 # export wd=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/annotation_pipeline/only_orthodb_annotation/$SPECIES
 export home_wd=${PWD}/${SPECIES}
