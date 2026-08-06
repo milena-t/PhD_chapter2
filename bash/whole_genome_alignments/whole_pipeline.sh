@@ -8,7 +8,7 @@
 #SBATCH -o mummer_alignment.log
 
 # module load bioinfo-tools
-module load BEDTools
+module load BEDTools MUMmer/4.0.1-GCCcore-13.3.0
 # module load MUMmer/4.0.0rc1
 
 REFERENCE=$1
