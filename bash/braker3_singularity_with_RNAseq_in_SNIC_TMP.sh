@@ -207,9 +207,14 @@ if [ -d ${home_wd}/braker ]; then
   rm -r ${home_wd}/braker
   echo "removed preexisting output directory at: ${home_wd}/braker"
 else
-  echo "no existing directory at: ${home_wd}/braker"
+  echo "no previously existing directory at: ${home_wd}/braker"
   echo "-> mv $wd/braker $home_wd/braker"
 fi
 mv $wd/braker $home_wd/braker
+
+echo ""
+echo "================ scontrol show job ${SLURM_JOB_ID} ================"
+scontrol show job $SLURM_JOB_ID
+echo "==================================================================="
 
 echo "done!"
