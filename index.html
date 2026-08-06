@@ -118,11 +118,12 @@
 <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'annotation_res_A_obtectus')"><i>A. obtectus</i></button>
     <button class="tablinks" onclick="openTab(event, 'annotation_res_C_chinensis')"><i>C. chinensis</i></button>
+    <button class="tablinks" onclick="openTab(event, 'annotation_res_B_varius')"><i>B. varius</i></button>
 </div>
 <div id="annotation_res_A_obtectus" class="tabcontent">
     <p>
-        Since the whole RNA data from E and L lines plus that one larval sample would be 65 samples, which is a lot, I am downsampling to only biological replicates (and remove technical replicates 
-        on different lanes), as well as only two biological replicates, leaving 16 samples plus the larval data.
+        Since the whole RNA data from E and L lines plus that one larval sample would be 65 samples, which is a lot, and the node scratch storage runs out (?) 
+        I am downsampling to only biological replicates (and remove technical replicates on different lanes), and use only the E1 samples.
     </p>
 
     <iframe
@@ -137,7 +138,8 @@
 
 <div id="annotation_res_C_chinensis" class="tabcontent">
     <p>
-        All <i>C. chinensis</i> paired end RNA reads on the NCBI. I only remove SRR13089448 with an unspecified library prep strategy.
+        All <i>C. chinensis</i> paired end RNA reads on the NCBI. I remove SRR13089448 with an unspecified library prep strategy, and then use only controls and 
+        one biological replicate.
     </p>
     <iframe
         src="data/annotation/Cchi_SRR_list.txt"
@@ -148,6 +150,15 @@
     </iframe>
 </div>
 
+<div id="annotation_res_B_varius" class="tabcontent">
+    <p>
+        It is already repeatmasked, there are 625781594 lowercase bases, 584144406 uppercase bases, and 125800 N's. This means there are about 50% repeatmasked, which seems very low for a genome of 
+        this size. 
+    </p>
+    <p>
+        For RNAseq, there is only <code>ERR14379121</code>
+    </p>
+</div>
 
 
 <h3 id="methods-species">Species selection</h3>
@@ -174,7 +185,6 @@
         &rarr; all <i>Chrysomelidae</i> that have a Y and an annotation on the NCBI
             <pre><code>GCA_058970975.1	Acanthoscelides obtectus
 GCA_949316355.1	Bruchidius siliquastri
-GCA_964204745.1	Bruchidius varius
 GCA_058970565.1	Callosobruchus maculatus (Chinese academy of sciences)
 GCA_026250575.1	Diorhabda carinulata # this is the one with the annotation, but the ritght X is only in GCA_026250575.2
 GCA_026230105.1	Diorhabda sublineata</code></pre>
@@ -182,7 +192,9 @@ GCA_026230105.1	Diorhabda sublineata</code></pre>
             <pre><code>Callosobruchus chinensis
 Callosobruchus maculatus Y_s
 Callosobruchus maculatus Y_l</code></pre>
-            other <i>Chrysomelidae</i> with no annotation:
+            There is a sister species to <i>B. siliquastri</i> with a 1.2Gb genome that has no annotation but there is RNAseq data, so I will make an annotation and include it.
+            <pre><code>GCA_964204745.1	Bruchidius varius</code></pre>
+            other <i>Chrysomelidae</i> with a Y chromosome but no annotation:
             <pre><code>GCA_982264245.1	Chrysolina hyperici
 GCA_958507055.1	Crioceris asparagi
 GCA_963576515.1	Cryptocephalus primarius

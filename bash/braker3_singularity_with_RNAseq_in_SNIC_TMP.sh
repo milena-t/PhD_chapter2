@@ -112,6 +112,12 @@ else
   echo " * no existing directory at: ${wd}/braker, proceed with braker run from scratch"
 fi
 
+echo "----------------- storage -----------------" 
+echo "df -h ${wd}   : "
+df -h ${wd}
+echo "df -i ${wd}   : "
+df -i ${wd}
+echo "-------------------------------------------"
 
 echo ""
 echo "======================== START BRAKER RUN ========================"
@@ -199,7 +205,12 @@ else
         --useexisting
 fi
 
-
+echo "----------------- storage -----------------" 
+echo "df -h ${wd}   : "
+df -h ${wd}
+echo "df -i ${wd}   : "
+df -i ${wd}
+echo "-------------------------------------------"
 
 echo "move scratch directory to our storage"
 
