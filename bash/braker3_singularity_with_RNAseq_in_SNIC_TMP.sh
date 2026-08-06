@@ -127,14 +127,15 @@ echo ""
 echo "======================== START BRAKER RUN ========================"
 echo ""
 
-echo "----------------- storage in the container -----------------" 
+echo "----------------- scratch storage in the container -----------------" 
 echo "singularity exec -B "${wd}:${wd}" braker3.sif df -h ${wd}"
 singularity exec -B "${wd}:${wd}" braker3.sif df -h ${wd}
 echo "singularity exec -B "${wd}:${wd}" braker3.sif df -i ${wd}"
 singularity exec -B "${wd}:${wd}" braker3.sif df -i ${wd}
 echo "singularity exec -B "${wd}:${wd}" braker3.sif env | grep -i tmp"
 singularity exec -B "${wd}:${wd}" braker3.sif env | grep -i tmp
-echo "------------------------------------------------------------"
+echo "--------------------------------------------------------------------"
+
 
 while true; do
   echo "----------------- $(date) -----------------"
