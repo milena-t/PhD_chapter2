@@ -6,7 +6,7 @@ ASS_DIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/annotation_pipeline/
 sbatch --job-name="A_obtectus_annotation" --output="A_obtectus_annotation.out" -t 5-00:00:00 \
 /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/bash/braker3_singularity_with_RNAseq_in_SNIC_TMP.sh \
 A_obtectus ${ASS_DIR}/A_obtectus/assembly_genomic.fna.masked \
-$ORTHODB_ARTHROPODA SRR7881623,SRR7881590,SRR7881629,SRR7881599
+$ORTHODB_ARTHROPODA SRR7881623,SRR7881590,SRR7881629,SRR7881599,SRR24951591
 
 sbatch --job-name="C_chinensis_annotation" --output="C_chinensis_annotation.out" -t 5-00:00:00 \
 /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/bash/braker3_singularity_with_RNAseq_in_SNIC_TMP.sh \

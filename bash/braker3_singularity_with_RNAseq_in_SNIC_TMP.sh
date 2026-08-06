@@ -122,10 +122,19 @@ echo "df -h /dev/shm     :"
 df -h /dev/shm
 echo "-------------------------------------------"
 
+
 echo ""
 echo "======================== START BRAKER RUN ========================"
 echo ""
 
+echo "----------------- storage in the container -----------------" 
+echo "singularity exec braker3.sif df -h ${wd}"
+singularity exec braker3.sif df -h ${wd}
+echo "singularity exec braker3.sif df -i ${wd}"
+singularity exec braker3.sif df -i ${wd}
+echo "singularity exec braker3.sif env | grep -i tmp"
+singularity exec braker3.sif env | grep -i tmp
+echo "------------------------------------------------------------"
 
 # TODO something doesn't work with the augustus config path. there's '//' at the end of it so the path specification doesn't work
 # unclear what the exact issue is, maybe something with the container and the scratch storage?
@@ -175,15 +184,13 @@ if [ $# -eq 5 ]; then
             --useexisting
     fi
 elif [ $# -eq 4 ]; then
+    SRA_IDS=$4
     echo " * You have included a third command line argument that is assumed to contain SRA-ids for species-specific RNAseq data"
     echo "----------------- bind mounts -----------------" 
     echo "wd       : ${wd}"
     echo "PROT_DIR : ${PROT_DIR}"
     echo "ASS_DIR  : ${ASS_DIR}"
     echo "-----------------------------------------------"
-
-
-    SRA_IDS=$4
     singularity exec -B "${wd}:${wd}" -B "${PROT_DIR}:${PROT_DIR}" -B "${ASS_DIR}:${ASS_DIR}" braker3.sif braker.pl \
         --genome=${ASSEMBLY_MASKED} \
         --prot_seq $PROTEIN_DATA \
@@ -208,15 +215,25 @@ else
         --useexisting
 fi
 
-echo "----------------- storage -----------------" 
+echo "----------------- storage in the container -----------------" 
+echo "singularity exec braker3.sif df -h ${wd}"
+singularity exec braker3.sif df -h ${wd}
+echo "singularity exec braker3.sif df -i ${wd}"
+singularity exec braker3.sif df -i ${wd}
+echo "singularity exec braker3.sif env | grep -i tmp"
+singularity exec braker3.sif env | grep -i tmp
+echo "------------------------------------------------------------"
+echo ""
+echo ""
+echo "----------------- storage outside -----------------" 
 echo "df -h ${wd}   : "
 df -h ${wd}
 echo "df -i ${wd}   : "
 df -i ${wd}
-echo "-------------------------------------------"
+echo "----------------------------------------------------"
 echo "df -h /dev/shm     :"
 df -h /dev/shm
-echo "-------------------------------------------"
+echo "----------------------------------------------------"
 
 echo "move scratch directory to our storage"
 
