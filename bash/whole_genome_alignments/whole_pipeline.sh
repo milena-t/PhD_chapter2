@@ -30,10 +30,10 @@ echo "outfiles prefix: ${OUT_PREFIX}"
 ### mummer installed from tarball https://github.com/mummer4/mummer/releases/download/v4.0.1/mummer-4.0.1.tar.gz
 # tar -xvzf mummer-4.0.1.tar.gz
 # cd mummer-4.0.1
-# ./configure --prefix=/proj/naiss2023-6-65/Milena/chapter2/mummer-4.0.1
+# ./configure --prefix=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/mummer-4.0.1
 # make
 # make install
-MUMMER_PATH=/proj/naiss2023-6-65/Milena/chapter2/mummer-4.0.1
+MUMMER_PATH=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/mummer-4.0.1
 
 ### run mummer alignment
 echo " >>>>>>>>>> ALIGNMENT"
@@ -63,6 +63,6 @@ echo
 echo " >>>>>>>>>> BREAKPOINTS"
 echo "using the script from the Backström group:"
 echo "https://github.com/EBC-butterfly-genomics-team/Leptidea_chromosome_research2022/blob/main/Scripts/Breakpoint_analysis/identify_chr_breakpoins.sh"
-SCRIPT_DIR=/proj/naiss2023-6-65/Milena/chapter2/PhD_chapter2/bash/whole_genome_alignments
+SCRIPT_DIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/bash/whole_genome_alignments
 bash $SCRIPT_DIR/identify_chr_breakpoins.sh $COORDS_ALN
 echo "breakpoints done!"
