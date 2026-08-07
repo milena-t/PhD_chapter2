@@ -364,7 +364,7 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
     <p>
         In order to conserve RAM, I am setting the minimum match length from the default 20 to 100: <code>nucmer -l 100 --maxmatch</code>.
     </p>
-    <p>I filter the alignment with <code>nucmer -l 100 --maxmatch</code></p>
+    <p>I run the alignment with <code>nucmer -l 100 --maxmatch</code> and then filter with <code>delta-filter -m -i 50 -l 1000</code></p>
     
     the output coordinate files have these columns:
 <pre><code>    [S1]    Start of the alignment region in the reference sequence.
@@ -419,51 +419,184 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
     <button class="tablinks" onclick="openTab(event, 'WGA_res_A_obtectus')"><i>A. obtectus</i></button>
     <button class="tablinks" onclick="openTab(event, 'WGA_res_B_siliquastri')"><i>B. siliquastri</i></button>
     <button class="tablinks" onclick="openTab(event, 'WGA_res_B_varius')"><i>B. varius</i></button>
-    <button class="tablinks" onclick="openTab(event, 'WGA_res_C_maculatus')"><i>C. maculatus</i></button>
     <button class="tablinks" onclick="openTab(event, 'WGA_res_C_chinensis')"><i>C. chinensis</i></button>
+    <button class="tablinks" onclick="openTab(event, 'WGA_res_C_maculatus')"><i>C. maculatus</i></button>
     <button class="tablinks" onclick="openTab(event, 'WGA_res_D_carinulata')"><i>D. carinulata</i></button>
     <button class="tablinks" onclick="openTab(event, 'WGA_res_D_sublineata')"><i>D. sublineata</i></button>
 </div>
 
 <div id="WGA_res_A_obtectus" class="tabcontent">
-    <p>Query:</p>
+    <p>x.axis: <i>A. obtectus</i>, y-axis: query</p>
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'WGA_res_A_obtectus_B_siliquastri')"><i>B. siliquastri</i></button>
         <button class="tablinks" onclick="openTab(event, 'WGA_res_A_obtectus_B_varius')"><i>B. varius</i></button>
-        <button class="tablinks" onclick="openTab(event, 'WGA_res_A_obtectus_C_maculatus')"><i>C. maculatus</i></button>
         <button class="tablinks" onclick="openTab(event, 'WGA_res_A_obtectus_C_chinensis')"><i>C. chinensis</i></button>
+        <button class="tablinks" onclick="openTab(event, 'WGA_res_A_obtectus_C_maculatus')"><i>C. maculatus</i></button>
         <button class="tablinks" onclick="openTab(event, 'WGA_res_A_obtectus_D_carinulata')"><i>D. carinulata</i></button>
         <button class="tablinks" onclick="openTab(event, 'WGA_res_A_obtectus_D_sublineata')"><i>D. sublineata</i></button>
     </div>
-    
-    <div id="WGA_res_A_obtectus_B_siliquastri" class="tabcontent"></div>
-    <div id="WGA_res_A_obtectus_B_varius" class="tabcontent"></div>
-    <div id="WGA_res_A_obtectus_C_maculatus" class="tabcontent"></div>
-    <div id="WGA_res_A_obtectus_C_chinensis" class="tabcontent"></div>
-    <div id="WGA_res_A_obtectus_D_carinulata" class="tabcontent"></div>
-    <div id="WGA_res_A_obtectus_D_sublineata" class="tabcontent"></div>
+
+    <div id="WGA_res_A_obtectus_B_siliquastri" class="tabcontent">
+        <p>
+            <img loading="lazy" src="data/pairwise_wga/ref_A_obtectus.masked_query_B_siliquastri.masked.png" width="75%" />
+        </p>
+    </div>
+    <div id="WGA_res_A_obtectus_B_varius" class="tabcontent">
+        <p>
+            <img loading="lazy" src="data/pairwise_wga/ref_A_obtectus.masked_query_B_varius_assembly.png" width="75%" />
+        </p>
+    </div>
+    <div id="WGA_res_A_obtectus_C_chinensis" class="tabcontent">
+        <p>
+            <img loading="lazy" src="data/pairwise_wga/ref_A_obtectus.masked_query_C_chinensis.masked.png" width="75%" />
+        </p>
+    </div>
+    <div id="WGA_res_A_obtectus_C_maculatus" class="tabcontent">
+        <p>
+            <img loading="lazy" src="data/pairwise_wga/ref_A_obtectus.masked_query_C_maculatus.masked.png" width="75%" />
+        </p>
+    </div>
+    <div id="WGA_res_A_obtectus_D_carinulata" class="tabcontent">
+        <p>
+            <img loading="lazy" src="data/pairwise_wga/ref_A_obtectus.masked_query_D_carinulata_assembly.png" width="75%" />
+        </p>
+    </div>
+    <div id="WGA_res_A_obtectus_D_sublineata" class="tabcontent">
+        <p>
+            <img loading="lazy" src="data/pairwise_wga/ref_A_obtectus.masked_query_D_sublineata_assembly.png" width="75%" />
+        </p>
+    </div>
 </div>
 
 <div id="WGA_res_B_siliquastri" class="tabcontent">
+<p>x.axis: <i>B. siliquastri</i>, y-axis: query</p>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'WGA_res_B_siliquastri_B_varius')"><i>B. varius</i></button>
+        <button class="tablinks" onclick="openTab(event, 'WGA_res_B_siliquastri_C_maculatus')"><i>C. maculatus</i></button>
+        <button class="tablinks" onclick="openTab(event, 'WGA_res_B_siliquastri_C_chinensis')"><i>C. chinensis</i></button>
+        <button class="tablinks" onclick="openTab(event, 'WGA_res_B_siliquastri_D_carinulata')"><i>D. carinulata</i></button>
+        <button class="tablinks" onclick="openTab(event, 'WGA_res_B_siliquastri_D_sublineata')"><i>D. sublineata</i></button>
+    </div>
 
-    <button class="tablinks" onclick="openTab(event, 'WGA_res_B_siliquastri_B_varius')"><i>B. varius</i></button>
-    <button class="tablinks" onclick="openTab(event, 'WGA_res_B_siliquastri_C_maculatus')"><i>C. maculatus</i></button>
-    <button class="tablinks" onclick="openTab(event, 'WGA_res_B_siliquastri_C_chinensis')"><i>C. chinensis</i></button>
-    <button class="tablinks" onclick="openTab(event, 'WGA_res_B_siliquastri_D_carinulata')"><i>D. carinulata</i></button>
-    <button class="tablinks" onclick="openTab(event, 'WGA_res_B_siliquastri_D_sublineata')"><i>D. sublineata</i></button>
-
-    <div id="WGA_res_B_siliquastri_B_varius" class="tabcontent"></div>
-    <div id="WGA_res_B_siliquastri_C_maculatus" class="tabcontent"></div>
-    <div id="WGA_res_B_siliquastri_C_chinensis" class="tabcontent"></div>
-    <div id="WGA_res_B_siliquastri_D_carinulata" class="tabcontent"></div>
-    <div id="WGA_res_B_siliquastri_D_sublineata" class="tabcontent"></div>
+    <div id="WGA_res_B_siliquastri_B_varius" class="tabcontent">
+        <p>
+            <img loading="lazy" src="data/pairwise_wga/ref_B_siliquastri.masked_query_B_varius_assembly.png" width="75%" />
+        </p>
+    </div>
+    <div id="WGA_res_B_siliquastri_C_chinensis" class="tabcontent">
+        <p>
+            <img loading="lazy" src="data/pairwise_wga/ref_B_siliquastri.masked_query_C_chinensis.masked.png" width="75%" />
+        </p>
+    </div>
+    <div id="WGA_res_B_siliquastri_C_maculatus" class="tabcontent">
+        <p>
+            <img loading="lazy" src="data/pairwise_wga/ref_B_siliquastri.masked_query_C_maculatus.masked.png" width="75%" />
+        </p>
+    </div>
+    <div id="WGA_res_B_siliquastri_D_carinulata" class="tabcontent">
+        <p>
+            <img loading="lazy" src="data/pairwise_wga/ref_B_siliquastri.masked_query_D_carinulata_assembly.png" width="75%" />
+        </p>
+    </div>
+    <div id="WGA_res_B_siliquastri_D_sublineata" class="tabcontent">
+        <p>
+            <img loading="lazy" src="data/pairwise_wga/ref_B_siliquastri.masked_query_D_sublineata_assembly.png" width="75%" />
+        </p>
+    </div>
 </div>
 
-<div id="WGA_res_B_varius" class="tabcontent"></div>
-<div id="WGA_res_C_maculatus" class="tabcontent"></div>
-<div id="WGA_res_C_chinensis" class="tabcontent"></div>
-<div id="WGA_res_D_carinulata" class="tabcontent"></div>
-<div id="WGA_res_D_sublineata" class="tabcontent"></div>
+<div id="WGA_res_B_varius" class="tabcontent">
+    <p>x.axis: <i>B. varius</i>, y-axis: query</p>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'WGA_res_B_varius_C_maculatus')"><i>C. maculatus</i></button>
+        <button class="tablinks" onclick="openTab(event, 'WGA_res_B_varius_C_chinensis')"><i>C. chinensis</i></button>
+        <button class="tablinks" onclick="openTab(event, 'WGA_res_B_varius_D_carinulata')"><i>D. carinulata</i></button>
+        <button class="tablinks" onclick="openTab(event, 'WGA_res_B_varius_D_sublineata')"><i>D. sublineata</i></button>
+    </div>
+
+    <div id="WGA_res_B_varius_C_chinensis" class="tabcontent">
+        <p>
+            <img loading="lazy" src="data/pairwise_wga/ref_B_varius_assembly_query_C_chinensis.masked.png" width="75%" />
+        </p>
+    </div>
+    <div id="WGA_res_B_varius_C_maculatus" class="tabcontent">
+        <p>
+            <img loading="lazy" src="data/pairwise_wga/ref_B_varius_assembly_query_C_maculatus.masked.png" width="75%" />
+        </p>
+    </div>
+    <div id="WGA_res_B_varius_D_carinulata" class="tabcontent">
+        <p>
+            <img loading="lazy" src="data/pairwise_wga/ref_B_varius_assembly_query_D_carinulata_assembly.png" width="75%" />
+        </p>
+    </div>
+    <div id="WGA_res_B_varius_D_sublineata" class="tabcontent">
+        <p>
+            <img loading="lazy" src="data/pairwise_wga/ref_B_varius_assembly_query_D_sublineata_assembly.png" width="75%" />
+        </p>
+    </div>
+</div>
+
+<div id="WGA_res_C_maculatus" class="tabcontent">
+    <p>x.axis: <i>C. maculatus</i>, y-axis: query</p>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'WGA_res_C_maculatus_C_chinensis')"><i>C. chinensis</i></button>
+        <button class="tablinks" onclick="openTab(event, 'WGA_res_C_maculatus_D_carinulata')"><i>D. carinulata</i></button>
+        <button class="tablinks" onclick="openTab(event, 'WGA_res_C_maculatus_D_sublineata')"><i>D. sublineata</i></button>
+    </div>
+
+    <div id="WGA_res_C_maculatus_C_chinensis" class="tabcontent">
+        <p>
+            <img loading="lazy" src="data/pairwise_wga/ref_C_maculatus.masked_query_C_chinensis.masked.png" width="75%" />
+        </p>
+    </div>
+    <div id="WGA_res_C_maculatus_D_carinulata" class="tabcontent">
+        <p>
+            <img loading="lazy" src="data/pairwise_wga/ref_C_maculatus.masked_query_D_carinulata_assembly.png" width="75%" />
+        </p>
+    </div>
+    <div id="WGA_res_C_maculatus_D_sublineata" class="tabcontent">
+        <p>
+            <img loading="lazy" src="data/pairwise_wga/ref_C_maculatus.masked_query_D_sublineata_assembly.png" width="75%" />
+        </p>
+    </div>
+</div>
+
+<div id="WGA_res_C_chinensis" class="tabcontent">
+    <p>x.axis: <i>C. chinensis</i>, y-axis: query</p>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'WGA_res_C_chinensis_D_carinulata')"><i>D. carinulata</i></button>
+        <button class="tablinks" onclick="openTab(event, 'WGA_res_C_chinensis_D_sublineata')"><i>D. sublineata</i></button>
+    </div>
+
+    <div id="WGA_res_C_chinensis_D_carinulata" class="tabcontent">
+        <p>
+            <img loading="lazy" src="data/pairwise_wga/ref_C_chinensis.masked_query_D_carinulata_assembly.png" width="75%" />
+        </p>
+    </div>
+    <div id="WGA_res_C_chinensis_D_sublineata" class="tabcontent">
+        <p>
+            <img loading="lazy" src="data/pairwise_wga/ref_C_chinensis.masked_query_D_sublineata_assembly.png" width="75%" />
+        </p>
+    </div>
+</div>
+
+<div id="WGA_res_D_carinulata" class="tabcontent">
+    <p>x.axis: <i>D. carinulata</i>, y-axis: query</p>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'WGA_res_D_carinulata_D_sublineata')"><i>D. sublineata</i></button>
+    </div>
+
+    <div id="WGA_res_D_carinulata_D_sublineata" class="tabcontent">
+        <p>
+            <img loading="lazy" src="data/pairwise_wga/ref_D_carinulata_assembly_query_D_sublineata_assembly.png" width="75%" />
+        </p>
+    </div>
+</div>
+
+<div id="WGA_res_D_sublineata" class="tabcontent">
+    <p>x.axis: <i>D. sublineata</i>, y-axis: query</p>
+    <p>Is never the reference, see all other species tabs</p>
+</div>
 
 </div>
 </div>
