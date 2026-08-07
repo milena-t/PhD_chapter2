@@ -5,7 +5,7 @@ SCRIPT_DIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chap
 
 cd /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/pairwise_wga/systematic_pairs
 
-A_obtectus=A_obtectus_assembly.fna
+A_obtectus=A_obtectus.masked.fna
 B_siliquastri=B_siliquastri.masked.fna
 B_varius=B_varius_assembly.fna
 C_maculatus=C_maculatus.masked.fna
@@ -39,6 +39,8 @@ sbatch --job-name="C_chinensis_D_carinulata_WGA" --output="C_chinensis_D_carinul
 sbatch --job-name="C_chinensis_D_sublineata_WGA" --output="C_chinensis_D_sublineata_WGA.out" $SCRIPT_DIR/whole_pipeline.sh "${ASS_DIR}/${C_chinensis}" "${ASS_DIR}/${D_sublineata}"
 
 sbatch --job-name="D_carinulata_D_sublineata_WGA" --output="D_carinulata_D_sublineata_WGA.out" $SCRIPT_DIR/whole_pipeline.sh "${ASS_DIR}/${D_carinulata}" "${ASS_DIR}/${D_sublineata}"
+
+
 
 # sbatch --job-name="Cmac_Aobt_WGA" --output="Cmac_Aobt_WGA.out" $SCRIPT_DIR/whole_pipeline.sh "${ASS_DIR}/${C_maculatus}" "${ASS_DIR}/${A_obtectus}"
 # sbatch --job-name="Cmac_Bsil_WGA" --output="Cmac_Bsil_WGA.out" $SCRIPT_DIR/whole_pipeline.sh "${ASS_DIR}/${C_maculatus}" "${ASS_DIR}/${B_siliquastri}"
