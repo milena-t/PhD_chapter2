@@ -2,7 +2,7 @@
 #SBATCH -A uppmax2026-1-8
 #SBATCH -c 16
 #SBATCH --mem=200G
-#SBATCH -t 1-00:00:00
+#SBATCH -t 10:00:00
 #SBATCH --mail-type=ALL
 #SBATCH -J mummer_alignment
 #SBATCH -o mummer_alignment.log

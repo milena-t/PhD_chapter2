@@ -35,8 +35,9 @@ do
         jobname="${SPECIES1_name}_${SPECIES2_name}_WGA"
         echo "species1 : ${SPECIES1_name}"
         echo "species2 : ${SPECIES2_name}"
-        echo "logfile : ${logfile}"    
-        echo "jobname : ${jobname}"
+        echo "sbatch --job-name=${jobname} --output=${logfile} $SCRIPT_DIR/whole_pipeline.sh ${ASS_DIR}/${SPECIES1} ${ASS_DIR}/${SPECIES2}"
+
+        sbatch --job-name="${jobname}" --output="${logfile}" $SCRIPT_DIR/whole_pipeline.sh "${ASS_DIR}/${SPECIES1}" "${ASS_DIR}/${SPECIES2}"
         echo ""
 
     done
