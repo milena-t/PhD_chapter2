@@ -47,8 +47,8 @@ echo
 
 echo " >>>>>>>>>> FILTERING"
 
-echo "delta-filter -m -i 50 -l 5000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered"
-$MUMMER_PATH/delta-filter -m -i 50 -l 2000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
+echo "delta-filter -m -i 50 -l 1000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered"
+$MUMMER_PATH/delta-filter -m -i 50 -l 1000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
 # echo "$MUMMER_PATH/delta-filter -m $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered"
 # $MUMMER_PATH/delta-filter -m $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
 
