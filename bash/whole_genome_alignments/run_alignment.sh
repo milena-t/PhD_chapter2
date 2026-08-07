@@ -14,7 +14,7 @@ D_carinulata=D_carinulata_assembly.fna
 D_sublineata=D_sublineata_assembly.fna
 
 sbatch --job-name="A_obtectus_B_siliquastri_WGA" --output="A_obtectus_B_siliquastri_WGA.out" $SCRIPT_DIR/whole_pipeline.sh "${ASS_DIR}/${A_obtectus}" "${ASS_DIR}/${B_siliquastri}"
-# sbatch --job-name="A_obtectus_B_varius_WGA" --output="A_obtectus_B_varius_WGA.out" $SCRIPT_DIR/whole_pipeline.sh "${ASS_DIR}/${A_obtectus}" "${ASS_DIR}/${B_varius}"
+sbatch --job-name="A_obtectus_B_varius_WGA" --output="A_obtectus_B_varius_WGA.out" $SCRIPT_DIR/whole_pipeline.sh "${ASS_DIR}/${A_obtectus}" "${ASS_DIR}/${B_varius}"
 sbatch --job-name="A_obtectus_C_maculatus_WGA" --output="A_obtectus_C_maculatus_WGA.out" $SCRIPT_DIR/whole_pipeline.sh "${ASS_DIR}/${A_obtectus}" "${ASS_DIR}/${C_maculatus}"
 sbatch --job-name="A_obtectus_C_chinensis_WGA" --output="A_obtectus_C_chinensis_WGA.out" $SCRIPT_DIR/whole_pipeline.sh "${ASS_DIR}/${A_obtectus}" "${ASS_DIR}/${C_chinensis}"
 sbatch --job-name="A_obtectus_D_carinulata_WGA" --output="A_obtectus_D_carinulata_WGA.out" $SCRIPT_DIR/whole_pipeline.sh "${ASS_DIR}/${A_obtectus}" "${ASS_DIR}/${D_carinulata}"
