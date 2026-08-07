@@ -18,22 +18,25 @@ for SPECIES1 in $A_obtectus $B_siliquastri $B_varius $C_maculatus $C_chinensis $
 do  
 
     SPECIES1_name="${SPECIES1##*/}"
-    SPECIES1_name="${SPECIES1_name%.*}"
+    SPECIES1_name="${SPECIES1_name%.masked.fna*}"
 
     for SPECIES2 in $A_obtectus $B_siliquastri $B_varius $C_maculatus $C_chinensis $D_carinulata $D_sublineata
     do
 
         SPECIES2_name="${SPECIES2##*/}"
-        SPECIES2_name="${SPECIES2_name%.*}"
+        SPECIES2_name="${SPECIES2_name%.masked.fna*}"
 
         if [[ "${SPECIES1_name}" == "${SPECIES2_name}" ]]
         then
             continue
         fi
 
+        logfile="${SPECIES1_name}_${SPECIES2_name}_WGA.out"
+        jobname="${SPECIES1_name}_${SPECIES2_name}_WGA"
         echo "species1 : ${SPECIES1_name}"
         echo "species2 : ${SPECIES2_name}"
-
+        echo "logfile : ${logfile}"    
+        echo "jobname : ${jobname}"
         echo ""
 
     done
