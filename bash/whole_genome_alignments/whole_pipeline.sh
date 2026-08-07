@@ -40,7 +40,7 @@ echo " >>>>>>>>>> ALIGNMENT"
 echo "nucmer -l 100 --maxmatch -p $OUT_PREFIX -t 16 $REFERENCE $QUERY"
 echo "... running nucmer alignment"
 
-$MUMMER_PATH/nucmer -l 100 --maxmatch -p $OUT_PREFIX -t 16 $REFERENCE $QUERY
+# $MUMMER_PATH/nucmer -l 100 --maxmatch -p $OUT_PREFIX -t 16 $REFERENCE $QUERY
 NUCMER_OUTFILE="${OUT_PREFIX}.delta"
 echo "alignment done! -> ${NUCMER_OUTFILE}"
 echo 
@@ -48,7 +48,7 @@ echo
 echo " >>>>>>>>>> FILTERING"
 
 echo "delta-filter -m -i 50 -l 5000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered"
-$MUMMER_PATH/delta-filter -m -i 50 -l 5000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
+$MUMMER_PATH/delta-filter -m -i 50 -l 2000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
 # echo "$MUMMER_PATH/delta-filter -m $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered"
 # $MUMMER_PATH/delta-filter -m $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
 
