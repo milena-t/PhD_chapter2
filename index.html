@@ -732,16 +732,53 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 <h3>sex chromosome alignments</h3>
 
 <p>
-    There is not a lot of whole-genome overlap for these species, but the protein synteny is probably very high, <span style="color: #BD351E">TODO</span>
+    There is not a lot of whole-genome overlap for these species, but the protein synteny is probably much higher.
 </p>
 <details>
     <summary>heatmaps</summary>
-    <p float="left">
-        <img loading="lazy" src="data/pairwise_wga/X_chr_alignment_coverage_heatmap.png" width="49%" />
-        <img loading="lazy" src="data/pairwise_wga/Y_chr_alignment_coverage_heatmap.png" width="49%" />
-    </p>
-
+    <p style="margin-top: 1em;"></p>
+    <div style="float: left;width: 48%;">
+        <p><b>X-chromosome</b></p>
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'heatmap_log_X')">log colors</button>
+            <button class="tablinks" onclick="openTab(event, 'heatmap_norm_X')">normal colors</button>
+        </div>
+        <div id="heatmap_log_X" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/pairwise_wga/X_chr_log_alignment_coverage_heatmap.png" width="100%" />
+            </p>
+        </div>
+        <div id="heatmap_norm_X" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/pairwise_wga/X_chr_alignment_coverage_heatmap.png" width="100%" />
+            </p>
+        </div>
+    </div>
+    <div style="float: right;width: 48%;">
+        <p><b>Y-chromosome</b></p>
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'heatmap_log_Y')">log colors</button>
+            <button class="tablinks" onclick="openTab(event, 'heatmap_norm_Y')">normal colors</button>
+        </div>
+        <div id="heatmap_log_Y" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/pairwise_wga/Y_chr_log_alignment_coverage_heatmap.png" width="100%" />
+            </p>
+        </div>
+        <div id="heatmap_norm_Y" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/pairwise_wga/Y_chr_alignment_coverage_heatmap.png" width="100%" />
+            </p>
+        </div>
+    </div>
+    <div style="clear: both;">
+    </div>
 </details>
+
+<h2>Synteny</h2>
+
+<p><span style="color: #BD351E">TODO: check blast BRHs, how many of any X chr are on also the X in other species</span></p>
+
 
 </div>
 </div>

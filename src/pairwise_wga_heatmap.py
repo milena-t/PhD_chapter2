@@ -4,6 +4,8 @@ and they do: "percentage of reference, as shown on the x axis, covered by the qu
 """
 
 import sex_chromosomes
+
+import math
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -134,7 +136,7 @@ def count_ref_aln_coordinates(aln_filtered_coords_path, ref_faidx_dict, contig_l
             return 0
 
 
-def make_array_for_heatmap(aln_coord_files, sex_chr_dict, chr = "X",verbose=False):
+def make_array_for_heatmap(aln_coord_files, sex_chr_dict, chr = "X",verbose=False, log_transform=False):
     """
     make np.array to plot heatmap
     """
@@ -153,15 +155,18 @@ def make_array_for_heatmap(aln_coord_files, sex_chr_dict, chr = "X",verbose=Fals
             index_2 = species_index[query_species]
             quot_bases = count_ref_aln_coordinates(aln_filtered_coords_path=aln_coords_path, ref_faidx_dict=faidx_dicts[ref_species], contig_list=ref_X)
             perc_bases = quot_bases*100
+            if log_transform and perc_bases!= 0:
+                perc_bases = math.log(perc_bases)
+                
             perc_overlap[index_1, index_2] = perc_bases
-            if verbose:
+            if verbose and not log_transform:
                 print(f"{query_species} : {perc_bases:.4f} %")
     
     return perc_overlap,species_list
 
 
 
-def plot_heatmap(counts_array, species_list, filename = "BRH_orthologs_heatmap.png", title = f"pairwise orthologs counts"):
+def plot_heatmap(counts_array, species_list, filename = "BRH_orthologs_heatmap.png", title = f"pairwise orthologs counts", log_data = False):
     """
     plot the heatmap created in make_array_for_heatmap()
     """
@@ -183,6 +188,8 @@ def plot_heatmap(counts_array, species_list, filename = "BRH_orthologs_heatmap.p
         for j in range(len(species_list)):
             try:
                 count = counts_array[i, j]
+                if log_data: # back-transform to actual percentage, only log by color
+                    count = math.exp(count)
                 text = ax.text(j, i, f"{count:.1f}%",ha="center", va="center", color="w", fontsize = fs*0.75)
             except:
                 continue
@@ -206,8 +213,15 @@ if __name__ == "__main__":
     aln_coord_files = get_aln_coord_files(username=username)
     outdir_wga = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/pairwise_wga"
 
+    logtr = True
+    if logtr:
+        log_text = "log"
+    else:
+        log_text = ""
+
     for chr in ["X","Y"]:
-        perc_X_overlap,species_list = make_array_for_heatmap(aln_coord_files=aln_coord_files, sex_chr_dict=sex_chr_dict, chr=chr,verbose=False)
+        perc_X_overlap,species_list = make_array_for_heatmap(aln_coord_files=aln_coord_files, sex_chr_dict=sex_chr_dict, chr=chr,verbose=False, log_transform=logtr)
         print(perc_X_overlap)
-        plot_heatmap(counts_array=perc_X_overlap, species_list=species_list, filename = f"{outdir_wga}/{chr}_chr_alignment_coverage_heatmap.png", title = f"{chr}-Chromosome aln. coverage")
+        plot_heatmap(counts_array=perc_X_overlap, species_list=species_list, log_data=logtr,
+        filename = f"{outdir_wga}/{chr}_chr_{log_text}_alignment_coverage_heatmap.png", title = f"{chr}-Chromosome aln. coverage")
 
