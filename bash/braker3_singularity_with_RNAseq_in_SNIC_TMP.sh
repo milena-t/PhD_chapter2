@@ -19,7 +19,7 @@
 
 #SBATCH -A uppmax2026-1-8
 #SBATCH -c 20
-#SBATCH --mem=20G
+#SBATCH --mem=100G
 #SBATCH -t 2-00:00:00
 #SBATCH -J braker_%j
 #SBATCH -o braker_%j.log
@@ -138,12 +138,6 @@ echo "--------------------------------------------------------------------"
 echo "real time storage monitoring in : ${SPECIES}_${SLURM_JOB_ID}_scratch_monitor.log"
 echo "--------------------------------------------------------------------"
 
-while true; do
-  echo "----------------- $(date) -----------------"
-  singularity exec -B "${wd}:${wd}" braker3.sif df -h /scratch
-  singularity exec -B "${wd}:${wd}" braker3.sif df -i /scratch
-  sleep 300
-done >> ${SPECIES}_${SLURM_JOB_ID}_scratch_monitor.log 2>&1 &
 
 # TODO something doesn't work with the augustus config path. there's '//' at the end of it so the path specification doesn't work
 # unclear what the exact issue is, maybe something with the container and the scratch storage?
