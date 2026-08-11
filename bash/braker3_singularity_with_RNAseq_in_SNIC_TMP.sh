@@ -130,12 +130,12 @@ echo "======================== START BRAKER RUN ========================"
 echo ""
 
 echo "----------------- scratch storage in the container -----------------" 
-echo "singularity exec -B "${wd}:${wd}" braker3.sif df -h ${wd}"
-singularity exec -B "${wd}:${wd}" braker3.sif df -h ${wd}
-echo "singularity exec -B "${wd}:${wd}" braker3.sif df -i ${wd}"
-singularity exec -B "${wd}:${wd}" braker3.sif df -i ${wd}
-echo "singularity exec -B "${wd}:${wd}" braker3.sif env | grep -i tmp"
-singularity exec -B "${wd}:${wd}" braker3.sif env | grep -i tmp
+echo "singularity --cleanenv exec -B "${wd}:${wd}" braker3.sif df -h ${wd}"
+singularity exec --cleanenv -B "${wd}:${wd}" braker3.sif df -h ${wd}
+echo "singularity --cleanenv exec -B "${wd}:${wd}" braker3.sif df -i ${wd}"
+singularity exec --cleanenv -B "${wd}:${wd}" braker3.sif df -i ${wd}
+echo "singularity --cleanenv exec -B "${wd}:${wd}" braker3.sif env | grep -i tmp"
+singularity exec --cleanenv -B "${wd}:${wd}" braker3.sif env | grep -i tmp
 echo "--------------------------------------------------------------------"
 echo "real time storage monitoring in : ${SPECIES}_${SLURM_JOB_ID}_scratch_monitor.log"
 echo "--------------------------------------------------------------------"
@@ -162,7 +162,7 @@ if [ $# -eq 5 ]; then
         echo "RNAdir1  : ${RNAdir1}"
         echo "RNAdir2  : ${RNAdir2}"
         echo "-----------------------------------------------"
-        singularity exec -B "${wd}:${wd}" -B "${AUGUSTUS_CONFIG_PATH}:${AUGUSTUS_CONFIG_PATH}" -B "${PROT_DIR}:${PROT_DIR}" -B "${ASS_DIR}:${ASS_DIR}" -B "${RNAdir1}:${RNAdir1}" -B "${RNAdir2}:${RNAdir2}" braker3.sif braker.pl \
+        singularity exec --cleanenv -B "${wd}:${wd}" -B "${AUGUSTUS_CONFIG_PATH}:${AUGUSTUS_CONFIG_PATH}" -B "${PROT_DIR}:${PROT_DIR}" -B "${ASS_DIR}:${ASS_DIR}" -B "${RNAdir1}:${RNAdir1}" -B "${RNAdir2}:${RNAdir2}" braker3.sif braker.pl \
             --genome=${ASSEMBLY_MASKED} \
             --prot_seq $PROTEIN_DATA \
             --rnaseq_sets_ids=$FASTA_IDS \
@@ -178,7 +178,7 @@ if [ $# -eq 5 ]; then
     echo "ASS_DIR   : ${ASS_DIR}"
     echo "FASTA_dir : ${FASTA_dir}"
     echo "-----------------------------------------------"
-        singularity exec -B "${wd}:${wd}" -B "${PROT_DIR}:${PROT_DIR}" -B "${ASS_DIR}:${ASS_DIR}" -B "${FASTA_dir}:${FASTA_dir}" braker3.sif braker.pl \
+        singularity exec --cleanenv -B "${wd}:${wd}" -B "${PROT_DIR}:${PROT_DIR}" -B "${ASS_DIR}:${ASS_DIR}" -B "${FASTA_dir}:${FASTA_dir}" braker3.sif braker.pl \
             --genome=${ASSEMBLY_MASKED} \
             --prot_seq $PROTEIN_DATA \
             --rnaseq_sets_ids=$FASTA_IDS \
@@ -196,7 +196,7 @@ elif [ $# -eq 4 ]; then
     echo "PROT_DIR : ${PROT_DIR}"
     echo "ASS_DIR  : ${ASS_DIR}"
     echo "-----------------------------------------------"
-    singularity exec -B "${wd}:${wd}" -B "${PROT_DIR}:${PROT_DIR}" -B "${ASS_DIR}:${ASS_DIR}" braker3.sif braker.pl \
+    singularity exec --cleanenv -B "${wd}:${wd}" -B "${PROT_DIR}:${PROT_DIR}" -B "${ASS_DIR}:${ASS_DIR}" braker3.sif braker.pl \
         --genome=${ASSEMBLY_MASKED} \
         --prot_seq $PROTEIN_DATA \
         --rnaseq_sets_ids=$SRA_IDS \
@@ -211,7 +211,7 @@ else
     echo "PROT_DIR : ${PROT_DIR}"
     echo "ASS_DIR  : ${ASS_DIR}"
     echo "-----------------------------------------------"
-    singularity exec -B "${wd}:${wd}" -B "${PROT_DIR}:${PROT_DIR}" -B "${ASS_DIR}:${ASS_DIR}" braker3.sif braker.pl \
+    singularity exec --cleanenv -B "${wd}:${wd}" -B "${PROT_DIR}:${PROT_DIR}" -B "${ASS_DIR}:${ASS_DIR}" braker3.sif braker.pl \
         --genome=${ASSEMBLY_MASKED} \
         --prot_seq $PROTEIN_DATA \
         --threads 20 \
