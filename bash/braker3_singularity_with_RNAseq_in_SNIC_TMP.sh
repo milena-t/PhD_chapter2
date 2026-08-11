@@ -163,7 +163,6 @@ if [ $# -eq 5 ]; then
         echo "RNAdir2  : ${RNAdir2}"
         echo "-----------------------------------------------"
         singularity exec -B "${wd}:${wd}" -B "${AUGUSTUS_CONFIG_PATH}:${AUGUSTUS_CONFIG_PATH}" -B "${PROT_DIR}:${PROT_DIR}" -B "${ASS_DIR}:${ASS_DIR}" -B "${RNAdir1}:${RNAdir1}" -B "${RNAdir2}:${RNAdir2}" braker3.sif braker.pl \
-            --cleanenv \
             --genome=${ASSEMBLY_MASKED} \
             --prot_seq $PROTEIN_DATA \
             --rnaseq_sets_ids=$FASTA_IDS \
@@ -180,7 +179,6 @@ if [ $# -eq 5 ]; then
     echo "FASTA_dir : ${FASTA_dir}"
     echo "-----------------------------------------------"
         singularity exec -B "${wd}:${wd}" -B "${PROT_DIR}:${PROT_DIR}" -B "${ASS_DIR}:${ASS_DIR}" -B "${FASTA_dir}:${FASTA_dir}" braker3.sif braker.pl \
-            --cleanenv \
             --genome=${ASSEMBLY_MASKED} \
             --prot_seq $PROTEIN_DATA \
             --rnaseq_sets_ids=$FASTA_IDS \
@@ -199,7 +197,6 @@ elif [ $# -eq 4 ]; then
     echo "ASS_DIR  : ${ASS_DIR}"
     echo "-----------------------------------------------"
     singularity exec -B "${wd}:${wd}" -B "${PROT_DIR}:${PROT_DIR}" -B "${ASS_DIR}:${ASS_DIR}" braker3.sif braker.pl \
-        --cleanenv \
         --genome=${ASSEMBLY_MASKED} \
         --prot_seq $PROTEIN_DATA \
         --rnaseq_sets_ids=$SRA_IDS \
@@ -215,7 +212,6 @@ else
     echo "ASS_DIR  : ${ASS_DIR}"
     echo "-----------------------------------------------"
     singularity exec -B "${wd}:${wd}" -B "${PROT_DIR}:${PROT_DIR}" -B "${ASS_DIR}:${ASS_DIR}" braker3.sif braker.pl \
-        --cleanenv \
         --genome=${ASSEMBLY_MASKED} \
         --prot_seq $PROTEIN_DATA \
         --threads 20 \
