@@ -131,17 +131,11 @@ echo ""
 
 echo "----------------- scratch storage in the container -----------------" 
 echo "singularity exec -B "${wd}:${wd}" braker3.sif df -h ${wd}"
---cleanenv \
 singularity exec -B "${wd}:${wd}" braker3.sif df -h ${wd}
---cleanenv \
 echo "singularity exec -B "${wd}:${wd}" braker3.sif df -i ${wd}"
---cleanenv \
 singularity exec -B "${wd}:${wd}" braker3.sif df -i ${wd}
---cleanenv \
 echo "singularity exec -B "${wd}:${wd}" braker3.sif env | grep -i tmp"
---cleanenv \
 singularity exec -B "${wd}:${wd}" braker3.sif env | grep -i tmp
---cleanenv \
 echo "--------------------------------------------------------------------"
 echo "real time storage monitoring in : ${SPECIES}_${SLURM_JOB_ID}_scratch_monitor.log"
 echo "--------------------------------------------------------------------"
@@ -234,17 +228,11 @@ fi
 
 echo "----------------- storage in the container -----------------" 
 echo "singularity exec braker3.sif df -h ${wd}"
---cleanenv \
 singularity exec braker3.sif df -h ${wd}
---cleanenv \
 echo "singularity exec braker3.sif df -i ${wd}"
---cleanenv \
 singularity exec braker3.sif df -i ${wd}
---cleanenv \
 echo "singularity exec braker3.sif env | grep -i tmp"
---cleanenv \
 singularity exec braker3.sif env | grep -i tmp
---cleanenv \
 echo "------------------------------------------------------------"
 echo ""
 echo ""
