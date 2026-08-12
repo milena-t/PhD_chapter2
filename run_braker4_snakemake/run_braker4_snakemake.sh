@@ -4,6 +4,7 @@ module load snakemake/8.27.0-foss-2024a
 cd /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/assemblies
 
 snakemake \
+    --keep-going \
     --snakefile /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/software_install/BRAKER4/Snakefile \
     --executor slurm \
     --default-resources slurm_partition=pelle mem_mb=120000 \
