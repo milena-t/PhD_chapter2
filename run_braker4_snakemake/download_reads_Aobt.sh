@@ -2,8 +2,8 @@
 #SBATCH -A uppmax2026-1-8
 #SBATCH -c 8
 #SBATCH -t 1:00:00
-#SBATCH -J download_sequences_bvar
-#SBATCH -o download_sequences_Bvar.log
+#SBATCH -J download_sequences_Aobt
+#SBATCH -o download_sequences_Aobt.log
 #SBATCH --mail-type=ALL
 
 module load pigz/2.8-GCCcore-13.3.0
@@ -18,7 +18,11 @@ mkdir -p $SRA $FASTQ
 
 
 SRR_IDS=(
-    ERR14379121
+    SRR7881623
+    SRR7881590
+    SRR7881629
+    SRR7881599
+    SRR24951591
 )
 
 for acc in "${SRR_IDS[@]}"; do
