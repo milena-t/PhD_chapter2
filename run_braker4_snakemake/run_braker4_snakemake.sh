@@ -1,5 +1,16 @@
 #!/bin/bash -l
 
+#SBATCH -A uppmax2026-1-8
+#SBATCH -c 1
+#SBATCH --mem=10G
+#SBATCH -t 2-00:00:00
+#SBATCH -J braker4_snakemake_Bvar_%j
+#SBATCH -o braker4_snakemake_Bvar_%j.log
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user milena.trabert@ebc.uu.se
+
+
+
 module load snakemake/8.27.0-foss-2024a
 cd /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/assemblies
 
