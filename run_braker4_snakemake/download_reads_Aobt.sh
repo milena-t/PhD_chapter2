@@ -10,8 +10,8 @@ module load pigz/2.8-GCCcore-13.3.0
 
 # Define directories
 BASE=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/braker4_annotation/rnaseq_downloads
-SRA=$BASE/B_varius/sra
-FASTQ=$BASE/B_varius/fastq
+SRA=$BASE/A_obtectus/sra
+FASTQ=$BASE/A_obtectus/fastq
 SRAPATH=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/software_install/sra_tools/sratoolkit.3.3.0-ubuntu64/bin/
 
 mkdir -p $SRA $FASTQ
