@@ -24,7 +24,7 @@ snakemake \
     --keep-going \
     --snakefile /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/software_install/BRAKER4/Snakefile \
     --executor slurm \
-    --default-resources slurm_partition=pelle mem_mb=120000 \
+    --default-resources slurm_partition=pelle mem_mb=120000 slurm_account=uppmax2026-1-8\
     --cores 20 \
     --jobs 50 \
     --use-singularity \
