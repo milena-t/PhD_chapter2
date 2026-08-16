@@ -1,7 +1,7 @@
 #!/bin/bash -l
 #SBATCH -A uppmax2026-1-8
 #SBATCH -c 8
-#SBATCH -t 1:00:00
+#SBATCH -t 20:00:00
 #SBATCH -J download_sequences_Cchi
 #SBATCH -o download_sequences_Cchi.log
 #SBATCH --mail-type=ALL
