@@ -20,7 +20,7 @@ cd /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/braker4_annotati
 # module unload AUGUSTUS/3.5.0-gfbf-2024a # same as above, some weird shit with conflicting perl versions
 # export AUGUSTUS_CONFIG_PATH=$PWD/AUGUSTUS_config
 
-# --rerun-incomplete and --unlock are for when you want to continue an existing run
+# --rerun-incomplete is for when you want to continue an existing run that got cancelled halfway through, so that existing but half-complete files are not treated as finished
 
 snakemake \
     --keep-going \
