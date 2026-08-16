@@ -3,7 +3,7 @@
 #SBATCH -A uppmax2026-1-8
 #SBATCH -c 1
 #SBATCH --mem=10G
-#SBATCH -t 2-00:00:00
+#SBATCH -t 5-00:00:00
 #SBATCH -J braker4_snakemake_Bvar_%j
 #SBATCH -o braker4_snakemake_Bvar_%j.log
 #SBATCH --mail-type=ALL
