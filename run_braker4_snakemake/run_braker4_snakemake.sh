@@ -4,8 +4,8 @@
 #SBATCH -c 1
 #SBATCH --mem=10G
 #SBATCH -t 5-00:00:00
-#SBATCH -J braker4_snakemake_Bvar_%j
-#SBATCH -o braker4_snakemake_Bvar_%j.log
+#SBATCH -J braker4_snakemake_Cchi_%j
+#SBATCH -o braker4_snakemake_Cchi_%j.log
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user milena.trabert@ebc.uu.se
 
