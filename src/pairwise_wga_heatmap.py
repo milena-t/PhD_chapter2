@@ -202,12 +202,12 @@ def plot_heatmap(counts_array, species_list, filename = "BRH_orthologs_heatmap.p
     
     plt.tight_layout()
     # plt.show()
-    plt.savefig(filename, dpi = 300, transparent = False)
+    plt.savefig(filename, dpi = 300, transparent = True)
     print(f"figure saved here: {filename}")
 
 
 if __name__ == "__main__":
-    username = "miltr339"
+    username = "milena"
     sex_chr_dict = sex_chromosomes.get_contig_names()
     faidx_dicts = fasta_indices(username=username)
     aln_coord_files = get_aln_coord_files(username=username)

@@ -17,13 +17,13 @@ module load bioinfo-tools blast/2.15.0+
 # sed 's/>Cmac_Lome_diverse_/>/g' /proj/naiss2023-6-65/Milena/chapter2/protein_data/C_maculatus_superscaffolded.faa > /proj/naiss2023-6-65/Milena/chapter2/protein_data/C_maculatus_superscaffolded_original_header.faa
 # sed 's/>T_castaneum__T_castaneum__T_castaneum_/>/g' /proj/naiss2023-6-65/Milena/chapter2/protein_data/T_castaneum.faa > /proj/naiss2023-6-65/Milena/chapter2/protein_data/T_castaneum_original_header.faa
 
-A_obtectus_proteins=/proj/naiss2023-6-65/Milena/chapter3/protein_data/A_obtectus_original_header.faa
-B_siliquastri_proteins=/proj/naiss2023-6-65/Milena/chapter3/protein_data/B_siliquastri_original_header.faa
-C_chinensis_proteins=/proj/naiss2023-6-65/Milena/chapter3/protein_data/C_chinensis_original_header.faa
-C_maculatus_proteins=/proj/naiss2023-6-65/Milena/chapter3/protein_data/C_maculatus_superscaffolded_original_header.faa
-D_sublienata_proteins=/proj/naiss2023-6-65/Milena/chapter3/protein_data/D_sublienata_original_header.faa
-D_carinulata_proteins=/proj/naiss2023-6-65/Milena/chapter3/protein_data/D_carinulata_original_header.faa
-
+A_obtectus_proteins=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/A_obtectus.faa
+B_siliquastri_proteins=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/B_siliquastri.faa
+B_varius_proteins=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/B_varius.faa
+C_chinensis_proteins=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/C_chinensis.faa
+C_maculatus_proteins=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/C_maculatus.faa
+D_carinulata_proteins=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/D_carinulata.faa
+D_sublineata_proteins=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/D_sublineata.faa
 
 ## --> re-run for new proteinfiles!
 
@@ -35,13 +35,13 @@ D_carinulata_proteins=/proj/naiss2023-6-65/Milena/chapter3/protein_data/D_carinu
 # done
 ## -->
 
-for SPECIES1 in $D_sublienata_proteins $D_carinulata_proteins # $B_siliquastri_proteins $T_castaneum_proteins $C_chinensis_proteins $C_maculatus_proteins $A_obtectus_proteins 
+for SPECIES1 in $B_siliquastri_proteins $B_varius_proteins $C_chinensis_proteins $C_maculatus_proteins $D_carinulata_proteins $D_sublineata_proteins
 do  
 
     SPECIES1_name="${SPECIES1##*/}"
     SPECIES1_name="${SPECIES1_name%.*}"
 
-    for SPECIES2 in $B_siliquastri_proteins $T_castaneum_proteins $C_chinensis_proteins $C_maculatus_proteins $A_obtectus_proteins $D_sublienata_proteins $D_carinulata_proteins
+    for SPECIES2 in $B_siliquastri_proteins $B_varius_proteins $C_chinensis_proteins $C_maculatus_proteins $D_carinulata_proteins $D_sublineata_proteins
     do
 
         SPECIES2_name="${SPECIES2##*/}"

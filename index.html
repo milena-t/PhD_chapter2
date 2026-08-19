@@ -686,46 +686,44 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 <p>
     There is not a lot of whole-genome overlap for these species, but the protein synteny is probably much higher.
 </p>
-<details>
-    <summary>heatmaps</summary>
-    <p style="margin-top: 1em;"></p>
-    <div style="float: left;width: 48%;">
-        <p><b>X-chromosome</b></p>
-        <div class="tab">
-            <button class="tablinks" onclick="openTab(event, 'heatmap_log_X')">log colors</button>
-            <button class="tablinks" onclick="openTab(event, 'heatmap_norm_X')">normal colors</button>
-        </div>
-        <div id="heatmap_log_X" class="tabcontent">
-            <p float="left">
-                <img loading="lazy" src="data/pairwise_wga/X_chr_log_alignment_coverage_heatmap.png" width="100%" />
-            </p>
-        </div>
-        <div id="heatmap_norm_X" class="tabcontent">
-            <p float="left">
-                <img loading="lazy" src="data/pairwise_wga/X_chr_alignment_coverage_heatmap.png" width="100%" />
-            </p>
-        </div>
+
+<p style="margin-top: 2em;"></p>
+<div style="float: left;width: 48%;">
+    <p><b>X-chromosome</b></p>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'heatmap_log_X')">log colors</button>
+        <button class="tablinks" onclick="openTab(event, 'heatmap_norm_X')">normal colors</button>
     </div>
-    <div style="float: right;width: 48%;">
-        <p><b>Y-chromosome</b></p>
-        <div class="tab">
-            <button class="tablinks" onclick="openTab(event, 'heatmap_log_Y')">log colors</button>
-            <button class="tablinks" onclick="openTab(event, 'heatmap_norm_Y')">normal colors</button>
-        </div>
-        <div id="heatmap_log_Y" class="tabcontent">
-            <p float="left">
-                <img loading="lazy" src="data/pairwise_wga/Y_chr_log_alignment_coverage_heatmap.png" width="100%" />
-            </p>
-        </div>
-        <div id="heatmap_norm_Y" class="tabcontent">
-            <p float="left">
-                <img loading="lazy" src="data/pairwise_wga/Y_chr_alignment_coverage_heatmap.png" width="100%" />
-            </p>
-        </div>
+    <div id="heatmap_log_X" class="tabcontent">
+        <p float="left">
+            <img loading="lazy" src="data/pairwise_wga/X_chr_log_alignment_coverage_heatmap.png" width="100%" />
+        </p>
     </div>
-    <div style="clear: both;">
+    <div id="heatmap_norm_X" class="tabcontent">
+        <p float="left">
+            <img loading="lazy" src="data/pairwise_wga/X_chr_alignment_coverage_heatmap.png" width="100%" />
+        </p>
     </div>
-</details>
+</div>
+<div style="float: right;width: 48%;">
+    <p><b>Y-chromosome</b></p>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'heatmap_log_Y')">log colors</button>
+        <button class="tablinks" onclick="openTab(event, 'heatmap_norm_Y')">normal colors</button>
+    </div>
+    <div id="heatmap_log_Y" class="tabcontent">
+        <p float="left">
+            <img loading="lazy" src="data/pairwise_wga/Y_chr_log_alignment_coverage_heatmap.png" width="100%" />
+        </p>
+    </div>
+    <div id="heatmap_norm_Y" class="tabcontent">
+        <p float="left">
+            <img loading="lazy" src="data/pairwise_wga/Y_chr_alignment_coverage_heatmap.png" width="100%" />
+        </p>
+    </div>
+</div>
+<div style="clear: both;"></div>
+
 
 <h2>Synteny</h2>
 
