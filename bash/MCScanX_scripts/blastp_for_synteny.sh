@@ -1,7 +1,7 @@
 #!/bin/bash -l
-#SBATCH -A uppmax2025-2-148
-#SBATCH -n 5
-#SBATCH -p core
+#SBATCH -A uppmax2026-1-8
+#SBATCH -c 5
+#SBATCH --mem=30G
 #SBATCH -t 18:00:00
 #SBATCH -J blastp_for_synteny
 #SBATCH -o blastp_for_synteny.log
