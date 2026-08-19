@@ -106,61 +106,13 @@
     potetially nonexpressed or pseudogenized paralogs.
 </p>
 <p>
-    I will make new annotations for <i>A. obtectus</i> using the E and L expression data and that one larval sample I found, and <i>C. chinensis</i> using expsting expression data from a heatshock experiment
-    from shanxi university. for <i>C. maculatus</i> I will reuse the manually curated Lomé RNA based annotation. All other species have existing RNAseq annotations.
+    In order to have species-specific RNA evidence in all annotations, I will make three new ones. <i>A. obtectus</i>, using the E and L expression data and that one larval sample I found, 
+    and <i>C. chinensis</i> using expsting expression data from a heatshock experiment from shanxi university. 
+    For <i>C. maculatus</i> I will reuse the Lomé RNA based annotation on the superscaffolded assembly. All other species have existing RNAseq annotations.
+    Since the new biopython update breaks the singularity image, I will use braker4 (snakemake wrapper around the braker3 singularity image). it worked very well
 </p>
 
-<p>
-    I will reuse the BRAKER3 script I wrote for chapter 1.
-</p>
-
-
-<div class="tab">
-    <button class="tablinks" onclick="openTab(event, 'annotation_res_A_obtectus')"><i>A. obtectus</i></button>
-    <button class="tablinks" onclick="openTab(event, 'annotation_res_C_chinensis')"><i>C. chinensis</i></button>
-    <button class="tablinks" onclick="openTab(event, 'annotation_res_B_varius')"><i>B. varius</i></button>
-</div>
-<div id="annotation_res_A_obtectus" class="tabcontent">
-    <p>
-        Since the whole RNA data from E and L lines plus that one larval sample would be 65 samples, which is a lot, and the node scratch storage runs out (?) 
-        I am downsampling to only biological replicates (and remove technical replicates on different lanes), and use only the E1 samples. I also add the one 
-        larval sample I found: <code>SRR24951591</code>
-    </p>
-
-    <iframe
-        src="data/annotation/Aobt_SRR_list.txt"
-        frameBorder="0"
-        class=""
-        scrolling="auto"
-        style="width:100%; height:20vh;">
-    </iframe>
-
-</div>
-
-<div id="annotation_res_C_chinensis" class="tabcontent">
-    <p>
-        All <i>C. chinensis</i> paired end RNA reads on the NCBI. I remove SRR13089448 with an unspecified library prep strategy, and then use only controls and 
-        one biological replicate.
-    </p>
-    <iframe
-        src="data/annotation/Cchi_SRR_list.txt"
-        frameBorder="0"
-        class=""
-        scrolling="auto"
-        style="width:100%; height:20vh;">
-    </iframe>
-</div>
-
-<div id="annotation_res_B_varius" class="tabcontent">
-    <p>
-        It is already repeatmasked, there are 625781594 lowercase bases, 584144406 uppercase bases, and 125800 N's. This means there are about 50% repeatmasked, which seems very low for a genome of 
-        this size. 
-    </p>
-    <p>
-        For RNAseq, there is only <code>ERR14379121</code>
-    </p>
-</div>
-
+<p style="margin-top: 1em;"><b>See annotation evaluation results <a href="notes_pages/annotations.html">here</a></b></p>
 
 <h3 id="methods-species">Species selection</h3>
 
