@@ -1,0 +1,30 @@
+# BUSCO version is: 6.1.0 
+# The lineage dataset is: arthropoda_odb12 (Creation date: 2026-05-22, number of genomes: 76, number of BUSCOs: 1667)
+# Summarized benchmarking in BUSCO notation for file /gorilla/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/braker4_annotation/output/B_varius/preprocessing/genome.fa.masked
+# BUSCO was run in mode: euk_genome_min
+# Gene predictor used: miniprot
+
+	***** Results: *****
+
+	C:99.2%[S:98.4%,D:0.7%],F:0.1%,M:0.7%,n:1667,E:16.5%	   
+	1653	Complete BUSCOs (C)	(of which 273 contain internal stop codons)		   
+	1641	Complete and single-copy BUSCOs (S)	   
+	12	Complete and duplicated BUSCOs (D)	   
+	2	Fragmented BUSCOs (F)			   
+	12	Missing BUSCOs (M)			   
+	1667	Total BUSCO groups searched		   
+
+Assembly Statistics:
+	147	Number of scaffolds
+	776	Number of contigs
+	1210051800	Total length
+	0.010%	Percent gaps
+	128 Mbp	Scaffold N50
+	3 Mbp	Contigs N50
+
+
+Dependencies and versions:
+	hmmsearch: 3.4
+	bbtools: None
+	miniprot_index: 0.18-r281
+	miniprot_align: 0.18-r281

@@ -1,0 +1,17 @@
+# BUSCO version is: 6.1.0 
+# The lineage dataset is: arthropoda_odb12 (Creation date: 2026-05-22, number of genomes: 76, number of BUSCOs: 1667)
+# Summarized benchmarking in BUSCO notation for file /gorilla/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/braker4_annotation/output/B_varius/braker.longest.aa
+# BUSCO was run in mode: proteins
+
+	***** Results: *****
+
+	C:98.4%[S:97.6%,D:0.8%],F:0.7%,M:0.9%,n:1667	   
+	1640	Complete BUSCOs (C)			   
+	1627	Complete and single-copy BUSCOs (S)	   
+	13	Complete and duplicated BUSCOs (D)	   
+	12	Fragmented BUSCOs (F)			   
+	15	Missing BUSCOs (M)			   
+	1667	Total BUSCO groups searched		   
+
+Dependencies and versions:
+	hmmsearch: 3.4

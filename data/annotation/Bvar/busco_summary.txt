@@ -1,0 +1,9 @@
+===== BUSCO Completeness Summary =====
+Lineage: arthropoda_odb12
+
+--- Genome Assembly ---
+	C:99.2%[S:98.4%,D:0.7%],F:0.1%,M:0.7%,n:1667,E:16.5%	   
+	miniprot_align: 0.18-r281
+
+--- Predicted Proteome ---
+	C:98.4%[S:97.6%,D:0.8%],F:0.7%,M:0.9%,n:1667	   
