@@ -186,6 +186,8 @@ def plot_heatmap(counts_array, species_list, filename = "BRH_orthologs_heatmap.p
     # create text annotations
     for i in range(len(species_list)):
         for j in range(len(species_list)):
+            if i==j:
+                continue
             try:
                 count = counts_array[i, j]
                 if log_data: # back-transform to actual percentage, only log by color
@@ -207,7 +209,7 @@ def plot_heatmap(counts_array, species_list, filename = "BRH_orthologs_heatmap.p
 
 
 if __name__ == "__main__":
-    username = "milena"
+    username = "miltr339"
     sex_chr_dict = sex_chromosomes.get_contig_names()
     faidx_dicts = fasta_indices(username=username)
     aln_coord_files = get_aln_coord_files(username=username)
