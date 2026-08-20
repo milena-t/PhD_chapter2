@@ -1,0 +1,30 @@
+BRAKER AUGUSTUS Training Summary
+==================================================
+
+Training Gene Counts at Each Stage
+--------------------------------------------------
+  GeneMark predictions             23683
+  ETP training genes                8969
+  After redundancy removal          7523
+  After etraining filter            8000
+  After downsampling                6325
+  Training set                      6025
+  Test set (held out)                300
+
+Accuracy Before Optimization
+--------------------------------------------------
+  Nucleotide    Sn= 91.2%  Sp= 34.2%
+  Exon          Sn= 76.4%  Sp= 45.0%
+  Gene          Sn= 24.3%  Sp=  5.3%
+  Weighted       55.8%
+
+Accuracy After Optimization
+--------------------------------------------------
+  Nucleotide    Sn= 91.4%  Sp= 34.8%
+  Exon          Sn= 76.6%  Sp= 45.4%
+  Gene          Sn= 26.0%  Sp=  5.8%
+  Weighted       56.3%
+
+  Improvement: +0.5%
+
+Final prediction: 14891 genes
