@@ -10,13 +10,6 @@
 
 module load BLAST+/2.17.0-gompi-2024a
 
-## remove the species name prefixes I added for orthofinder
-# sed 's/>B_siliquastri__B_siliquastri__B_siliquastri_/>/g' /proj/naiss2023-6-65/Milena/chapter2/protein_data/B_siliquastri.faa > /proj/naiss2023-6-65/Milena/chapter2/protein_data/B_siliquastri_original_header.faa
-# sed 's/A_obtectus__A_obtectus__/>/g' /proj/naiss2023-6-65/Milena/chapter2/protein_data/A_obtectus.faa > /proj/naiss2023-6-65/Milena/chapter2/protein_data/A_obtectus_original_header.faa
-# sed 's/>C_chinensis__C_chinensis__C_chinensis_/>/g' /proj/naiss2023-6-65/Milena/chapter2/protein_data/C_chinensis.faa > /proj/naiss2023-6-65/Milena/chapter2/protein_data/C_chinensis_original_header.faa
-# sed 's/>Cmac_Lome_diverse_/>/g' /proj/naiss2023-6-65/Milena/chapter2/protein_data/C_maculatus_superscaffolded.faa > /proj/naiss2023-6-65/Milena/chapter2/protein_data/C_maculatus_superscaffolded_original_header.faa
-# sed 's/>T_castaneum__T_castaneum__T_castaneum_/>/g' /proj/naiss2023-6-65/Milena/chapter2/protein_data/T_castaneum.faa > /proj/naiss2023-6-65/Milena/chapter2/protein_data/T_castaneum_original_header.faa
-
 A_obtectus_proteins=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/A_obtectus.faa
 B_siliquastri_proteins=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/B_siliquastri.faa
 B_varius_proteins=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/B_varius.faa
