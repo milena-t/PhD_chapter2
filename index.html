@@ -311,14 +311,15 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 <h2 id="res-wga">pairwise whole genome alignments</h2>
 
 <details>
-    <summary>Alignment with nucmer</summary>
+    <summary>Alignment with nucmer: technical details and output format</summary>
     
-    <p>
-        In order to conserve RAM, I am setting the minimum match length from the default 20 to 100: <code>nucmer -l 100 --maxmatch</code>.
+    <p style="margin-top: 1em;">
+        In order to conserve RAM I am setting the minimum match length from the default 20 to 100: <code>nucmer -l 100 --maxmatch</code>. 
+        Otherwise it would OOM kill the job even for 200G of ram and that seems excessive.
     </p>
     <p>I run the alignment with <code>nucmer -l 100 --maxmatch</code> and then filter with <code>delta-filter -m -i 50 -l 1000</code></p>
     
-    the output coordinate files have these columns:
+    <p style="margin-top: 1em;">the output coordinate files have these columns:</p>
 <pre><code>    [S1]    Start of the alignment region in the reference sequence.
 
     [E1]    End of the alignment region in the reference sequence.
@@ -684,7 +685,7 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 <h3>sex chromosome alignments</h3>
 
 <p>
-    There is not a lot of whole-genome overlap for these species, but the protein synteny is probably much higher.
+    There is not a lot of whole-genome overlap for these species, except for the <i>Diorhabda</i>, but the protein synteny is probably much higher.
 </p>
 
 <p style="margin-top: 2em;"></p>

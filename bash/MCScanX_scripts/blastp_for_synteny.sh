@@ -8,7 +8,7 @@
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user milena.trabert@ebc.uu.se
 
-module load bioinfo-tools blast/2.15.0+
+module load BLAST+/2.17.0-gompi-2024a
 
 ## remove the species name prefixes I added for orthofinder
 # sed 's/>B_siliquastri__B_siliquastri__B_siliquastri_/>/g' /proj/naiss2023-6-65/Milena/chapter2/protein_data/B_siliquastri.faa > /proj/naiss2023-6-65/Milena/chapter2/protein_data/B_siliquastri_original_header.faa
@@ -28,41 +28,29 @@ D_sublineata_proteins=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapte
 ## --> re-run for new proteinfiles!
 
 ## make databases
-# for SPECIES1 in $D_sublienata_proteins $D_carinulata_proteins # $A_obtectus_proteins $B_siliquastri_proteins $C_chinensis_proteins $C_maculatus_proteins $T_castaneum_proteins
+# for SPECIES1 in $A_obtectus_proteins $B_siliquastri_proteins $B_varius_proteins $C_chinensis_proteins $C_maculatus_proteins $D_carinulata_proteins $D_sublineata_proteins
 # do
 #     makeblastdb -in $SPECIES1 -dbtype prot
 #     echo " ---> done database ${SPECIES1}"
 # done
 ## -->
 
-for SPECIES1 in $B_siliquastri_proteins $B_varius_proteins $C_chinensis_proteins $C_maculatus_proteins $D_carinulata_proteins $D_sublineata_proteins
+cd /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/blastp_results
+
+for SPECIES1 in $A_obtectus_proteins $B_siliquastri_proteins $B_varius_proteins $C_chinensis_proteins $C_maculatus_proteins $D_carinulata_proteins $D_sublineata_proteins
 do  
 
-    SPECIES1_name="${SPECIES1##*/}"
-    SPECIES1_name="${SPECIES1_name%.*}"
-
-    for SPECIES2 in $B_siliquastri_proteins $B_varius_proteins $C_chinensis_proteins $C_maculatus_proteins $D_carinulata_proteins $D_sublineata_proteins
+    for SPECIES2 in $A_obtectus_proteins $B_siliquastri_proteins $B_varius_proteins $C_chinensis_proteins $C_maculatus_proteins $D_carinulata_proteins $D_sublineata_proteins
     do
 
+        SPECIES1_name="${SPECIES1##*/}"
+        SPECIES1_name="${SPECIES1_name%.*}"
         SPECIES2_name="${SPECIES2##*/}"
         SPECIES2_name="${SPECIES2_name%.*}"
-
-        # if [[ "${SPECIES1_name}" == "${SPECIES2_name}" ]]
-        # then
-        #     continue
-        # fi
-
-        OUT_1v2="${SPECIES1_name}_vs_${SPECIES2_name}.blast"
-        OUT_2v1="${SPECIES2_name}_vs_${SPECIES1_name}.blast"
-
-        # the documentation says outfmt6 but I think they mean 8
-        echo "RUNNING... blastp -query $SPECIES1 -db $SPECIES2 -out $OUT_1v2 -num_threads 5 -num_alignments 5 -evalue 1e-10  -outfmt 6"
-        blastp -query $SPECIES1 -db $SPECIES2 -out $OUT_1v2 -num_threads 5 -num_alignments 5 -evalue 1e-10  -outfmt 6
-        echo " =========> ${OUT_1v2} done!"
-
-        # # reverse already happens automatically in the nested for loop no need to implement explicitly
-        # blastp -query $SPECIES2 -db $SPECIES1 -out $OUT_2v1 -num_threads 5 -num_alignments 5 -evalue 1e-10  -outfmt 6
-        # echo " =========> ${OUT_2v1} done!"
+        OUTFILE="blastp_${SPECIES1_name}_${SPECIES2_name}"
+        echo "--------> ${OUTFILE}"
+        sbatch -o "${OUTFILE}.out" -J $OUTFILE /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/bash/MCScanX_scripts/blastp_ind_job.sh $SPECIES1 $SPECIES2
+        echo ""
 
     done
 done
