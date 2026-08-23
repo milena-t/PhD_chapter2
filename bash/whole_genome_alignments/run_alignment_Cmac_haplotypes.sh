@@ -1,9 +1,12 @@
 #!/bin/bash -l
 
 
-CMAC_Y_s=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/pairwise_wga/Cmac_populations/assemblies/Cmac_china.fasta
-CMAC_Y_l=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/pairwise_wga/Cmac_populations/assemblies/Lome_Yl.fasta
-CMAC_CHINA=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/pairwise_wga/Cmac_populations/assemblies/Lome_Ys.fasta
+ASS_DIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/pairwise_wga/Cmac_populations/assemblies
+SCRIPT_DIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/bash/whole_genome_alignments
+
+CMAC_Y_s=Cmac_china.fasta
+CMAC_Y_l=Lome_Yl.fasta
+CMAC_CHINA=Lome_Ys.fasta
 
 cd /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/pairwise_wga/Cmac_populations
 
