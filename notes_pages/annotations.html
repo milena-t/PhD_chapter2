@@ -132,6 +132,7 @@ larvae_SL1-day16-rep20-Male</code></pre>
     <button class="tablinks" onclick="openTab(event, 'annotation_busco_A_obtectus')"><i>A. obtectus</i></button>
     <button class="tablinks" onclick="openTab(event, 'annotation_busco_C_chinensis')"><i>C. chinensis</i></button>
     <button class="tablinks" onclick="openTab(event, 'annotation_busco_B_varius')"><i>B. varius</i></button>
+    <button class="tablinks" onclick="openTab(event, 'annotation_busco_C_maculatus')"><i>C. maculatus</i></button>
 </div>
 <div id="annotation_busco_A_obtectus" class="tabcontent">
 
@@ -218,6 +219,33 @@ larvae_SL1-day16-rep20-Male</code></pre>
     </p>
 </div>
 
+<div id="annotation_busco_C_maculatus" class="tabcontent">
+
+    <div class="left-div" style="width: 49%;">
+    <p>BUSCO output</p>
+    <iframe
+        src="../data/annotation/Cmac/busco_proteins_short_summary.txt"
+        frameBorder="0"
+        class=""
+        scrolling="auto"
+        style="width:100%; height:28vh;">
+    </iframe>
+</div>
+<div class="right-div" style="width: 49%;">
+    <p>Compleasm protein completeness:</p>
+    <iframe
+        src="../data/annotation/Cmac/compleasm_summary.txt"
+        class=""
+        scrolling="auto"
+        style="width:100%; height:28vh;">
+    </iframe>
+</div>
+<div style="clear: both;"></div>
+<p float="left">
+    <img loading="lazy" src="../data/annotation/Cmac/completeness.png" width="100%" />
+</p>
+</div>
+
 <h2 id="transcript-lengths">Transcript lenghts</h2>
 
 <p>Since they didn't set an upper limit in the plot, the cds length goes up to like 70kbp, and this is therefore difficult to interpret.</p>
@@ -226,20 +254,30 @@ larvae_SL1-day16-rep20-Male</code></pre>
     <button class="tablinks" onclick="openTab(event, 'annotation_transcript_lengths_A_obtectus')"><i>A. obtectus</i></button>
     <button class="tablinks" onclick="openTab(event, 'annotation_transcript_lengths_C_chinensis')"><i>C. chinensis</i></button>
     <button class="tablinks" onclick="openTab(event, 'annotation_transcript_lengths_B_varius')"><i>B. varius</i></button>
+    <button class="tablinks" onclick="openTab(event, 'annotation_transcript_lengths_C_maculatus')"><i>C. maculatus</i></button>
 </div>
+
 <div id="annotation_transcript_lengths_A_obtectus" class="tabcontent">
     <p float="left">
         <img loading="lazy" src="../data/annotation/Aobt/transcript_lengths.png" width="100%" />
     </p>
 </div>
+
 <div id="annotation_transcript_lengths_C_chinensis" class="tabcontent">
     <p float="left">
         <img loading="lazy" src="../data/annotation/Cchi/transcript_lengths.png" width="100%" />
     </p>
 </div>
+
 <div id="annotation_transcript_lengths_B_varius" class="tabcontent">
     <p float="left">
         <img loading="lazy" src="../data/annotation/Bvar/transcript_lengths.png" width="100%" />
+    </p>
+</div>
+
+<div id="annotation_transcript_lengths_C_maculatus" class="tabcontent">
+    <p float="left">
+        <img loading="lazy" src="../data/annotation/Cmac/transcript_lengths.png" width="100%" />
     </p>
 </div>
 
@@ -253,6 +291,7 @@ larvae_SL1-day16-rep20-Male</code></pre>
     <button class="tablinks" onclick="openTab(event, 'annotation_exon_intron_A_obtectus')"><i>A. obtectus</i></button>
     <button class="tablinks" onclick="openTab(event, 'annotation_exon_intron_C_chinensis')"><i>C. chinensis</i></button>
     <button class="tablinks" onclick="openTab(event, 'annotation_exon_intron_B_varius')"><i>B. varius</i></button>
+    <button class="tablinks" onclick="openTab(event, 'annotation_exon_intron_C_maculatus')"><i>C. maculatus</i></button>
 </div>
 <div id="annotation_exon_intron_A_obtectus" class="tabcontent">
     <p float="left">
@@ -272,7 +311,12 @@ larvae_SL1-day16-rep20-Male</code></pre>
         <img loading="lazy" src="../data/annotation/Bvar/introns_per_gene.png" width="60%" />
     </p>
 </div>
-
+<div id="annotation_exon_intron_C_maculatus" class="tabcontent">
+    <p float="left">
+        <img loading="lazy" src="../data/annotation/Cmac/isoform_and_exon_structure.png" width="100%" />
+        <img loading="lazy" src="../data/annotation/Cmac/introns_per_gene.png" width="60%" />
+    </p>
+</div>
 
 
 
@@ -288,6 +332,7 @@ larvae_SL1-day16-rep20-Male</code></pre>
     <button class="tablinks" onclick="openTab(event, 'annotation_augustus_A_obtectus')"><i>A. obtectus</i></button>
     <button class="tablinks" onclick="openTab(event, 'annotation_augustus_C_chinensis')"><i>C. chinensis</i></button>
     <button class="tablinks" onclick="openTab(event, 'annotation_augustus_B_varius')"><i>B. varius</i></button>
+    <button class="tablinks" onclick="openTab(event, 'annotation_augustus_C_maculatus')"><i>C. maculatus</i></button>
 </div>
 <div id="annotation_augustus_A_obtectus" class="tabcontent">
     <p float="left">
@@ -304,6 +349,11 @@ larvae_SL1-day16-rep20-Male</code></pre>
         <img loading="lazy" src="../data/annotation/Bvar/training_summary.png" width="100%" />
     </p>
 </div>
+<div id="annotation_augustus_C_maculatus" class="tabcontent">
+    <p float="left">
+        <img loading="lazy" src="../data/annotation/Cmac/training_summary.png" width="100%" />
+    </p>
+</div>
 
 
 <h2 id="evidence-support">Intron evidence support</h2>
@@ -317,6 +367,7 @@ larvae_SL1-day16-rep20-Male</code></pre>
     <button class="tablinks" onclick="openTab(event, 'annotation_intron_evidence_A_obtectus')"><i>A. obtectus</i></button>
     <button class="tablinks" onclick="openTab(event, 'annotation_intron_evidence_C_chinensis')"><i>C. chinensis</i></button>
     <button class="tablinks" onclick="openTab(event, 'annotation_intron_evidence_B_varius')"><i>B. varius</i></button>
+    <button class="tablinks" onclick="openTab(event, 'annotation_intron_evidence_C_maculatus')"><i>C. maculatus</i></button>
 </div>
 <div id="annotation_intron_evidence_A_obtectus" class="tabcontent">
     <p float="left">
@@ -333,6 +384,11 @@ larvae_SL1-day16-rep20-Male</code></pre>
         <img loading="lazy" src="../data/annotation/Bvar/evidence_support.png" width="100%" />
     </p>
 </div>
+<div id="annotation_intron_evidence_C_maculatus" class="tabcontent">
+    <p float="left">
+        <img loading="lazy" src="../data/annotation/Cmac/evidence_support.png" width="100%" />
+    </p>
+</div>
 
 
 <h2 id="runtime">Runtime of individual steps</h2>
@@ -343,6 +399,7 @@ larvae_SL1-day16-rep20-Male</code></pre>
     <button class="tablinks" onclick="openTab(event, 'annotation_runtime_A_obtectus')"><i>A. obtectus</i></button>
     <button class="tablinks" onclick="openTab(event, 'annotation_runtime_C_chinensis')"><i>C. chinensis</i></button>
     <button class="tablinks" onclick="openTab(event, 'annotation_runtime_B_varius')"><i>B. varius</i></button>
+    <button class="tablinks" onclick="openTab(event, 'annotation_runtime_C_maculatus')"><i>C. maculatus</i></button>
 </div>
 <div id="annotation_runtime_A_obtectus" class="tabcontent">
     <p float="left">
@@ -357,6 +414,11 @@ larvae_SL1-day16-rep20-Male</code></pre>
 <div id="annotation_runtime_B_varius" class="tabcontent">
     <p float="left">
         <img loading="lazy" src="../data/annotation/Bvar/runtime_plot.png" width="100%" />
+    </p>
+</div>
+<div id="annotation_runtime_C_maculatus" class="tabcontent">
+    <p float="left">
+        <img loading="lazy" src="../data/annotation/Cmac/runtime_plot.png" width="100%" />
     </p>
 </div>
 
