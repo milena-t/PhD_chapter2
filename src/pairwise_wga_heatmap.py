@@ -226,6 +226,11 @@ def plot_heatmap(counts_array, species_list, filename = "BRH_orthologs_heatmap.p
     # Show all ticks and label them with the respective list entries
     ax.set_xticks(range(len(species_list)), labels=species_list,rotation=45, ha="right", rotation_mode="anchor", fontsize = fs)
     ax.set_yticks(range(len(species_list)), labels=species_list, fontsize = fs)
+    
+    ## the array coordinates are [reference, query]
+    ax.set_xlabel("query", fontsize=fs*1.3)
+    ax.set_ylabel("reference", fontsize=fs*1.3)
+    
     plt.title(label=title, fontsize = fs*1.3)
     
     plt.tight_layout()
@@ -240,14 +245,14 @@ if __name__ == "__main__":
     aln_coord_files,aln_coord_files_cmac = get_aln_coord_files(username=username)
     outdir_wga = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/pairwise_wga"
 
-    # when percentages are really low, log-transform the heatmap colors to still see the variation
-    logtr = True
-    if logtr:
-        log_text = "log"
-    else:
-        log_text = ""
+    if True:
+        # when percentages are really low, log-transform the heatmap colors to still see the variation
+        logtr = False
+        if logtr:
+            log_text = "log"
+        else:
+            log_text = ""
 
-    if False:
         sex_chr_dict = sex_chromosomes.get_contig_names()
         for chr in ["X","Y"]:
             perc_X_overlap,species_list = make_array_for_heatmap(aln_coord_files=aln_coord_files, sex_chr_dict=sex_chr_dict, faidx_dicts=faidx_dicts, chr=chr,verbose=False, log_transform=logtr)
@@ -256,9 +261,16 @@ if __name__ == "__main__":
             filename = f"{outdir_wga}/{chr}_chr_{log_text}_alignment_coverage_heatmap.png", title = f"{chr}-Chromosome aln. coverage")
 
     if True:
+        logtr = False
+        if logtr:
+            log_text = "log"
+        else:
+            log_text = ""
+
         sex_chr_dict = sex_chromosomes.Cmac_S_L_nonscaffolded_contig_names()
         for chr in ["X","Y"]:
-            perc_X_overlap,species_list = make_array_for_heatmap(aln_coord_files=aln_coord_files_cmac, sex_chr_dict=sex_chr_dict, faidx_dicts=faidx_dicts_cmac, chr=chr,verbose=False, log_transform=logtr)
+            perc_X_overlap,species_list = make_array_for_heatmap(aln_coord_files=aln_coord_files_cmac, sex_chr_dict=sex_chr_dict, faidx_dicts=faidx_dicts_cmac, chr=chr,verbose=False, 
+            log_transform=logtr)
             print(perc_X_overlap)
             plot_heatmap(counts_array=perc_X_overlap, species_list=species_list, log_data=logtr,
             filename = f"{outdir_wga}/{chr}_chr_{log_text}_alignment_coverage_heatmap_Cmac_populations.png", title = f"{chr}-Chromosome aln. coverage")
