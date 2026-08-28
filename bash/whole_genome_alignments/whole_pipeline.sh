@@ -48,8 +48,8 @@ echo
 echo " >>>>>>>>>> FILTERING"
 # for different species: -m -i 50 # for different populations of the same species: -r -i 75
 # -r: "Maps each position of each reference to its best hit in the query, allowing for query overlaps", wiht -q being the inverse for the query, and -m being union of -r and -q
-echo "delta-filter -m -i 75 -l 1000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered" 
-$MUMMER_PATH/delta-filter -m -i 75 -l 1000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
+echo "delta-filter -r -i 75 -l 1000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered" 
+$MUMMER_PATH/delta-filter -r -i 75 -l 1000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
 # echo "$MUMMER_PATH/delta-filter -m $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered"
 # $MUMMER_PATH/delta-filter -m $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
 
