@@ -47,8 +47,8 @@ echo
 
 echo " >>>>>>>>>> FILTERING"
 
-echo "delta-filter -m -i 75 -l 1000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered" # for different species: -i 50 # for different populations of the same species: -i 75
-$MUMMER_PATH/delta-filter -m -i 75 -l 1000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
+echo "delta-filter -r -i 75 -l 1000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered" # for different species: -m -i 50 # for different populations of the same species: -r -i 75
+$MUMMER_PATH/delta-filter -r -i 75 -l 1000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
 # echo "$MUMMER_PATH/delta-filter -m $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered"
 # $MUMMER_PATH/delta-filter -m $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
 
