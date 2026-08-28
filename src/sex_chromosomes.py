@@ -34,15 +34,15 @@ def get_contig_names():
 
 def Cmac_S_L_nonscaffolded_contig_names():
     sex_chr_contigs = { 
-        "Y_s" : {
+        "Lome_Ys" : {
             "X" : ['utg000057l_1','utg000114l_1','utg000139l_1','utg000191l_1','utg000326l_1','utg000359l_1','utg000532l_1','utg000602l_1'],
             "Y" : ['utg000322l_1','utg000312c_1','utg000610l_1','utg001235l_1']
         },
-        "Y_l" : {
+        "Lome_Yl" : {
             "X" : ['utg000006l_1','utg000025l_1','utg000027l_1','utg000128l_1','utg000151l_1','utg000238l_1','utg000327l_1','utg000342l_1','utg000486l_1','utg001894l_1'],
             "Y" : ['utg000049l_1','utg000385c_1','utg001455l_1','utg001921l_1','utg000152l_1']
         },
-        "china" : {
+        "China" : {
             "X" : ["CMAC_X"],
             "Y" : ["CMAC_Y"],
         }

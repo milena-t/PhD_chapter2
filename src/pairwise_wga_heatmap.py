@@ -33,7 +33,16 @@ def fasta_indices(username="milena"):
         return {contig : length for contig,length in zip(df.iloc[:,0],df.iloc[:,1])}
 
     out_dict = {species : read_faidx(filename) for species,filename in filenames_dict.items()}
-    return out_dict
+    
+    dirname=f"/Users/{username}/work/chapter2/wga/Cmac_populations/"
+    filenames_dict = {
+        "China" : f"{dirname}Cmac_china.fasta.fai",
+        "Lome_Yl" : f"{dirname}Lome_Yl.fasta.fai",
+        "Lome_Ys" : f"{dirname}Lome_Ys.fasta.fai",
+    }
+    out_dict_cmac = {species : read_faidx(filename) for species,filename in filenames_dict.items()}
+
+    return out_dict,out_dict_cmac
 
 def get_aln_coord_files(username="milena"):
     dirname = f"/Users/{username}/work/chapter2/wga/"
@@ -96,7 +105,24 @@ def get_aln_coord_files(username="milena"):
             "D_carinulata" : f"{dirname}ref_D_sublineata.masked_query_D_carinulata.masked.delta_filtered_coords",
         }
     }
-    return out_dict
+
+    dirname=f"/Users/{username}/work/chapter2/wga/Cmac_populations/"
+    out_dict_cmac = {
+        "China" : {
+            "Lome_Yl" : f"{dirname}ref_Cmac_china_query_Lome_Yl.delta_filtered_coords",
+            "Lome_Ys" : f"{dirname}ref_Cmac_china_query_Lome_Ys.delta_filtered_coords",
+        },
+        "Lome_Yl" : {
+            "China" : f"{dirname}ref_Lome_Yl_query_Cmac_china.delta_filtered_coords",
+            "Lome_Ys" : f"{dirname}ref_Lome_Yl_query_Lome_Ys.delta_filtered_coords",
+        },
+        "Lome_Ys" : {
+            "China" : f"{dirname}ref_Lome_Ys_query_Cmac_china.delta_filtered_coords",
+            "Lome_Yl" : f"{dirname}ref_Lome_Ys_query_Lome_Yl.delta_filtered_coords",
+        },
+    }
+
+    return out_dict,out_dict_cmac
 
 def count_ref_aln_coordinates(aln_filtered_coords_path, ref_faidx_dict, contig_list = [], verbose=False):
     """
@@ -136,7 +162,7 @@ def count_ref_aln_coordinates(aln_filtered_coords_path, ref_faidx_dict, contig_l
             return 0
 
 
-def make_array_for_heatmap(aln_coord_files, sex_chr_dict, chr = "X",verbose=False, log_transform=False):
+def make_array_for_heatmap(aln_coord_files, sex_chr_dict, faidx_dicts, chr = "X",verbose=False, log_transform=False):
     """
     make np.array to plot heatmap
     """
@@ -210,20 +236,30 @@ def plot_heatmap(counts_array, species_list, filename = "BRH_orthologs_heatmap.p
 
 if __name__ == "__main__":
     username = "miltr339"
-    sex_chr_dict = sex_chromosomes.get_contig_names()
-    faidx_dicts = fasta_indices(username=username)
-    aln_coord_files = get_aln_coord_files(username=username)
+    faidx_dicts,faidx_dicts_cmac = fasta_indices(username=username)
+    aln_coord_files,aln_coord_files_cmac = get_aln_coord_files(username=username)
     outdir_wga = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/pairwise_wga"
 
+    # when percentages are really low, log-transform the heatmap colors to still see the variation
     logtr = True
     if logtr:
         log_text = "log"
     else:
         log_text = ""
 
-    for chr in ["X","Y"]:
-        perc_X_overlap,species_list = make_array_for_heatmap(aln_coord_files=aln_coord_files, sex_chr_dict=sex_chr_dict, chr=chr,verbose=False, log_transform=logtr)
-        print(perc_X_overlap)
-        plot_heatmap(counts_array=perc_X_overlap, species_list=species_list, log_data=logtr,
-        filename = f"{outdir_wga}/{chr}_chr_{log_text}_alignment_coverage_heatmap.png", title = f"{chr}-Chromosome aln. coverage")
+    if False:
+        sex_chr_dict = sex_chromosomes.get_contig_names()
+        for chr in ["X","Y"]:
+            perc_X_overlap,species_list = make_array_for_heatmap(aln_coord_files=aln_coord_files, sex_chr_dict=sex_chr_dict, faidx_dicts=faidx_dicts, chr=chr,verbose=False, log_transform=logtr)
+            print(perc_X_overlap)
+            plot_heatmap(counts_array=perc_X_overlap, species_list=species_list, log_data=logtr,
+            filename = f"{outdir_wga}/{chr}_chr_{log_text}_alignment_coverage_heatmap.png", title = f"{chr}-Chromosome aln. coverage")
+
+    if True:
+        sex_chr_dict = sex_chromosomes.Cmac_S_L_nonscaffolded_contig_names()
+        for chr in ["X","Y"]:
+            perc_X_overlap,species_list = make_array_for_heatmap(aln_coord_files=aln_coord_files_cmac, sex_chr_dict=sex_chr_dict, faidx_dicts=faidx_dicts_cmac, chr=chr,verbose=False, log_transform=logtr)
+            print(perc_X_overlap)
+            plot_heatmap(counts_array=perc_X_overlap, species_list=species_list, log_data=logtr,
+            filename = f"{outdir_wga}/{chr}_chr_{log_text}_alignment_coverage_heatmap_Cmac_populations.png", title = f"{chr}-Chromosome aln. coverage")
 
