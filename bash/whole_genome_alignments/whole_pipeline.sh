@@ -2,7 +2,7 @@
 #SBATCH -A uppmax2026-1-8
 #SBATCH -c 16
 #SBATCH --mem=200G
-#SBATCH -t 3-10:00:00
+#SBATCH -t 5-10:00:00
 #SBATCH --mail-type=ALL
 #SBATCH -J mummer_alignment
 #SBATCH -o mummer_alignment.log
@@ -37,18 +37,18 @@ MUMMER_PATH=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/mummer-
 
 ### run mummer alignment
 echo " >>>>>>>>>> ALIGNMENT"
-echo "nucmer -l 100 --maxmatch -p $OUT_PREFIX -t 16 $REFERENCE $QUERY"
+echo "nucmer -l 300 --mum -p $OUT_PREFIX -t 16 $REFERENCE $QUERY"
 echo "... running nucmer alignment"
 
-$MUMMER_PATH/nucmer -l 100 --maxmatch -p $OUT_PREFIX -t 16 $REFERENCE $QUERY
+$MUMMER_PATH/nucmer -l 300 --mum -p $OUT_PREFIX -t 16 $REFERENCE $QUERY # for different species: -l 100 --maxmatch # for different populations of the same species: -l 300 --mum
 NUCMER_OUTFILE="${OUT_PREFIX}.delta"
 echo "alignment done! -> ${NUCMER_OUTFILE}"
 echo 
 
 echo " >>>>>>>>>> FILTERING"
 
-echo "delta-filter -m -i 50 -l 1000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered"
-$MUMMER_PATH/delta-filter -m -i 50 -l 1000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
+echo "delta-filter -m -i 75 -l 1000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered" # for different species: -i 50 # for different populations of the same species: -i 75
+$MUMMER_PATH/delta-filter -m -i 75 -l 1000 $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
 # echo "$MUMMER_PATH/delta-filter -m $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered"
 # $MUMMER_PATH/delta-filter -m $NUCMER_OUTFILE > ${NUCMER_OUTFILE}_filtered
 
