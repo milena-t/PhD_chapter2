@@ -245,9 +245,11 @@ if __name__ == "__main__":
     aln_coord_files,aln_coord_files_cmac = get_aln_coord_files(username=username)
     outdir_wga = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/pairwise_wga"
 
-    if True:
-        # when percentages are really low, log-transform the heatmap colors to still see the variation
+    if False:
+        ###### chrysomelidae between-species comparison
+
         logtr = False
+        # when percentages are really low, log-transform the heatmap colors to still see the variation
         if logtr:
             log_text = "log"
         else:
@@ -261,6 +263,8 @@ if __name__ == "__main__":
             filename = f"{outdir_wga}/{chr}_chr_{log_text}_alignment_coverage_heatmap.png", title = f"{chr}-Chromosome aln. coverage")
 
     if True:
+        ###### Cmac within-species comparison
+
         logtr = False
         if logtr:
             log_text = "log"
