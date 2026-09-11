@@ -1,6 +1,6 @@
 #!/bin/bash -l
-#SBATCH -A uppmax2025-2-148
-#SBATCH -n 1
+#SBATCH -A uppmax2026-1-8
+#SBATCH -c 1
 #SBATCH -t 10:00
 #SBATCH -J plot_MCScanX
 #SBATCH -o plot_MCScanX.log
