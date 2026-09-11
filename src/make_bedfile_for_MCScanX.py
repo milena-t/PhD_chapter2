@@ -34,7 +34,12 @@ def modify_gff_for_MCScanX(gff_path:str, species_initials:str):
                 pass
             else:
                 continue
-            transcript_id = attributes.strip().split(";")[0].split("ID")[-1].replace("=","")
+            try:
+                ## gff 3 files, parse for main attribute ID
+                transcript_id = attributes.strip().split(";")[0].split("ID")[-1].replace("=","")
+            except:
+                ## gff 2 files from braker4 (isoform filtered), the transcript ID has nothing else in the attributes column
+                transcript_id = attributes
             contig = lookup_table_dict[contig_]
 
             ## add _1 suffix to transcript ID to match the proteinfasta files 
