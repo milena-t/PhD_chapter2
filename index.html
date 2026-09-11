@@ -306,6 +306,41 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
     <div style="clear: both;"></div>
 </div>
 
+<h2 id="synteny-methods">Synteny with MCScanX</h2>
+
+<p>
+    <a href="https://github.com/wyp1125/MCScanX">MCScanX</a> is based on protein synteny from blastp searches. The documentation is not super useful beyond the installation instructions, 
+    so I was recommended <a href="https://www.nature.com/articles/s41596-024-00968-2#Sec29">this workflow</a>, which I will use for detailed instructions, but for preparing the input files, 
+    I am using my own scripts and not their provided ones (esp. the perl scripts have hard-coded aspects that assume ncbi assemblies and annotations, which doesn't apply to my data). 
+    MCScanX only takes one input: the prefix of both files below. It says directory in the documentation but that's wrong. You run from the same directory as the files are in and the 
+    command is just <code>./MCScanX prefix</code> where the input files are <code>prefix.gff</code> and <code>prefix.blast</code> in the same directory.
+
+</p>
+
+<ul>
+    <li>
+        <b>prefix.gff:</b> I used my script <code>src/make_bedfile_for_MCScanX.py</code> which makes all the files according to the format required, including reformatting the contig names, 
+        and also creating a lookup table to associate the new contig names with the original ones from the annotations. <br>The files are then all merged with <code>cat *.bed > prefix.gff</code>
+    </li>
+    <li>
+        <b>prefix.blast:</b> I am using blastp according to the above cited workflow on all the species <code>bash/blastp_for_synteny.sh</code>. <br>
+        All blast results are again merged <code>cat *.blast > prefix.blast</code>.
+    </li>
+</ul>
+
+<details>
+    <summary>Troubleshooting</summary>
+    <p style="padding-top:1em;">
+        <code>No alighments generated</code>: The log file reads no blast alignments. 
+        For me, this was caused by the file extension of the annotation file. I named it <code>.bed</code> but it should be <code>.gff</code> 
+        (because it is somehow hardcoded and there is no test to see if a file actually exists?)
+    </p>
+</details>
+
+<p>
+    Results can be visualized with <a href="https://synvisio.github.io/#/">SynVisio</a>, but its a web application that does not work very well for more than a few species or fragmented assemblies.
+</p>
+
 
 <h1 id="results">Results</h1>
 
@@ -382,7 +417,7 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 </div>
 
 <div id="WGA_res_A_obtectus" class="tabcontent">
-    <p>x.axis: <i>A. obtectus</i>, y-axis: query</p>
+    <p>x-axis: <i>A. obtectus</i>, y-axis: query</p>
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'WGA_res_A_obtectus_B_siliquastri')"><i>B. siliquastri</i></button>
         <button class="tablinks" onclick="openTab(event, 'WGA_res_A_obtectus_B_varius')"><i>B. varius</i></button>
@@ -425,7 +460,7 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 </div>
 
 <div id="WGA_res_B_siliquastri" class="tabcontent">
-<p>x.axis: <i>B. siliquastri</i>, y-axis: query</p>
+<p>x-axis: <i>B. siliquastri</i>, y-axis: query</p>
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'WGA_res_B_siliquastri_A_obtectus')"><i>A. obtectus</i></button>
         <button class="tablinks" onclick="openTab(event, 'WGA_res_B_siliquastri_B_varius')"><i>B. varius</i></button>
@@ -468,7 +503,7 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 </div>
 
 <div id="WGA_res_B_varius" class="tabcontent">
-    <p>x.axis: <i>B. varius</i>, y-axis: query</p>
+    <p>x-axis: <i>B. varius</i>, y-axis: query</p>
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'WGA_res_B_varius_A_obtectus')"><i>A. obtectus</i></button>
         <button class="tablinks" onclick="openTab(event, 'WGA_res_B_varius_B_siliquastri')"><i>B. siliquastri</i></button>
@@ -512,7 +547,7 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 </div>
 
 <div id="WGA_res_C_maculatus" class="tabcontent">
-    <p>x.axis: <i>C. maculatus</i>, y-axis: query</p>
+    <p>x-axis: <i>C. maculatus</i>, y-axis: query</p>
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'WGA_res_C_maculatus_A_obtectus')"><i>A. obtectus</i></button>
         <button class="tablinks" onclick="openTab(event, 'WGA_res_C_maculatus_B_siliquastri')"><i>B. siliquastri</i></button>
@@ -554,7 +589,7 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 </div>
 
 <div id="WGA_res_C_chinensis" class="tabcontent">
-    <p>x.axis: <i>C. chinensis</i>, y-axis: query</p>
+    <p>x-axis: <i>C. chinensis</i>, y-axis: query</p>
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'WGA_res_C_chinensis_A_obtectus')"><i>A. obtectus</i></button>
         <button class="tablinks" onclick="openTab(event, 'WGA_res_C_chinensis_B_siliquastri')"><i>B. siliquastri</i></button>
@@ -597,7 +632,7 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 </div>
 
 <div id="WGA_res_D_carinulata" class="tabcontent">
-    <p>x.axis: <i>D. carinulata</i>, y-axis: query</p>
+    <p>x-axis: <i>D. carinulata</i>, y-axis: query</p>
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'WGA_res_D_carinulata_A_obtectus')"><i>A. obtectus</i></button>
         <button class="tablinks" onclick="openTab(event, 'WGA_res_D_carinulata_B_siliquastri')"><i>B. siliquastri</i></button>
@@ -640,7 +675,7 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 </div>
 
 <div id="WGA_res_D_sublineata" class="tabcontent">
-    <p>x.axis: <i>D. sublineata</i>, y-axis: query</p>
+    <p>x-axis: <i>D. sublineata</i>, y-axis: query</p>
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'WGA_res_D_sublineata_A_obtectus')"><i>A. obtectus</i></button>
         <button class="tablinks" onclick="openTab(event, 'WGA_res_D_sublineata_B_siliquastri')"><i>B. siliquastri</i></button>
@@ -729,13 +764,125 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 
 <h2 id="res-cmac-wga"><i>C. maculatus</i> whole genome alignments</h2>
 
-<p>I have three <i>C. maculatus</i> assemblies with X and Y identified, I will also use these for within-species comparison.</p>
-<p> I tried all three filter flags, -m takes more than 4 days because there's so many repeats, and -r or -q don't make a difference, exactly the same results.</p>
-<p>TODO add results. </p>
+<p>
+    I have three <i>C. mac u latus</i> assemblies with X and Y identified, I will use these for within-species comparison. The assemblies are two populations from Lomé with 
+    different Y-haplotypes (Lomé Y<sub>S</sub> and Lomé Y<sub>L</sub>) and a different population from China.
+</p>
+<p> 
+    I tried all three <code>delta-filter</code> flags, <code>-m</code> takes more than 4 days because there's so many repeats, and <code>-r</code> or <code>-q</code> don't make a difference, exactly the same results.
+</p>
+
+<h3>Whole genome alignment</h3>
+
+<div>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'WGA_YS')">Lomé Y<sub>S</sub></button>
+        <button class="tablinks" onclick="openTab(event, 'WGA_YL')">Lomé Y<sub>L</sub></button>
+        <button class="tablinks" onclick="openTab(event, 'WGA_china')">China</button>
+    </div>
+    
+    <div id="WGA_YS" class="tabcontent">
+        <p>x-axis: Lomé Y<sub>S</sub>, y-axis: query</p>
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'WGA_YS_YL')">Lomé Y<sub>L</sub></button>
+            <button class="tablinks" onclick="openTab(event, 'WGA_YS_china')">China</button>
+        </div>
+    
+        <div id="WGA_YS_YL" class="tabcontent">
+            <p>
+                <img loading="lazy" src="data/pairwise_wga/Cmac_populations/ref_Lome_Ys_query_Lome_Yl.png" width="75%" />
+            </p>
+        </div>
+        <div id="WGA_YS_china" class="tabcontent">
+            <p>
+                <img loading="lazy" src="data/pairwise_wga/Cmac_populations/ref_Lome_Ys_query_Cmac_china.png" width="75%" />
+            </p>
+        </div>
+    </div>
+    <div id="WGA_YL" class="tabcontent">
+        <p>x-axis: Lomé Y<sub>L</sub>, y-axis: query</p>
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'WGA_YL_YS')">Lomé Y<sub>S</sub></button>
+            <button class="tablinks" onclick="openTab(event, 'WGA_YL_china')">China</button>
+        </div>
+        <div id="WGA_YL_YS" class="tabcontent">
+            <p>
+                <img loading="lazy" src="data/pairwise_wga/Cmac_populations/ref_Lome_Yl_query_Lome_Ys.png" width="75%" />
+            </p>
+        </div>
+        <div id="WGA_YL_china" class="tabcontent">
+            <p>
+                <img loading="lazy" src="data/pairwise_wga/Cmac_populations/ref_Lome_Yl_query_Cmac_china.png" width="75%" />
+            </p>
+        </div>
+    </div>
+    <div id="WGA_china" class="tabcontent">
+        <p>x-axis: China, y-axis: query</p>
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'WGA_china_YS')">Lomé Y<sub>S</sub></button>
+            <button class="tablinks" onclick="openTab(event, 'WGA_china_YL')">Lomé Y<sub>L</sub></button>
+        </div>
+        <div id="WGA_china_YS" class="tabcontent">
+            <p>
+                <img loading="lazy" src="data/pairwise_wga/Cmac_populations/ref_Cmac_china_query_Lome_Ys.png" width="75%" />
+            </p>
+        </div>
+        <div id="WGA_china_YL" class="tabcontent">
+            <p>
+                <img loading="lazy" src="data/pairwise_wga/Cmac_populations/ref_Cmac_china_query_Lome_Yl.png" width="75%" />
+            </p>
+        </div>
+    </div>
+</div>
+
+<h3>Sex chromosome alignments</h3>
+
+<p>
+    Unclear why the chinese assembly as reference has 0% overlap? I think it is maybe to do with the <code>delta-filter</code> flags, and that I can't use the 
+    bidirectional <code>-m</code> because it takes too long so somehow all reference-overlaps get filtered? 
+</p>
+
+<p style="margin-top: 2em;"></p>
+<div style="float: left;width: 48%;">
+    <p><b>X-chromosome</b></p>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'Cmac_heatmap_norm_X')">normal colors</button>
+        <button class="tablinks" onclick="openTab(event, 'Cmac_heatmap_log_X')">log colors</button>
+    </div>
+    <div id="Cmac_heatmap_log_X" class="tabcontent">
+        <p float="left">
+            <img loading="lazy" src="data/pairwise_wga/X_chr_log_alignment_coverage_heatmap_Cmac_populations.png" width="100%" />
+        </p>
+    </div>
+    <div id="Cmac_heatmap_norm_X" class="tabcontent">
+        <p float="left">
+            <img loading="lazy" src="data/pairwise_wga/X_chr__alignment_coverage_heatmap_Cmac_populations.png" width="100%" />
+        </p>
+    </div>
+</div>
+<div style="float: right;width: 48%;">
+    <p><b>Y-chromosome</b></p>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'Cmac_heatmap_norm_Y')">normal colors</button>
+        <button class="tablinks" onclick="openTab(event, 'Cmac_heatmap_log_Y')">log colors</button>
+    </div>
+    <div id="Cmac_heatmap_log_Y" class="tabcontent">
+        <p float="left">
+            <img loading="lazy" src="data/pairwise_wga/Y_chr_log_alignment_coverage_heatmap_Cmac_populations.png" width="100%" />
+        </p>
+    </div>
+    <div id="Cmac_heatmap_norm_Y" class="tabcontent">
+        <p float="left">
+            <img loading="lazy" src="data/pairwise_wga/Y_chr__alignment_coverage_heatmap_Cmac_populations.png" width="100%" />
+        </p>
+    </div>
+
+    <p>I don't know what is up with the &gt; 100% alignment coverage in Lomé Y<sub>S</sub> vs. Y<sub>L</sub>.</p>
+</div>
+<div style="clear: both;"></div>
 
 
-
-<h2>Synteny</h2>
+<h2 id="synteny">Synteny</h2>
 
 <p><span style="color: #BD351E">TODO: check blast BRHs, how many of any X chr are on also the X in other species</span></p>
 

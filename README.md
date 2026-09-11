@@ -105,13 +105,6 @@ I will trim with fastp, map with bwa-mem, deduplicate with [picard](https://broa
 I conclude here that this is NOT the Y chromosome, the coverage really gives no indication.
 
 
-## MCScanX
-
-[MCScanX](https://github.com/wyp1125/MCScanX) is based on protein synteny from blastp searches. The documentation is not super useful beyond the installation instructions, so I was recommended [this workflow](https://www.nature.com/articles/s41596-024-00968-2#Sec29), which I will use for detailed instructions, but for preparing the input files, I am using my own scripts and not their provided ones (esp. the perl scripts have hard-coded aspects that assume ncbi assemblies and annotations, which doesn't apply to my data). MCScanX only takes one input: the prefix of both files below. It says directory in the documentation but that's wrong. You run from the same directory as the files are in and the command is just `./MCScanX prefix` where the input files are `prefix.gff` `prefix.blast` in the same directory.
-
-* **`prefix.gff`:** I used my script `src/make_bedfile_for_MCScanX.py` which makes all the files according to the format required, including reformatting the contig names, and also creating a lookup table to associate the new contig names with the original ones from the annotations. The files are then all merged with `cat *.bed > prefix.gff`
-* **`prefix.blast`:** I am using blastp according to the above cited workflow on all the species `bash/blastp_for_synteny.sh`. All blast results are again merged `cat *.blast > prefix.blast`.
-
 ### Troubleshooting
 
 * **no alighments generated:** The log file reads no blast alignments. For me, this was caused by the file extension of the annotation file. I named it `.bed` but it should be `.gff` (because it is somehow hardcoded and there is no test to see if a file actually exists?)

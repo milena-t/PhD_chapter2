@@ -11,7 +11,7 @@ body {
   h4, h5, h6 { margin-top: 1.6em; }
   h1 { border-bottom: 1px solid #d0d7de; padding-bottom: .3em; }
   h2 { border-bottom: 1px solid #d0d7de; padding-bottom: .3em; }
-  
+
   ul {
     /* user-agent styles */
     display: block;
@@ -61,7 +61,7 @@ body {
   summary { cursor: pointer; }
   iframe { border: 1px solid #d0d7de; border-radius: 4px; }
   a { color: #416793; }
-  
+  sub,i,b { color: inherit; }
 
 
 /* Style the tab */
