@@ -338,10 +338,20 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
                 (because it is somehow hardcoded and there is no test to see if a file actually exists?)
             </li>    
             <li>
-                <i>Some species have no synteny blocks at all in the plot:</i> This has happened when I have included more than one species with annotations from the same pipeline 
-                (such as BRAKER3 or 4) with no species name label in the gene IDs. This means that in some pairwise comparisons, labels such as <code>g1.t1</code> are used for both 
-                species, and this causes it to not work for these pairs. It works fine for all others where there are no identical labels between the species, and adding a species-specific
-                prefix to all transcript IDs before blast and in the .gff fixes this.
+                <i>Some species have no synteny blocks at all in the plot:</i> 
+                <ul>
+                    <li>
+                        This has happened when I have included more than one species with annotations from the same pipeline 
+                        (such as BRAKER3 or 4) with no species name label in the gene IDs. This means that in some pairwise comparisons, labels such as <code>g1.t1</code> are used for both 
+                        species, and this causes it to not work for these pairs. It works fine for all others where there are no identical labels between the species, and adding a species-specific
+                        prefix to all transcript IDs before blast and in the .gff fixes this.
+                    </li>
+                    <li>
+                        The other possibility is that the geneIDs of the proteinfasta and the annotation don't match. In some cases the proteinfasta IDs have a tailing '<code>_1</code>'
+                        that is absent from the geneIDs, and then the software can't associate blast results from the proteinfasta with the annotation. This also gives no error message, 
+                        just an empty output for all pairwise comparisons involving this species.
+                    </li>
+                </ul>
             </li>
         </ul>
     </p>
