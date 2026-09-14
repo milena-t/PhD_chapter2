@@ -12,7 +12,7 @@ import os
 
 import make_contig_names_for_MCScanX as mod_contig_names
 
-def modify_gff_for_MCScanX(gff_path:str, species_initials:str):
+def modify_gff_for_MCScanX(gff_path:str, species_initials:str, geneID_prefix:str=""):
     """ modify the file for MCScanX into a bedfile """
     outfile_bed_path = gff_path.split(".")[0]
     outfile_bed_path = f"{outfile_bed_path}_simplified.bed"
@@ -41,9 +41,10 @@ def modify_gff_for_MCScanX(gff_path:str, species_initials:str):
                 ## gff 2 files from braker4 (isoform filtered), the transcript ID has nothing else in the attributes column
                 transcript_id = attributes
             contig = lookup_table_dict[contig_]
+            
 
             ## add _1 suffix to transcript ID to match the proteinfasta files 
-            bed_string = f"{contig}\t{transcript_id}_1\t{start}\t{stop}\n"
+            bed_string = f"{contig}\t{geneID_prefix}{transcript_id}_1\t{start}\t{stop}\n"
             bed_outfile.write(bed_string)
     
     print(f"outfile written to {outfile_bed_path}")
@@ -53,18 +54,22 @@ def modify_gff_for_MCScanX(gff_path:str, species_initials:str):
 if __name__ == "__main__":
 
     if len(sys.argv) == 1:
-        annotation_file = "/Users/miltr339/work/native_annotations/a_obtectus_native_isoform_filtered.gff"
-        species_initials = "ao"
+        raise RuntimeError(f"specify both annotation file and species initials!\n python3 make_bedfile_for_MCScanX.py annotation.gff si [geneID_prefix]")
     elif len(sys.argv) == 2:
-        raise RuntimeError(f"specify both annotation file and species initials!\n python3 make_bedfile_for_MCScanX.py annotation.gff si")
+        raise RuntimeError(f"specify both annotation file and species initials!\n python3 make_bedfile_for_MCScanX.py annotation.gff si [geneID_prefix]")
     elif len(sys.argv) == 3:
         annotation_file = sys.argv[1]
         species_initials = sys.argv[2]
+        geneid_prefix = ""
+    elif len(sys.argv) == 4:
+        annotation_file = sys.argv[1]
+        species_initials = sys.argv[2]
+        geneid_prefix = sys.argv[3]
     else:
-        raise RuntimeError(f"please specify one annotation file and one string of species initials as command line argument.\nyou have specified:\n{sys.argv}")
+        raise RuntimeError(f"please specify one annotation file and one string of species initials as command line argument.\noptional you can add a second prefix that will be added before the geneID if it has the same format as another species and there are identical ones\nyou have specified:\n{sys.argv}")
 
     if not os.access(annotation_file, os.R_OK):
         raise RuntimeError(f"{annotation_file} does not exist or is not readable")
     print(f"species initials given --> {species_initials}")
 
-    modify_gff_for_MCScanX(annotation_file, species_initials=species_initials)
+    modify_gff_for_MCScanX(annotation_file, species_initials=species_initials, geneID_prefix=f"{geneid_prefix}_")

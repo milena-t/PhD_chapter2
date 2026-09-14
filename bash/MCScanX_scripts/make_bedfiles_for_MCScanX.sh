@@ -22,7 +22,7 @@ module load biopython/1.80-py3.10.8
 
 SCIPT_PATH=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/src/
 ANNOT_PATH=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/braker4_annotation/
-python3 ${SCIPT_PATH}make_bedfile_for_MCScanX.py ${ANNOT_PATH}A_obtectus/results/braker_longest.gtf ao
-python3 ${SCIPT_PATH}make_bedfile_for_MCScanX.py ${ANNOT_PATH}B_varius/results/braker_longest.gtf bv
-python3 ${SCIPT_PATH}make_bedfile_for_MCScanX.py ${ANNOT_PATH}C_chinensis/results/braker_longest.gtf cc
-python3 ${SCIPT_PATH}make_bedfile_for_MCScanX.py ${ANNOT_PATH}C_maculatus_china/results/braker_longest.gtf mc
+python3 ${SCIPT_PATH}make_bedfile_for_MCScanX.py ${ANNOT_PATH}A_obtectus/results/braker_longest.gtf ao Aobt
+python3 ${SCIPT_PATH}make_bedfile_for_MCScanX.py ${ANNOT_PATH}B_varius/results/braker_longest.gtf bv Bvar
+python3 ${SCIPT_PATH}make_bedfile_for_MCScanX.py ${ANNOT_PATH}C_chinensis/results/braker_longest.gtf cc Cchi
+# python3 ${SCIPT_PATH}make_bedfile_for_MCScanX.py ${ANNOT_PATH}C_maculatus_china/results/braker_longest.gtf mc # CmacC
