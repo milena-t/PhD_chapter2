@@ -33,6 +33,14 @@ echo "--> done Aobt Bsil"
 java dual_synteny_plotter \
     -g ${FILES_DIR}MCScanX_results/all_species.gff \
     -s ${FILES_DIR}MCScanX_results/all_species.collinearity \
+    -c ${FILES_DIR}PhD_chapter2/bash/MCScanX_scripts/plot_MCScanX/plot_ctl_Aobt_Bvar.ctl \
+    -o ${FILES_DIR}MCScanX_results/plots/plot_ctl_Aobt_Bvar.png
+
+echo "--> done Aobt Bvar"
+
+java dual_synteny_plotter \
+    -g ${FILES_DIR}MCScanX_results/all_species.gff \
+    -s ${FILES_DIR}MCScanX_results/all_species.collinearity \
     -c ${FILES_DIR}PhD_chapter2/bash/MCScanX_scripts/plot_MCScanX/plot_ctl_Dsub_Dcar.ctl \
     -o ${FILES_DIR}MCScanX_results/plots/plot_ctl_Dsub_Dcar.png
 

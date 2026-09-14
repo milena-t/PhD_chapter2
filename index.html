@@ -312,28 +312,38 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
     <a href="https://github.com/wyp1125/MCScanX">MCScanX</a> is based on protein synteny from blastp searches. The documentation is not super useful beyond the installation instructions, 
     so I was recommended <a href="https://www.nature.com/articles/s41596-024-00968-2#Sec29">this workflow</a>, which I will use for detailed instructions, but for preparing the input files, 
     I am using my own scripts and not their provided ones (esp. the perl scripts have hard-coded aspects that assume ncbi assemblies and annotations, which doesn't apply to my data). 
-    MCScanX only takes one input: the prefix of both files below. It says directory in the documentation but that's wrong. You run from the same directory as the files are in and the 
-    command is just <code>./MCScanX prefix</code> where the input files are <code>prefix.gff</code> and <code>prefix.blast</code> in the same directory.
+    MCScanX only takes one input: the prefix of both files below ('all_species' in my case). It says directory in the documentation but that's wrong. 
+    You run from the same directory as the files are in and the command is just <code>./MCScanX prefix</code> where the input files are <code>prefix.gff</code> and <code>prefix.blast</code> in the same directory.
 
 </p>
 
 <ul>
     <li>
-        <b>prefix.gff:</b> I used my script <code>src/make_bedfile_for_MCScanX.py</code> which makes all the files according to the format required, including reformatting the contig names, 
-        and also creating a lookup table to associate the new contig names with the original ones from the annotations. <br>The files are then all merged with <code>cat *.bed > prefix.gff</code>
+        <b>all_species.gff:</b> I used my script <code>src/make_bedfile_for_MCScanX.py</code> which makes all the files according to the format required, including reformatting the contig names, 
+        and also creating a lookup table to associate the new contig names with the original ones from the annotations. <br>The files are then all merged with <code>cat *.bed > all_species.gff</code>
     </li>
     <li>
-        <b>prefix.blast:</b> I am using blastp according to the above cited workflow on all the species <code>bash/blastp_for_synteny.sh</code>. <br>
-        All blast results are again merged <code>cat *.blast > prefix.blast</code>.
+        <b>all_species.blast:</b> I am using blastp according to the above cited workflow on all the species <code>bash/blastp_for_synteny.sh</code>. <br>
+        All blast results are again merged <code>cat *.blast > all_species.blast</code>.
     </li>
 </ul>
 
 <details>
     <summary>Troubleshooting</summary>
     <p style="padding-top:1em;">
-        <code>No alighments generated</code>: The log file reads no blast alignments. 
-        For me, this was caused by the file extension of the annotation file. I named it <code>.bed</code> but it should be <code>.gff</code> 
-        (because it is somehow hardcoded and there is no test to see if a file actually exists?)
+        <ul>
+            <li>
+                <code>No alighments generated</code>: The log file reads no blast alignments. 
+                For me, this was caused by the file extension of the annotation file. I named it <code>.bed</code> but it should be <code>.gff</code> 
+                (because it is somehow hardcoded and there is no test to see if a file actually exists?)
+            </li>    
+            <li>
+                <i>Some species have no synteny blocks at all in the plot:</i> This has happened when I have included more than one species with annotations from the same pipeline 
+                (such as BRAKER3 or 4) with no species name label in the gene IDs. This means that in some pairwise comparisons, labels such as <code>g1.t1</code> are used for both 
+                species, and this causes it to not work for these pairs. It works fine for all others where there are no identical labels between the species, and adding a species-specific
+                prefix to all transcript IDs before blast and in the .gff fixes this.
+            </li>
+        </ul>
     </p>
 </details>
 
@@ -917,16 +927,16 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
     </div>
     <div style="float: right; width:15%;">
         <p><b>B. varius</b></p>
-        <pre><code> 1 - bv9
- 2 - bv7
- 3 - bv13
- 4 - bv14
- 5 - bv17
- 6 - bv3
- 7 - bv4
- 8 - bv10
- X - bv6
- Y - bv15</code></pre>
+        <pre><code> 1 - bv2
+ 2 - bv16
+ 3 - bv10
+ 4 - bv17
+ 5 - bv4
+ 6 - bv11
+ 7 - bv15
+ 8 - bv12
+ X - bv5
+ Y - bv7</code></pre>
     </div>
 </div>
 <div id="synteny_Cmac_Bsil" class="tabcontent">
