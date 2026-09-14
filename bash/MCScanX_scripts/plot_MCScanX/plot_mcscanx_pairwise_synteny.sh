@@ -57,7 +57,7 @@ echo "--> done Bvar Bsil"
 java dual_synteny_plotter \
     -g ${FILES_DIR}MCScanX_results/all_species.gff \
     -s ${FILES_DIR}MCScanX_results/all_species.collinearity \
-    -c ${FILES_DIR}PhD_chapter2/bash/MCScanX_scripts/plot_MCScanX/plot_ctl_Cmac_Bsil.ctl \
-    -o ${FILES_DIR}MCScanX_results/plots/plot_ctl_Cmac_Bsil.png
+    -c ${FILES_DIR}PhD_chapter2/bash/MCScanX_scripts/plot_MCScanX/plot_ctl_Cmac_var.ctl \
+    -o ${FILES_DIR}MCScanX_results/plots/plot_ctl_Cmac_var.png
 
 echo "--> done Cmac Bvar"
