@@ -46,18 +46,42 @@ cd /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/MCScanX-1_0_0/do
 # 
 # echo "--> done Bvar Bsil"
 
+# java dual_synteny_plotter \
+#     -g ${FILES_DIR}MCScanX_results/all_species.gff \
+#     -s ${FILES_DIR}MCScanX_results/all_species.collinearity \
+#     -c ${FILES_DIR}PhD_chapter2/bash/MCScanX_scripts/plot_MCScanX/plot_ctl_Cmac_Bvar.ctl \
+#     -o ${FILES_DIR}MCScanX_results/plots/plot_ctl_Cmac_Bvar.png
+# 
+# echo "--> done Cmac Bvar"
+
+# java dual_synteny_plotter \
+#     -g ${FILES_DIR}MCScanX_results/all_species.gff \
+#     -s ${FILES_DIR}MCScanX_results/all_species.collinearity \
+#     -c ${FILES_DIR}PhD_chapter2/bash/MCScanX_scripts/plot_MCScanX/plot_ctl_Cmac_Bsil.ctl \
+#     -o ${FILES_DIR}MCScanX_results/plots/plot_ctl_Cmac_Bsil.png
+# 
+# echo "--> done Cmac Bsil"
+
 java dual_synteny_plotter \
     -g ${FILES_DIR}MCScanX_results/all_species.gff \
     -s ${FILES_DIR}MCScanX_results/all_species.collinearity \
-    -c ${FILES_DIR}PhD_chapter2/bash/MCScanX_scripts/plot_MCScanX/plot_ctl_Cmac_Bvar.ctl \
-    -o ${FILES_DIR}MCScanX_results/plots/plot_ctl_Cmac_Bvar.png
+    -c ${FILES_DIR}PhD_chapter2/bash/MCScanX_scripts/plot_MCScanX/plot_ctl_Dsub_Bsil.ctl \
+    -o ${FILES_DIR}MCScanX_results/plots/plot_ctl_Dsub_Bsil.png
 
-echo "--> done Cmac Bvar"
+echo "--> done Dsub Bsil"
 
 java dual_synteny_plotter \
     -g ${FILES_DIR}MCScanX_results/all_species.gff \
     -s ${FILES_DIR}MCScanX_results/all_species.collinearity \
-    -c ${FILES_DIR}PhD_chapter2/bash/MCScanX_scripts/plot_MCScanX/plot_ctl_Cmac_Bsil.ctl \
-    -o ${FILES_DIR}MCScanX_results/plots/plot_ctl_Cmac_Bsil.png
+    -c ${FILES_DIR}PhD_chapter2/bash/MCScanX_scripts/plot_MCScanX/plot_ctl_Dsub_Bvar.ctl \
+    -o ${FILES_DIR}MCScanX_results/plots/plot_ctl_Dsub_Bvar.png
 
-echo "--> done Cmac Bsil"
+echo "--> done Dsub Bvar"
+
+java dual_synteny_plotter \
+    -g ${FILES_DIR}MCScanX_results/all_species.gff \
+    -s ${FILES_DIR}MCScanX_results/all_species.collinearity \
+    -c ${FILES_DIR}PhD_chapter2/bash/MCScanX_scripts/plot_MCScanX/plot_ctl_Dsub_Aobt.ctl \
+    -o ${FILES_DIR}MCScanX_results/plots/plot_ctl_Dsub_Aobt.png
+
+echo "--> done Dsub Aobt"
