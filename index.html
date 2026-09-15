@@ -904,11 +904,21 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 
 <h2 id="synteny">Synteny</h2>
 
-
 <p>
-    <span style="color: #BD351E">TODO: check blast BRHs, how many of any X chr are on also the X in other species <br>
-    add remaining plots </span>
+    The phylogenetic distance of the <i>Diorhabda</i> genus from the <i>Bruchini</i> (see tree in <a href="index.html#methods-data">Data</a>) is in agreement with the 
+    pairwise synteny analysis presented below. There are chromosomal rearrangements between the <i>Bruchini</i>, but overall synteny is largely conserved, but the greater
+    phylogenetic distance to <i>Diorhabda</i> breaks down synteny between <i>Diorhabda</i> and <i>Bruchini</i>. Within <i>Diorhabda</i>, there are many rearrangements,
+    even though genome size stays largely constant, as opposed to <i>Bruchidius</i>, where genome size changes drastically but synteny stays largely conserved. 
 </p>
+<p>
+    The only exception to the eroded synteny between <i>Diorhabda</i> and <i>Bruchini</i> is the X-chromosome, as already identified in chapter III, which maintains synteny across
+    larger phylogenetic distances than any autosomes. Inversely, no Y-chromosome synteny is detected between any of the species. This is potentially due to the high duplication and 
+    translocation rates of these genes that make formal synteny difficult do detect.
+</p>
+<p>
+    <span style="color:#909bb5">The species-initial+number chromosome names are due to a requirement from MCScanX, associations to proper chromosome names are next to each plot.</span>
+</p>
+
 
 <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'synteny_Aobt_Bsil')"><i>A. obtectus</i> vs. <i>B. siliquastri</i></button>
@@ -917,6 +927,9 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
     <button class="tablinks" onclick="openTab(event, 'synteny_Cmac_Bsil')"><i>C. maculatus</i> vs. <i>B. siliquastri</i></button>
     <button class="tablinks" onclick="openTab(event, 'synteny_Cmac_Bvar')"><i>C. maculatus</i> vs. <i>B. varius</i></button>
     <button class="tablinks" onclick="openTab(event, 'synteny_Dsub_Dcar')"><i>D. sublineata</i> vs. <i>D. carinulata</i></button>
+    <button class="tablinks" onclick="openTab(event, 'synteny_Dsub_Aobt')"><i>D. sublineata</i> vs. <i>A. obtectus</i></button>
+    <button class="tablinks" onclick="openTab(event, 'synteny_Dsub_Bsil')"><i>D. sublineata</i> vs. <i>B. siliquastri</i></button>
+    <button class="tablinks" onclick="openTab(event, 'synteny_Dsub_Bvar')"><i>D. sublineata</i> vs. <i>B. varius</i></button>
 </div>
 
 <div id="synteny_Aobt_Bsil" class="tabcontent">
@@ -1151,8 +1164,131 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
  X - ds21
  Y - ds18</code></pre>
 </div>
-
 </div>
+
+<div id="synteny_Dsub_Aobt" class="tabcontent">
+    <div style="float: left; width:84%">
+        <p>
+            <img loading="lazy" src="data/synteny/plot_ctl_Dsub_Aobt.png" width="100%" />
+        </p>
+    </div>
+    
+<div style="float: right; width:15%">
+    <p><b>A. obtectus</b></p>
+        <pre><code> 1 - ao149
+ 2 - ao73
+ 3 - ao62
+ 4 - ao109
+ 5 - ao77
+ 6 - ao126
+ 7 - ao11
+ 8 - ao135
+ 9 - ao159
+ X - ao138
+ Y - ao6</code></pre>
+</div>
+
+<div style="float: right; width:15%">
+    <p><b>D. sublineata</b></p>
+    <pre><code> 1 - ds75
+ 2 - ds5
+ 3 - ds22
+ 4 - ds49
+ 5 - ds2
+ 6 - ds33
+ 7 - ds59
+ 8 - ds46
+ 9 - ds14
+ 10 - ds68
+ 11 - ds43
+ X - ds21
+ Y - ds18</code></pre>
+</div>
+</div>
+
+<div id="synteny_Dsub_Bsil" class="tabcontent">
+    <div style="float: left; width:84%">
+        <p>
+            <img loading="lazy" src="data/synteny/plot_ctl_Dsub_Bsil.png" width="100%" />
+        </p>
+    </div>
+    
+<div style="float: right; width:15%">
+    <p><b>B. siliquastri</b></p>
+        <pre><code> 1 - bs1
+ 2 - bs2
+ 3 - bs10
+ 4 - bs3
+ 5 - bs6
+ 6 - bs5
+ 7 - bs4
+ 8 - bs11
+ 9 - bs7
+ X - bs9
+ Y - bs8</code></pre>
+</div>
+
+<div style="float: right; width:15%">
+    <p><b>D. sublineata</b></p>
+    <pre><code> 1 - ds75
+ 2 - ds5
+ 3 - ds22
+ 4 - ds49
+ 5 - ds2
+ 6 - ds33
+ 7 - ds59
+ 8 - ds46
+ 9 - ds14
+ 10 - ds68
+ 11 - ds43
+ X - ds21
+ Y - ds18</code></pre>
+</div>
+</div>
+
+<div id="synteny_Dsub_Bvar" class="tabcontent">
+    <div style="float: left; width:84%">
+        <p>
+            <img loading="lazy" src="data/synteny/plot_ctl_Dsub_Bvar.png" width="100%" />
+        </p>
+    </div>
+    
+<div style="float: right; width:15%">
+    <p><b>B. varius</b></p>
+        <pre><code> 1 - bv2
+ 2 - bv16
+ 3 - bv10
+ 4 - bv17
+ 5 - bv4
+ 6 - bv11
+ 7 - bv15
+ 8 - bv12
+ X - bv5
+ Y - bv7</code></pre>
+</div>
+
+<div style="float: right; width:15%">
+    <p><b>D. sublineata</b></p>
+    <pre><code> 1 - ds75
+ 2 - ds5
+ 3 - ds22
+ 4 - ds49
+ 5 - ds2
+ 6 - ds33
+ 7 - ds59
+ 8 - ds46
+ 9 - ds14
+ 10 - ds68
+ 11 - ds43
+ X - ds21
+ Y - ds18</code></pre>
+</div>
+</div>
+
+
+
+
+
 
 </div>
 </div>
