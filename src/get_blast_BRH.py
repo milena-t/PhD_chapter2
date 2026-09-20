@@ -167,9 +167,9 @@ if __name__ == "__main__":
     ###
     if not args.X_contigs1:
         sex_chr_contigs = sex_chromosome_names()
-        species1_listname = blast_infile_path1.split("_")
+        species1_listname = blast_infile_path1.split("/")[-1].split("_")
         species1 = f"{species1_listname[0]}_{species1_listname[1]}"
-        species2_listname = blast_infile_path2.split("_")
+        species2_listname = blast_infile_path2.split("/")[-1].split("_")
         species2 = f"{species2_listname[0]}_{species2_listname[1]}"
         X_list1 = sex_chr_contigs[species1]["X"]
         X_list2 = sex_chr_contigs[species2]["X"]
