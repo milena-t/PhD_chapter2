@@ -343,7 +343,10 @@ def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_fe
                 else:
                     raise RuntimeError(f"no id property found for gene in line: {line}")
             if "Parent" not in attributes and not category==FeatureCategory.Gene and not category==FeatureCategory.Region:
-                raise RuntimeError(f"feature is not a gene and no parentid property found for feature in line: {line}")
+                if gtf:
+                    parent_id = None
+                else:    
+                    raise RuntimeError(f"feature is not a gene and no parentid property found for feature in line: {line}")
             
             ## add the feature to its parent if relevant
             parent_id = None

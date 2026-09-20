@@ -105,10 +105,12 @@ def get_BRHs(besthits_infile1, besthits_infile2, annotation1, annotation2, x_lis
         try:
             annotation1 = gff.parse_gff3_general(annotation1, verbose=False)
         except:
+            print(f"-- > parse {annotation1} as gtf")
             annotation1 = gff.parse_gff3_general(annotation1, verbose=True, gtf=True)
         try:
             annotation2 = gff.parse_gff3_general(annotation2, verbose=False)
         except:
+            print(f"-- > parse {annotation2} as gtf")
             annotation2 = gff.parse_gff3_general(annotation2, verbose=True, gtf=True)
 
     elif type(annotation1) == dict and type(annotation2) == dict:
