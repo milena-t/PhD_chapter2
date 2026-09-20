@@ -102,8 +102,15 @@ def get_BRHs(besthits_infile1, besthits_infile2, annotation1, annotation2, x_lis
         species2 = annotation2.split("/")[-1].split(".")[0]
         ## read annotations from filepaths
         print(f"reading annotations of species 1 and 2...")
-        annotation1 = gff.parse_gff3_general(annotation1, verbose=False)
-        annotation2 = gff.parse_gff3_general(annotation2, verbose=False)
+        try:
+            annotation1 = gff.parse_gff3_general(annotation1, verbose=False)
+        except:
+            annotation1 = gff.parse_gff3_general(annotation1, verbose=False, gtf=True)
+        try:
+            annotation2 = gff.parse_gff3_general(annotation2, verbose=False)
+        except:
+            annotation2 = gff.parse_gff3_general(annotation2, verbose=False, gtf=True)
+            
     elif type(annotation1) == dict and type(annotation2) == dict:
         ## use species names from parameters and assume that the annotations are already read in
         if species1 == "" or species2 == "":
@@ -167,10 +174,10 @@ if __name__ == "__main__":
     ###
     if not args.X_contigs1:
         sex_chr_contigs = sex_chromosome_names()
-        species1_listname = blast_infile_path1.split("/")[-1].split("_")
-        species1 = f"{species1_listname[0]}_{species1_listname[1]}"
-        species2_listname = blast_infile_path2.split("/")[-1].split("_")
-        species2 = f"{species2_listname[0]}_{species2_listname[1]}"
+        species1_listname = blast_infile_path1.split("/")[-1]
+        species1 = gff.split_at_second_occurrence(species1_listname)
+        species2_listname = blast_infile_path2.split("/")[-1]
+        species2 = gff.split_at_second_occurrence(species2_listname)
         X_list1 = sex_chr_contigs[species1]["X"]
         X_list2 = sex_chr_contigs[species2]["X"]
         Y_list1 = sex_chr_contigs[species1]["Y"]

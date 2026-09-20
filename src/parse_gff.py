@@ -252,7 +252,7 @@ class Feature:
         )
 
 
-def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_feature_category=None):
+def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_feature_category=None, gtf=False):
     """
     Read a gff file specified in the filepath and parse it into a dictionary of Feature IDs and instances of the Feature class
     {
@@ -331,9 +331,15 @@ def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_fe
             
             ## check that ID and Parent are detected correctly
             if "ID" not in attributes:
+                if gtf and len(attributes)<2:
+                    attributes["ID"] = attributes_.strip()
+                else:
                     raise RuntimeError(f"no id property found for gene in line: {line}")
             if "Parent" not in attributes and not category==FeatureCategory.Gene and not category==FeatureCategory.Region:
-                raise RuntimeError(f"feature is not a gene and no parentid property found for feature in line: {line}")
+                if gtf:
+                    continue
+                else:
+                    raise RuntimeError(f"feature is not a gene and no parentid property found for feature in line: {line}")
             
             ## add the feature to its parent if relevant
             parent_id = None
