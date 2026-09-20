@@ -331,8 +331,11 @@ def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_fe
             
             ## check that ID and Parent are detected correctly
             if "ID" not in attributes:
-                if gtf and len(attributes)<2:
-                    attributes["ID"] = attributes_.strip()
+                if gtf:
+                    if len(attributes)<2:
+                        attributes["ID"] = attributes_.strip()
+                    else:
+                        continue
                 else:
                     raise RuntimeError(f"no id property found for gene in line: {line}")
             if "Parent" not in attributes and not category==FeatureCategory.Gene and not category==FeatureCategory.Region:
