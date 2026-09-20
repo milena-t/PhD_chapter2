@@ -105,12 +105,12 @@ def get_BRHs(besthits_infile1, besthits_infile2, annotation1, annotation2, x_lis
         try:
             annotation1 = gff.parse_gff3_general(annotation1, verbose=False)
         except:
-            annotation1 = gff.parse_gff3_general(annotation1, verbose=False, gtf=True)
+            annotation1 = gff.parse_gff3_general(annotation1, verbose=True, gtf=True)
         try:
             annotation2 = gff.parse_gff3_general(annotation2, verbose=False)
         except:
-            annotation2 = gff.parse_gff3_general(annotation2, verbose=False, gtf=True)
-            
+            annotation2 = gff.parse_gff3_general(annotation2, verbose=True, gtf=True)
+
     elif type(annotation1) == dict and type(annotation2) == dict:
         ## use species names from parameters and assume that the annotations are already read in
         if species1 == "" or species2 == "":
