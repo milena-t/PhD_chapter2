@@ -356,6 +356,9 @@ def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_fe
 
             ## add Feature to the output dict
             new_feature=Feature(feature_id=attributes["ID"],contig = contig,category=category,start=int(start),end=int(stop),strandedness=strandedness, frame=frame, parent_id=parent_id)
+            if gtf and category == FeatureCategory.Transcript:
+                print(new_feature)
+                raise RuntimeError("test gtf")
             genome_annotation[new_feature.feature_id]=new_feature
 
     if verbose:
