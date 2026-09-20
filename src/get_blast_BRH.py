@@ -23,8 +23,8 @@ the result is a tsv file that includes the transcript IDs of the best hits and t
     parser.add_argument('--annotation1', type=str, required=True, help='Absolute filepath to the annotation that blast1 query is based on')
     parser.add_argument('--annotation2', type=str, required=True, help='Absolute filepath to the annotation that blast2 query is based on')
     parser.add_argument('--verbose', action='store_true', help="enable verbose mode")
-    parser.add_argument('--X_contigs1', type=str, required=True, help='comma separated list of the names of X-linked contigs in species 1 (given directly in the command line with no spaces, not a path to a file!')
-    parser.add_argument('--X_contigs2', type=str, required=True, help='comma separated list of the names of X-linked contigs in species 2 (given directly in the command line with no spaces, not a path to a file!')
+    parser.add_argument('--X_contigs1', type=str, help='comma separated list of the names of X-linked contigs in species 1 (given directly in the command line with no spaces, not a path to a file!')
+    parser.add_argument('--X_contigs2', type=str, help='comma separated list of the names of X-linked contigs in species 2 (given directly in the command line with no spaces, not a path to a file!')
     parser.add_argument('--Y_contigs1', type=str, help='comma separated list of the names of Y-linked contigs in species 1 (given directly in the command line with no spaces, not a path to a file!')
     parser.add_argument('--Y_contigs2', type=str, help='comma separated list of the names of Y-linked contigs in species 2 (given directly in the command line with no spaces, not a path to a file!')
  
@@ -164,16 +164,26 @@ if __name__ == "__main__":
     verbose = args.verbose
     ###
     # the C. magnifica contigs contain a comma because God is trying to test me. don't split in this case
-    # X_list1 = [args.X_contigs1.strip()]
-    X_list1 = args.X_contigs1.strip().split(",")
     ###
-    X_list2 = args.X_contigs2.strip().split(",")
-    if args.Y_contigs1 and args.Y_contigs2:
-        Y_list1 = args.Y_contigs1.strip().split(",")
-        Y_list2 = args.Y_contigs2.strip().split(",")
+    if not args.X_contigs1:
+        sex_chr_contigs = sex_chromosome_names()
+        species1_listname = blast_infile_path1.split("_")
+        species1 = f"{species1_listname[0]}_{species1_listname[1]}"
+        species2_listname = blast_infile_path2.split("_")
+        species2 = f"{species2_listname[0]}_{species2_listname[1]}"
+        X_list1 = sex_chr_contigs[species1]["X"]
+        X_list2 = sex_chr_contigs[species2]["X"]
+        Y_list1 = sex_chr_contigs[species1]["Y"]
+        Y_list2 = sex_chr_contigs[species2]["Y"]
     else:
-        Y_list1 = []
-        Y_list2 = []
+        X_list1 = args.X_contigs1.strip().split(",")
+        X_list2 = args.X_contigs2.strip().split(",")
+        if args.Y_contigs1 and args.Y_contigs2:
+            Y_list1 = args.Y_contigs1.strip().split(",")
+            Y_list2 = args.Y_contigs2.strip().split(",")
+        else:
+            Y_list1 = []
+            Y_list2 = []
 
     besthits_infile1 = read_best_hits(blast_infile_path1)
     besthits_infile2 = read_best_hits(blast_infile_path2)
