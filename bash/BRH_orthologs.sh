@@ -25,7 +25,8 @@ do
         --blast1 ${BLAST_OUTDIR}/${SPECIES1}_vs_${SPECIES2}.blast \
         --blast2 ${BLAST_OUTDIR}/${SPECIES2}_vs_${SPECIES1}.blast \
         --annotation1 $ANN_DIR/${SPECIES1}.gff \
-        --annotation2 $ANN_DIR/${SPECIES2}.gff 
+        --annotation2 $ANN_DIR/${SPECIES2}.gff \
+        --outfile ${SPECIES1}_vs_${SPECIES2}_BRHs.tsv
 
     done
 done
