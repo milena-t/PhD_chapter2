@@ -300,6 +300,12 @@ def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_fe
             contig,source,category_,start,stop,score,strandedness,frame,attributes_=[c for c in line.split("\t") if len(c)>0]
             category = categorize_string(category_)
 
+            if gtf:
+                if category == FeatureCategory.Gene or category==FeatureCategory.Transcript:
+                    pass
+                else:
+                    continue
+
             if only_genes and category != FeatureCategory.Gene:
                 # If there's only genes supposed to be included, skip everything that isn't a gene
                 continue
