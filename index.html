@@ -372,7 +372,30 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 
 <h1 id="results">Results</h1>
 
-<h2 id="res-chrysomelidae-wga"><i>Chrysomelidae</i> whole genome alignments</h2>
+
+<h2 id="basic-stats">Basic summary statistics</h2>
+
+<h3>Genes on sex chromosomes</h3>
+
+<p style="margin-top: 2em;"></p>
+<div style="float: left;width: 42%;">
+    <p float="left">
+        <img loading="lazy" src="data/sex_chromosome_gene_counts.png" width="100%" />
+    </p>
+</div>
+<div style="float: right;width: 55%;">
+<ul>
+    <li><i>C. chinensis</i> has a very fragmented assembly, probably an underrepresentation of annotated genes at least on Y.</li>
+    <li><i>C. maculatus</i> has a few hundred in some versions of the annotation, <span style="color:#BD351E">TODO how do I talk about that? Or do I just not mention it?</span></li>
+    <li><i>Bruchidius</i> shows that the small-genome <i>siliquastri</i> has more on X and less on Y, with the inverse in large-genome <i>varius</i>.</li>
+    <li><i>Diorhabda</i> has lots of genes on both X and Y.</li>
+</ul>
+</div>
+<div style="clear: both;"></div>
+
+
+
+<h2 id="res-chrysomelidae-wga">Whole genome alignments</h2>
 
 <details>
     <summary>Alignment with nucmer: technical details and output format</summary>
@@ -1300,7 +1323,8 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 
 <p>
     BRH orthologs between all species pairs, count how many are in each combination of autosome/sex chromosome combinations.
-    In general, a good amount of orthologs between and within A and X, but almost nothing involving Y.
+    In general, a good amount of orthologs between and within A and X, but almost nothing involving Y. Reciprocal comparisons have almost identical 
+    counts (mind the mirroring in the heatplots also when checking!)
 </p>
 
 <details>

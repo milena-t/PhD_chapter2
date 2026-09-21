@@ -380,7 +380,7 @@ def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_fe
     return genome_annotation
 
 
-def parse_gff3_by_contig(filepath:str, verbose = True, featurecategory = FeatureCategory.Gene):
+def parse_gff3_by_contig(filepath:str, verbose = True, featurecategory = FeatureCategory.Gene, gtf=False):
     """
     parse the gff into a dictionary by contig { contig : [ FeatureCategory.Gene ] } 
     This includes by default only genes, not any of the child features, 
@@ -415,7 +415,7 @@ def parse_gff3_by_contig(filepath:str, verbose = True, featurecategory = Feature
             line = line.strip()
             if not line or line.startswith('#'):
                 continue
-            
+
             # more info on file format and columns here: https://www.ensembl.org/info/website/upload/gff.html?redirect=no
             contig,source,category_,start,stop,score,strandedness,frame,attributes_=[c for c in line.split("\t") if len(c)>0]
             category = categorize_string(category_)
@@ -423,23 +423,26 @@ def parse_gff3_by_contig(filepath:str, verbose = True, featurecategory = Feature
             if category != featurecategory:
                 # There's only genes supposed to be included, skip everything that isn't a gene
                 continue
-            
+
             else:
                 if verbose:
                     count_feature += 1
 
                 attributes={}
-                for attr in attributes_.strip().split(";"):
-                    attr = attr.strip()
-                    try:
-                        key,value=attr.split(separator)[-2:]
-                    except:
-                        continue
+                if gtf:
+                    attributes["ID"] = attributes_.strip()
+                else:
+                    for attr in attributes_.strip().split(";"):
+                        attr = attr.strip()
+                        try:
+                            key,value=attr.split(separator)[-2:]
+                        except:
+                            continue
 
-                    if "," in attr:
-                        attributes[key]=value.split(",")[0]
-                    else:
-                        attributes[key]=value
+                        if "," in attr:
+                            attributes[key]=value.split(",")[0]
+                        else:
+                            attributes[key]=value
             
                 ## check that ID and Parent are detected correctly
                 if "ID" not in attributes:
