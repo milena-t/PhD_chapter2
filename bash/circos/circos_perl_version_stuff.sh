@@ -13,3 +13,5 @@ eval "$(perl -I $HOME/perl5/lib/perl5 -Mlocal::lib)"
 cpanm Clone Config::General Font::TTF::Font Math::Bezier Params::Validate Math::Round List::MoreUtils Readonly Math::VecStat Regexp::Common Text::Format Set::IntSpan SVG Statistics::Basic
 
 circos -modules
+
+# git pull;circos -conf circos.conf
