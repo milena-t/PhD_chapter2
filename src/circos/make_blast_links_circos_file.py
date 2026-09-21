@@ -153,8 +153,13 @@ def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex
             circos_outfile.write(circos+"\n")
 
             for chr in ["X","Y"]:
+                other_chr = "Y"
+                if chr == "Y":
+                    other_chr = "X"
                 if contig1 in sex_chr_contigs_dict1[chr] and contig2 in sex_chr_contigs_dict2[chr]:
                     color=colors[chr]
+                elif (contig1 in sex_chr_contigs_dict1[chr] and contig2 in sex_chr_contigs_dict2[other_chr]) or (contig1 in sex_chr_contigs_dict1[other_chr] and contig2 in sex_chr_contigs_dict2[chr]):
+                    color=colors[other_chr]
                 elif (contig1 in sex_chr_contigs_dict1[chr] and contig2 not in sex_chr_contigs_dict2[chr]) or (contig1 not in sex_chr_contigs_dict1[chr] and contig2 in sex_chr_contigs_dict2[chr]):
                     color=colors["A"]
                 else:
