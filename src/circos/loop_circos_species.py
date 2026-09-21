@@ -72,7 +72,7 @@ def get_karyotype_files(username="miltr339"):
     }
     return outdir
 
-def modify_circos_conf(circos_conf, config_files_dict, verbose=False):
+def modify_circos_conf(circos_conf, config_files_dict, verbose=True):
     """
     modify the codeml config file
     """
@@ -133,4 +133,5 @@ if __name__ == "__main__":
                 ## TODO
 
             break
+        break
 
