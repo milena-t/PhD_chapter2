@@ -145,6 +145,6 @@ if __name__ == "__main__":
                 subprocess.run(inlist, check=True)
                 print(f" ".join(inlist))
 
-            break
-        break
+            # break
+        # break
 
