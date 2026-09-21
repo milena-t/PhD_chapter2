@@ -6,16 +6,13 @@ chr - 971_quiver X 0 130102 acen
 chr - 968_quiver X 0 130969 acen
 chr - 959_quiver X 0 133709 acen
 chr - 955_quiver X 0 137477 acen
-chr - 949_quiver Y 0 141426 blue
 chr - 941_quiver X 0 142065 acen
 chr - 919_quiver X 0 146429 acen
 chr - 910_quiver X 0 149032 acen
-chr - 895_quiver Y 0 157519 blue
 chr - 882_quiver X 0 159137 acen
 chr - 868_quiver X 0 164506 acen
 chr - 854_quiver X 0 169064 acen
 chr - 851_quiver X 0 135401 acen
-chr - 850_quiver Y 0 166169 blue
 chr - 849_quiver X 0 170342 acen
 chr - 839_quiver X 0 173476 acen
 chr - 161_quiver X 0 1026319 acen
@@ -53,7 +50,6 @@ chr - 419_quiver X 0 485498 acen
 chr - 414_quiver X 0 493925 acen
 chr - 413_quiver X 0 502140 acen
 chr - 411_quiver X 0 509136 acen
-chr - 1088_quiver Y 0 100558 blue
 chr - 1054_quiver X 0 103423 acen
 chr - 1042_quiver X 0 110016 acen
 chr - 1025_quiver X 0 114247 acen
@@ -74,6 +70,10 @@ chr - 310_quiver X 0 648064 acen
 chr - 277_quiver X 0 698166 acen
 chr - 274_quiver X 0 719286 acen
 chr - 252_quiver X 0 781776 acen
+chr - 949_quiver Y 0 141426 blue
+chr - 895_quiver Y 0 157519 blue
+chr - 850_quiver Y 0 166169 blue
+chr - 1088_quiver Y 0 100558 blue
 chr - OZ123443.1 1 0 234424358 lorange
 chr - OZ123444.1 2 0 176697961 lorange
 chr - OZ123445.1 3 0 131286548 lorange

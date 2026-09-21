@@ -62,6 +62,7 @@ def make_karyotype_file(fai_filename1, fai_filename2 ,A_list1, A_list2 , sex_chr
     with open(outfile_name, "w") as outfile:
         with open(fai_filename1, "r") as fai_file:
             chr_num = 1
+            y_list_for_sorting = []
             for line in fai_file.readlines():
                 contig,length,_,_,_ = line.strip().split("\t")
 
@@ -78,8 +79,9 @@ def make_karyotype_file(fai_filename1, fai_filename2 ,A_list1, A_list2 , sex_chr
                     continue
                 elif contig in sex_chr_list1["Y"]:
                     col = circos_cols["Y"]
-                    outfile_line = f"chr - {contig} Y 0 {length} {col}\n"
-                    outfile.write(outfile_line)
+                    outfile_line = f"chr - {contig} Y 0 {length} {col}"
+                    y_list_for_sorting.append(outfile_line)
+                    #outfile.write(outfile_line)
                     continue
 
                 elif min_contig_len1 >0 and int(length)>min_contig_len1:
@@ -87,11 +89,14 @@ def make_karyotype_file(fai_filename1, fai_filename2 ,A_list1, A_list2 , sex_chr
                     outfile_line = f"chr - {contig} {contig} 0 {length} {col}\n"
                     outfile.write(outfile_line)
                     continue
+            outfile.write("\n".join(y_list_for_sorting))
+            outfile.write("\n")
         
         if fai_filename1!=fai_filename2:
         
             with open(fai_filename2, "r") as fai_file:
                 chr_num = 1
+                y_list_for_sorting = []
                 for line in fai_file.readlines():
                     contig,length,_,_,_ = line.strip().split("\t")
 
@@ -108,8 +113,9 @@ def make_karyotype_file(fai_filename1, fai_filename2 ,A_list1, A_list2 , sex_chr
                         continue
                     elif contig in sex_chr_list2["Y"]:
                         col = circos_cols["Y"]
-                        outfile_line = f"chr - {contig} Y 0 {length} {col}\n"
-                        outfile.write(outfile_line)
+                        outfile_line = f"chr - {contig} Y 0 {length} {col}"
+                        y_list_for_sorting.append(outfile_line)
+                        #outfile.write(outfile_line)
                         continue
 
                     elif min_contig_len2 >0 and int(length)>min_contig_len2:
@@ -117,6 +123,7 @@ def make_karyotype_file(fai_filename1, fai_filename2 ,A_list1, A_list2 , sex_chr
                         outfile_line = f"chr - {contig} {contig} 0 {length} {col}\n"
                         outfile.write(outfile_line)
                         continue
+                outfile.write("\n".join(y_list_for_sorting))
 
                 
             print(f"karyotype file written to: {outfile_name}")
