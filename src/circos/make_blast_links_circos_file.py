@@ -134,9 +134,12 @@ def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex
             except:
                 raise RuntimeError(f"{transcriptID2} not found in {annotation_file2}!")
 
-            if transcript1.contig in sex_chr_contigs_dict1["X"]:
+            contig1 = transcript1.contig
+            contig2 = transcript2.contig
+
+            if contig1 in sex_chr_contigs_dict1["X"]:
                 color = colors["X"]
-            elif transcript1.contig in sex_chr_contigs_dict1["Y"]:
+            elif contig1 in sex_chr_contigs_dict1["Y"]:
                 color = colors["Y"]
             else:
                 color = colors["A"]
@@ -146,18 +149,18 @@ def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex
             start2=transcript2.start
             end2=transcript2.end
             
-            circos = f"{transcriptID1} {start1} {end1} {transcriptID2} {start2} {end2} color={color}"
+            circos = f"{contig1} {start1} {end1} {contig2} {start2} {end2} color={color}"
             circos_outfile.write(circos+"\n")
 
             for chr in ["X","Y"]:
-                if transcript1.contig in sex_chr_contigs_dict1[chr] and transcript2.contig in sex_chr_contigs_dict2[chr]:
+                if contig1 in sex_chr_contigs_dict1[chr] and contig2 in sex_chr_contigs_dict2[chr]:
                     color=colors[chr]
-                elif (transcript1.contig in sex_chr_contigs_dict1[chr] and transcript2.contig not in sex_chr_contigs_dict2[chr]) or (transcript1.contig not in sex_chr_contigs_dict1[chr] and transcript2.contig in sex_chr_contigs_dict2[chr]):
+                elif (contig1 in sex_chr_contigs_dict1[chr] and contig2 not in sex_chr_contigs_dict2[chr]) or (contig1 not in sex_chr_contigs_dict1[chr] and contig2 in sex_chr_contigs_dict2[chr]):
                     color=colors["A"]
                 else:
                     continue
 
-                circos = f"{transcriptID1} {start1} {end1} {transcriptID2} {start2} {end2} color={color}"
+                circos = f"{contig1} {start1} {end1} {contig2} {start2} {end2} color={color}"
                 if chr=="X":
                     circos_outfile_X.write(circos+"\n")
                 elif chr=="Y":
