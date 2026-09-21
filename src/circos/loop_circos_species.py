@@ -3,6 +3,9 @@ Loop circos through all the karyotypes and species automatically
 Needs to modify circos.conf for input files and image.conf for output file
 """
 
+import os 
+import subprocess
+
 def get_karyotype_files(username="miltr339"):
     filesdir =f"/Users/{username}/work/PhD_code/PhD_chapter2/data/circos/"
     outdir = {
@@ -102,6 +105,8 @@ if __name__ == "__main__":
     circos_infiles_dir = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/data/circos"
     outfiles_dir = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/circos/plots"
 
+
+    os.chdir(outfiles_dir)
     for species1 in species_list:
         for species2 in species_list:
             print(f" ===================== {species1} vs. {species2} =====================")
@@ -111,12 +116,16 @@ if __name__ == "__main__":
             }
             modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/circos.conf", config_files_dict=infiles_dict)
             outfile = {
-                "dir   = " : f"{outfiles_dir}",
+                "dir   = " : f".", # f"{outfiles_dir}",
                 "file  = " : f"{species1}_{species2}_circos.png",
             }
             modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/image.conf", config_files_dict=outfile)
 
             ## TODO
+            conf_path = f"{circos_infiles_dir}/conf_files/circos.conf"
+            inlist = ["circos", "-conf", conf_path]
+            subprocess.run(inlist, check=True)
+            print(f" ".join(inlist))
 
             for chr in ["X", "Y"]:
                 infiles_dict = {
@@ -125,12 +134,16 @@ if __name__ == "__main__":
                 }
                 modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/circos.conf", config_files_dict=infiles_dict)
                 outfile = {
-                    "dir   = " : f"{outfiles_dir}",
+                    "dir   = " : f".", # f"{outfiles_dir}",
                     "file  = " : f"{species1}_{species2}_circos_{chr}.png",
                 }
                 modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/image.conf", config_files_dict=outfile)
 
                 ## TODO
+                conf_path =f"{circos_infiles_dir}/conf_files/circos.conf"
+                inlist = ["circos", "-conf", conf_path]
+                subprocess.run(inlist, check=True)
+                print(f" ".join(inlist))
 
             break
         break
