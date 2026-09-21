@@ -74,7 +74,7 @@ def get_karyotype_files(username="miltr339"):
 
 def modify_circos_conf(circos_conf, config_files_dict, verbose=True):
     """
-    modify the codeml config file
+    modify the config file
     """
     modified_lines = []        
     with open(circos_conf, "r") as codeml:
