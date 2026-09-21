@@ -46,45 +46,80 @@ def autosomes_lists():
     }
     return outdict
 
-def make_karyotype_file(fai_filename,A_list, sex_chr_list,outfile_name, min_contig_len = 0):
+def make_karyotype_file(fai_filename1, fai_filename2 ,A_list1, A_list2 , sex_chr_list1, sex_chr_list2 ,outfile_name, min_contig_len1 = 0, min_contig_len2 = 0):
 
     circos_cols= {
         "A" : "lorange",
         "X" : "acen",
         "Y" : "blue"}
     
-    if A_list != []:
-        min_contig_len = 0
+    if A_list1 != []:
+        min_contig_len1 = 0
+    
+    if A_list2 != []:
+        min_contig_len2 = 0
+        
+    with open(outfile_name, "w") as outfile:
+        with open(fai_filename1, "r") as fai_file:
+            chr_num = 1
+            for line in fai_file.readlines():
+                contig,length,_,_,_ = line.strip().split("\t")
 
-    with open(fai_filename, "r") as fai_file, open(outfile_name, "w") as outfile:
-        chr_num = 1
-        for line in fai_file.readlines():
-            contig,length,_,_,_ = line.strip().split("\t")
+                if contig in A_list1:
+                    col = circos_cols["A"]
+                    outfile_line = f"chr - {contig} {chr_num} 0 {length} {col}\n"
+                    outfile.write(outfile_line)
+                    chr_num += 1
+                    continue
+                elif contig in sex_chr_list1["X"]:
+                    col = circos_cols["X"]
+                    outfile_line = f"chr - {contig} X 0 {length} {col}\n"
+                    outfile.write(outfile_line)
+                    continue
+                elif contig in sex_chr_list1["Y"]:
+                    col = circos_cols["Y"]
+                    outfile_line = f"chr - {contig} Y 0 {length} {col}\n"
+                    outfile.write(outfile_line)
+                    continue
 
-            if contig in A_list:
-                col = circos_cols["A"]
-                outfile_line = f"chr - {contig} {chr_num} 0 {length} {col}\n"
-                outfile.write(outfile_line)
-                chr_num += 1
-                continue
-            elif contig in sex_chr_list["X"]:
-                col = circos_cols["X"]
-                outfile_line = f"chr - {contig} {contig} 0 {length} {col}\n"
-                outfile.write(outfile_line)
-                continue
-            elif contig in sex_chr_list["Y"]:
-                col = circos_cols["Y"]
-                outfile_line = f"chr - {contig} {contig} 0 {length} {col}\n"
-                outfile.write(outfile_line)
-                continue
+                elif min_contig_len1 >0 and int(length)>min_contig_len1:
+                    col = circos_cols["A"]
+                    outfile_line = f"chr - {contig} {contig} 0 {length} {col}\n"
+                    outfile.write(outfile_line)
+                    continue
+        
+        if fai_filename1!=fai_filename2:
+        
+            with open(fai_filename2, "r") as fai_file:
+                chr_num = 1
+                for line in fai_file.readlines():
+                    contig,length,_,_,_ = line.strip().split("\t")
 
-            elif min_contig_len >0 and int(length)>min_contig_len:
-                col = circos_cols["A"]
-                outfile_line = f"chr - {contig} {contig} 0 {length} {col}\n"
-                outfile.write(outfile_line)
-                continue
-            
-    print(f"karyotype file written to: {outfile_name}")
+                    if contig in A_list2:
+                        col = circos_cols["A"]
+                        outfile_line = f"chr - {contig} {chr_num} 0 {length} {col}\n"
+                        outfile.write(outfile_line)
+                        chr_num += 1
+                        continue
+                    elif contig in sex_chr_list2["X"]:
+                        col = circos_cols["X"]
+                        outfile_line = f"chr - {contig} X 0 {length} {col}\n"
+                        outfile.write(outfile_line)
+                        continue
+                    elif contig in sex_chr_list2["Y"]:
+                        col = circos_cols["Y"]
+                        outfile_line = f"chr - {contig} Y 0 {length} {col}\n"
+                        outfile.write(outfile_line)
+                        continue
+
+                    elif min_contig_len2 >0 and int(length)>min_contig_len2:
+                        col = circos_cols["A"]
+                        outfile_line = f"chr - {contig} {contig} 0 {length} {col}\n"
+                        outfile.write(outfile_line)
+                        continue
+
+                
+            print(f"karyotype file written to: {outfile_name}")
 
 
 if __name__=="__main__":
@@ -94,6 +129,14 @@ if __name__=="__main__":
     autosomes_dict = autosomes_lists()
     data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/circos"
 
-    for species in sex_chromosomes_dict.keys():
-        print(f"\n----------- {species} -----------")
-        make_karyotype_file(fai_dict[species], autosomes_dict[species], sex_chr_list=sex_chromosomes_dict[species], outfile_name=f"{data_dir}/{species}_circos_karyotype.txt", min_contig_len = 7500000)
+    for species1 in sex_chromosomes_dict.keys():
+        for species2 in sex_chromosomes_dict.keys():
+            
+            outname = f"{data_dir}/{species1}_{species2}_circos_karyotype.txt"
+            print(f"\n----------- {species1} vs. {species2} -----------")
+
+            make_karyotype_file(fai_filename1 = fai_dict[species1], fai_filename2 = fai_dict[species2], 
+                A_list1 = autosomes_dict[species1], A_list2 = autosomes_dict[species2], 
+                sex_chr_list1 = sex_chromosomes_dict[species1], sex_chr_list2 = sex_chromosomes_dict[species2], 
+                outfile_name=outname, 
+                min_contig_len1 = 7500000, min_contig_len2 = 7500000)

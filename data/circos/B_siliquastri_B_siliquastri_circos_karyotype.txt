@@ -1,0 +1,11 @@
+chr - 1 1 0 49182353 lorange
+chr - 2 2 0 45375201 lorange
+chr - 3 3 0 42041205 lorange
+chr - 4 4 0 41564249 lorange
+chr - 5 5 0 39857073 lorange
+chr - 6 6 0 39041292 lorange
+chr - 7 7 0 36815055 lorange
+chr - 8 8 0 28491252 lorange
+chr - 9 9 0 26473722 lorange
+chr - X X 0 22912655 acen
+chr - Y Y 0 3498892 blue
