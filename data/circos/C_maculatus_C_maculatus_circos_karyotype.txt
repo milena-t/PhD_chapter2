@@ -8,11 +8,17 @@ chr - scaffold_7 7 0 80630069 lorange
 chr - scaffold_8 8 0 45100197 lorange
 chr - scaffold_9 9 0 42534705 lorange
 chr - scaffold_10 X 0 29480781 acen
+
 chr - scaffold_14 X 0 12192872 acen
+
 chr - scaffold_23 X 0 6553285 acen
+
 chr - scaffold_31 X 0 4888746 acen
+
 chr - scaffold_34 X 0 4268660 acen
+
 chr - scaffold_83 X 0 1174251 acen
+
 chr - scaffold_26 Y 0 5935189 blue
 chr - scaffold_48 Y 0 2496968 blue
 chr - scaffold_103 Y 0 800857 blue

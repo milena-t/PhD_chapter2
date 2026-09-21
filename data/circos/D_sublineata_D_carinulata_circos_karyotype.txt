@@ -10,8 +10,8 @@ chr - NC_079482.1 Dsub_9 0 25974581 lorange
 chr - NC_079483.1 Dsub_10 0 25964534 lorange
 chr - NC_079484.1 Dsub_11 0 17841866 lorange
 chr - NC_079485.1 Dsub_X 0 40809440 acen
+
 chr - NC_079486.1 Dsub_Y 0 9123148 blue
-chr - NC_079460.1 Dcar_X 0 40517163 acen
 chr - NC_079461.1 Dcar_1 0 37112070 lorange
 chr - NC_079462.1 Dcar_2 0 36256822 lorange
 chr - NC_079463.1 Dcar_3 0 34144059 lorange
@@ -24,4 +24,6 @@ chr - NC_079469.1 Dcar_9 0 16722489 lorange
 chr - NC_079470.1 Dcar_10 0 14828743 lorange
 chr - NC_079471.1 Dcar_11 0 13651024 lorange
 chr - NC_079472.1 Dcar_12 0 67688434 lorange
+chr - NC_079460.1 Dcar_X 0 40517163 acen
+
 chr - NC_079473.1 Dcar_Y 0 12719532 blue

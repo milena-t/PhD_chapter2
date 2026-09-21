@@ -8,11 +8,17 @@ chr - scaffold_7 Cmac_7 0 80630069 lorange
 chr - scaffold_8 Cmac_8 0 45100197 lorange
 chr - scaffold_9 Cmac_9 0 42534705 lorange
 chr - scaffold_10 Cmac_X 0 29480781 acen
+
 chr - scaffold_14 Cmac_X 0 12192872 acen
+
 chr - scaffold_23 Cmac_X 0 6553285 acen
+
 chr - scaffold_31 Cmac_X 0 4888746 acen
+
 chr - scaffold_34 Cmac_X 0 4268660 acen
+
 chr - scaffold_83 Cmac_X 0 1174251 acen
+
 chr - scaffold_26 Cmac_Y 0 5935189 blue
 chr - scaffold_48 Cmac_Y 0 2496968 blue
 chr - scaffold_103 Cmac_Y 0 800857 blue
@@ -28,4 +34,5 @@ chr - 7 Bsil_7 0 36815055 lorange
 chr - 8 Bsil_8 0 28491252 lorange
 chr - 9 Bsil_9 0 26473722 lorange
 chr - X Bsil_X 0 22912655 acen
+
 chr - Y Bsil_Y 0 3498892 blue

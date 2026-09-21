@@ -10,6 +10,7 @@ chr - NC_079482.1 Dsub_9 0 25974581 lorange
 chr - NC_079483.1 Dsub_10 0 25964534 lorange
 chr - NC_079484.1 Dsub_11 0 17841866 lorange
 chr - NC_079485.1 Dsub_X 0 40809440 acen
+
 chr - NC_079486.1 Dsub_Y 0 9123148 blue
 chr - 1 Bsil_1 0 49182353 lorange
 chr - 2 Bsil_2 0 45375201 lorange
@@ -21,4 +22,5 @@ chr - 7 Bsil_7 0 36815055 lorange
 chr - 8 Bsil_8 0 28491252 lorange
 chr - 9 Bsil_9 0 26473722 lorange
 chr - X Bsil_X 0 22912655 acen
+
 chr - Y Bsil_Y 0 3498892 blue

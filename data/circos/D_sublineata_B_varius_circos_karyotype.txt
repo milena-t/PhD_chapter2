@@ -10,6 +10,7 @@ chr - NC_079482.1 Dsub_9 0 25974581 lorange
 chr - NC_079483.1 Dsub_10 0 25964534 lorange
 chr - NC_079484.1 Dsub_11 0 17841866 lorange
 chr - NC_079485.1 Dsub_X 0 40809440 acen
+
 chr - NC_079486.1 Dsub_Y 0 9123148 blue
 chr - OZ123443.1 Bvar_1 0 234424358 lorange
 chr - OZ123444.1 Bvar_2 0 176697961 lorange
@@ -20,4 +21,5 @@ chr - OZ123448.1 Bvar_6 0 120554209 lorange
 chr - OZ123449.1 Bvar_7 0 108251700 lorange
 chr - OZ123450.1 Bvar_8 0 105694018 lorange
 chr - OZ123451.1 Bvar_X 0 57607949 acen
+
 chr - OZ123452.1 Bvar_Y 0 14763576 blue

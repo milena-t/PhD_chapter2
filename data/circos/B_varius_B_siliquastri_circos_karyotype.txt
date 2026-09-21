@@ -7,6 +7,7 @@ chr - OZ123448.1 Bvar_6 0 120554209 lorange
 chr - OZ123449.1 Bvar_7 0 108251700 lorange
 chr - OZ123450.1 Bvar_8 0 105694018 lorange
 chr - OZ123451.1 Bvar_X 0 57607949 acen
+
 chr - OZ123452.1 Bvar_Y 0 14763576 blue
 chr - 1 Bsil_1 0 49182353 lorange
 chr - 2 Bsil_2 0 45375201 lorange
@@ -18,4 +19,5 @@ chr - 7 Bsil_7 0 36815055 lorange
 chr - 8 Bsil_8 0 28491252 lorange
 chr - 9 Bsil_9 0 26473722 lorange
 chr - X Bsil_X 0 22912655 acen
+
 chr - Y Bsil_Y 0 3498892 blue

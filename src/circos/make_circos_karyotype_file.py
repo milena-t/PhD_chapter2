@@ -36,7 +36,7 @@ def fai_files(username="miltr339"):
 
 def autosomes_lists():
     outdict = {
-        "A_obtectus" : ["CAVLJG010000001.1","CAVLJG010000002.1","CAVLJG010000003.1","CAVLJG010000004.1","CAVLJG010000005.1","CAVLJG010000006.1","CAVLJG010000007.1","CAVLJG010000008.1","CAVLJG010000009.1"],
+        "A_obtectus" : ["CAVLJG010000001.1","CAVLJG010000003.1","CAVLJG010000004.1","CAVLJG010000005.1","CAVLJG010000006.1","CAVLJG010000007.1","CAVLJG010000008.1","CAVLJG010000009.1","CAVLJG010000010.1"],
         "B_siliquastri" : ["1","2","3","4","5","6","7","8","9"],
         "B_varius" : ["OZ123443.1","OZ123444.1","OZ123445.1","OZ123446.1","OZ123447.1","OZ123448.1","OZ123449.1","OZ123450.1"],
         "C_chinensis" : [],
@@ -73,6 +73,7 @@ def make_karyotype_file(fai_filename1, fai_filename2 ,A_list1, A_list2 , sex_chr
 
             chr_num = 1
             y_list_for_sorting = []
+            x_list_for_sorting = []
             for line in fai_file.readlines():
                 contig,length,_,_,_ = line.strip().split("\t")
 
@@ -85,7 +86,8 @@ def make_karyotype_file(fai_filename1, fai_filename2 ,A_list1, A_list2 , sex_chr
                 elif contig in sex_chr_list1["X"]:
                     col = circos_cols["X"]
                     outfile_line = f"chr - {contig} {species1}X 0 {length} {col}\n"
-                    outfile.write(outfile_line)
+                    x_list_for_sorting.append(outfile_line)
+                    # outfile.write(outfile_line)
                     continue
                 elif contig in sex_chr_list1["Y"]:
                     col = circos_cols["Y"]
@@ -99,6 +101,9 @@ def make_karyotype_file(fai_filename1, fai_filename2 ,A_list1, A_list2 , sex_chr
                     outfile_line = f"chr - {contig} {species1}{contig} 0 {length} {col}\n"
                     outfile.write(outfile_line)
                     continue
+
+            outfile.write("\n".join(x_list_for_sorting))
+            outfile.write("\n")
             outfile.write("\n".join(y_list_for_sorting))
             outfile.write("\n")
         
@@ -107,6 +112,7 @@ def make_karyotype_file(fai_filename1, fai_filename2 ,A_list1, A_list2 , sex_chr
             with open(fai_filename2, "r") as fai_file:
                 chr_num = 1
                 y_list_for_sorting = []
+                x_list_for_sorting = []
                 for line in fai_file.readlines():
                     contig,length,_,_,_ = line.strip().split("\t")
 
@@ -119,7 +125,8 @@ def make_karyotype_file(fai_filename1, fai_filename2 ,A_list1, A_list2 , sex_chr
                     elif contig in sex_chr_list2["X"]:
                         col = circos_cols["X"]
                         outfile_line = f"chr - {contig} {species2}X 0 {length} {col}\n"
-                        outfile.write(outfile_line)
+                        x_list_for_sorting.append(outfile_line)
+                        # outfile.write(outfile_line)
                         continue
                     elif contig in sex_chr_list2["Y"]:
                         col = circos_cols["Y"]
@@ -133,6 +140,9 @@ def make_karyotype_file(fai_filename1, fai_filename2 ,A_list1, A_list2 , sex_chr
                         outfile_line = f"chr - {contig} {species2}{contig} 0 {length} {col}\n"
                         outfile.write(outfile_line)
                         continue
+
+                outfile.write("\n".join(x_list_for_sorting))
+                outfile.write("\n")
                 outfile.write("\n".join(y_list_for_sorting))
 
                 
@@ -140,7 +150,7 @@ def make_karyotype_file(fai_filename1, fai_filename2 ,A_list1, A_list2 , sex_chr
 
 
 if __name__=="__main__":
-    username="miltr339"
+    username="milena"
     sex_chromosomes_dict = sex_chromosomes.get_contig_names()
     fai_dict = fai_files(username=username)
     autosomes_dict = autosomes_lists()

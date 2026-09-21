@@ -124,7 +124,7 @@ if __name__ == "__main__":
             ## TODO
             conf_path = f"{circos_infiles_dir}/conf_files/circos.conf"
             inlist = ["circos", "-conf", conf_path]
-            subprocess.run(inlist, check=True)
+            subprocess.run(inlist, check=True,  stdout=subprocess.DEVNULL)
             print(f" ".join(inlist))
 
             for chr in ["X", "Y"]:
@@ -142,7 +142,7 @@ if __name__ == "__main__":
                 ## TODO
                 conf_path =f"{circos_infiles_dir}/conf_files/circos.conf"
                 inlist = ["circos", "-conf", conf_path]
-                subprocess.run(inlist, check=True)
+                subprocess.run(inlist, check=True,  stdout=subprocess.DEVNULL)
                 print(f" ".join(inlist))
 
             # break

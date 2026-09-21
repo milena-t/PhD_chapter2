@@ -7,6 +7,7 @@ chr - OZ123448.1 Bvar_6 0 120554209 lorange
 chr - OZ123449.1 Bvar_7 0 108251700 lorange
 chr - OZ123450.1 Bvar_8 0 105694018 lorange
 chr - OZ123451.1 Bvar_X 0 57607949 acen
+
 chr - OZ123452.1 Bvar_Y 0 14763576 blue
 chr - scaffold_1 Cmac_1 0 122590087 lorange
 chr - scaffold_2 Cmac_2 0 117291456 lorange
@@ -18,11 +19,17 @@ chr - scaffold_7 Cmac_7 0 80630069 lorange
 chr - scaffold_8 Cmac_8 0 45100197 lorange
 chr - scaffold_9 Cmac_9 0 42534705 lorange
 chr - scaffold_10 Cmac_X 0 29480781 acen
+
 chr - scaffold_14 Cmac_X 0 12192872 acen
+
 chr - scaffold_23 Cmac_X 0 6553285 acen
+
 chr - scaffold_31 Cmac_X 0 4888746 acen
+
 chr - scaffold_34 Cmac_X 0 4268660 acen
+
 chr - scaffold_83 Cmac_X 0 1174251 acen
+
 chr - scaffold_26 Cmac_Y 0 5935189 blue
 chr - scaffold_48 Cmac_Y 0 2496968 blue
 chr - scaffold_103 Cmac_Y 0 800857 blue
