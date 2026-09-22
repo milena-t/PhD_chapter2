@@ -7,7 +7,7 @@ import os
 import subprocess
 
 def get_karyotype_files_cmac_populations(username="miltr339"):
-    filesdir =f"/Users/{username}/work/PhD_code/PhD_chapter2/data/circos/Cmac_populations"
+    filesdir =f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/data/circos/Cmac_populations"
     outdir = {
         "China" : {
             "Lome" : f"{filesdir}/China_Lome_circos_karyotype.txt",
@@ -21,7 +21,7 @@ def get_karyotype_files_cmac_populations(username="miltr339"):
 
 
 def get_karyotype_files(username="miltr339"):
-    filesdir =f"/Users/{username}/work/PhD_code/PhD_chapter2/data/circos/"
+    filesdir =f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/data/circos/"
     outdir = {
         "A_obtectus" : {
             "A_obtectus" : f"{filesdir}A_obtectus_A_obtectus_circos_karyotype.txt",
