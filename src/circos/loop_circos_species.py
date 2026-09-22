@@ -117,8 +117,8 @@ if __name__ == "__main__":
     karyotype_dict = get_karyotype_files_cmac_populations(username=username)
     species_list = list(karyotype_dict.keys())
 
-    # circos_infiles_dir = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/data/circos"
-    circos_infiles_dir = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/data/circos/Cmac_populations"
+    circos_infiles_dir = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/data/circos"
+    # circos_infiles_dir = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/data/circos/Cmac_populations"
     outfiles_dir = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/circos/plots"
 
 
@@ -128,7 +128,8 @@ if __name__ == "__main__":
             print(f" ===================== {species1} vs. {species2} =====================")
             infiles_dict = {
                 "karyotype = " : karyotype_dict[species1][species2],
-                "file          = " : f"{circos_infiles_dir}/circos_links_{species1}_vs_{species2}.txt",
+                # "file          = " : f"{circos_infiles_dir}/circos_links_{species1}_vs_{species2}.txt",
+                "file          = " : f"{circos_infiles_dir}/Cmac_populations/circos_links_{species1}_vs_{species2}.txt",
             }
             modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/circos.conf", config_files_dict=infiles_dict)
             outfile = {
@@ -146,7 +147,8 @@ if __name__ == "__main__":
             for chr in ["X", "Y"]:
                 infiles_dict = {
                     "karyotype = " : karyotype_dict[species1][species2],
-                    "file          = " : f"{circos_infiles_dir}/circos_links_{species1}_vs_{species2}_{chr}.txt",
+                    # "file          = " : f"{circos_infiles_dir}/circos_links_{species1}_vs_{species2}_{chr}.txt",
+                    "file          = " : f"{circos_infiles_dir}/Cmac_populations/circos_links_{species1}_vs_{species2}_{chr}.txt",
                 }
                 modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/circos.conf", config_files_dict=infiles_dict)
                 outfile = {
