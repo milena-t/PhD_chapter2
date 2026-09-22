@@ -125,6 +125,10 @@ if __name__ == "__main__":
     os.chdir(outfiles_dir)
     for species1 in species_list:
         for species2 in species_list:
+
+            if species1=="Lome" and species2=="Lome" :
+                continue
+            
             print(f" ===================== {species1} vs. {species2} =====================")
             infiles_dict = {
                 "karyotype = " : karyotype_dict[species1][species2],
