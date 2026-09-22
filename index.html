@@ -1349,6 +1349,9 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
     hits, within-Y paralogs are very common. Further, X-synteny stays very conserved. Mostly, there are not any more 
     X-Y paralogs than between Y and any autosome.
 </p>
+<p>
+    <span style="color:#BD351E">TODO update to exclude self-hits from within species blast!</span>
+</p>
 
 <div>
 
@@ -1752,9 +1755,53 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 <h3><i>Callosobruchus</i> population comparison</h3>
 
 <p>
-
+    I compare the superscaffolded Y_S Lomé comparison with the assembly from the chinese population
 </p>
 
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'circos_res_China')"><i>C. maculatus</i> (China)</button>
+    <button class="tablinks" onclick="openTab(event, 'circos_res_Lome')"><i>C. maculatus</i> (Lomé)</button>
+</div>
+<div id="circos_res_China" class="tabcontent">
+    <p float="left" style="margin-top: 1em;">Left: one species X-linked, right: one species Y-linked</p>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'circos_res_China_China')"><i>C. maculatus</i> (China)</button>
+        <button class="tablinks" onclick="openTab(event, 'circos_res_China_Lome')"><i>C. maculatus</i> (Lomé)</button>
+    </div>
+    <div id="circos_res_China_China" class="tabcontent">
+        <p float="left">
+            <img loading="lazy" src="data/circos/plots/China_China_circos_X.png" width="49%" />
+            <img loading="lazy" src="data/circos/plots/China_China_circos_Y.png" width="49%" />
+        </p>
+    </div>
+    <div id="circos_res_China_Lome" class="tabcontent">
+        <p float="left">
+            <img loading="lazy" src="data/circos/plots/China_Lome_circos_X.png" width="49%" />
+            <img loading="lazy" src="data/circos/plots/China_Lome_circos_Y.png" width="49%" />
+        </p>
+    </div>
+</div>
+
+<div id="circos_res_Lome" class="tabcontent">
+    <p float="left" style="margin-top: 1em;">Left: one species X-linked, right: one species Y-linked</p>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'circos_res_Lome_China')"><i>C. maculatus</i> (China)</button>
+        <button class="tablinks" onclick="openTab(event, 'circos_res_Lome_Lome')"><i>C. maculatus</i> (Lomé)</button>
+    </div>
+    <div id="circos_res_Lome_China" class="tabcontent">
+        <p float="left">
+            <img loading="lazy" src="data/circos/plots/Lome_China_circos_X.png" width="49%" />
+            <img loading="lazy" src="data/circos/plots/Lome_China_circos_Y.png" width="49%" />
+        </p>
+    </div>
+    <div id="circos_res_Lome_Lome" class="tabcontent">
+        <p float="left">
+            <img loading="lazy" src="data/circos/plots/C_maculatus_C_maculatus_circos_X.png" width="49%" />
+            <img loading="lazy" src="data/circos/plots/C_maculatus_C_maculatus_circos_Y.png" width="49%" />
+        </p>
+        <p>(This is the same plot from the Cmac analysis in the between-species comparison, included here for completeness)</p>
+    </div>
+</div>
 
 <h2 id="orthofinder-results">Orthofinder</h2>
 

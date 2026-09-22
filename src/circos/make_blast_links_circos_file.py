@@ -124,7 +124,7 @@ def get_annotation_paths(username="miltr339"):
     return outdict
 
 
-def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex_chr_contigs_dict1,sex_chr_contigs_dict2, circos_outfile_name, min_seq_ident=90):
+def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex_chr_contigs_dict1,sex_chr_contigs_dict2, circos_outfile_name, min_seq_ident=90, max_seq_ident = 200):
 
     try:
         gff1_dict = gff.parse_gff3_general(annotation_file1)
@@ -148,6 +148,8 @@ def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex
             
             transcriptID1,transcriptID2,seq_ident,length,mismatch,gapopen,qstart,qend,sstart,send,evalue,bitscore = line_str.strip().split("\t")
             if float(seq_ident) < min_seq_ident:
+                continue
+            if float(seq_ident) >= max_seq_ident:
                 continue
             
             try:
@@ -213,8 +215,10 @@ if __name__ == "__main__":
     if False:
         for species1 in species_list:
             for species2 in species_list:
-                # if species1==species2:
-                #     continue
+                if species1==species2:
+                    max_seq_ident=100 # exclude self-hits for self-blast
+                else:
+                    max_seq_ident=200
 
                 print(f"\n ------------ {species1} vs. {species2} ------------")
                 make_circos_hits_file(annotation_file1=annotations_dict[species1],
@@ -222,7 +226,7 @@ if __name__ == "__main__":
                     blast_outfile=blast_outfiles_dict[species1][species2],
                     sex_chr_contigs_dict1=sex_chromosomes_dict[species1],
                     sex_chr_contigs_dict2=sex_chromosomes_dict[species2],
-                    min_seq_ident=90,
+                    min_seq_ident=90,max_seq_ident=max_seq_ident,
                     circos_outfile_name=f"{data_dir}circos_links_{species1}_vs_{species2}.txt")
 
     if True:
@@ -237,6 +241,11 @@ if __name__ == "__main__":
                 if species1=="Lome" and species2=="Lome" :
                     continue
 
+                if species1==species2:
+                    max_seq_ident=100 # exclude self-hits for self-blast
+                else:
+                    max_seq_ident=200
+
                 # if species1=="China" and species2=="China" :
                 #     print(f"------------------ {sex_chromosomes_dict[species1]}")
                 #     print(f"------------------ {sex_chromosomes_dict[species2]}")
@@ -247,5 +256,5 @@ if __name__ == "__main__":
                     blast_outfile=blast_outfiles_dict[species1][species2],
                     sex_chr_contigs_dict1=sex_chromosomes_dict[species1],
                     sex_chr_contigs_dict2=sex_chromosomes_dict[species2],
-                    min_seq_ident=90,
+                    min_seq_ident=90,max_seq_ident=max_seq_ident,
                     circos_outfile_name=f"{data_dir}circos_links_{species1}_vs_{species2}.txt")
