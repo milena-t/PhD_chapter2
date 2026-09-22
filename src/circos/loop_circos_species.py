@@ -6,6 +6,20 @@ Needs to modify circos.conf for input files and image.conf for output file
 import os 
 import subprocess
 
+def get_karyotype_files_cmac_populations(username="miltr339"):
+    filesdir =f"/Users/{username}/work/PhD_code/PhD_chapter2/data/circos/Cmac_populations"
+    outdir = {
+        "China" : {
+            "Lome" : f"{filesdir}/China_Lome_circos_karyotype.txt",
+            "China" : f"{filesdir}/China_China_circos_karyotype.txt",
+        },
+        "Lome" : {
+            "China" : f"{filesdir}/Lome_China_circos_karyotype.txt",
+        }
+    }
+    return outdir
+
+
 def get_karyotype_files(username="miltr339"):
     filesdir =f"/Users/{username}/work/PhD_code/PhD_chapter2/data/circos/"
     outdir = {
@@ -99,10 +113,12 @@ def modify_circos_conf(circos_conf, config_files_dict, verbose=True):
 
 if __name__ == "__main__":
     username = "milena"
-    karyotype_dict = get_karyotype_files(username=username)
+    # karyotype_dict = get_karyotype_files(username=username)
+    karyotype_dict = get_karyotype_files_cmac_populations(username=username)
     species_list = list(karyotype_dict.keys())
 
-    circos_infiles_dir = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/data/circos"
+    # circos_infiles_dir = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/data/circos"
+    circos_infiles_dir = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/data/circos/Cmac_populations"
     outfiles_dir = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/circos/plots"
 
 
@@ -111,7 +127,7 @@ if __name__ == "__main__":
         for species2 in species_list:
             print(f" ===================== {species1} vs. {species2} =====================")
             infiles_dict = {
-                "karyotype = " : f"{circos_infiles_dir}/{species1}_{species2}_circos_karyotype.txt",
+                "karyotype = " : karyotype_dict[species1][species2],
                 "file          = " : f"{circos_infiles_dir}/circos_links_{species1}_vs_{species2}.txt",
             }
             modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/circos.conf", config_files_dict=infiles_dict)
@@ -129,7 +145,7 @@ if __name__ == "__main__":
 
             for chr in ["X", "Y"]:
                 infiles_dict = {
-                    "karyotype = " : f"{circos_infiles_dir}/{species1}_{species2}_circos_karyotype.txt",
+                    "karyotype = " : karyotype_dict[species1][species2],
                     "file          = " : f"{circos_infiles_dir}/circos_links_{species1}_vs_{species2}_{chr}.txt",
                 }
                 modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/circos.conf", config_files_dict=infiles_dict)
