@@ -1341,6 +1341,8 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 
 <h2 id="paralogs-sex-chr">Paralogs</h2>
 
+<h3><i>Chrysomelidae</i>-wide comparison</h3>
+
 <p>
     The circos plots show blast results of all-against-all proteinblast with a minimum of 90% sequence identity. Above 
     1-to-1 ortholog analysis shows almost no within-Y hits, but circos plots show that when not filtering for best reciprocal 
@@ -1747,6 +1749,50 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 
 </div>
 
+<h3><i>Callosobruchus</i> population comparison</h3>
+
+<p>
+
+</p>
+
+
+<h2 id="orthofinder-results">Orthofinder</h2>
+
+<p>Results are here on uppmax: <code>/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/orthofinder/orthofinder_chrysomelidae/Results_Sep22/</code></p>
+
+<h3>Species tree</h3>
+
+<p>
+    Results agree mostly but not completely with the topological tree in the <a href="index.html#methods-data">data summary</a> that uses the NCBI taxonomy.
+    The Data tree has a three-way split at the <i>Bruchini</i> node, with <i>Callosobruchus</i> and <i>Bruchidius</i> both having two sister species in the genus, 
+    but here this is resolved NOT by <i>Bruchidius varius</i> and <i>siliquastri</i> as sister species, instead <span style="color:#BD351E"> <i>B. siliquastri</i> 
+    splits off at N3, and is not a sister species to <i>B. varius</i>.</span>
+</p>
+<p>
+    The <i>Diorhabda</i> sister species are much more closely related to each other than any other pair. This also shows up in the Y-protein synteny in the circos 
+    plots above, but it is really clear here, they are about as close as the two <i>C. maculatus</i> populations.
+</p>
+
+<div id="controls">
+    <textarea id="newick_OF">((D_sublineata:0.0096318,D_carinulata:0.0110156)N1:0.199491,(A_obtectus:0.0828729,(B_siliquastri:0.09565,((C_chinensis:0.048214,(C_maculatus_Lome:0.00774415,C_maculatus_China:0.00877372)N6:0.0328244)N5:0.0211248,B_varius:0.0412411)N4:0.0216927)N3:0.0231131)N2:0.199491)N0;</textarea>
+</div>
+<div id="tree-container">
+    <svg id="tree-svg-of" xmlns="http://www.w3.org/2000/svg"></svg>
+</div>
+<script>initTree('newick_OF', 'tree-svg-of');</script>
+
+<p style="margin-top: 1em;">
+    Orthofinder gives an unrooted tree with branch support that indicates what proportion of gene trees support any node split. Note that the N2, N3, N4 nodes that are 
+    the problematic ones have a lower support than the rest.
+</p>
+
+<div id="controls">
+    <textarea id="newick_OF_unrooted">(C_chinensis:0.048214,(C_maculatus_china:0.00877372,C_maculatus_Lome:0.00774415)0.868143:0.0328244,(B_varius:0.0412411,((A_obtectus:0.0828729,(D_carinulata:0.0110156,D_sublineata:0.0096318)0.997288:0.398982)0.460217:0.0231131,B_siliquastri:0.09565)0.61965:0.0216927)0.690325:0.0211248);</textarea>
+</div>
+<div id="tree-container">
+    <svg id="tree-svg-of_unrooted" xmlns="http://www.w3.org/2000/svg"></svg>
+</div>
+<script>initTree('newick_OF_unrooted', 'tree-svg-of_unrooted');</script>
 
 </div>
 </div>
