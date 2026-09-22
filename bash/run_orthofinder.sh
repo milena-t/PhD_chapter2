@@ -1,6 +1,7 @@
 #!/bin/bash -l
 #SBATCH -A uppmax2026-1-8
 #SBATCH -c 20
+#SBATCH --mem=200G
 #SBATCH -t 2:00:00
 #SBATCH -J orthofinder_chrysomelidae
 #SBATCH -o orthofinder_chrysomelidae.log
