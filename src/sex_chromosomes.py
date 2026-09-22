@@ -42,9 +42,13 @@ def Cmac_S_L_nonscaffolded_contig_names():
             "X" : ['utg000006l_1','utg000025l_1','utg000027l_1','utg000128l_1','utg000151l_1','utg000238l_1','utg000327l_1','utg000342l_1','utg000486l_1','utg001894l_1'],
             "Y" : ['utg000049l_1','utg000385c_1','utg001455l_1','utg001921l_1','utg000152l_1']
         },
+        "Lome" : { 
+            "X" : ['scaffold_10','scaffold_14','scaffold_23','scaffold_31','scaffold_34','scaffold_83'],
+            "Y" : ['scaffold_26','scaffold_48','scaffold_103','scaffold_112','scaffold_164']
+        },
         "China" : {
-            "X" : ["CMAC_X"],
-            "Y" : ["CMAC_Y"],
+            "X" : ["CM179837.1"],# ["CMAC_X"],
+            "Y" : ["CM179838.1"],# ["CMAC_Y"],
         }
     }
     return sex_chr_contigs

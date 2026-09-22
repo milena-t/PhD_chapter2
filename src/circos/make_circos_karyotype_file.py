@@ -34,6 +34,14 @@ def fai_files(username="miltr339"):
     }
     return outdict
 
+def fai_files_cmac_populations(username="miltr339"):
+    files_dir = f"/Users/{username}/work/chapter2/karyotype/"
+    outdict = {
+        "Lome" : f"{files_dir}C_maculatus.masked.fna.fai",
+        "China" : f"{files_dir}C_maculatusC.masked.fna.fai",
+    }
+    return outdict
+
 def autosomes_lists():
     outdict = {
         "A_obtectus" : ["CAVLJG010000001.1","CAVLJG010000003.1","CAVLJG010000004.1","CAVLJG010000005.1","CAVLJG010000006.1","CAVLJG010000007.1","CAVLJG010000008.1","CAVLJG010000009.1","CAVLJG010000010.1"],
@@ -43,6 +51,13 @@ def autosomes_lists():
         "C_maculatus" : ["scaffold_1","scaffold_2","scaffold_3","scaffold_4","scaffold_5","scaffold_6","scaffold_7","scaffold_8","scaffold_9"],
         "D_carinulata" : ["NC_079461.1","NC_079462.1","NC_079463.1","NC_079464.1","NC_079465.1","NC_079466.1","NC_079467.1","NC_079468.1","NC_079469.1","NC_079470.1","NC_079471.1","NC_079472.1"],
         "D_sublineata" : ["NC_079474.1","NC_079475.1","NC_079476.1","NC_079477.1","NC_079478.1","NC_079479.1","NC_079480.1","NC_079481.1","NC_079482.1","NC_079483.1","NC_079484.1"],
+    }
+    return outdict
+
+def autosomes_lists_cmac_populations():
+    outdict = {
+        "Lome" : ["scaffold_1","scaffold_2","scaffold_3","scaffold_4","scaffold_5","scaffold_6","scaffold_7","scaffold_8","scaffold_9"],
+        "China" : ["CM179828.1","CM179829.1","CM179830.1","CM179831.1","CM179832.1","CM179833.1","CM179834.1","CM179835.1","CM179836.1"],
     }
     return outdict
 
@@ -151,19 +166,42 @@ def make_karyotype_file(fai_filename1, fai_filename2 ,A_list1, A_list2 , sex_chr
 
 if __name__=="__main__":
     username="milena"
-    sex_chromosomes_dict = sex_chromosomes.get_contig_names()
-    fai_dict = fai_files(username=username)
-    autosomes_dict = autosomes_lists()
-    data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/circos"
 
-    for species1 in sex_chromosomes_dict.keys():
-        for species2 in sex_chromosomes_dict.keys():
-            
-            outname = f"{data_dir}/{species1}_{species2}_circos_karyotype.txt"
-            print(f"\n----------- {species1} vs. {species2} -----------")
+    if False:
+        sex_chromosomes_dict = sex_chromosomes.get_contig_names()
+        fai_dict = fai_files(username=username)
+        autosomes_dict = autosomes_lists()
+        data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/circos"
 
-            make_karyotype_file(fai_filename1 = fai_dict[species1], fai_filename2 = fai_dict[species2], 
-                A_list1 = autosomes_dict[species1], A_list2 = autosomes_dict[species2], 
-                sex_chr_list1 = sex_chromosomes_dict[species1], sex_chr_list2 = sex_chromosomes_dict[species2], 
-                outfile_name=outname, 
-                min_contig_len1 = 7500000, min_contig_len2 = 7500000)
+        for species1 in sex_chromosomes_dict.keys():
+            for species2 in sex_chromosomes_dict.keys():
+                
+                outname = f"{data_dir}/{species1}_{species2}_circos_karyotype.txt"
+                print(f"\n----------- {species1} vs. {species2} -----------")
+
+                make_karyotype_file(fai_filename1 = fai_dict[species1], fai_filename2 = fai_dict[species2], 
+                    A_list1 = autosomes_dict[species1], A_list2 = autosomes_dict[species2], 
+                    sex_chr_list1 = sex_chromosomes_dict[species1], sex_chr_list2 = sex_chromosomes_dict[species2], 
+                    outfile_name=outname, 
+                    min_contig_len1 = 7500000, min_contig_len2 = 7500000)
+
+    if True:
+        sex_chromosomes_dict = sex_chromosomes.Cmac_S_L_nonscaffolded_contig_names()
+        fai_dict = fai_files_cmac_populations(username=username)
+        autosomes_dict = autosomes_lists_cmac_populations()
+        data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/circos/Cmac_populations"
+
+        for species1 in fai_dict.keys():
+            for species2 in fai_dict.keys():
+                if species1=="Lome" and species2=="Lome" :
+                    continue
+                
+                outname = f"{data_dir}/{species1}_{species2}_circos_karyotype.txt"
+                print(f"\n----------- {species1} vs. {species2} -----------")
+
+                make_karyotype_file(fai_filename1 = fai_dict[species1], fai_filename2 = fai_dict[species2], 
+                    A_list1 = autosomes_dict[species1], A_list2 = autosomes_dict[species2], 
+                    sex_chr_list1 = sex_chromosomes_dict[species1], sex_chr_list2 = sex_chromosomes_dict[species2], 
+                    outfile_name=outname, 
+                    min_contig_len1 = 7500000, min_contig_len2 = 7500000)
+    

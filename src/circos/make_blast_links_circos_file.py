@@ -12,6 +12,23 @@ import os
 import parse_gff as gff
 import sex_chromosomes
 
+def blast_paths_cmac_populations(username="miltr339"):
+    filesdir = f"/Users/{username}/work/chapter2/circos/blast_outfiles"
+    # /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/C_maculatus_populations
+    # awk -F'\t' -v OFS='\t' '{ sub(/_1$/, "", $1); print }' C_maculatus_vs_C_maculatusC.blast > tmp.$$ && mv tmp.$$ C_maculatus_vs_C_maculatusC.blast
+    # awk -F'\t' -v OFS='\t' '{ sub(/_1$/, "", $2); print }' C_maculatusC_vs_C_maculatus.blast > tmp.$$ && mv tmp.$$ C_maculatusC_vs_C_maculatus.blast
+
+    outdir = {
+        "China" : {
+            "Lome" : f"{filesdir}/C_maculatusC_vs_C_maculatus.blast",
+            "China" : f"{filesdir}/C_maculatusC_vs_C_maculatusC.blast",
+        },
+        "Lome" : {
+            "China" : f"{filesdir}/C_maculatus_vs_C_maculatusC.blast",
+        }
+    }
+    return outdir
+
 
 def get_blast_paths(username="miltr339"):
     filedir = f"/Users/{username}/work/chapter2/circos/blast_outfiles/" 
@@ -84,6 +101,14 @@ def get_blast_paths(username="miltr339"):
     return outdir
 
 
+
+def annotation_paths_cmac_populations(username="milena"):
+    filesdir = f"/Users/{username}/work/chapter2/native_annotations"
+    outdict = {
+        "China" : f"{filesdir}/C_maculatusC.gff",
+        "Lome" : f"{filesdir}/C_maculatus.gff",
+    }
+    return outdict
 
 def get_annotation_paths(username="miltr339"):
     dirpath = f"/Users/{username}/work/chapter2/native_annotations/"
@@ -177,7 +202,7 @@ def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex
 
 if __name__ == "__main__":
 
-    username="miltr339"
+    username="milena"
 
     blast_outfiles_dict = get_blast_paths(username=username)
     annotations_dict = get_annotation_paths(username=username)
@@ -185,16 +210,42 @@ if __name__ == "__main__":
     species_list = list(blast_outfiles_dict.keys())
     data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/circos/"
 
-    for species1 in species_list:
-        for species2 in species_list:
-            # if species1==species2:
-            #     continue
+    if False:
+        for species1 in species_list:
+            for species2 in species_list:
+                # if species1==species2:
+                #     continue
 
-            print(f"\n ------------ {species1} vs. {species2} ------------")
-            make_circos_hits_file(annotation_file1=annotations_dict[species1],
-                annotation_file2=annotations_dict[species2],
-                blast_outfile=blast_outfiles_dict[species1][species2],
-                sex_chr_contigs_dict1=sex_chromosomes_dict[species1],
-                sex_chr_contigs_dict2=sex_chromosomes_dict[species2],
-                min_seq_ident=90,
-                circos_outfile_name=f"{data_dir}circos_links_{species1}_vs_{species2}.txt")
+                print(f"\n ------------ {species1} vs. {species2} ------------")
+                make_circos_hits_file(annotation_file1=annotations_dict[species1],
+                    annotation_file2=annotations_dict[species2],
+                    blast_outfile=blast_outfiles_dict[species1][species2],
+                    sex_chr_contigs_dict1=sex_chromosomes_dict[species1],
+                    sex_chr_contigs_dict2=sex_chromosomes_dict[species2],
+                    min_seq_ident=90,
+                    circos_outfile_name=f"{data_dir}circos_links_{species1}_vs_{species2}.txt")
+
+    if True:
+        blast_outfiles_dict = blast_paths_cmac_populations(username=username)
+        annotations_dict = annotation_paths_cmac_populations(username=username)
+        sex_chromosomes_dict = sex_chromosomes.Cmac_S_L_nonscaffolded_contig_names()
+        species_list = list(blast_outfiles_dict.keys())
+        data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/circos/Cmac_populations/"
+
+        for species1 in species_list:
+            for species2 in species_list:
+                if species1=="Lome" and species2=="Lome" :
+                    continue
+
+                # if species1=="China" and species2=="China" :
+                #     print(f"------------------ {sex_chromosomes_dict[species1]}")
+                #     print(f"------------------ {sex_chromosomes_dict[species2]}")
+
+                print(f"\n ------------ {species1} vs. {species2} ------------")
+                make_circos_hits_file(annotation_file1=annotations_dict[species1],
+                    annotation_file2=annotations_dict[species2],
+                    blast_outfile=blast_outfiles_dict[species1][species2],
+                    sex_chr_contigs_dict1=sex_chromosomes_dict[species1],
+                    sex_chr_contigs_dict2=sex_chromosomes_dict[species2],
+                    min_seq_ident=90,
+                    circos_outfile_name=f"{data_dir}circos_links_{species1}_vs_{species2}.txt")
