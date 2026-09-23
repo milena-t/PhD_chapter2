@@ -36,7 +36,7 @@ cd $ASS_DIR
 for SPECIES in "A_obtectus" "B_siliquastri" "B_varius" "C_chinensis" "C_maculatus" "D_carinulata" "D_sublineata"
 do
     ASSEMBLY="${ASS_DIR}/${SPECIES}.masked.fna"
-    makeblastdb -in $SPECIES1 -dbtype nucl
+    makeblastdb -in $ASSEMBLY -dbtype nucl
     echo " ---> done database ${ASSEMBLY}"
 done
 ## -->
