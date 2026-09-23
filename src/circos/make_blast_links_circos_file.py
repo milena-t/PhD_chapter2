@@ -204,7 +204,7 @@ def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex
 
 if __name__ == "__main__":
 
-    username="milena"
+    username="miltr339"
 
     blast_outfiles_dict = get_blast_paths(username=username)
     annotations_dict = get_annotation_paths(username=username)
@@ -212,7 +212,7 @@ if __name__ == "__main__":
     species_list = list(blast_outfiles_dict.keys())
     data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/circos/"
 
-    if False:
+    if True:
         for species1 in species_list:
             for species2 in species_list:
                 if species1==species2:
@@ -229,7 +229,7 @@ if __name__ == "__main__":
                     min_seq_ident=90,max_seq_ident=max_seq_ident,
                     circos_outfile_name=f"{data_dir}circos_links_{species1}_vs_{species2}.txt")
 
-    if True:
+    if False:
         blast_outfiles_dict = blast_paths_cmac_populations(username=username)
         annotations_dict = annotation_paths_cmac_populations(username=username)
         sex_chromosomes_dict = sex_chromosomes.Cmac_S_L_nonscaffolded_contig_names()

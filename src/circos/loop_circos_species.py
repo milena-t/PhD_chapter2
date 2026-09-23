@@ -113,14 +113,16 @@ def modify_circos_conf(circos_conf, config_files_dict, verbose=True):
 
 if __name__ == "__main__":
     username = "milena"
-    # karyotype_dict = get_karyotype_files(username=username)
-    karyotype_dict = get_karyotype_files_cmac_populations(username=username)
+
+    karyotype_dict = get_karyotype_files(username=username)
+
     species_list = list(karyotype_dict.keys())
-
     circos_infiles_dir = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/data/circos"
-    # circos_infiles_dir = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/data/circos/Cmac_populations"
-    outfiles_dir = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/circos/plots"
 
+    # karyotype_dict = get_karyotype_files_cmac_populations(username=username)
+    # circos_infiles_dir = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/data/circos/Cmac_populations"
+
+    outfiles_dir = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/circos/plots"
 
     os.chdir(outfiles_dir)
     for species1 in species_list:
