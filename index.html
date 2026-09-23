@@ -365,10 +365,46 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 
 <h2 id="methods_BRH">Orthologs and Paralogs</h2>
 
+<h3>Best reciprocal hits</h3>
+
 <p>
-    I will use code from <a href="https://github.com/milena-t/PhD_chapter3">chapter III</a> to identify 1-to-1 orthologs, and the code about circos is from before chapter 1 
-    but in this repository.
+    I will use code from <a href="https://github.com/milena-t/PhD_chapter3">chapter III</a> to identify 1-to-1 orthologs, and a new script to plot the pairwise heatmap. The script to get 
+    the 1-to-1 orthologs across several species is from the <a href="https://milena-t.github.io/PhD_chapter3/revisions.html">Chapter III revisions</a> where I did the site model testing. 
+    It just checks which ortholog pairs are all in a chain of being each others pair mate across all (included) species. 
 </p>
+
+<h3>Paralogs</h3>
+
+<p>
+    I use all-against-all <code>blastp</code> of protein sequences (same as for synteny and BRH) here and filter for good hits. I use sequence identity &gt; 90%, but Philipp has &gt; 80% and minimum query 
+    coverage of 50%. Unsure which is better for this. 
+    Philipp also uses <code>blastn</code> with high seq ident thresholds (&gt; 95% and &gt; 99%) to detect amplicon groups on the Y from existing annotated nucleotide sequences. 
+</p>
+<p>
+    The original annotation with 441 y-linked transcripts was tested for expressed genes and identifies different numbers depending on if multimapped RNA reads are allowed:
+    54 (12%) without multimapping, 286 (65%) with multimapping. Philipp does not give details about the expression threshold (x reads in y samples).
+    I have 63 Y-linked genes, and in <a href="https://milena-t.github.io/PhD_chapter4/#y-only-DE">Chapter IV</a> there are 11 that pass the expression
+    threshold without multimapping (17%).
+</p>
+
+<h3>Amplicon gene family discovery</h3>
+
+<p>
+    Standardized annotations from chapter 1 with no RNAseq evidence (as well as the Kaufmann2023 low-RNAseq-evidence annotation) identify more genes, especially on the Y, most of 
+    which are part of an ampliconic group. 
+    I suspect they are regions that look similar to existing annotated protein coding regions, but have low RNAseq evidence which means they are filtered from annotations with 
+    RNA-seq evidence support. I will use <code>tblastn</code> to search the existing annotated proteins against the genome they come from to identify potential gene family members
+    that were not annotated. Since the proteins do not contain intron sequences, this would usually create several short alignments per protein for every exon, resulting in 
+    low scores, therefore I change some parameters from the default to accomodate based on mean intron lengths (of the assemblies that have intron features annotated, which is all except 
+    Bsil and the Diorhabdas, <i>A. obtectus</i>: 4367.07, <i>B. varius</i>: 5880.29, <i>C. chinensis</i>: 2972.9, <i>C. maculatus</i>: 5502.49, resulting in a mean length of 4680.7, I will 
+    double it to make sure I get most genes right.)
+</p>
+
+<p style="margin-top: 0.5em;">
+    <code>--max_intron_length 9361</code> default is 0, no linking across introns, only gives hits for individual exon segments of the protein query. This is not properly splice-aware, 
+    but merges everything below the minimum gap length. I will set 3kb since that is in the ballpark of the average intron length in the beetles.
+</p>
+<p>I will not modify <code>--frame_shift_penalty</code>.</p>
 
 
 <h1 id="results">Results</h1>
@@ -1347,10 +1383,37 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 
 <p>
     The circos plots show blast results of all-against-all proteinblast with a minimum of 90% sequence identity.
-</p>
-<p>
     Any within-species self-blast excludes protein self-hits by filtering for sequence identity &lt; 100%, so any lines show true paralogs only.
 </p>
+<p style="margin-top: 0.5em;">
+    There are some discrepancies where there are only a few lines showing Y-linked homologs between distantly related species such as <i>C. maculatus</i> and <i>D. carinulata</i>, 
+    but the heatmap showing the amount of 1-to-1 orthologs counts more than that. This is due to the minimum sequence identity threshold applied for the circos plot links filtering
+    out genes that are shown in the 1-to-1 orthologs, because best reciprocal hits have no minimum sequence identity requirement.
+</p>
+<details>
+    <summary>Detailed checks about ortholog identification</summary>
+    <p style="margin-top: 1em;">
+        This is exemplified in the <i>D. carinulata</i>/<i>C. maculatus</i> plot, that has only two Y-linked hits with &gt; 90% sequence identity 
+        (that are not even shown because they are on unplaced scaffolds in Cmac), but 14 total A/Y BRH orthologs.
+    </p>
+    <p style="margin-top: 1em;">
+        A/Y BRH orthologs in Dcar vs. Cmac:
+        <pre><code>D_carinulata       chr  C_maculatus chr   blast_seqident
+rna-XM_057798798.1	A	g5406.t1	 Y       42.314
+rna-XM_057800714.1	A	g5427.t1	 Y       54.545
+rna-XM_057815360.1	Y	g1903.t1	 A       86.700
+rna-XM_057815363.1	Y	g3274.t1	 A       54.187
+rna-XM_057815372.1	Y	g4033.t1	 A       51.782
+rna-XM_057815161.1	Y	g1883.t1	 A       50.698
+rna-XM_057815160.1	Y	g7281.t1	 X       39.161
+rna-XM_057815178.1	Y	g12820.t1	 A       28.926
+rna-XM_057815310.1	Y	g12887.t1	 A       34.978
+rna-XM_057815278.1	Y	g5202.t1	 X       51.657</code></pre>
+    </p>
+    <p>
+        None of these individually meet the sequence identity threshold, so they are not shown in the circos plot
+    </p>
+</details>
 
 <div>
 
@@ -1790,9 +1853,11 @@ NC_079473.1 2336684 2337900 scaffold_16 8524456 8529819 color=lorange</code></pr
 
 <h4>Whole-genome paralogs</h4>
 
-<p>(identical information to the circos plots above, except autosome-to-autosome hits are also included. Mind the slightly different link 
+<details>
+    <summary>Toggle down for circos plots not filtered for sex-chromosome linked blast hits</summary>
+<p style="margin-top: 1em;">(identical information to the circos plots above, except autosome-to-autosome hits are also included. Mind the slightly different link 
     color assignment because of this.)</p>
-
+    
 <div>
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'circos_res_A_obtectus_wg')"><i>A. obtectus</i></button>
@@ -2134,7 +2199,9 @@ NC_079473.1 2336684 2337900 scaffold_16 8524456 8529819 color=lorange</code></pr
     </div>
     
     
-    </div>
+</div>
+</details>
+
 
 <h3><i>C. maculatus</i> population comparison</h3>
 
