@@ -5,6 +5,7 @@ and the output is a tsv file with two columns, one is species1 and one is specie
 I identify the best hit by the highest bit score
 """
 from sex_chromosomes import get_contig_names as sex_chromosome_names
+from circos.make_circos_karyotype_file import autosomes_lists
 import parse_gff as gff
 import argparse
 
@@ -91,7 +92,7 @@ def read_best_hits(blast_infile_path:str) -> dict:
     return best_hits_dict  
 
 
-def get_BRHs(besthits_infile1, besthits_infile2, annotation1, annotation2, x_list1, x_list2, y_list1 = [], y_list2 = [], species1 = "", species2 = "", outfile_path:str = ""):
+def get_BRHs(besthits_infile1, besthits_infile2, annotation1, annotation2, x_list1, x_list2, y_list1 = [], y_list2 = [], species1 = "", species2 = "", outfile_path:str = "", contig_names=False):
     """
     get a dictionary with {species1_ID : species2_ID} of all best reciprocal hits
     """
@@ -118,7 +119,11 @@ def get_BRHs(besthits_infile1, besthits_infile2, annotation1, annotation2, x_lis
         if species1 == "" or species2 == "":
             raise RuntimeError(f"if you include parsed annotations you have to give species names in the function parameters. You have given:\n species1 = '{species1}'\n species2 = '{species2}'")
         pass
-    header = f"{species1}\tchromosome\t{species2}\tchromosome\n"
+
+    if contig_names:
+        header = f"{species1}\tchromosome\tcontig_ID\t{species2}\tchromosome\tcontig_ID\n"
+    else:
+        header = f"{species1}\tchromosome\t{species2}\tchromosome\n"
 
     for species1_id, species1_besthit in besthits_infile1.items():
         species2_id = species1_besthit.rseqid
@@ -156,7 +161,10 @@ def get_BRHs(besthits_infile1, besthits_infile2, annotation1, annotation2, x_lis
                         contig2 = "X"
                     elif ID_contig2 in y_list2:
                         contig2 = "Y"
-                    outfile.write(f"{species1_id}\t{contig1}\t{species2_id}\t{contig2}\n")
+                    if contig_names:
+                        outfile.write(f"{species1_id}\t{contig1}\t{ID_contig1}\t{species2_id}\t{contig2}\t{ID_contig2}\n")
+                    else:
+                        outfile.write(f"{species1_id}\t{contig1}\t{species2_id}\t{contig2}\n")
         print(f"outfile written to: {outfile_path}")
     return out_dict
 
@@ -184,6 +192,9 @@ if __name__ == "__main__":
         X_list2 = sex_chr_contigs[species2]["X"]
         Y_list1 = sex_chr_contigs[species1]["Y"]
         Y_list2 = sex_chr_contigs[species2]["Y"]
+        # autosomes = autosomes_lists()
+        # A_list1 = autosomes[species1]
+        # A_list2 = autosomes[species2]
     else:
         X_list1 = args.X_contigs1.strip().split(",")
         X_list2 = args.X_contigs2.strip().split(",")
@@ -198,5 +209,9 @@ if __name__ == "__main__":
     besthits_infile2 = read_best_hits(blast_infile_path2)
     # print(besthits_infile1["rna-AOBTE_LOCUS3-2_1"])
 
-    BRH_dict = get_BRHs(besthits_infile1, besthits_infile2, annotation1=annotation_path1, annotation2=annotation_path2, x_list1=X_list1, x_list2=X_list2, y_list1=Y_list1, y_list2=Y_list2, outfile_path=outfile)
+    BRH_dict = get_BRHs(besthits_infile1, besthits_infile2, annotation1=annotation_path1, annotation2=annotation_path2, 
+        x_list1=X_list1, x_list2=X_list2, 
+        y_list1=Y_list1, y_list2=Y_list2, 
+        contig_names=True,
+        outfile_path=outfile)
 
