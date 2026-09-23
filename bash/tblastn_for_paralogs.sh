@@ -33,12 +33,12 @@ OUTDIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/paralogs_tbl
 ## make databases
 cd $ASS_DIR
 
-for SPECIES in "A_obtectus" "B_siliquastri" "B_varius" "C_chinensis" "C_maculatus" "D_carinulata" "D_sublineata"
-do
-    ASSEMBLY="${ASS_DIR}/${SPECIES}.masked.fna"
-    makeblastdb -in $ASSEMBLY -dbtype nucl
-    echo " ---> done database ${ASSEMBLY}"
-done
+# for SPECIES in "A_obtectus" "B_siliquastri" "B_varius" "C_chinensis" "C_maculatus" "D_carinulata" "D_sublineata"
+# do
+#     ASSEMBLY="${ASS_DIR}/${SPECIES}.masked.fna"
+#     makeblastdb -in $ASSEMBLY -dbtype nucl
+#     echo " ---> done database ${ASSEMBLY}"
+# done
 ## -->
 
 cd $OUTDIR

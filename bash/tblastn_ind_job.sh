@@ -16,5 +16,5 @@ OUTFILE=$3
 
 # the documentation says outfmt6 but I think they mean 8
 echo "RUNNING... tblastn -query $PROTEINS -db $ASSEMBLU -out $OUTFILE -num_threads 5 -max_intron_length 3000 -evalue 1e-3 -outfmt 6"
-tblastn -query $PROTEINS -db $ASSEMBLU -out $OUTFILE -num_threads 5 -max_intron_length 3000 -evalue 1e-3 -outfmt 6
+tblastn -query $PROTEINS -db $ASSEMBLY -out $OUTFILE -num_threads 5 -max_intron_length 3000 -evalue 1e-3 -outfmt 6
 echo " =========> ${OUTFILE} done!"
