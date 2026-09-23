@@ -40,7 +40,7 @@ do
     OUTFILE="miniprot_${SPECIES}.out"
     
     echo "--------> ${OUTFILE}"
-    sbatch -o "${OUTFILE}" -J "${SPECIES}_miniprot" /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/bash/miniprot_ind_job.sh $PROTEINS $ASSEMBLY
+    sbatch -o "${OUTFILE}" -J "${SPECIES}_miniprot" /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/bash/paralogs/miniprot_ind_job.sh $PROTEINS $ASSEMBLY
     echo ""
 
 done
