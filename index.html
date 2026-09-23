@@ -391,20 +391,45 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 
 <p>
     Standardized annotations from chapter 1 with no RNAseq evidence (as well as the Kaufmann2023 low-RNAseq-evidence annotation) identify more genes, especially on the Y, most of 
-    which are part of an ampliconic group. 
-    I suspect they are regions that look similar to existing annotated protein coding regions, but have low RNAseq evidence which means they are filtered from annotations with 
-    RNA-seq evidence support. I will use <code>tblastn</code> to search the existing annotated proteins against the genome they come from to identify potential gene family members
+    which are part of an ampliconic group. I suspect they are regions that look similar to existing annotated protein coding regions in my annotation, but have low RNAseq evidence 
+    in part due to non-multimapping which means they are filtered from annotations with RNA-seq evidence support. I want to be sure to capture as many duplication events as possible, 
+    so I want to find these based on similarity to existing annotated protein sequences. This is a bit complicated since the nucleotide sequence in the assembly includes the introns, 
+    but the protein sequence does not. 
+</p>
+
+<h4>blast</h4>
+
+<p> 
+    I will use <code>tblastn</code> to search the existing annotated proteins against the genome they come from to identify potential gene family members
     that were not annotated. Since the proteins do not contain intron sequences, this would usually create several short alignments per protein for every exon, resulting in 
     low scores, therefore I change some parameters from the default to accomodate based on mean intron lengths (of the assemblies that have intron features annotated, which is all except 
     Bsil and the Diorhabdas, <i>A. obtectus</i>: 4367.07, <i>B. varius</i>: 5880.29, <i>C. chinensis</i>: 2972.9, <i>C. maculatus</i>: 5502.49, resulting in a mean length of 4680.7, I will 
     double it to make sure I get most genes right.)
 </p>
 
-<p style="margin-top: 0.5em;">
+<p>
     <code>--max_intron_length 9361</code> default is 0, no linking across introns, only gives hits for individual exon segments of the protein query. This is not properly splice-aware, 
-    but merges everything below the minimum gap length. I will set 3kb since that is in the ballpark of the average intron length in the beetles.
+    but merges everything below the minimum gap length. 
+    I will not modify <code>--frame_shift_penalty</code>, since the introns most likely break the frame between exons and penalizing that would work against me.
 </p>
-<p>I will not modify <code>--frame_shift_penalty</code>.</p>
+
+<h4>splice-aware alignment</h4>
+
+<p>
+    There is software that properly models introns in the alignment and not just merges gaps below a minimum length like blast:
+</p>
+<ul>
+    <li style="color:#909bb5">
+        <code>exonerate protein2genome</code>: (Exonerate/2.4.0-GCC-13.3.0 on pelle)<br>
+        it is apparently relatively slow and not multithreaded, which makes it inconvenient for the larger assemblies. <br>
+        It has a maximum intron length flag, <code>--maxintron</code> and the max. lengths from the annotations are <i>A. obtectus</i>: 496409, 
+        <i>B. varius</i>: 497503, <i>C. chinensis</i>: 460962, <i>C. maculatus</i>: 484294, so it should be set it to 500kb. I can't find a proper documentation link
+    </li>
+    <li>
+        <code>miniprot</code>: (miniprot/0.18-GCCcore-13.3.0 on pelle, <a href="https://github.com/lh3/miniprot">Git repository</a> <br>
+        I will use the maxintron size described above instead of the default, which would be smaller. It also has pre-trained splice models for insects available.
+    </li>
+</ul>
 
 
 <h1 id="results">Results</h1>
@@ -430,6 +455,13 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 </div>
 <div style="clear: both;"></div>
 
+<h3>Gene density</h3>
+
+<p>
+    <span style="color:#BD351E">TODO: <br>
+    number of genes per kbp <br>
+    bp annotated as exons per total bp</span>
+</p>
 
 
 <h2 id="res-chrysomelidae-wga">Whole genome alignments</h2>

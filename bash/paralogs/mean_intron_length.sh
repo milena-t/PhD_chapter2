@@ -9,5 +9,8 @@ for SPECIES in  "A_obtectus" "B_siliquastri" "B_varius" "C_chinensis" "C_maculat
 do
     ASSEMBLY="${ASS_DIR}/${SPECIES}.gff"
     echo "-------------- ${SPECIES} --------------"
+    echo "mean intron length"
     grep "intron" $ASSEMBLY | awk -F'\t' '{ diff = $4 - $5; sum += (diff < 0 ? -diff : diff) } END { print (NR > 0 ? sum / NR : 0) }'
+    echo "maximum intron length"
+    grep "intron" $ASSEMBLY | awk -F'\t' '{ diff = $4 - $5; abs = (diff < 0 ? -diff : diff); if (abs > max) max = abs } END { print (NR > 0 ? max : 0) }'
 done 
