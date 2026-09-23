@@ -1343,11 +1343,10 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 
 <h3><i>Chrysomelidae</i>-wide comparison</h3>
 
+<h4>Paralogs with X and Y chromosomes</h4>
+
 <p>
-    The circos plots show blast results of all-against-all proteinblast with a minimum of 90% sequence identity. Above 
-    1-to-1 ortholog analysis shows almost no within-Y hits, but circos plots show that when not filtering for best reciprocal 
-    hits, within-Y paralogs are very common. Further, X-synteny stays very conserved. Mostly, there are not any more 
-    X-Y paralogs than between Y and any autosome.
+    The circos plots show blast results of all-against-all proteinblast with a minimum of 90% sequence identity.
 </p>
 <p>
     Any within-species self-blast excludes protein self-hits by filtering for sequence identity &lt; 100%, so any lines show true paralogs only.
@@ -1788,6 +1787,354 @@ NC_079473.1 2336684 2337900 scaffold_16 8524456 8529819 color=lorange</code></pr
 
 
 </div>
+
+<h4>Whole-genome paralogs</h4>
+
+<p>(identical information to the circos plots above, except autosome-to-autosome hits are also included. Mind the slightly different link 
+    color assignment because of this.)</p>
+
+<div>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'circos_res_A_obtectus_wg')"><i>A. obtectus</i></button>
+        <button class="tablinks" onclick="openTab(event, 'circos_res_B_siliquastri_wg')"><i>B. siliquastri</i></button>
+        <button class="tablinks" onclick="openTab(event, 'circos_res_B_varius_wg')"><i>B. varius</i></button>
+        <button class="tablinks" onclick="openTab(event, 'circos_res_C_chinensis_wg')"><i>C. chinensis</i></button>
+        <button class="tablinks" onclick="openTab(event, 'circos_res_C_maculatus_wg')"><i>C. maculatus</i></button>
+        <button class="tablinks" onclick="openTab(event, 'circos_res_D_carinulata_wg')"><i>D. carinulata</i></button>
+        <button class="tablinks" onclick="openTab(event, 'circos_res_D_sublineata_wg')"><i>D. sublineata</i></button>
+    </div>
+    <div id="circos_res_A_obtectus_wg" class="tabcontent">
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'circos_res_A_obtectus_A_obtectus_wg')"><i>A. obtectus</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_A_obtectus_B_siliquastri_wg')"><i>B. siliquastri</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_A_obtectus_B_varius_wg')"><i>B. varius</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_A_obtectus_C_chinensis_wg')"><i>C. chinensis</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_A_obtectus_C_maculatus_wg')"><i>C. maculatus</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_A_obtectus_D_carinulata_wg')"><i>D. carinulata</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_A_obtectus_D_sublineata_wg')"><i>D. sublineata</i></button>
+        </div>
+        <div id="circos_res_A_obtectus_A_obtectus_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/A_obtectus_A_obtectus_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_A_obtectus_B_siliquastri_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/A_obtectus_B_siliquastri_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_A_obtectus_B_varius_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/A_obtectus_B_varius_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_A_obtectus_C_chinensis_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/A_obtectus_C_chinensis_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_A_obtectus_C_maculatus_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/A_obtectus_C_maculatus_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_A_obtectus_D_carinulata_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/A_obtectus_D_carinulata_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_A_obtectus_D_sublineata_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/A_obtectus_D_sublineata_circos.png" width="49%" />
+            </p>
+        </div>
+    </div>
+    
+    <div id="circos_res_B_siliquastri_wg" class="tabcontent">
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'circos_res_B_siliquastri_A_obtectus_wg')"><i>A. obtectus</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_B_siliquastri_B_siliquastri_wg')"><i>B. siliquastri</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_B_siliquastri_B_varius_wg')"><i>B. varius</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_B_siliquastri_C_chinensis_wg')"><i>C. chinensis</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_B_siliquastri_C_maculatus_wg')"><i>C. maculatus</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_B_siliquastri_D_carinulata_wg')"><i>D. carinulata</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_B_siliquastri_D_sublineata_wg')"><i>D. sublineata</i></button>
+        </div>
+        <div id="circos_res_B_siliquastri_A_obtectus_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/B_siliquastri_A_obtectus_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_B_siliquastri_B_siliquastri_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/B_siliquastri_B_siliquastri_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_B_siliquastri_B_varius_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/B_siliquastri_B_varius_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_B_siliquastri_C_chinensis_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/B_siliquastri_C_chinensis_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_B_siliquastri_C_maculatus_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/B_siliquastri_C_maculatus_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_B_siliquastri_D_carinulata_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/B_siliquastri_D_carinulata_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_B_siliquastri_D_sublineata_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/B_siliquastri_D_sublineata_circos.png" width="49%" />
+            </p>
+        </div>
+    </div>
+    
+    <div id="circos_res_B_varius_wg" class="tabcontent">
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'circos_res_B_varius_A_obtectus_wg')"><i>A. obtectus</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_B_varius_B_siliquastri_wg')"><i>B. siliquastri</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_B_varius_B_varius_wg')"><i>B. varius</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_B_varius_C_chinensis_wg')"><i>C. chinensis</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_B_varius_C_maculatus_wg')"><i>C. maculatus</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_B_varius_D_carinulata_wg')"><i>D. carinulata</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_B_varius_D_sublineata_wg')"><i>D. sublineata</i></button>
+        </div>
+        <div id="circos_res_B_varius_A_obtectus_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/B_varius_A_obtectus_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_B_varius_B_siliquastri_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/B_varius_B_siliquastri_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_B_varius_B_varius_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/B_varius_B_varius_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_B_varius_C_chinensis_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/B_varius_C_chinensis_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_B_varius_C_maculatus_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/B_varius_C_maculatus_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_B_varius_D_carinulata_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/B_varius_D_carinulata_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_B_varius_D_sublineata_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/B_varius_D_sublineata_circos.png" width="49%" />
+            </p>
+        </div>
+    </div>
+    
+    <div id="circos_res_C_chinensis_wg" class="tabcontent">
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'circos_res_C_chinensis_A_obtectus_wg')"><i>A. obtectus</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_C_chinensis_B_siliquastri_wg')"><i>B. siliquastri</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_C_chinensis_B_varius_wg')"><i>B. varius</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_C_chinensis_C_chinensis_wg')"><i>C. chinensis</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_C_chinensis_C_maculatus_wg')"><i>C. maculatus</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_C_chinensis_D_carinulata_wg')"><i>D. carinulata</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_C_chinensis_D_sublineata_wg')"><i>D. sublineata</i></button>
+        </div>
+        <div id="circos_res_C_chinensis_A_obtectus_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/C_chinensis_A_obtectus_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_C_chinensis_B_siliquastri_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/C_chinensis_B_siliquastri_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_C_chinensis_B_varius_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/C_chinensis_B_varius_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_C_chinensis_C_chinensis_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/C_chinensis_C_chinensis_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_C_chinensis_C_maculatus_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/C_chinensis_C_maculatus_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_C_chinensis_D_carinulata_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/C_chinensis_D_carinulata_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_C_chinensis_D_sublineata_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/C_chinensis_D_sublineata_circos.png" width="49%" />
+            </p>
+        </div>
+    </div>
+    
+    <div id="circos_res_C_maculatus_wg" class="tabcontent">
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'circos_res_C_maculatus_A_obtectus_wg')"><i>A. obtectus</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_C_maculatus_B_siliquastri_wg')"><i>B. siliquastri</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_C_maculatus_B_varius_wg')"><i>B. varius</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_C_maculatus_C_chinensis_wg')"><i>C. chinensis</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_C_maculatus_C_maculatus_wg')"><i>C. maculatus</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_C_maculatus_D_carinulata_wg')"><i>D. carinulata</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_C_maculatus_D_sublineata_wg')"><i>D. sublineata</i></button>
+        </div>
+        <div id="circos_res_C_maculatus_A_obtectus_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/C_maculatus_A_obtectus_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_C_maculatus_B_siliquastri_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/C_maculatus_B_siliquastri_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_C_maculatus_B_varius_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/C_maculatus_B_varius_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_C_maculatus_C_chinensis_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/C_maculatus_C_chinensis_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_C_maculatus_C_maculatus_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/C_maculatus_C_maculatus_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_C_maculatus_D_carinulata_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/C_maculatus_D_carinulata_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_C_maculatus_D_sublineata" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/C_maculatus_D_sublineata_circos_X.png" width="49%" />
+                <img loading="lazy" src="data/circos/plots/C_maculatus_D_sublineata_circos_Y.png" width="49%" />
+            </p>
+        </div>
+    </div>
+    
+    <div id="circos_res_D_carinulata_wg" class="tabcontent">
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'circos_res_D_carinulata_A_obtectus_wg')"><i>A. obtectus</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_D_carinulata_B_siliquastri_wg')"><i>B. siliquastri</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_D_carinulata_B_varius_wg')"><i>B. varius</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_D_carinulata_C_chinensis_wg')"><i>C. chinensis</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_D_carinulata_C_maculatus_wg')"><i>C. maculatus</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_D_carinulata_D_carinulata_wg')"><i>D. carinulata</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_D_carinulata_D_sublineata_wg')"><i>D. sublineata</i></button>
+        </div>
+        <div id="circos_res_D_carinulata_A_obtectus_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/D_carinulata_A_obtectus_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_D_carinulata_B_siliquastri_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/D_carinulata_B_siliquastri_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_D_carinulata_B_varius_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/D_carinulata_B_varius_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_D_carinulata_C_chinensis_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/D_carinulata_C_chinensis_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_D_carinulata_C_maculatus_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/D_carinulata_C_maculatus_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_D_carinulata_D_carinulata_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/D_carinulata_D_carinulata_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_D_carinulata_D_sublineata_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/D_carinulata_D_sublineata_circos.png" width="49%" />
+            </p>
+        </div>
+    </div>
+    
+    <div id="circos_res_D_sublineata_wg" class="tabcontent">
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'circos_res_D_sublineata_A_obtectus_wg')"><i>A. obtectus</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_D_sublineata_B_siliquastri_wg')"><i>B. siliquastri</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_D_sublineata_B_varius_wg')"><i>B. varius</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_D_sublineata_C_chinensis_wg')"><i>C. chinensis</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_D_sublineata_C_maculatus_wg')"><i>C. maculatus</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_D_sublineata_D_carinulata_wg')"><i>D. carinulata</i></button>
+            <button class="tablinks" onclick="openTab(event, 'circos_res_D_sublineata_D_sublineata_wg')"><i>D. sublineata</i></button>
+        </div>
+        <div id="circos_res_D_sublineata_A_obtectus_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/D_sublineata_A_obtectus_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_D_sublineata_B_siliquastri_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/D_sublineata_B_siliquastri_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_D_sublineata_B_varius_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/D_sublineata_B_varius_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_D_sublineata_C_chinensis_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/D_sublineata_C_chinensis_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_D_sublineata_C_maculatus_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/D_sublineata_C_maculatus_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_D_sublineata_D_carinulata_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/D_sublineata_D_carinulata_circos.png" width="49%" />
+            </p>
+        </div>
+        <div id="circos_res_D_sublineata_D_sublineata_wg" class="tabcontent">
+            <p float="left">
+                <img loading="lazy" src="data/circos/plots/D_sublineata_D_sublineata_circos.png" width="49%" />
+            </p>
+        </div>
+    </div>
+    
+    
+    </div>
 
 <h3><i>C. maculatus</i> population comparison</h3>
 
