@@ -148,8 +148,11 @@ def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex
     circos_outfile_name_Y = circos_outfile_name.replace(".txt", "_Y.txt")
     with open(blast_outfile, "r") as filtered_outfile, open(circos_outfile_name, "w") as circos_outfile, open(circos_outfile_name_X, "w") as circos_outfile_X, open(circos_outfile_name_Y, "w") as circos_outfile_Y:
         for line_str in filtered_outfile:
-            
-            transcriptID1,transcriptID2,seq_ident,length,mismatch,gapopen,qstart,qend,sstart,send,evalue,bitscore = line_str.strip().split("\t")
+
+            try:
+                transcriptID1,transcriptID2,seq_ident,length,mismatch,gapopen,qstart,qend,sstart,send,evalue,bitscore = line_str.strip().split("\t")
+            except:
+                raise RuntimeError(f"coule not parse line, expected blast outfmt6. line:\n{line_str}")
             if float(seq_ident) < min_seq_ident:
                 continue
             if float(seq_ident) >= max_seq_ident:
