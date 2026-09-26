@@ -241,13 +241,13 @@ if __name__ == "__main__":
             "D_sublineata" : f"{data_dir}tblastn_D_sublineata.out",
         }
         species_list = [
-            # "A_obtectus",
-            # "B_siliquastri",
-            # "B_varius",
-            # "C_chinensis",
+            "A_obtectus",
+            "B_siliquastri",
+            "B_varius",
+            "C_chinensis",
             "C_maculatus",
-            # "D_carinulata",
-            # "D_sublineata"
+            "D_carinulata",
+            "D_sublineata"
         ]
         for species in species_list:
             max_seq_ident=100 # exclude self-hits for self-blast
@@ -258,7 +258,7 @@ if __name__ == "__main__":
                 blast_outfile=blast_outfiles_dict[species],
                 sex_chr_contigs_dict1=sex_chromosomes_dict[species],
                 sex_chr_contigs_dict2=sex_chromosomes_dict[species],
-                min_seq_ident=98,
+                min_seq_ident=95,
                 max_seq_ident=max_seq_ident,
                 circos_outfile_name=f"{data_dir}circos_links_{species}_nucleotide_blast.txt", 
                 nucleotide_blast = True)
