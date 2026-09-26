@@ -2301,7 +2301,7 @@ NC_079473.1 2336684 2337900 scaffold_16 8524456 8529819 color=lorange</code></pr
 Here I use <code>tblastn</code> to search annotated protein sequences against the whole assembly to find not-annotated hits. 
 The min. sequence identity threshold is 95%, for min intron length see methods section.
 
-
+<div>
 <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'circos_res_nuc_A_obtectus')"><i>A. obtectus</i></button>
     <button class="tablinks" onclick="openTab(event, 'circos_res_nuc_B_siliquastri')"><i>B. siliquastri</i></button>
@@ -2353,6 +2353,14 @@ The min. sequence identity threshold is 95%, for min intron length see methods s
         <img loading="lazy" src="data/circos/plots/D_sublineata_nucleotide_blast_circos_Y.png" width="49%" />
     </p>
 </div>
+</div>
+
+<h3>Gene structure identification</h3>
+
+<p>
+    Since tblastn is not ideal for identifying exon/intron structures, I will use miniprot (see methods) as well to find
+    potentially non-annotated coding regions or pseudogenes 
+</p>
 
 
 <h2 id="orthofinder-results">Orthofinder</h2>
