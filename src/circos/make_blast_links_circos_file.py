@@ -222,13 +222,23 @@ if __name__ == "__main__":
 
     if True:
         data_dir = "/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/paralogs_tblastn/"
+
+        blast_outfiles_dict = {
+            "A_obtectus" : f"{data_dir}tblastn_A_obtectus.out",
+            "B_siliquastri" : f"{data_dir}tblastn_B_siliquastri.out",
+            "B_varius" : f"{data_dir}tblastn_B_varius.out",
+            "C_chinensis" : f"{data_dir}tblastn_C_chinensis.out",
+            "C_maculatus" : f"{data_dir}tblastn_C_maculatus.out",
+            "D_carinulata" : f"{data_dir}tblastn_D_carinulata.out",
+            "D_sublineata" : f"{data_dir}tblastn_D_sublineata.out",
+        }
         for species in species_list:
             max_seq_ident=100 # exclude self-hits for self-blast
 
             print(f"\n ------------ {species} ------------")
             make_circos_hits_file(annotation_file1=annotations_dict[species],
                 annotation_file2=annotations_dict[species],
-                blast_outfile=blast_outfiles_dict[species][species],
+                blast_outfile=blast_outfiles_dict[species],
                 sex_chr_contigs_dict1=sex_chromosomes_dict[species],
                 sex_chr_contigs_dict2=sex_chromosomes_dict[species],
                 min_seq_ident=90,max_seq_ident=max_seq_ident,
