@@ -258,7 +258,7 @@ if __name__ == "__main__":
                 blast_outfile=blast_outfiles_dict[species],
                 sex_chr_contigs_dict1=sex_chromosomes_dict[species],
                 sex_chr_contigs_dict2=sex_chromosomes_dict[species],
-                min_seq_ident=95,
+                min_seq_ident=98,
                 max_seq_ident=max_seq_ident,
                 circos_outfile_name=f"{data_dir}circos_links_{species}_nucleotide_blast.txt", 
                 nucleotide_blast = True)
