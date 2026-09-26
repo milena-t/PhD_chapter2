@@ -172,7 +172,7 @@ def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex
                 except:
                     raise RuntimeError(f"{transcriptID2} not found in {annotation_file2}!")
             else:
-                contig2 = transcript2 # assembly contig ID
+                contig2 = transcriptID2 # assembly contig ID
                 start2=sstart
                 end2=send
 
