@@ -152,7 +152,10 @@ def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex
             try:
                 transcriptID1,transcriptID2,seq_ident,length,mismatch,gapopen,qstart,qend,sstart,send,evalue,bitscore = line_str.strip().split("\t")
             except:
-                raise RuntimeError(f"coule not parse line, expected blast outfmt6. line:\n{line_str}")
+                if "done!" in line_str:
+                    continue
+                else:
+                    raise RuntimeError(f"coule not parse line, expected blast outfmt6. line:\n{line_str}")
             if float(seq_ident) < min_seq_ident:
                 continue
             if float(seq_ident) >= max_seq_ident:
