@@ -154,6 +154,8 @@ def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex
             except:
                 if "done!" in line_str:
                     continue
+                if "Killed" in line_str:
+                    print(f"!!! job was killed before finish !!!")
                 else:
                     raise RuntimeError(f"coule not parse line, expected blast outfmt6. line:\n{line_str}")
             if float(seq_ident) < min_seq_ident:
@@ -238,6 +240,15 @@ if __name__ == "__main__":
             "D_carinulata" : f"{data_dir}tblastn_D_carinulata.out",
             "D_sublineata" : f"{data_dir}tblastn_D_sublineata.out",
         }
+        species_list = [
+            # "A_obtectus",
+            "B_siliquastri",
+            "B_varius",
+            "C_chinensis",
+            "C_maculatus",
+            "D_carinulata",
+            "D_sublineata"
+        ]
         for species in species_list:
             max_seq_ident=100 # exclude self-hits for self-blast
 
