@@ -111,7 +111,8 @@ def annotation_paths_cmac_populations(username="milena"):
     return outdict
 
 def get_annotation_paths(username="miltr339"):
-    dirpath = f"/Users/{username}/work/chapter2/native_annotations/"
+    # dirpath = f"/Users/{username}/work/chapter2/native_annotations/"
+    dirpath = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/native_annotations/"
     outdict = {
         "A_obtectus" : f"{dirpath}A_obtectus.gff",
         "B_siliquastri" : f"{dirpath}B_siliquastri.gff",
