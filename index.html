@@ -195,7 +195,7 @@ I used the SATC package in R, code here: <code>PhD_chapter2/src/SATC_analysis_se
     <li><b><i>Callosobruchus chinensis</i></b>: Identified by me (see below)</li>
     <li>
         <b><i>Diorhabda carinulata</i></b>: Identified by USDA (In the assembly/annotation version I use, X and chr_1 have switched labels, it has been since updated in 
-        a new version of the annotation, where the labels are corrected, but the annotation is not lifted over. Therefore I will keep this old version, and just 
+        a new version of the assembly, where the labels are corrected, but the annotation is not lifted over. Therefore I will keep this old version, and just 
         switch the labels myself when relevant)
     </li>
     <li><b><i>Diorhabda sublineata</i></b>: Identified by USDA</li>
@@ -1149,7 +1149,7 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
         <pre><code> 1 - cm141
  2 - cm123
  3 - cm119
- 4 - cm1259
+ 4 - cm125
  5 - cm38
  6 - cm7
  7 - cm98
@@ -1192,7 +1192,7 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
         <pre><code> 1 - cm141
  2 - cm123
  3 - cm119
- 4 - cm1259
+ 4 - cm125
  5 - cm38
  6 - cm7
  7 - cm98
@@ -1385,6 +1385,14 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 </div>
 </div>
 
+<details>
+    <summary>Synvisio all species plot</summary>
+    <p>all X chromosomes to the right, otherwise ordered by size descending (except for <i>C. maculatus</i>)</p>
+    <p>
+        <img loading="lazy" src="data/synteny/synvisio-export-PNG.png" width="100%" />
+    </p>
+</details>
+
 
 <h2 id="brh-onetoone">1-to-1 Orthologs</h2>
 
@@ -1410,6 +1418,9 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 <h2 id="paralogs-sex-chr">Paralogs</h2>
 
 <h3><i>Chrysomelidae</i>-wide comparison</h3>
+
+These are only within annotated genes. The blast search is <code>blastp</code> all-against-all with protein sequences. 
+For a <code>tblastn</code> search of annotated proteins against the assembly to identify non-annotated matches see below
 
 <h4>Paralogs with X and Y chromosomes</h4>
 
@@ -2291,6 +2302,74 @@ NC_079473.1 2336684 2337900 scaffold_16 8524456 8529819 color=lorange</code></pr
         <p>(This is the same plot from the Cmac analysis in the between-species comparison, included here for completeness)</p>
     </div>
 </div>
+
+
+<h3>Self-blast against whole assemblies</h3>
+
+Here I use <code>tblastn</code> to search annotated protein sequences against the whole assembly to find not-annotated hits. 
+The min. sequence identity threshold is 95%, for min intron length see methods section.
+
+<div>
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'circos_res_nuc_A_obtectus')"><i>A. obtectus</i></button>
+    <button class="tablinks" onclick="openTab(event, 'circos_res_nuc_B_siliquastri')"><i>B. siliquastri</i></button>
+    <button class="tablinks" onclick="openTab(event, 'circos_res_nuc_B_varius')"><i>B. varius</i></button>
+    <button class="tablinks" onclick="openTab(event, 'circos_res_nuc_C_chinensis')"><i>C. chinensis</i></button>
+    <button class="tablinks" onclick="openTab(event, 'circos_res_nuc_C_maculatus')"><i>C. maculatus</i></button>
+    <button class="tablinks" onclick="openTab(event, 'circos_res_nuc_D_carinulata')"><i>D. carinulata</i></button>
+    <button class="tablinks" onclick="openTab(event, 'circos_res_nuc_D_sublineata')"><i>D. sublineata</i></button>
+</div>
+<div id="circos_res_nuc_A_obtectus" class="tabcontent">
+    <p float="left">
+        <img loading="lazy" src="data/circos/plots/A_obtectus_nucleotide_blast_circos_X.png" width="49%" />
+        <img loading="lazy" src="data/circos/plots/A_obtectus_nucleotide_blast_circos_Y.png" width="49%" />
+    </p>
+</div>
+<div id="circos_res_nuc_B_siliquastri" class="tabcontent">
+    <p float="left">
+        <img loading="lazy" src="data/circos/plots/B_siliquastri_nucleotide_blast_circos_X.png" width="49%" />
+        <img loading="lazy" src="data/circos/plots/B_siliquastri_nucleotide_blast_circos_Y.png" width="49%" />
+    </p>
+    <p><b>!!!</b> The slurm job was killed for some reason so this is incomplete.</p>
+</div>
+<div id="circos_res_nuc_B_varius" class="tabcontent">
+    <p float="left">
+        <img loading="lazy" src="data/circos/plots/B_varius_nucleotide_blast_circos_X.png" width="49%" />
+        <img loading="lazy" src="data/circos/plots/B_varius_nucleotide_blast_circos_Y.png" width="49%" />
+    </p>
+</div>
+<div id="circos_res_nuc_C_chinensis" class="tabcontent">
+    <p float="left">
+        <img loading="lazy" src="data/circos/plots/C_chinensis_nucleotide_blast_circos_X.png" width="49%" />
+        <img loading="lazy" src="data/circos/plots/C_chinensis_nucleotide_blast_circos_Y.png" width="49%" />
+    </p>
+</div>
+<div id="circos_res_nuc_C_maculatus" class="tabcontent">
+    <p>
+        Even 98% min. seq. ident. resulted in so many links that it surpassed the circos internal max. links threshold and could not be plotted.
+    </p>
+</div>
+<div id="circos_res_nuc_D_carinulata" class="tabcontent">
+    <p float="left">
+        <img loading="lazy" src="data/circos/plots/D_carinulata_nucleotide_blast_circos_X.png" width="49%" />
+        <img loading="lazy" src="data/circos/plots/D_carinulata_nucleotide_blast_circos_Y.png" width="49%" />
+    </p>
+</div>
+<div id="circos_res_nuc_D_sublineata" class="tabcontent">
+    <p float="left">
+        <img loading="lazy" src="data/circos/plots/D_sublineata_nucleotide_blast_circos_X.png" width="49%" />
+        <img loading="lazy" src="data/circos/plots/D_sublineata_nucleotide_blast_circos_Y.png" width="49%" />
+    </p>
+</div>
+</div>
+
+<h3>Gene structure identification</h3>
+
+<p>
+    Since tblastn is not ideal for identifying exon/intron structures, I will use miniprot (see methods) as well to find
+    potentially non-annotated coding regions or pseudogenes 
+</p>
+
 
 <h2 id="orthofinder-results">Orthofinder</h2>
 

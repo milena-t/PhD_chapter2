@@ -124,6 +124,9 @@ if __name__ == "__main__":
     species_list = list(karyotype_dict.keys())
     outfiles_dir = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/circos/plots"
 
+    nucleotide_blast = True
+    
+    
     os.chdir(outfiles_dir)
     for species1 in species_list:
         for species2 in species_list:
@@ -142,18 +145,23 @@ if __name__ == "__main__":
                     "karyotype = " : karyotype_dict[species1][species2],
                     "file          = " : f"{circos_infiles_dir}/circos_links_{species1}_vs_{species2}.txt",
                 }
-            modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/circos.conf", config_files_dict=infiles_dict)
             outfile = {
                 "dir   = " : f".", # f"{outfiles_dir}",
                 "file  = " : f"{species1}_{species2}_circos.png",
             }
-            modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/image.conf", config_files_dict=outfile)
+                
+            if nucleotide_blast and species1==species2:
+                # this cannot be plotted with nucleotide blast since it hits the circos max links limit
+                pass
+            else:
+                continue
+                modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/circos.conf", config_files_dict=infiles_dict)
+                modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/image.conf", config_files_dict=outfile)
 
-            ## TODO
-            conf_path = f"{circos_infiles_dir}/conf_files/circos.conf"
-            inlist = ["circos", "-conf", conf_path]
-            subprocess.run(inlist, check=True,  stdout=subprocess.DEVNULL)
-            print(f" ".join(inlist))
+                conf_path = f"{circos_infiles_dir}/conf_files/circos.conf"
+                inlist = ["circos", "-conf", conf_path]
+                subprocess.run(inlist, check=True,  stdout=subprocess.DEVNULL)
+                print(f" ".join(inlist))
 
             for chr in ["X", "Y"]:
                 if "Lome" in species_list:
@@ -166,18 +174,33 @@ if __name__ == "__main__":
                         "karyotype = " : karyotype_dict[species1][species2],
                         "file          = " : f"{circos_infiles_dir}/circos_links_{species1}_vs_{species2}_{chr}.txt",
                     }
-                modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/circos.conf", config_files_dict=infiles_dict)
                 outfile = {
                     "dir   = " : f".", # f"{outfiles_dir}",
                     "file  = " : f"{species1}_{species2}_circos_{chr}.png",
                 }
+
+                if nucleotide_blast and species1==species2:
+                    print(f" ===================== {species1} nucleotide blast =====================")
+                    infiles_dict = {
+                        "karyotype = " : karyotype_dict[species1][species2],
+                        "file          = " : f"{circos_infiles_dir}/circos_links_{species1}_nucleotide_blast_{chr}.txt",
+                    }
+                    outfile = {
+                        "dir   = " : f".", # f"{outfiles_dir}",
+                        "file  = " : f"{species1}_nucleotide_blast_circos_{chr}.png",
+                    }
+                else:
+                    continue
+                modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/circos.conf", config_files_dict=infiles_dict)
                 modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/image.conf", config_files_dict=outfile)
 
-                ## TODO
                 conf_path =f"{circos_infiles_dir}/conf_files/circos.conf"
                 inlist = ["circos", "-conf", conf_path]
-                subprocess.run(inlist, check=True,  stdout=subprocess.DEVNULL)
-                print(f" ".join(inlist))
+                try:
+                    subprocess.run(inlist, check=True,  stdout=subprocess.DEVNULL)
+                    print(f" ".join(inlist))
+                except:
+                    continue
 
             # break
         # break

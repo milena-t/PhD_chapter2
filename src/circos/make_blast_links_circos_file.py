@@ -111,7 +111,8 @@ def annotation_paths_cmac_populations(username="milena"):
     return outdict
 
 def get_annotation_paths(username="miltr339"):
-    dirpath = f"/Users/{username}/work/chapter2/native_annotations/"
+    # dirpath = f"/Users/{username}/work/chapter2/native_annotations/"
+    dirpath = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/native_annotations/"
     outdict = {
         "A_obtectus" : f"{dirpath}A_obtectus.gff",
         "B_siliquastri" : f"{dirpath}B_siliquastri.gff",
@@ -124,16 +125,18 @@ def get_annotation_paths(username="miltr339"):
     return outdict
 
 
-def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex_chr_contigs_dict1,sex_chr_contigs_dict2, circos_outfile_name, min_seq_ident=90, max_seq_ident = 200):
+def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex_chr_contigs_dict1,sex_chr_contigs_dict2, circos_outfile_name, min_seq_ident=90, max_seq_ident = 200, nucleotide_blast = False):
 
     try:
         gff1_dict = gff.parse_gff3_general(annotation_file1)
     except:
         gff1_dict = gff.parse_gff3_general(annotation_file1, gtf=True)
-    try:
-        gff2_dict = gff.parse_gff3_general(annotation_file2)
-    except:
-        gff2_dict = gff.parse_gff3_general(annotation_file2, gtf=True)
+    
+    if nucleotide_blast == False:
+        try:
+            gff2_dict = gff.parse_gff3_general(annotation_file2)
+        except:
+            gff2_dict = gff.parse_gff3_general(annotation_file2, gtf=True)
 
     colors = {
         "X" : "acen",
@@ -145,8 +148,16 @@ def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex
     circos_outfile_name_Y = circos_outfile_name.replace(".txt", "_Y.txt")
     with open(blast_outfile, "r") as filtered_outfile, open(circos_outfile_name, "w") as circos_outfile, open(circos_outfile_name_X, "w") as circos_outfile_X, open(circos_outfile_name_Y, "w") as circos_outfile_Y:
         for line_str in filtered_outfile:
-            
-            transcriptID1,transcriptID2,seq_ident,length,mismatch,gapopen,qstart,qend,sstart,send,evalue,bitscore = line_str.strip().split("\t")
+
+            try:
+                transcriptID1,transcriptID2,seq_ident,length,mismatch,gapopen,qstart,qend,sstart,send,evalue,bitscore = line_str.strip().split("\t")
+            except:
+                if "done!" in line_str:
+                    continue
+                if "Killed" in line_str:
+                    print(f"!!! job was killed before finish !!!")
+                else:
+                    raise RuntimeError(f"coule not parse line, expected blast outfmt6. line:\n{line_str}")
             if float(seq_ident) < min_seq_ident:
                 continue
             if float(seq_ident) >= max_seq_ident:
@@ -154,15 +165,24 @@ def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex
             
             try:
                 transcript1 = gff1_dict[transcriptID1]
+                contig1 = transcript1.contig
+                start1=transcript1.start
+                end1=transcript1.end
             except:
                 raise RuntimeError(f"{transcriptID1} not found in {annotation_file1}!")
-            try:
-                transcript2 = gff2_dict[transcriptID2]
-            except:
-                raise RuntimeError(f"{transcriptID2} not found in {annotation_file2}!")
-
-            contig1 = transcript1.contig
-            contig2 = transcript2.contig
+            
+            if nucleotide_blast == False:
+                try:
+                    transcript2 = gff2_dict[transcriptID2]
+                    contig2 = transcript2.contig
+                    start2=transcript2.start
+                    end2=transcript2.end
+                except:
+                    raise RuntimeError(f"{transcriptID2} not found in {annotation_file2}!")
+            else:
+                contig2 = transcriptID2 # assembly contig ID
+                start2=sstart
+                end2=send
 
             if contig1 in sex_chr_contigs_dict1["X"]:
                 color = colors["X"]
@@ -171,10 +191,6 @@ def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex
             else:
                 color = colors["A"]
             
-            start1=transcript1.start
-            end1=transcript1.end
-            start2=transcript2.start
-            end2=transcript2.end
             
             circos = f"{contig1} {start1} {end1} {contig2} {start2} {end2} color={color}"
             circos_outfile.write(circos+"\n")
@@ -213,6 +229,41 @@ if __name__ == "__main__":
     data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/circos/"
 
     if True:
+        data_dir = "/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/paralogs_tblastn/"
+
+        blast_outfiles_dict = {
+            "A_obtectus" : f"{data_dir}tblastn_A_obtectus.out",
+            "B_siliquastri" : f"{data_dir}tblastn_B_siliquastri.out",
+            "B_varius" : f"{data_dir}tblastn_B_varius.out",
+            "C_chinensis" : f"{data_dir}tblastn_C_chinensis.out",
+            "C_maculatus" : f"{data_dir}tblastn_C_maculatus.out",
+            "D_carinulata" : f"{data_dir}tblastn_D_carinulata.out",
+            "D_sublineata" : f"{data_dir}tblastn_D_sublineata.out",
+        }
+        species_list = [
+            "A_obtectus",
+            "B_siliquastri",
+            "B_varius",
+            "C_chinensis",
+            "C_maculatus",
+            "D_carinulata",
+            "D_sublineata"
+        ]
+        for species in species_list:
+            max_seq_ident=100 # exclude self-hits for self-blast
+
+            print(f"\n ------------ {species} ------------")
+            make_circos_hits_file(annotation_file1=annotations_dict[species],
+                annotation_file2=annotations_dict[species],
+                blast_outfile=blast_outfiles_dict[species],
+                sex_chr_contigs_dict1=sex_chromosomes_dict[species],
+                sex_chr_contigs_dict2=sex_chromosomes_dict[species],
+                min_seq_ident=95,
+                max_seq_ident=max_seq_ident,
+                circos_outfile_name=f"{data_dir}circos_links_{species}_nucleotide_blast.txt", 
+                nucleotide_blast = True)
+
+    if False:
         for species1 in species_list:
             for species2 in species_list:
                 if species1==species2:
@@ -227,7 +278,8 @@ if __name__ == "__main__":
                     sex_chr_contigs_dict1=sex_chromosomes_dict[species1],
                     sex_chr_contigs_dict2=sex_chromosomes_dict[species2],
                     min_seq_ident=90,max_seq_ident=max_seq_ident,
-                    circos_outfile_name=f"{data_dir}circos_links_{species1}_vs_{species2}.txt")
+                    circos_outfile_name=f"{data_dir}circos_links_{species1}_vs_{species2}.txt", 
+                    nucleotide_blast = False)
 
     if False:
         blast_outfiles_dict = blast_paths_cmac_populations(username=username)
