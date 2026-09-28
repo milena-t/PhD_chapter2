@@ -76,12 +76,15 @@ def make_species_order_from_tree(newick_tree_path):
     return species_names
 
 
-def get_single_exon_transcripts(parsed_gff_dict, verbose=False):
+def get_single_exon_transcripts(parsed_gff_dict, verbose=False, mRNA_top_feature=False):
     transcripts_single_exon = {}
     transcripts_multi_exon = {}
+    child_category = FeatureCategory.Exon
+    if mRNA_top_feature:
+        child_category = FeatureCategory.CDS
     for feature_id, feature_object in parsed_gff_dict.items():
         if parsed_gff_dict[feature_id].category == FeatureCategory.Transcript:
-            exons = [child_feature for child_feature in feature_object.child_ids_list if parsed_gff_dict[child_feature].category == FeatureCategory.Exon]
+            exons = [child_feature for child_feature in feature_object.child_ids_list if parsed_gff_dict[child_feature].category == child_category]
             if len(exons) == 1:
                 transcripts_single_exon[feature_id] = feature_object
             else:
@@ -114,9 +117,15 @@ def get_transcript_lengths(subset_transcripts_dict, all_parsed_dict,verbose=Fals
         print(f"mean transcript length: {mean_transcript_length}")
     return(transcript_lengths)
 
-def print_single_exon_stats(filepath, include_list = True):
+
+
+def print_single_exon_stats(filepath, include_list = True, mRNA_top_feature=False):
+    if mRNA_top_feature:
+        print(f" --> mRNA as top feature")
     try:
-        gff_dict = parse_gff3_general(filepath)
+        gff_dict = parse_gff3_general(filepath, mRNA_top_feature=mRNA_top_feature)
+        # print(gff_dict["MP000004"])
+        # print(gff_dict["MP000001_Aobt_anno1.g1.t1_1_43"])
     except Exception as e:
         raise RuntimeError(f"parsing gone wrong! \nError: \n{e}")
     no_transcripts = {key : value for key, value in gff_dict.items() if value.category == FeatureCategory.Transcript}
@@ -124,7 +133,7 @@ def print_single_exon_stats(filepath, include_list = True):
     print(f"total number of transcripts: {len(no_transcripts)}")
     print(f"total number of top-level features (genes): {len(no_genes)}")
 
-    aobt_single_exon, aobt_multi_exon = get_single_exon_transcripts(gff_dict)
+    aobt_single_exon, aobt_multi_exon = get_single_exon_transcripts(gff_dict, mRNA_top_feature=mRNA_top_feature)
     print(f"no. single exon transcripts: {len(aobt_single_exon)}")
     if include_list:
         single_exon_IDs = ",".join(aobt_single_exon)
@@ -252,7 +261,7 @@ class Feature:
         )
 
 
-def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_feature_category=None, gtf=False):
+def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_feature_category=None, gtf=False, mRNA_top_feature=False):
     """
     Read a gff file specified in the filepath and parse it into a dictionary of Feature IDs and instances of the Feature class
     {
@@ -280,9 +289,12 @@ def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_fe
         #  * ID gene1234 (gff3)
         # determine separator (" " or "=") so that I don't have to test in every line
         # look 10 lines from the end to avoid leading or tailing comment lines in the file
+        
         tail_line = linelist[-10].split("\t")[-1].split(";")[0]
         separator = " "
         if "=" in tail_line:
+            separator = "="
+        if mRNA_top_feature:
             separator = "="
 
         count_mRNA = 0
@@ -298,6 +310,7 @@ def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_fe
             
             # more info on file format and columns here: https://www.ensembl.org/info/website/upload/gff.html?redirect=no
             contig,source,category_,start,stop,score,strandedness,frame,attributes_=[c for c in line.split("\t") if len(c)>0]
+
             category = categorize_string(category_)
 
             if gtf:
@@ -339,10 +352,19 @@ def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_fe
             if "ID" not in attributes:
                 if gtf:
                     attributes["ID"] = attributes_.strip().split(";")[0].strip()
+                elif mRNA_top_feature:
+                    if category_ == "stop_codon":
+                        continue
+                    elif "Target" in attributes:
+                        targetID = attributes["Target"].replace(" ", "_")
+                        parentID = attributes["Parent"]
+                        attributes["ID"] = f"{parentID}_{targetID}"
+                    else:
+                        raise RuntimeError(f"no Target property found for gene in line: {line}\nattributes are {attributes}")
                 else:
-                    raise RuntimeError(f"no id property found for gene in line: {line}")
+                    raise RuntimeError(f"no id property found for gene in line: {line}\nattributes are {attributes}")
             if "Parent" not in attributes and not category==FeatureCategory.Gene and not category==FeatureCategory.Region:
-                if gtf:
+                if gtf or mRNA_top_feature:
                     parent_id = None
                 else:    
                     raise RuntimeError(f"feature is not a gene and no parentid property found for feature in line: {line}")
