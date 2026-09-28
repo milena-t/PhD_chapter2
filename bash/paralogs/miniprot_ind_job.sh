@@ -21,5 +21,5 @@ minisplice predict -t16 -c vi2-7k.kan.cali vi2-7k.kan ${ASSEMBLY} > ${SPECIES}.t
 echo " =========> minisplice ${OUTFILE} done!"
 
 echo "...running... miniprot -I -G 500000 -u -t16 --gff -j2 --spsc=${SPECIES}.tsv ${ASSEMBLY} ${PROTEINS} > ${SPECIES}_align.gff"
-miniprot -N 1000-I -G 500000 -u -t16 --gff -j2 --spsc=${SPECIES}.tsv ${ASSEMBLY} ${PROTEINS} > "${SPECIES}_align.gff"
+miniprot -N 1000 -I -G 500000 -u -t16 --gff -j2 --spsc=${SPECIES}.tsv ${ASSEMBLY} ${PROTEINS} > "${SPECIES}_align.gff"
 echo " =========> miniprot ${OUTFILE} done!"
