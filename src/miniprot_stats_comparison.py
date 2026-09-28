@@ -13,7 +13,6 @@ def plot_single_exon_no_species_specific_three_annot(native_numbers, miniprot_nu
 
     print(f" plotting for these {len(species_names)} species: \n{species_names}")
 
-    
     # X coordinates for the groups
     x = np.arange(len(species_names))
 
@@ -36,16 +35,15 @@ def plot_single_exon_no_species_specific_three_annot(native_numbers, miniprot_nu
 
 
     colors = {
-        "native" : "#b82946", 
-        "orthodb" : "#F2933A", 
-        "orthoDB_unmasked" : "#4d7298",
+        "native" : "#44506E", 
+        "minimap" : "#8390B1",
     }
     hatch_color = '#ffffff' # '#E2D4CA' #kind of eggshell white
     plt.rcParams['hatch.color'] = hatch_color
     plt.rcParams['hatch.linewidth'] = 2  # default is 1.0
+    hatch_label = f"proportion of which are intronless"
 
     #### plot native annotation ####
-
     num_single_exon_genes = native_numbers["num_single_exon_genes"]
     num_total_genes = native_numbers["num_total_genes"]
 
@@ -61,7 +59,7 @@ def plot_single_exon_no_species_specific_three_annot(native_numbers, miniprot_nu
     print(f"bar width = {width}")
 
     # total number of genes from annotations (with single-exons hatched)
-    native_rects1_base = ax.bar(x - x_subtr, single_exon_genes, width, label='proportion of which are single-exon', color= color[0], hatch=hatching[0])
+    native_rects1_base = ax.bar(x - x_subtr, single_exon_genes, width, label=hatch_label, color= color[0], hatch=hatching[0])
     native_rects1_top = ax.bar(x - x_subtr, multi_exon_genes, width, bottom=single_exon_genes, label='all genes'+category, color= color[1], hatch=hatching[1])
 
     #### plot miniprot gene structures ####
@@ -70,11 +68,11 @@ def plot_single_exon_no_species_specific_three_annot(native_numbers, miniprot_nu
     single_exon_genes = [num_single_exon_genes[species] for species in species_names]
     multi_exon_genes = [num_total_genes[species]-num_single_exon_genes[species] for species in species_names]
 
-    color = [colors["orthodb"], colors["orthodb"]]
+    color = [colors["minimap"], colors["minimap"]]
     hatching = ["//", ""]
 
     # total number of genes (with single-exons hatched)            
-    orthodb_rects1_base = ax.bar(x + x_subtr, single_exon_genes, width, label='proportion of which are single-exon', color= color[0], hatch=hatching[0])            
+    orthodb_rects1_base = ax.bar(x + x_subtr, single_exon_genes, width, label=hatch_label, color= color[0], hatch=hatching[0])            
     orthodb_rects1_top = ax.bar(x + x_subtr, multi_exon_genes, width, bottom=single_exon_genes, label='miniprot gene structures', color= color[1], hatch=hatching[1])  
 
     plt.rcParams.update({'hatch.color': hatch_color})
@@ -186,6 +184,7 @@ def get_single_exon_genes(paths_dict, write_to_file = False, outfile_name = "", 
     elif include_total_gene_num:
         return(species_dict, num_single_exon_genes, num_transcripts)
 
+
 def get_gff_annot_paths(username = "miltr339"):
     filedir = f"/Users/{username}/work/chapter2/native_annotations/"
     outdict = {
@@ -202,13 +201,13 @@ def get_gff_annot_paths(username = "miltr339"):
 def get_miniprot_annot_paths(username="miltr339"):
     filedir = f"/Users/{username}/work/chapter2/miniprot_annot/"
     outdict = {
-        "A_obtectus" : f"{filedir}A_obtectus.masked_align.gff",
-        "B_siliquastri" : f"{filedir}B_siliquastri.masked_align.gff",
-        "B_varius" : f"{filedir}B_varius.masked_align.gff",
-        "C_chinensis" : f"{filedir}C_chinensis.masked_align.gff",
-        "C_maculatus" : f"{filedir}C_maculatus.masked_align.gff",
-        "D_carinulata" : f"{filedir}D_carinulata.masked_align.gff",
-        "D_sublineata" : f"{filedir}D_sublineata.masked_align.gff",
+        "A_obtectus" : f"{filedir}A_obtectus_miniprot_no_cross_hits.gff",
+        "B_siliquastri" : f"{filedir}B_siliquastri_miniprot_no_cross_hits.gff",
+        "B_varius" : f"{filedir}B_varius_miniprot_no_cross_hits.gff",
+        "C_chinensis" : f"{filedir}C_chinensis_miniprot_no_cross_hits.gff",
+        "C_maculatus" : f"{filedir}C_maculatus_miniprot_no_cross_hits.gff",
+        "D_carinulata" : f"{filedir}D_carinulata_miniprot_no_cross_hits.gff",
+        "D_sublineata" : f"{filedir}D_sublineata_miniprot_no_cross_hits.gff",
     }
     return outdict
 
@@ -235,6 +234,83 @@ def single_exon_paths(username="miltr339"):
     return outdict_native,outdict_miniprot
 
 
+class MiniAln:
+    """
+    read miniprot alignment data 
+    """
+    def __init__(self, ID:str, target:str, rank:int, identity:float, contig:str) -> None:
+        self.ID=ID
+        self.target=target
+        self.rank=rank
+        if identity<=1: # use percent not proportion
+            self.identity=100*identity
+        else:
+            self.identity=identity
+        self.contig=contig
+    def __repr__(self):
+        return "MiniAln"
+    def __str__(self) -> str:
+        return f"""Miniprot Alignment ID: {self.ID}
+ * query ID: {self.target}
+ * aligned on contig: {self.contig} with {self.identity}% sequence identity
+ * rank: {self.rank}"""
+
+
+
+
+def miniprot_parse_alignment(miniprot_file):
+    """
+    parse the miniprot alignment into a dictionary by query transcript ID
+    {   
+        target (genomeAnnot transcriptID) : 
+        { 
+            ID (miniprotAln ID) : MiniAln(class),
+            ID (miniprotAln ID) : MiniAln(class),
+            ... 
+        },
+    }
+    """
+    geneIDs_map_counts = {}
+    count_paf = 0
+    count_dup_paf =0
+    with open(miniprot_file, "r") as miniprot_infile:
+        for mini_line in miniprot_infile.readlines(): # skip gff3 header
+            if mini_line[0]=="#":
+                continue
+                line = mini_line.strip().split()
+                count_paf+=1
+                protein_target = line[1]
+                if protein_target not in geneIDs_map_counts:
+                    geneIDs_map_counts[protein_target] = [] 
+                else:
+                    count_dup_paf +=1
+            else:
+                line = mini_line.strip().split("\t")
+                try:
+                    contig,source,category,start,stop,score,strandedness,frame,attributes_=[c for c in line if len(c)>0]
+                except Exception as e:
+                    print(f"mini line could not be parsed! line: \n{mini_line}\nlist ({len(line)} items, should be 9)\n{line}\nerror:\n{e}")
+                if category != "mRNA":
+                    continue
+                attributes={}
+                for attr in attributes_.strip().split(";"):
+                    key,value=attr.strip().split("=")[-2:]
+                    if " " in value:
+                        attributes[key]=value.split()[0]
+                    else:
+                        attributes[key]=value
+                
+                mini_alignment = MiniAln(ID=attributes["ID"], target=attributes["Target"], rank=int(attributes["Rank"]), identity=float(attributes["Identity"]), contig=contig)
+                
+                if  attributes["Target"] in geneIDs_map_counts:
+                    if count_paf==1:
+                        print(mini_alignment)
+                    geneIDs_map_counts[attributes["Target"]].append(mini_alignment)
+                else:
+                    geneIDs_map_counts[attributes["Target"]] = [mini_alignment]
+        print(f"read {count_paf} alignments, of which {count_dup_paf} are duplicate and {count_paf-count_dup_paf} are unique")
+
+    return geneIDs_map_counts
 
 if __name__ == "__main__":
 
@@ -246,20 +322,32 @@ if __name__ == "__main__":
     single_exon_paths_dict_native,single_exon_paths_dict_miniprot = single_exon_paths(username=username)
 
 
-    ## plot single exon proportions:
-    single_exon_dict_native, num_single_exon_dict_native, num_transcripts_dict_native = get_single_exon_genes(single_exon_paths_dict_native, write_to_file=False, outfile_name="native_single_exon_transcripts_list_14_species.txt", include_total_gene_num = True)
-    single_exon_dict_miniprot, num_single_exon_dict_miniprot, num_transcripts_dict_miniprot = get_single_exon_genes(single_exon_paths_dict_miniprot, write_to_file=False, outfile_name="native_single_exon_transcripts_list_14_species.txt", include_total_gene_num = True)
+    if True:
+        ## plot single exon proportions:
+        single_exon_dict_native, num_single_exon_dict_native, num_transcripts_dict_native = get_single_exon_genes(single_exon_paths_dict_native, write_to_file=False, outfile_name="native_single_exon_transcripts_list_14_species.txt", include_total_gene_num = True)
+        single_exon_dict_miniprot, num_single_exon_dict_miniprot, num_transcripts_dict_miniprot = get_single_exon_genes(single_exon_paths_dict_miniprot, write_to_file=False, outfile_name="native_single_exon_transcripts_list_14_species.txt", include_total_gene_num = True)
 
-    SE_numbers_native = {
-        "num_single_exon_genes" : num_single_exon_dict_native,
-        "num_total_genes" : num_transcripts_dict_native
-    }
-    SE_numbers_miniprot = {
-        "num_single_exon_genes" : num_single_exon_dict_miniprot,
-        "num_total_genes" : num_transcripts_dict_miniprot
-    }
-    print(f"\t --> native_numbers = {SE_numbers_native}\n\t --> miniprot_numbers = {SE_numbers_miniprot}\n")
-    print()
+        SE_numbers_native = {
+            "num_single_exon_genes" : num_single_exon_dict_native,
+            "num_total_genes" : num_transcripts_dict_native
+        }
+        SE_numbers_miniprot = {
+            "num_single_exon_genes" : num_single_exon_dict_miniprot,
+            "num_total_genes" : num_transcripts_dict_miniprot
+        }
+        print(f"\t --> native_numbers = {SE_numbers_native}\n\t --> miniprot_numbers = {SE_numbers_miniprot}\n")
+        print()
 
-    data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/single_exon_stats"
-    plot_single_exon_no_species_specific_three_annot(native_numbers=SE_numbers_native, miniprot_numbers=SE_numbers_miniprot, species_names=native_annot.keys(), filename = f"{data_dir}/single_exon_proportions.png")
+        data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/single_exon_stats"
+        plot_single_exon_no_species_specific_three_annot(native_numbers=SE_numbers_native, miniprot_numbers=SE_numbers_miniprot, species_names=native_annot.keys(), filename = f"{data_dir}/single_exon_proportions.png")
+
+    if False:
+        counts_dict = {}
+        for species, miniprot_file in miniprot_annot.items():
+            print(f"=================== {species} ===================")
+            counts_dict_species = miniprot_parse_alignment(miniprot_file = miniprot_file)
+            keys = ["Aobt_anno1.g10014.t1"]# list(counts_dict_species.keys())
+            print(f"{keys[0]} : {len(counts_dict_species[keys[0]])} alignments:")
+            for aln in counts_dict_species[keys[0]]:
+                print(aln)
+            break 
