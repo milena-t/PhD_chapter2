@@ -135,6 +135,9 @@ if __name__ == "__main__":
             if species1=="Lome" and species2=="Lome" :
                 continue
 
+            if species1 != species2:
+                continue
+
             print(f" ===================== {species1} vs. {species2} =====================")
             if "Lome" in species_list:
                 infiles_dict = {
@@ -191,10 +194,22 @@ if __name__ == "__main__":
                         "file  = " : f"{species1}_nucleotide_blast_circos_{chr}.png",
                     }
                 else:
-                    modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/circos.conf", config_files_dict=infiles_dict)
+                    try:
+                        conf_path =f"{circos_infiles_dir}/conf_files/circos_hist.conf"
+                        link_density_hist_exe=f"/sw/apps/circos/0.69-9/rackham/circos-tools-0.23/tools/binlinks/bin/binlinks"
+                        linksfile = infiles_dict["file          = "]
+                        outfile = linksfile.split("/")[-1].replace(".txt", "_hist_vals.txt")
+                        command = [link_density_hist_exe, "-links", linksfile, ">", outfile]
+                        subprocess.run(command, check=True,  stdout=subprocess.DEVNULL)
+                        infiles_dict["file      = "] = outfile
+                    except:
+                        conf_path =f"{circos_infiles_dir}/conf_files/circos.conf"
+                        print(f"no link density histogram could be generated for {linksfile}")
+                        pass
+
+                    modify_circos_conf(circos_conf=conf_path, config_files_dict=infiles_dict)
                     modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/image.conf", config_files_dict=outfile)
 
-                    conf_path =f"{circos_infiles_dir}/conf_files/circos.conf"
                     inlist = ["circos", "-conf", conf_path]
                     try:
                         subprocess.run(inlist, check=True,  stdout=subprocess.DEVNULL)
