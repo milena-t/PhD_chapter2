@@ -208,7 +208,8 @@ if __name__ == "__main__":
                         hist_outfile = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/circos/histograms/{hist_outfile_}"
                         command = [link_density_hist_exe, "-links", linksfile, ">", hist_outfile]
                         subprocess.run(command, check=True,  stdout=subprocess.DEVNULL)
-                        print(command)
+                        print(f"--> make histogram file:")
+                        print(" ".join(command))
                         infiles_dict["file      = "] = hist_outfile
                         print(f"histogram file: {hist_outfile}")
                     except:
