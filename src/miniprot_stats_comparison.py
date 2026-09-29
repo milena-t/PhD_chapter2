@@ -244,11 +244,11 @@ class MiniAln:
         self.rank=rank
         self.start=start
         self.end=end
+        self.contig=contig
         if identity<=1: # use percent not proportion
             self.identity=100*identity
         else:
             self.identity=identity
-        self.contig=contig
     def __repr__(self):
         return "MiniAln"
     def __str__(self) -> str:
@@ -266,14 +266,9 @@ def miniprot_parse_alignment(miniprot_file, queryIDs = True):
     """
     parse the miniprot alignment into a dictionary by query transcript ID
     {   
-        target (genomeAnnot transcriptID) : 
-        { 
-            ID (miniprotAln ID) : MiniAln(class),
-            ID (miniprotAln ID) : MiniAln(class),
-            ... 
-        },
+        target (genomeAnnot transcriptID) : [ MiniAln(class)1, MiniAln(class)2, ... ],
     }
-    if queryIDs=False, then the dict is not nested, and its jus the miniprot aln IDs
+    if queryIDs=False, then the dict is not nested with a list, and its jus the miniprot aln IDs with the class as the key
     """
     geneIDs_map_counts = {}
     count_paf = 0
@@ -308,20 +303,18 @@ def miniprot_parse_alignment(miniprot_file, queryIDs = True):
                 int(start),int(stop)
                 mini_alignment = MiniAln(
                     ID=attributes["ID"], target=attributes["Target"], rank=int(attributes["Rank"]), identity=float(attributes["Identity"]), 
-                    contig=contig, start=int(start), stop=int(stop)
+                    contig=contig, start=int(start), end=int(stop)
                 )
+                count_aln+=1
                 if queryIDs:
                     if  attributes["Target"] in geneIDs_map_counts:
-                        if count_paf==1:
-                            print(mini_alignment)
                         geneIDs_map_counts[attributes["Target"]].append(mini_alignment)
                     else:
                         geneIDs_map_counts[attributes["Target"]] = [mini_alignment]
                 else:
-                    count_aln+=1
                     geneIDs_map_counts[attributes["ID"]] = mini_alignment
         if queryIDs:
-            print(f"read {count_paf} alignments, of which {count_dup_paf} are duplicate and {count_paf-count_dup_paf} are unique")
+            print(f"read {count_aln} MINIPROT alignments from {len(geneIDs_map_counts)} query proteins")
         else:
             print(f"\t(read {count_aln} alignments from {miniprot_file})")
 

@@ -112,8 +112,8 @@ def annotation_paths_cmac_populations(username="milena"):
     return outdict
 
 def get_annotation_paths(username="miltr339"):
-    # dirpath = f"/Users/{username}/work/chapter2/native_annotations/"
-    dirpath = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/native_annotations/"
+    dirpath = f"/Users/{username}/work/chapter2/native_annotations/"
+    # dirpath = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/native_annotations/"
     outdict = {
         "A_obtectus" : f"{dirpath}A_obtectus.gff",
         "B_siliquastri" : f"{dirpath}B_siliquastri.gff",
@@ -125,6 +125,19 @@ def get_annotation_paths(username="miltr339"):
     }
     return outdict
 
+
+def get_miniprot_paths(username="miltr339"):
+    dirpath = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/miniprot/"
+    outdict = {
+        "A_obtectus" : f"{dirpath}A_obtectus_miniprot_no_cross_no_self_hits.gff",
+        "B_siliquastri" : f"{dirpath}B_siliquastri_miniprot_no_cross_no_self_hits.gff",
+        "B_varius" : f"{dirpath}B_varius_miniprot_no_cross_no_self_hits.gff",
+        "C_chinensis" : f"{dirpath}C_chinensis_miniprot_no_cross_no_self_hits.gff",
+        "C_maculatus" : f"{dirpath}C_maculatus_miniprot_no_cross_no_self_hits.gff",
+        "D_carinulata" : f"{dirpath}D_carinulata_miniprot_no_cross_no_self_hits.gff",
+        "D_sublineata" : f"{dirpath}D_sublineata_miniprot_no_cross_no_self_hits.gff",
+    }
+    return outdict
 
 def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex_chr_contigs_dict1,sex_chr_contigs_dict2, circos_outfile_name, min_seq_ident=90, max_seq_ident = 200, nucleotide_blast = False, miniprot_aln_file=""):
 
@@ -144,8 +157,11 @@ def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex
     
     colors = {
         "X" : "myblue",
+        "X_mini" : "mydarkblue",
         "Y" : "myred",
-        "A" : "mygreen"
+        "Y_mini" : "mdarkyred",
+        "A" : "mygreen",
+        "A_mini" : "mygdarkreen"
     }
     # blast_outfmt6_headers = ["qseqid", "rseqid", "pident", "length", "mismatch", "gapopen", "qstart", "qend", "sstart", "send", "evalue", "bitscore"]
     circos_outfile_name_X = circos_outfile_name.replace(".txt", "_X.txt")
@@ -219,10 +235,27 @@ def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex
                     circos_outfile_Y.write(circos+"\n")
                 
                 if miniprot_aln_file!="":
-                    transcript1 = miniprot_aln[transcriptID1]
-                    for aln_ID, aln_class in transcript1.items():
+                    try:
+                        mini_paralogs = miniprot_aln[transcriptID1]
+                    except:
+                        continue
+                        raise RuntimeError(f"{transcriptID1} not found in miniprot file {miniprot_aln_file}!")
+                    for aln_class in mini_paralogs:
+                        contig2 = aln_class.contig
+                        start2 = aln_class.start
+                        end2 = aln_class.end
+                        if contig2 in sex_chr_contigs_dict2[chr]:
+                            color = colors[f"{chr}_mini"]
+                        elif contig2 in sex_chr_contigs_dict2[other_chr]:
+                            color = colors[f"{other_chr}_mini"]
+                        else:
+                            color = colors[f"A_mini"]
 
                         circos = f"{contig1} {start1} {end1} {contig2} {start2} {end2} color={color}"
+                        if chr=="X":
+                            circos_outfile_X.write(circos+"\n")
+                        elif chr=="Y":
+                            circos_outfile_Y.write(circos+"\n")
 
             #break
     print(f"The circos outfile is here: \n  - {circos_outfile_name}\n  - {circos_outfile_name_X}\n  - {circos_outfile_name_Y}")
@@ -236,6 +269,7 @@ if __name__ == "__main__":
     annotations_dict = get_annotation_paths(username=username)
     sex_chromosomes_dict = sex_chromosomes.get_contig_names()
     species_list = list(blast_outfiles_dict.keys())
+    miniprot_paths_dict = get_miniprot_paths(username=username)
     data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/circos/"
 
     #################################################
@@ -281,12 +315,15 @@ if __name__ == "__main__":
     ######## between species blastp paralogs #######
     ################################################
     if True:
+
         for species1 in species_list:
             for species2 in species_list:
                 if species1==species2:
                     max_seq_ident=100 # exclude self-hits for self-blast
+                    minaln_file = miniprot_paths_dict[species1]
                 else:
                     max_seq_ident=200
+                    minaln_file = ""
 
                 print(f"\n ------------ {species1} vs. {species2} ------------")
                 make_circos_hits_file(annotation_file1=annotations_dict[species1],
@@ -296,7 +333,8 @@ if __name__ == "__main__":
                     sex_chr_contigs_dict2=sex_chromosomes_dict[species2],
                     min_seq_ident=90,max_seq_ident=max_seq_ident,
                     circos_outfile_name=f"{data_dir}circos_links_{species1}_vs_{species2}.txt", 
-                    nucleotide_blast = False)
+                    nucleotide_blast = False,
+                    miniprot_aln_file=minaln_file)
 
 
     #### within Cmac populations blastp
