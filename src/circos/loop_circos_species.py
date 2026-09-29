@@ -191,17 +191,16 @@ if __name__ == "__main__":
                         "file  = " : f"{species1}_nucleotide_blast_circos_{chr}.png",
                     }
                 else:
-                    continue
-                modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/circos.conf", config_files_dict=infiles_dict)
-                modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/image.conf", config_files_dict=outfile)
+                    modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/circos.conf", config_files_dict=infiles_dict)
+                    modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/image.conf", config_files_dict=outfile)
 
-                conf_path =f"{circos_infiles_dir}/conf_files/circos.conf"
-                inlist = ["circos", "-conf", conf_path]
-                try:
-                    subprocess.run(inlist, check=True,  stdout=subprocess.DEVNULL)
-                    print(f" ".join(inlist))
-                except:
-                    continue
+                    conf_path =f"{circos_infiles_dir}/conf_files/circos.conf"
+                    inlist = ["circos", "-conf", conf_path]
+                    try:
+                        subprocess.run(inlist, check=True,  stdout=subprocess.DEVNULL)
+                        print(f" ".join(inlist))
+                    except:
+                        continue
 
             # break
         break
