@@ -135,8 +135,8 @@ if __name__ == "__main__":
             if species1=="Lome" and species2=="Lome" :
                 continue
 
-            if species1 != species2:
-                continue
+            # if species1 != species2:
+            #     continue
 
             print(f" ===================== {species1} vs. {species2} =====================")
             if "Lome" in species_list:
