@@ -2,8 +2,8 @@
 #SBATCH -A uppmax2026-1-8
 #SBATCH -c 1
 #SBATCH -t 1:00:00
-#SBATCH -J list_sex_chr_BRHs
-#SBATCH -o list_sex_chr_BRHs.log
+#SBATCH -J run_circos
+#SBATCH -o run_circos.log
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user milena.trabert@ebc.uu.se
 
