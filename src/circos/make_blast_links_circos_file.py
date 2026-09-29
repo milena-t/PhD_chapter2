@@ -282,6 +282,63 @@ def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex
     print(f"The circos outfile is here: \n  - {circos_outfile_name}\n  - {circos_outfile_name_X}\n  - {circos_outfile_name_Y}")
 
 
+def make_circos_miniprot_file(annotation_file, miniprot_aln_file,  sex_chr_contigs_dict, circos_outfile_name, min_seq_ident=80):
+
+    try:
+        gff1_dict = gff.parse_gff3_general(annotation_file)
+    except:
+        gff1_dict = gff.parse_gff3_general(annotation_file, gtf=True)
+    
+    miniprot_aln = minialn.miniprot_parse_alignment(miniprot_aln_file, queryIDs=False)
+    
+    colors = {
+        "Y_mini" : "myblue",
+        "Y" : "mydarkblue",
+        "X_mini" : "myred",
+        "X" : "mydarkred",
+        "A_mini" : "mygreen",
+        "A" : "mydarkgreen"
+    }
+    # blast_outfmt6_headers = ["qseqid", "rseqid", "pident", "length", "mismatch", "gapopen", "qstart", "qend", "sstart", "send", "evalue", "bitscore"]
+
+    too_low_seq_ident=0
+    with open(circos_outfile_name, "w") as circos_outfile:
+        for minialn_ID, aln_class in miniprot_aln.items():
+
+            if float(aln_class.identity) < min_seq_ident:
+                too_low_seq_ident+=1
+                continue
+            
+            contig_mini = aln_class.contig
+            start_mini = aln_class.start
+            end_mini = aln_class.end
+            transcriptID = aln_class.target
+            try:
+                transcript1 = gff1_dict[transcriptID]
+                contig_annot = transcript1.contig
+                start_annot=transcript1.start
+                end_annot=transcript1.end
+            except:
+                raise RuntimeError(f"{transcriptID} not found in {annotation_file}!")
+
+            if contig_annot in sex_chr_contigs_dict["X"]:
+                color = colors["X_mini"]
+            elif contig_annot in sex_chr_contigs_dict["Y"]:
+                color = colors["Y_mini"]
+            else:
+                color = colors["A_mini"]
+            
+            
+            circos = f"{contig_annot} {start_annot} {end_annot} {contig_mini} {start_mini} {end_mini} color={color}"
+            circos_outfile.write(circos+"\n")
+
+            #break
+    print(f"The circos outfile is here: \n  - {circos_outfile_name}\n")
+
+
+
+
+
 if __name__ == "__main__":
 
     username="miltr339"
@@ -335,7 +392,7 @@ if __name__ == "__main__":
     ################################################
     ######## between species blastp paralogs #######
     ################################################
-    if True:
+    if False:
 
         for species1 in species_list:
             for species2 in species_list:
@@ -356,6 +413,20 @@ if __name__ == "__main__":
                     circos_outfile_name=f"{data_dir}circos_links_{species1}_vs_{species2}.txt", 
                     nucleotide_blast = False,
                     miniprot_aln_file=minaln_file)
+
+    ##### miniprot paralogs only
+    if True:
+
+        for species1 in species_list:
+
+            print(f"\n ------------ {species1} ------------")
+            circos_outfile_name=f"{data_dir}miniprot_circos_links_{species1}.txt", 
+            make_circos_miniprot_file(
+                annotation_file=annotations_dict[species1], 
+                miniprot_aln_file=miniprot_paths_dict[species1], 
+                sex_chr_contigs_dict=sex_chromosomes_dict[species1], 
+                circos_outfile_name=circos_outfile_name, 
+                min_seq_ident=80)
 
 
     #### within Cmac populations blastp
