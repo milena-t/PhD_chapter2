@@ -159,7 +159,7 @@ if __name__ == "__main__":
                 pass
             else:
 
-                print(f"-------------------- all chromosomes --------------------")
+                print(f" -------------------- all chromosomes --------------------")
                 modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/circos.conf", config_files_dict=infiles_dict)
                 modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/image.conf", config_files_dict=outfile)
 
@@ -169,7 +169,7 @@ if __name__ == "__main__":
                 print(f" ".join(inlist))
 
             for chr in ["X", "Y"]:
-                print(f"-------------------- {chr}-chromosome --------------------")
+                print(f" -------------------- {chr}-chromosome --------------------")
                 if "Lome" in species_list:
                     infiles_dict = {
                         "karyotype = " : karyotype_dict[species1][species2],
@@ -207,11 +207,14 @@ if __name__ == "__main__":
                         hist_outfile_ = f"circos_links_{species1}_vs_{species2}_{chr}_hist_vals.txt" 
                         hist_outfile = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/circos/histograms/{hist_outfile_}"
                         command = [link_density_hist_exe, "-links", linksfile, ">", hist_outfile]
-                        subprocess.run(command, check=True,  stdout=subprocess.DEVNULL)
-                        print(f"--> make histogram file:")
                         print(" ".join(command))
+                        print(f"--> make histogram file:")
+                        subprocess.run(command, check=True,  stdout=subprocess.DEVNULL)
+                        if os.path.isfile(hist_outfile):
+                            print(f"successfully created histogram file: {hist_outfile}")
+                        else:
+                            raise RuntimeError(f"histogram file was not successfully created with command:\n{command}")
                         infiles_dict["file      = "] = hist_outfile
-                        print(f"histogram file: {hist_outfile}")
                     except:
                         conf_path =f"{circos_infiles_dir}/conf_files/circos.conf"
                         print(f"no link density histogram could be generated for {linksfile}")
