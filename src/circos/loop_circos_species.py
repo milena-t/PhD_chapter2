@@ -199,12 +199,16 @@ if __name__ == "__main__":
                     try:
                         conf_path =f"{circos_infiles_dir}/conf_files/circos_hist.conf"
                         link_density_hist_exe=f"/sw/apps/circos/0.69-9/rackham/circos-tools-0.23/tools/binlinks/bin/binlinks"
+                
                         linksfile = infiles_dict["file          = "]
-                        hist_outfile_ = linksfile.split("/")[-1].replace(".txt", "_hist_vals.txt")
+                        # hist_outfile_ = linksfile.replace(".txt", "_hist_vals.txt").split("/")[-1]
+                        hist_outfile_ = f"circos_links_{species1}_vs_{species2}_{chr}_hist_vals.txt" 
                         hist_outfile = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/circos/histograms/{hist_outfile_}"
                         command = [link_density_hist_exe, "-links", linksfile, ">", hist_outfile]
                         subprocess.run(command, check=True,  stdout=subprocess.DEVNULL)
+                        print(command)
                         infiles_dict["file      = "] = outfile
+                        print(f"histogram file: {hist_outfile}")
                     except:
                         conf_path =f"{circos_infiles_dir}/conf_files/circos.conf"
                         print(f"no link density histogram could be generated for {linksfile}")
