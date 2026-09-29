@@ -207,7 +207,7 @@ if __name__ == "__main__":
                         command = [link_density_hist_exe, "-links", linksfile, ">", hist_outfile]
                         subprocess.run(command, check=True,  stdout=subprocess.DEVNULL)
                         print(command)
-                        infiles_dict["file      = "] = outfile
+                        infiles_dict["file      = "] = hist_outfile
                         print(f"histogram file: {hist_outfile}")
                     except:
                         conf_path =f"{circos_infiles_dir}/conf_files/circos.conf"
