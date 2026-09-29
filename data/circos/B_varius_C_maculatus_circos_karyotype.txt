@@ -1,37 +1,37 @@
-chr - OZ123443.1 Bvar_1 0 234424358 mygreen
-chr - OZ123444.1 Bvar_2 0 176697961 mygreen
-chr - OZ123445.1 Bvar_3 0 131286548 mygreen
-chr - OZ123446.1 Bvar_4 0 128549679 mygreen
-chr - OZ123447.1 Bvar_5 0 123461140 mygreen
-chr - OZ123448.1 Bvar_6 0 120554209 mygreen
-chr - OZ123449.1 Bvar_7 0 108251700 mygreen
-chr - OZ123450.1 Bvar_8 0 105694018 mygreen
-chr - OZ123451.1 Bvar_X 0 57607949 myred
+chr - OZ123443.1 Bvar_1 0 234424358 mydarkgreen
+chr - OZ123444.1 Bvar_2 0 176697961 mydarkgreen
+chr - OZ123445.1 Bvar_3 0 131286548 mydarkgreen
+chr - OZ123446.1 Bvar_4 0 128549679 mydarkgreen
+chr - OZ123447.1 Bvar_5 0 123461140 mydarkgreen
+chr - OZ123448.1 Bvar_6 0 120554209 mydarkgreen
+chr - OZ123449.1 Bvar_7 0 108251700 mydarkgreen
+chr - OZ123450.1 Bvar_8 0 105694018 mydarkgreen
+chr - OZ123451.1 Bvar_X 0 57607949 mydarkred
 
-chr - OZ123452.1 Bvar_Y 0 14763576 myblue
-chr - scaffold_1 Cmac_1 0 122590087 mygreen
-chr - scaffold_2 Cmac_2 0 117291456 mygreen
-chr - scaffold_3 Cmac_3 0 110390399 mygreen
-chr - scaffold_4 Cmac_4 0 106152427 mygreen
-chr - scaffold_5 Cmac_5 0 103312237 mygreen
-chr - scaffold_6 Cmac_6 0 101463975 mygreen
-chr - scaffold_7 Cmac_7 0 80630069 mygreen
-chr - scaffold_8 Cmac_8 0 45100197 mygreen
-chr - scaffold_9 Cmac_9 0 42534705 mygreen
-chr - scaffold_10 Cmac_X 0 29480781 myred
+chr - OZ123452.1 Bvar_Y 0 14763576 mydarkblue
+chr - scaffold_1 Cmac_1 0 122590087 mydarkgreen
+chr - scaffold_2 Cmac_2 0 117291456 mydarkgreen
+chr - scaffold_3 Cmac_3 0 110390399 mydarkgreen
+chr - scaffold_4 Cmac_4 0 106152427 mydarkgreen
+chr - scaffold_5 Cmac_5 0 103312237 mydarkgreen
+chr - scaffold_6 Cmac_6 0 101463975 mydarkgreen
+chr - scaffold_7 Cmac_7 0 80630069 mydarkgreen
+chr - scaffold_8 Cmac_8 0 45100197 mydarkgreen
+chr - scaffold_9 Cmac_9 0 42534705 mydarkgreen
+chr - scaffold_10 Cmac_X 0 29480781 mydarkred
 
-chr - scaffold_14 Cmac_X 0 12192872 myred
+chr - scaffold_14 Cmac_X 0 12192872 mydarkred
 
-chr - scaffold_23 Cmac_X 0 6553285 myred
+chr - scaffold_23 Cmac_X 0 6553285 mydarkred
 
-chr - scaffold_31 Cmac_X 0 4888746 myred
+chr - scaffold_31 Cmac_X 0 4888746 mydarkred
 
-chr - scaffold_34 Cmac_X 0 4268660 myred
+chr - scaffold_34 Cmac_X 0 4268660 mydarkred
 
-chr - scaffold_83 Cmac_X 0 1174251 myred
+chr - scaffold_83 Cmac_X 0 1174251 mydarkred
 
-chr - scaffold_26 Cmac_Y 0 5935189 myblue
-chr - scaffold_48 Cmac_Y 0 2496968 myblue
-chr - scaffold_103 Cmac_Y 0 800857 myblue
-chr - scaffold_112 Cmac_Y 0 667726 myblue
-chr - scaffold_164 Cmac_Y 0 211532 myblue
+chr - scaffold_26 Cmac_Y 0 5935189 mydarkblue
+chr - scaffold_48 Cmac_Y 0 2496968 mydarkblue
+chr - scaffold_103 Cmac_Y 0 800857 mydarkblue
+chr - scaffold_112 Cmac_Y 0 667726 mydarkblue
+chr - scaffold_164 Cmac_Y 0 211532 mydarkblue

@@ -1,12 +1,12 @@
-chr - 1 1 0 49182353 mygreen
-chr - 2 2 0 45375201 mygreen
-chr - 3 3 0 42041205 mygreen
-chr - 4 4 0 41564249 mygreen
-chr - 5 5 0 39857073 mygreen
-chr - 6 6 0 39041292 mygreen
-chr - 7 7 0 36815055 mygreen
-chr - 8 8 0 28491252 mygreen
-chr - 9 9 0 26473722 mygreen
-chr - X X 0 22912655 myred
+chr - 1 1 0 49182353 mydarkgreen
+chr - 2 2 0 45375201 mydarkgreen
+chr - 3 3 0 42041205 mydarkgreen
+chr - 4 4 0 41564249 mydarkgreen
+chr - 5 5 0 39857073 mydarkgreen
+chr - 6 6 0 39041292 mydarkgreen
+chr - 7 7 0 36815055 mydarkgreen
+chr - 8 8 0 28491252 mydarkgreen
+chr - 9 9 0 26473722 mydarkgreen
+chr - X X 0 22912655 mydarkred
 
-chr - Y Y 0 3498892 myblue
+chr - Y Y 0 3498892 mydarkblue

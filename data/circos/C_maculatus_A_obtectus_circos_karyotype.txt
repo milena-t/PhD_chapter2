@@ -1,56 +1,56 @@
-chr - scaffold_1 Cmac_1 0 122590087 mygreen
-chr - scaffold_2 Cmac_2 0 117291456 mygreen
-chr - scaffold_3 Cmac_3 0 110390399 mygreen
-chr - scaffold_4 Cmac_4 0 106152427 mygreen
-chr - scaffold_5 Cmac_5 0 103312237 mygreen
-chr - scaffold_6 Cmac_6 0 101463975 mygreen
-chr - scaffold_7 Cmac_7 0 80630069 mygreen
-chr - scaffold_8 Cmac_8 0 45100197 mygreen
-chr - scaffold_9 Cmac_9 0 42534705 mygreen
-chr - scaffold_10 Cmac_X 0 29480781 myred
+chr - scaffold_1 Cmac_1 0 122590087 mydarkgreen
+chr - scaffold_2 Cmac_2 0 117291456 mydarkgreen
+chr - scaffold_3 Cmac_3 0 110390399 mydarkgreen
+chr - scaffold_4 Cmac_4 0 106152427 mydarkgreen
+chr - scaffold_5 Cmac_5 0 103312237 mydarkgreen
+chr - scaffold_6 Cmac_6 0 101463975 mydarkgreen
+chr - scaffold_7 Cmac_7 0 80630069 mydarkgreen
+chr - scaffold_8 Cmac_8 0 45100197 mydarkgreen
+chr - scaffold_9 Cmac_9 0 42534705 mydarkgreen
+chr - scaffold_10 Cmac_X 0 29480781 mydarkred
 
-chr - scaffold_14 Cmac_X 0 12192872 myred
+chr - scaffold_14 Cmac_X 0 12192872 mydarkred
 
-chr - scaffold_23 Cmac_X 0 6553285 myred
+chr - scaffold_23 Cmac_X 0 6553285 mydarkred
 
-chr - scaffold_31 Cmac_X 0 4888746 myred
+chr - scaffold_31 Cmac_X 0 4888746 mydarkred
 
-chr - scaffold_34 Cmac_X 0 4268660 myred
+chr - scaffold_34 Cmac_X 0 4268660 mydarkred
 
-chr - scaffold_83 Cmac_X 0 1174251 myred
+chr - scaffold_83 Cmac_X 0 1174251 mydarkred
 
-chr - scaffold_26 Cmac_Y 0 5935189 myblue
-chr - scaffold_48 Cmac_Y 0 2496968 myblue
-chr - scaffold_103 Cmac_Y 0 800857 myblue
-chr - scaffold_112 Cmac_Y 0 667726 myblue
-chr - scaffold_164 Cmac_Y 0 211532 myblue
-chr - CAVLJG010000001.1 Aobt_1 0 128021113 mygreen
-chr - CAVLJG010000003.1 Aobt_2 0 126082896 mygreen
-chr - CAVLJG010000004.1 Aobt_3 0 117235856 mygreen
-chr - CAVLJG010000005.1 Aobt_4 0 116575500 mygreen
-chr - CAVLJG010000006.1 Aobt_5 0 108704056 mygreen
-chr - CAVLJG010000007.1 Aobt_6 0 96635042 mygreen
-chr - CAVLJG010000008.1 Aobt_7 0 94445115 mygreen
-chr - CAVLJG010000009.1 Aobt_8 0 89471000 mygreen
-chr - CAVLJG010000010.1 Aobt_9 0 74866084 mygreen
-chr - CAVLJG010000002.1 Aobt_X 0 43142905 myred
+chr - scaffold_26 Cmac_Y 0 5935189 mydarkblue
+chr - scaffold_48 Cmac_Y 0 2496968 mydarkblue
+chr - scaffold_103 Cmac_Y 0 800857 mydarkblue
+chr - scaffold_112 Cmac_Y 0 667726 mydarkblue
+chr - scaffold_164 Cmac_Y 0 211532 mydarkblue
+chr - CAVLJG010000001.1 Aobt_1 0 128021113 mydarkgreen
+chr - CAVLJG010000003.1 Aobt_2 0 126082896 mydarkgreen
+chr - CAVLJG010000004.1 Aobt_3 0 117235856 mydarkgreen
+chr - CAVLJG010000005.1 Aobt_4 0 116575500 mydarkgreen
+chr - CAVLJG010000006.1 Aobt_5 0 108704056 mydarkgreen
+chr - CAVLJG010000007.1 Aobt_6 0 96635042 mydarkgreen
+chr - CAVLJG010000008.1 Aobt_7 0 94445115 mydarkgreen
+chr - CAVLJG010000009.1 Aobt_8 0 89471000 mydarkgreen
+chr - CAVLJG010000010.1 Aobt_9 0 74866084 mydarkgreen
+chr - CAVLJG010000002.1 Aobt_X 0 43142905 mydarkred
 
-chr - CAVLJG010000099.1 Aobt_X 0 157500 myred
+chr - CAVLJG010000099.1 Aobt_X 0 157500 mydarkred
 
-chr - CAVLJG010000155.1 Aobt_X 0 147000 myred
+chr - CAVLJG010000155.1 Aobt_X 0 147000 mydarkred
 
-chr - CAVLJG010000244.1 Aobt_X 0 129500 myred
+chr - CAVLJG010000244.1 Aobt_X 0 129500 mydarkred
 
-chr - CAVLJG010000377.1 Aobt_X 0 114918 myred
+chr - CAVLJG010000377.1 Aobt_X 0 114918 mydarkred
 
-chr - CAVLJG010000488.1 Aobt_X 0 105500 myred
+chr - CAVLJG010000488.1 Aobt_X 0 105500 mydarkred
 
-chr - CAVLJG010003236.1 Aobt_X 0 333528 myred
+chr - CAVLJG010003236.1 Aobt_X 0 333528 mydarkred
 
-chr - CAVLJG010003544.1 Aobt_X 0 217000 myred
+chr - CAVLJG010003544.1 Aobt_X 0 217000 mydarkred
 
-chr - CAVLJG010000233.1 Aobt_Y 0 131000 myblue
-chr - CAVLJG010000343.1 Aobt_Y 0 1187000 myblue
-chr - CAVLJG010000566.1 Aobt_Y 0 100909 myblue
-chr - CAVLJG010000588.1 Aobt_Y 0 100000 myblue
-chr - CAVLJG010002896.1 Aobt_Y 0 421500 myblue
+chr - CAVLJG010000233.1 Aobt_Y 0 131000 mydarkblue
+chr - CAVLJG010000343.1 Aobt_Y 0 1187000 mydarkblue
+chr - CAVLJG010000566.1 Aobt_Y 0 100909 mydarkblue
+chr - CAVLJG010000588.1 Aobt_Y 0 100000 mydarkblue
+chr - CAVLJG010002896.1 Aobt_Y 0 421500 mydarkblue

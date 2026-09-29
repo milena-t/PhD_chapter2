@@ -1,160 +1,160 @@
-chr - 1 Bsil_1 0 49182353 mygreen
-chr - 2 Bsil_2 0 45375201 mygreen
-chr - 3 Bsil_3 0 42041205 mygreen
-chr - 4 Bsil_4 0 41564249 mygreen
-chr - 5 Bsil_5 0 39857073 mygreen
-chr - 6 Bsil_6 0 39041292 mygreen
-chr - 7 Bsil_7 0 36815055 mygreen
-chr - 8 Bsil_8 0 28491252 mygreen
-chr - 9 Bsil_9 0 26473722 mygreen
-chr - X Bsil_X 0 22912655 myred
+chr - 1 Bsil_1 0 49182353 mydarkgreen
+chr - 2 Bsil_2 0 45375201 mydarkgreen
+chr - 3 Bsil_3 0 42041205 mydarkgreen
+chr - 4 Bsil_4 0 41564249 mydarkgreen
+chr - 5 Bsil_5 0 39857073 mydarkgreen
+chr - 6 Bsil_6 0 39041292 mydarkgreen
+chr - 7 Bsil_7 0 36815055 mydarkgreen
+chr - 8 Bsil_8 0 28491252 mydarkgreen
+chr - 9 Bsil_9 0 26473722 mydarkgreen
+chr - X Bsil_X 0 22912655 mydarkred
 
-chr - Y Bsil_Y 0 3498892 myblue
-chr - 182_quiver Cchi_X 0 967165 myred
+chr - Y Bsil_Y 0 3498892 mydarkblue
+chr - 182_quiver Cchi_X 0 967165 mydarkred
 
-chr - 993_quiver Cchi_X 0 122711 myred
+chr - 993_quiver Cchi_X 0 122711 mydarkred
 
-chr - 988_quiver Cchi_X 0 123706 myred
+chr - 988_quiver Cchi_X 0 123706 mydarkred
 
-chr - 977_quiver Cchi_X 0 128385 myred
+chr - 977_quiver Cchi_X 0 128385 mydarkred
 
-chr - 971_quiver Cchi_X 0 130102 myred
+chr - 971_quiver Cchi_X 0 130102 mydarkred
 
-chr - 968_quiver Cchi_X 0 130969 myred
+chr - 968_quiver Cchi_X 0 130969 mydarkred
 
-chr - 959_quiver Cchi_X 0 133709 myred
+chr - 959_quiver Cchi_X 0 133709 mydarkred
 
-chr - 955_quiver Cchi_X 0 137477 myred
+chr - 955_quiver Cchi_X 0 137477 mydarkred
 
-chr - 941_quiver Cchi_X 0 142065 myred
+chr - 941_quiver Cchi_X 0 142065 mydarkred
 
-chr - 919_quiver Cchi_X 0 146429 myred
+chr - 919_quiver Cchi_X 0 146429 mydarkred
 
-chr - 910_quiver Cchi_X 0 149032 myred
+chr - 910_quiver Cchi_X 0 149032 mydarkred
 
-chr - 882_quiver Cchi_X 0 159137 myred
+chr - 882_quiver Cchi_X 0 159137 mydarkred
 
-chr - 868_quiver Cchi_X 0 164506 myred
+chr - 868_quiver Cchi_X 0 164506 mydarkred
 
-chr - 854_quiver Cchi_X 0 169064 myred
+chr - 854_quiver Cchi_X 0 169064 mydarkred
 
-chr - 851_quiver Cchi_X 0 135401 myred
+chr - 851_quiver Cchi_X 0 135401 mydarkred
 
-chr - 849_quiver Cchi_X 0 170342 myred
+chr - 849_quiver Cchi_X 0 170342 mydarkred
 
-chr - 839_quiver Cchi_X 0 173476 myred
+chr - 839_quiver Cchi_X 0 173476 mydarkred
 
-chr - 161_quiver Cchi_X 0 1026319 myred
+chr - 161_quiver Cchi_X 0 1026319 mydarkred
 
-chr - 824_quiver Cchi_X 0 180035 myred
+chr - 824_quiver Cchi_X 0 180035 mydarkred
 
-chr - 805_quiver Cchi_X 0 186232 myred
+chr - 805_quiver Cchi_X 0 186232 mydarkred
 
-chr - 799_quiver Cchi_X 0 193196 myred
+chr - 799_quiver Cchi_X 0 193196 mydarkred
 
-chr - 791_quiver Cchi_X 0 196896 myred
+chr - 791_quiver Cchi_X 0 196896 mydarkred
 
-chr - 777_quiver Cchi_X 0 206783 myred
+chr - 777_quiver Cchi_X 0 206783 mydarkred
 
-chr - 769_quiver Cchi_X 0 204255 myred
+chr - 769_quiver Cchi_X 0 204255 mydarkred
 
-chr - 767_quiver Cchi_X 0 210394 myred
+chr - 767_quiver Cchi_X 0 210394 mydarkred
 
-chr - 739_quiver Cchi_X 0 212109 myred
+chr - 739_quiver Cchi_X 0 212109 mydarkred
 
-chr - 151_quiver Cchi_X 0 1096161 myred
+chr - 151_quiver Cchi_X 0 1096161 mydarkred
 
-chr - 718_quiver Cchi_X 0 228455 myred
+chr - 718_quiver Cchi_X 0 228455 mydarkred
 
-chr - 703_quiver Cchi_X 0 230806 myred
+chr - 703_quiver Cchi_X 0 230806 mydarkred
 
-chr - 700_quiver Cchi_X 0 229533 myred
+chr - 700_quiver Cchi_X 0 229533 mydarkred
 
-chr - 693_quiver Cchi_X 0 238861 myred
+chr - 693_quiver Cchi_X 0 238861 mydarkred
 
-chr - 682_quiver Cchi_X 0 237297 myred
+chr - 682_quiver Cchi_X 0 237297 mydarkred
 
-chr - 658_quiver Cchi_X 0 269768 myred
+chr - 658_quiver Cchi_X 0 269768 mydarkred
 
-chr - 643_quiver Cchi_X 0 278212 myred
+chr - 643_quiver Cchi_X 0 278212 mydarkred
 
-chr - 619_quiver Cchi_X 0 300553 myred
+chr - 619_quiver Cchi_X 0 300553 mydarkred
 
-chr - 615_quiver Cchi_X 0 302512 myred
+chr - 615_quiver Cchi_X 0 302512 mydarkred
 
-chr - 613_quiver Cchi_X 0 306171 myred
+chr - 613_quiver Cchi_X 0 306171 mydarkred
 
-chr - 593_quiver Cchi_X 0 314788 myred
+chr - 593_quiver Cchi_X 0 314788 mydarkred
 
-chr - 537_quiver Cchi_X 0 359504 myred
+chr - 537_quiver Cchi_X 0 359504 mydarkred
 
-chr - 525_quiver Cchi_X 0 369215 myred
+chr - 525_quiver Cchi_X 0 369215 mydarkred
 
-chr - 518_quiver Cchi_X 0 375796 myred
+chr - 518_quiver Cchi_X 0 375796 mydarkred
 
-chr - 509_quiver Cchi_X 0 384687 myred
+chr - 509_quiver Cchi_X 0 384687 mydarkred
 
-chr - 505_quiver Cchi_X 0 388171 myred
+chr - 505_quiver Cchi_X 0 388171 mydarkred
 
-chr - 500_quiver Cchi_X 0 397767 myred
+chr - 500_quiver Cchi_X 0 397767 mydarkred
 
-chr - 476_quiver Cchi_X 0 437359 myred
+chr - 476_quiver Cchi_X 0 437359 mydarkred
 
-chr - 474_quiver Cchi_X 0 427321 myred
+chr - 474_quiver Cchi_X 0 427321 mydarkred
 
-chr - 125_quiver Cchi_X 0 1236553 myred
+chr - 125_quiver Cchi_X 0 1236553 mydarkred
 
-chr - 462_quiver Cchi_X 0 448926 myred
+chr - 462_quiver Cchi_X 0 448926 mydarkred
 
-chr - 419_quiver Cchi_X 0 485498 myred
+chr - 419_quiver Cchi_X 0 485498 mydarkred
 
-chr - 414_quiver Cchi_X 0 493925 myred
+chr - 414_quiver Cchi_X 0 493925 mydarkred
 
-chr - 413_quiver Cchi_X 0 502140 myred
+chr - 413_quiver Cchi_X 0 502140 mydarkred
 
-chr - 411_quiver Cchi_X 0 509136 myred
+chr - 411_quiver Cchi_X 0 509136 mydarkred
 
-chr - 1054_quiver Cchi_X 0 103423 myred
+chr - 1054_quiver Cchi_X 0 103423 mydarkred
 
-chr - 1042_quiver Cchi_X 0 110016 myred
+chr - 1042_quiver Cchi_X 0 110016 mydarkred
 
-chr - 1025_quiver Cchi_X 0 114247 myred
+chr - 1025_quiver Cchi_X 0 114247 mydarkred
 
-chr - 1024_quiver Cchi_X 0 114342 myred
+chr - 1024_quiver Cchi_X 0 114342 mydarkred
 
-chr - 1012_quiver Cchi_X 0 118943 myred
+chr - 1012_quiver Cchi_X 0 118943 mydarkred
 
-chr - 1000_quiver Cchi_X 0 104856 myred
+chr - 1000_quiver Cchi_X 0 104856 mydarkred
 
-chr - 376_quiver Cchi_X 0 561382 myred
+chr - 376_quiver Cchi_X 0 561382 mydarkred
 
-chr - 370_quiver Cchi_X 0 563699 myred
+chr - 370_quiver Cchi_X 0 563699 mydarkred
 
-chr - 360_quiver Cchi_X 0 571226 myred
+chr - 360_quiver Cchi_X 0 571226 mydarkred
 
-chr - 358_quiver Cchi_X 0 566156 myred
+chr - 358_quiver Cchi_X 0 566156 mydarkred
 
-chr - 353_quiver Cchi_X 0 575145 myred
+chr - 353_quiver Cchi_X 0 575145 mydarkred
 
-chr - 347_quiver Cchi_X 0 587491 myred
+chr - 347_quiver Cchi_X 0 587491 mydarkred
 
-chr - 342_quiver Cchi_X 0 596549 myred
+chr - 342_quiver Cchi_X 0 596549 mydarkred
 
-chr - 326_quiver Cchi_X 0 622819 myred
+chr - 326_quiver Cchi_X 0 622819 mydarkred
 
-chr - 325_quiver Cchi_X 0 624952 myred
+chr - 325_quiver Cchi_X 0 624952 mydarkred
 
-chr - 313_quiver Cchi_X 0 645944 myred
+chr - 313_quiver Cchi_X 0 645944 mydarkred
 
-chr - 310_quiver Cchi_X 0 648064 myred
+chr - 310_quiver Cchi_X 0 648064 mydarkred
 
-chr - 277_quiver Cchi_X 0 698166 myred
+chr - 277_quiver Cchi_X 0 698166 mydarkred
 
-chr - 274_quiver Cchi_X 0 719286 myred
+chr - 274_quiver Cchi_X 0 719286 mydarkred
 
-chr - 252_quiver Cchi_X 0 781776 myred
+chr - 252_quiver Cchi_X 0 781776 mydarkred
 
-chr - 949_quiver Cchi_Y 0 141426 myblue
-chr - 895_quiver Cchi_Y 0 157519 myblue
-chr - 850_quiver Cchi_Y 0 166169 myblue
-chr - 1088_quiver Cchi_Y 0 100558 myblue
+chr - 949_quiver Cchi_Y 0 141426 mydarkblue
+chr - 895_quiver Cchi_Y 0 157519 mydarkblue
+chr - 850_quiver Cchi_Y 0 166169 mydarkblue
+chr - 1088_quiver Cchi_Y 0 100558 mydarkblue
