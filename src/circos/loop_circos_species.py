@@ -194,12 +194,15 @@ if __name__ == "__main__":
                         "file  = " : f"{species1}_nucleotide_blast_circos_{chr}.png",
                     }
                 else:
+
+                    # add link density histogram
                     try:
                         conf_path =f"{circos_infiles_dir}/conf_files/circos_hist.conf"
                         link_density_hist_exe=f"/sw/apps/circos/0.69-9/rackham/circos-tools-0.23/tools/binlinks/bin/binlinks"
                         linksfile = infiles_dict["file          = "]
-                        outfile = linksfile.split("/")[-1].replace(".txt", "_hist_vals.txt")
-                        command = [link_density_hist_exe, "-links", linksfile, ">", outfile]
+                        hist_outfile_ = linksfile.split("/")[-1].replace(".txt", "_hist_vals.txt")
+                        hist_outfile = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/circos/histograms/{hist_outfile_}"
+                        command = [link_density_hist_exe, "-links", linksfile, ">", hist_outfile]
                         subprocess.run(command, check=True,  stdout=subprocess.DEVNULL)
                         infiles_dict["file      = "] = outfile
                     except:
