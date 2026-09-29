@@ -159,9 +159,9 @@ def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex
         "Y_mini" : "myblue",
         "Y" : "mydarkblue",
         "X_mini" : "myred",
-        "X" : "mdarkyred",
+        "X" : "mydarkred",
         "A_mini" : "mygreen",
-        "A" : "mygdarkreen"
+        "A" : "mydarkgreen"
     }
     # blast_outfmt6_headers = ["qseqid", "rseqid", "pident", "length", "mismatch", "gapopen", "qstart", "qend", "sstart", "send", "evalue", "bitscore"]
     circos_outfile_name_X = circos_outfile_name.replace(".txt", "_X.txt")
