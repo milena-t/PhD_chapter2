@@ -3,7 +3,12 @@
 MINI_DIR=/Users/miltr339/work/chapter2/miniprot_annot
 ANN_DIR=/Users/miltr339/work/chapter2/native_annotations
 
-## filter for only mapped regions that aren't annotated with non-query genes
+#### FILTER MINIPROT OUTPUT TO GET TRUE AMPLICON GROUPS
+# 1. filter for only mapped regions that aren't overlapping with annotated genes, true non-annotated paralogs/pseudogenes
+# 2. filter regions that have multiple miniprot aln hits to retain only the best one 
+#    (only one query can align to any place in the genome, so each region can only be an amplicon to one source)
+
+cd $MINI_DIR
 
 for SPECIES in  "A_obtectus" "B_siliquastri" "B_varius" "C_chinensis" "C_maculatus" "D_carinulata" "D_sublineata" 
 do
@@ -26,14 +31,12 @@ do
     echo "miniprot hits before filtering:"
     wc -l mp_mRNA.gff
 
-    ## intersect by position, keep IDs where a mapped miniprot region intersects with annotated genes except non-self hits
+    ## intersect by position, keep IDs where a mapped miniprot region intersects with annotated genes (this also excludes all self-hits)
     ANNOT_INT_LIST="${SPECIES}_annotation_self_intersecting.txt"
-    bedtools intersect -a mp_mRNA.gff -b genes.gff -wa -wb \
-    | awk -F'\t' '{
-        match($9,/(^|;)ID=[^;]+/);      id=substr($9,RSTART,RLENGTH);  sub(/^;?ID=/,"",id);
-        match($9,/Target=[^ ;]+/);      t=substr($9,RSTART+7,RLENGTH-7);
-        match($18,/(^|;)ID=[^;]+/);     g=substr($18,RSTART,RLENGTH);  sub(/^;?ID=/,"",g);
-        if (t!=g) print id
+    # only self-strand overlaps with -s
+    bedtools intersect -wa -wb -s -a mp_mRNA.gff -b genes.gff | awk -F'\t' '{
+        match($9,/(^|;)ID=[^;]+/); id=substr($9,RSTART,RLENGTH); sub(/^;?ID=/,"",id);
+        print id
     }' | sort -u > "${ANNOT_INT_LIST}"
 
     ## remove all IDs in the list generated above
@@ -41,30 +44,34 @@ do
     NOCROSS=${SPECIES}_miniprot_no_cross_hits.gff
     grep -v '^##PAF' "${MINIPROT}" | gffread - -F --nids "${ANNOT_INT_LIST}" -o "${NOCROSS}"
 
-    echo "   alignent IDs that intersect with other (non-query) annotated genes:"
+    echo "   alignent IDs that intersect with annotated genes:"
     wc -l "${ANNOT_INT_LIST}"
     echo "miniprot hits after first filtering:"
     awk '$3=="mRNA"' "${NOCROSS}" | wc -l
 
 
     ### check which miniprot IDs overlap each other and only keep the best sequence identity from those
-    ## TODO this does run really long
-    MINI_SELF_LIST="${SPECIES}_miniprot_self_intersecting.txt"
-    awk -F'\t' -v OFS='\t' '$3=="mRNA"{
-        match($9,/ID=[^;]+/);       id=substr($9,RSTART+3,RLENGTH-3);
-        match($9,/Identity=[^;]+/); idt=substr($9,RSTART+9,RLENGTH-9);
-        print id,$1,$4,$5,$7,idt,$6}' "${NOCROSS}" > "${MINI_SELF_LIST}"
-    NOSELF=${SPECIES}_miniprot_no_cross_no_self_hits.gff
-    echo "   alignent IDs that intersect with other alignment:"
-    wc -l "${ANNOT_INT_LIST}"
+    CROSS_INT_LIST="${SPECIES}_annotation_cross_intersecting.txt"
+    awk '$3=="mRNA"' "${NOCROSS}" > mp.gff
+    bedtools intersect -wa -wb -s -a mp.gff -b mp.gff | awk -F'\t' '{
+        match($9,/ID=[^;]+/); id1=substr($9,RSTART+3,RLENGTH-3);
+        match($18,/ID=[^;]+/); id2=substr($18,RSTART+3,RLENGTH-3);
+        print id1, id2
+    }' > "${CROSS_INT_LIST}"
+    # get list of the nonself overlaps that are the best alignent of the overlapping group
+    OUTLIST_WEAK_OVERLAP="${SPECIES}_annotation_cross_intersecting_noself.txt"
     
-    gffread "${NOCROSS}" -F --nids "${MINI_SELF_LIST}" -o "${NOSELF}"
-    echo "miniprot hits after second filtering:"
-    if [ "${FILTSTR}" = "transcript" ] ; then
-        awk '$3=="transcript"' "${NOESELF}" | wc -l
-    else 
-        awk '$3=="mRNA"' "${NOESELF}" | wc -l
-    fi
+    # check how many IDs there are
+    # echo "unique lines in mp.gff"
+    # awk '$3=="mRNA"{match($9,/ID=[^;]+/); print substr($9,RSTART+3,RLENGTH-3)}' mp.gff | sort -u | wc -l
+
+    python3 /Users/miltr339/work/PhD_code/PhD_chapter2/src/miniprot_filter_cross_intersection.py "${CROSS_INT_LIST}" "${NOCROSS}" "${OUTLIST_WEAK_OVERLAP}"
+    # wc -l ${OUTLIST_WEAK_OVERLAP}
+    ANMPLICONS=${SPECIES}_miniprot_no_cross_no_self_hits.gff
+    gffread "${NOCROSS}" -F --ids "${OUTLIST_WEAK_OVERLAP}" -o "${ANMPLICONS}"
+
+    echo "miniprot hits only unique non-annotated amplicons:"
+    awk '$3=="mRNA"' "${ANMPLICONS}" | wc -l
 done 
 
 

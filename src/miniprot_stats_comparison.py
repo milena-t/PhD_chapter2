@@ -238,10 +238,11 @@ class MiniAln:
     """
     read miniprot alignment data 
     """
-    def __init__(self, ID:str, target:str, rank:int, identity:float, contig:str) -> None:
+    def __init__(self, ID:str, target:str, rank:int, identity:float, contig:str, length:int) -> None:
         self.ID=ID
         self.target=target
         self.rank=rank
+        self.length=length
         if identity<=1: # use percent not proportion
             self.identity=100*identity
         else:
@@ -258,7 +259,7 @@ class MiniAln:
 
 
 
-def miniprot_parse_alignment(miniprot_file):
+def miniprot_parse_alignment(miniprot_file, queryIDs = True):
     """
     parse the miniprot alignment into a dictionary by query transcript ID
     {   
@@ -269,10 +270,12 @@ def miniprot_parse_alignment(miniprot_file):
             ... 
         },
     }
+    if queryIDs=False, then the dict is not nested, and its jus the miniprot aln IDs
     """
     geneIDs_map_counts = {}
     count_paf = 0
     count_dup_paf =0
+    count_aln = 0
     with open(miniprot_file, "r") as miniprot_infile:
         for mini_line in miniprot_infile.readlines(): # skip gff3 header
             if mini_line[0]=="#":
@@ -299,16 +302,22 @@ def miniprot_parse_alignment(miniprot_file):
                         attributes[key]=value.split()[0]
                     else:
                         attributes[key]=value
-                
-                mini_alignment = MiniAln(ID=attributes["ID"], target=attributes["Target"], rank=int(attributes["Rank"]), identity=float(attributes["Identity"]), contig=contig)
-                
-                if  attributes["Target"] in geneIDs_map_counts:
-                    if count_paf==1:
-                        print(mini_alignment)
-                    geneIDs_map_counts[attributes["Target"]].append(mini_alignment)
+                aln_len = abs(int(start)-int(stop))
+                mini_alignment = MiniAln(ID=attributes["ID"], target=attributes["Target"], rank=int(attributes["Rank"]), identity=float(attributes["Identity"]), contig=contig, length=aln_len)
+                if queryIDs:
+                    if  attributes["Target"] in geneIDs_map_counts:
+                        if count_paf==1:
+                            print(mini_alignment)
+                        geneIDs_map_counts[attributes["Target"]].append(mini_alignment)
+                    else:
+                        geneIDs_map_counts[attributes["Target"]] = [mini_alignment]
                 else:
-                    geneIDs_map_counts[attributes["Target"]] = [mini_alignment]
-        print(f"read {count_paf} alignments, of which {count_dup_paf} are duplicate and {count_paf-count_dup_paf} are unique")
+                    count_aln+=1
+                    geneIDs_map_counts[attributes["ID"]] = mini_alignment
+        if queryIDs:
+            print(f"read {count_paf} alignments, of which {count_dup_paf} are duplicate and {count_paf-count_dup_paf} are unique")
+        else:
+            print(f"\t(read {count_aln} alignments from {miniprot_file})")
 
     return geneIDs_map_counts
 

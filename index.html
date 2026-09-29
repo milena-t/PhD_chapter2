@@ -387,7 +387,7 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
     threshold without multimapping (17%).
 </p>
 
-<h3>Amplicon gene family discovery</h3>
+<h3>Amplicon group discovery</h3>
 
 <p>
     Standardized annotations from chapter 1 with no RNAseq evidence (as well as the Kaufmann2023 low-RNAseq-evidence annotation) identify more genes, especially on the Y, most of 
@@ -426,10 +426,74 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
         <i>B. varius</i>: 497503, <i>C. chinensis</i>: 460962, <i>C. maculatus</i>: 484294, so it should be set it to 500kb. I can't find a proper documentation link
     </li>
     <li>
-        <code>miniprot</code>: (miniprot/0.18-GCCcore-13.3.0 on pelle, <a href="https://github.com/lh3/miniprot">Git repository</a> <br>
+        <code>miniprot</code>: (miniprot/0.18-GCCcore-13.3.0 on pelle, <a href="https://github.com/lh3/miniprot">Git repository</a>)<br>
         I will use the maxintron size described above instead of the default, which would be smaller. It also has pre-trained splice models for insects available.
     </li>
 </ul>
+
+<p>
+    Miniprot maps each protein query to the assembly on its own and does not consider if other queries map to the same place or if a gene is annotated there.
+    I filter the miniprot output to retain only true amplicons by:
+    <ol>
+        <li>Remove all miniprot alignments that overlap with annotated coding regions (on the same strand)</li>
+        <li>
+            If there are multiple alignments overlapping in the same region: keep only the best with this priority order:
+            <ul>
+                <li>Best sequence identity, but if equal:</li>
+                <li>Longest aligned region, but if equal:</li>
+                <li>A random one</li>
+            </ul>
+        </li>
+    </ol>
+    This then leaves a gff with only unique ampliconic regions annotated. The numbers look like that:
+</p>
+<details>
+    <summary>miniprot ampliconic regions summary statistics</summary>
+    <ul>
+        <li><i>A_obtectus</i>:<br>
+        14841 annotated genes, 28555 miniprot hits before filtering<br>
+        21665 alignent IDs intersect with annotated genes &#8594; 6890 miniprot hits left after first filtering<br>
+        6890 alignments overlap with other alignments in their region (reciprocal). There are 4854 overlapping groups, 2036 redundant alignments removed. (4854 + 2036 = 6890)<br>
+        <b>4854 unique non-annotated amplicons</b>
+        </li>
+        <li><i>B_siliquastri</i>:<br>
+        17940 annotated genes, 22074 miniprot hits before filtering<br>
+        19901 alignent IDs intersect with annotated genes &#8594; 2173 miniprot hits left after first filtering<br>
+        2173 alignments overlap with other alignments in their region (reciprocal). There are 756 overlapping groups, 1417 redundant alignments removed. (756 + 1417 = 2173)<br>
+        <b>756 unique non-annotated amplicons</b>
+        </li>
+        <li><i>B_varius</i>:<br>
+        12406 annotated genes, 17466 miniprot hits before filtering<br>
+        14313 alignent IDs intersect with annotated genes &#8594; 3153 miniprot hits left after first filtering<br>
+        3153 alignments overlap with other alignments in their region (reciprocal). There are 2344 overlapping groups, 809 redundant alignments removed. (2344 + 809 = 3153)<br>
+        <b>2344 unique non-annotated amplicons</b>
+        </li>
+        <li><i>C_chinensis</i>:<br>
+        13815 annotated genes, 27651 miniprot hits before filtering<br>
+        17533 alignent IDs intersect with annotated genes &#8594; 10118 miniprot hits left after first filtering<br>
+        10118 alignments overlap with other alignments in their region (reciprocal). There are 3207 overlapping groups, 6911 redundant alignments removed. (3207 + 6911 = 10118)<br>
+        <b>3207 unique non-annotated amplicons</b>
+        </li>
+        <li><i>C_maculatus</i>:<br>
+        14861 annotated genes, 23691 miniprot hits before filtering<br>
+        18935 alignent IDs intersect with annotated genes &#8594; 4756 miniprot hits left after first filtering<br>
+        4756 alignments overlap with other alignments in their region (reciprocal). There are 3622 overlapping groups, 1134 redundant alignments removed. (3622 + 1134 = 4756)<br>
+        <b>3622 unique non-annotated amplicons</b>
+        </li>
+        <li><i>D_carinulata</i>:<br>
+        11959 annotated genes, 17037 miniprot hits before filtering<br>
+        14892 alignent IDs intersect with annotated genes &#8594; 2145 miniprot hits left after first filtering<br>
+        2145 alignments overlap with other alignments in their region (reciprocal). There are 441 overlapping groups, 1704 redundant alignments removed. (441 + 1704 = 2145)<br>
+        <b>441 unique non-annotated amplicons</b>
+        </li>
+        <li><i>D_sublineata</i>:<br>
+        11688 annotated genes, 15155 miniprot hits before filtering<br>
+        13190 alignent IDs intersect with annotated genes &#8594; 1965 miniprot hits left after first filtering<br>
+        1965 alignments overlap with other alignments in their region (reciprocal). There are 368 overlapping groups, 1597 redundant alignments removed. (368 + 1597 = 1965)<br>
+        <b>368 unique non-annotated amplicons</b>
+        </li>
+    </ul>
+</details>
 
 
 <h1 id="results">Results</h1>
