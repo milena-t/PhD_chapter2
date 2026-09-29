@@ -64,9 +64,9 @@ def autosomes_lists_cmac_populations():
 def make_karyotype_file(fai_filename1, fai_filename2 ,A_list1, A_list2 , sex_chr_list1, sex_chr_list2 ,outfile_name, min_contig_len1 = 0, min_contig_len2 = 0):
 
     circos_cols= {
-        "Y" : "myblue",
-        "X" : "myred",
-        "A" : "mygreen"}
+        "Y" : "mydarkblue",
+        "X" : "mydarkred",
+        "A" : "mydarkgreen"}
     
     if A_list1 != []:
         min_contig_len1 = 0

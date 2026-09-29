@@ -156,12 +156,12 @@ def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex
         miniprot_aln = minialn.miniprot_parse_alignment(miniprot_aln_file)
     
     colors = {
-        "X" : "myblue",
-        "X_mini" : "mydarkblue",
-        "Y" : "myred",
-        "Y_mini" : "mdarkyred",
-        "A" : "mygreen",
-        "A_mini" : "mygdarkreen"
+        "Y_mini" : "myblue",
+        "Y" : "mydarkblue",
+        "X_mini" : "myred",
+        "X" : "mdarkyred",
+        "A_mini" : "mygreen",
+        "A" : "mygdarkreen"
     }
     # blast_outfmt6_headers = ["qseqid", "rseqid", "pident", "length", "mismatch", "gapopen", "qstart", "qend", "sstart", "send", "evalue", "bitscore"]
     circos_outfile_name_X = circos_outfile_name.replace(".txt", "_X.txt")

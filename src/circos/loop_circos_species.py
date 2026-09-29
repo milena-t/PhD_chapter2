@@ -123,6 +123,7 @@ if __name__ == "__main__":
 
     species_list = list(karyotype_dict.keys())
     outfiles_dir = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/circos/plots"
+    # rsync -azP "milenatr@pelle.uppmax.uu.se:/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/circos/plots/*png" /Users/miltr339/work/PhD_code/PhD_chapter2/data/circos/plots
 
     nucleotide_blast = False
     
