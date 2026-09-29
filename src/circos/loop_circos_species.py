@@ -206,14 +206,16 @@ if __name__ == "__main__":
                         # hist_outfile_ = linksfile.replace(".txt", "_hist_vals.txt").split("/")[-1]
                         hist_outfile_ = f"circos_links_{species1}_vs_{species2}_{chr}_hist_vals.txt" 
                         hist_outfile = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/circos/histograms/{hist_outfile_}"
-                        command = [link_density_hist_exe, "-links", linksfile, ">", hist_outfile]
+                        command = [link_density_hist_exe, "-links", linksfile]# , ">", hist_outfile]
                         print(" ".join(command))
                         print(f"--> make histogram file:")
-                        subprocess.run(command, check=True,  stdout=subprocess.DEVNULL)
+                        with open(hist_outfile, "w") as f:
+                            subprocess.run(command, check=True, stdout=f)
+                        # subprocess.run(command, check=True,  stdout=subprocess.DEVNULL)
                         if os.path.isfile(hist_outfile):
                             print(f"successfully created histogram file: {hist_outfile}")
                         else:
-                            raise RuntimeError(f"histogram file was not successfully created with command:\n{command}")
+                            raise RuntimeError(f"**!!  histogram file was not successfully created with command:\n{command}")
                         infiles_dict["file      = "] = hist_outfile
                     except:
                         conf_path =f"{circos_infiles_dir}/conf_files/circos.conf"
