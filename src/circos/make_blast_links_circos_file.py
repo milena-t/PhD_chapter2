@@ -241,21 +241,42 @@ def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex
                         continue
                         raise RuntimeError(f"{transcriptID1} not found in miniprot file {miniprot_aln_file}!")
                     for aln_class in mini_paralogs:
-                        contig2 = aln_class.contig
-                        start2 = aln_class.start
-                        end2 = aln_class.end
-                        if contig2 in sex_chr_contigs_dict2[chr]:
-                            color = colors[f"{chr}_mini"]
-                        elif contig2 in sex_chr_contigs_dict2[other_chr]:
-                            color = colors[f"{other_chr}_mini"]
-                        else:
-                            color = colors[f"A_mini"]
+                        if contig1 in sex_chr_contigs_dict1[chr] or contig1 in sex_chr_contigs_dict1[other_chr]:
+                            contig2 = aln_class.contig
+                            start2 = aln_class.start
+                            end2 = aln_class.end
+                            if contig2 in sex_chr_contigs_dict2[chr]:
+                                color = colors[f"{chr}_mini"]
+                            elif contig2 in sex_chr_contigs_dict2[other_chr]:
+                                color = colors[f"{other_chr}_mini"]
+                            else:
+                                color = colors[f"A_mini"]
 
-                        circos = f"{contig1} {start1} {end1} {contig2} {start2} {end2} color={color}"
-                        if chr=="X":
-                            circos_outfile_X.write(circos+"\n")
-                        elif chr=="Y":
-                            circos_outfile_Y.write(circos+"\n")
+                            circos = f"{contig1} {start1} {end1} {contig2} {start2} {end2} color={color}"
+                            if chr=="X":
+                                circos_outfile_X.write(circos+"\n")
+                            elif chr=="Y":
+                                circos_outfile_Y.write(circos+"\n")
+                        elif contig2 in sex_chr_contigs_dict1[chr] or contig2 in sex_chr_contigs_dict1[other_chr]:
+                            contig1 = aln_class.contig
+                            start1 = aln_class.start
+                            end1 = aln_class.end
+                            if contig1 in sex_chr_contigs_dict2[chr]:
+                                color = colors[f"{chr}_mini"]
+                            elif contig1 in sex_chr_contigs_dict2[other_chr]:
+                                color = colors[f"{other_chr}_mini"]
+                            else:
+                                color = colors[f"A_mini"]
+
+                            circos = f"{contig1} {start1} {end1} {contig1} {start2} {end2} color={color}"
+                            if chr=="X":
+                                circos_outfile_X.write(circos+"\n")
+                            elif chr=="Y":
+                                circos_outfile_Y.write(circos+"\n")
+                        else:
+                            # no other match to or from sex chromosomes
+                            pass
+                            
 
             #break
     print(f"The circos outfile is here: \n  - {circos_outfile_name}\n  - {circos_outfile_name_X}\n  - {circos_outfile_name_Y}")
