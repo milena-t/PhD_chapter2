@@ -32,7 +32,8 @@ if __name__=="__main__":
         # sort ids by their "scores" (aligment seq ident, alignment length)
         scores = {} 
         for id_, aln in miniprot_dict.items():
-            scores[id_] = (aln.identity, aln.length)
+            aln_len = abs(aln.start-aln.stop)
+            scores[id_] = (aln.identity, aln_len)
         ids = list(scores)
         random.shuffle(ids) # randomize in case of ties
         order = sorted(ids, key=lambda x: scores[x], reverse=True)
