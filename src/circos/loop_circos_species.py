@@ -124,7 +124,7 @@ if __name__ == "__main__":
     species_list = list(karyotype_dict.keys())
     outfiles_dir = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/circos/plots"
 
-    nucleotide_blast = True
+    nucleotide_blast = False
     
     
     os.chdir(outfiles_dir)
@@ -154,7 +154,7 @@ if __name__ == "__main__":
                 # this cannot be plotted with nucleotide blast since it hits the circos max links limit
                 pass
             else:
-                continue
+                
                 modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/circos.conf", config_files_dict=infiles_dict)
                 modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/image.conf", config_files_dict=outfile)
 
