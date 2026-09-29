@@ -11,6 +11,7 @@ import pandas as pd
 import os
 import parse_gff as gff
 import sex_chromosomes
+import miniprot_stats_comparison as minialn
 
 def blast_paths_cmac_populations(username="miltr339"):
     filesdir = f"/Users/{username}/work/chapter2/circos/blast_outfiles"
@@ -125,7 +126,7 @@ def get_annotation_paths(username="miltr339"):
     return outdict
 
 
-def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex_chr_contigs_dict1,sex_chr_contigs_dict2, circos_outfile_name, min_seq_ident=90, max_seq_ident = 200, nucleotide_blast = False):
+def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex_chr_contigs_dict1,sex_chr_contigs_dict2, circos_outfile_name, min_seq_ident=90, max_seq_ident = 200, nucleotide_blast = False, miniprot_aln_file=""):
 
     try:
         gff1_dict = gff.parse_gff3_general(annotation_file1)
@@ -137,11 +138,14 @@ def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex
             gff2_dict = gff.parse_gff3_general(annotation_file2)
         except:
             gff2_dict = gff.parse_gff3_general(annotation_file2, gtf=True)
-
+    
+    if miniprot_aln_file!="":
+        miniprot_aln = minialn.miniprot_parse_alignment(miniprot_aln_file)
+    
     colors = {
-        "X" : "acen",
-        "Y" : "blue",
-        "A" : "lorange"
+        "X" : "myblue",
+        "Y" : "myred",
+        "A" : "mygreen"
     }
     # blast_outfmt6_headers = ["qseqid", "rseqid", "pident", "length", "mismatch", "gapopen", "qstart", "qend", "sstart", "send", "evalue", "bitscore"]
     circos_outfile_name_X = circos_outfile_name.replace(".txt", "_X.txt")
@@ -213,6 +217,12 @@ def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex
                     circos_outfile_X.write(circos+"\n")
                 elif chr=="Y":
                     circos_outfile_Y.write(circos+"\n")
+                
+                if miniprot_aln_file!="":
+                    transcript1 = miniprot_aln[transcriptID1]
+                    for aln_ID, aln_class in transcript1.items():
+
+                        circos = f"{contig1} {start1} {end1} {contig2} {start2} {end2} color={color}"
 
             #break
     print(f"The circos outfile is here: \n  - {circos_outfile_name}\n  - {circos_outfile_name_X}\n  - {circos_outfile_name_Y}")
@@ -228,7 +238,10 @@ if __name__ == "__main__":
     species_list = list(blast_outfiles_dict.keys())
     data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/circos/"
 
-    if True:
+    #################################################
+    ######## between species tblastn paralogs #######
+    #################################################
+    if False:
         data_dir = "/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/paralogs_tblastn/"
 
         blast_outfiles_dict = {
@@ -263,7 +276,11 @@ if __name__ == "__main__":
                 circos_outfile_name=f"{data_dir}circos_links_{species}_nucleotide_blast.txt", 
                 nucleotide_blast = True)
 
-    if False:
+
+    ################################################
+    ######## between species blastp paralogs #######
+    ################################################
+    if True:
         for species1 in species_list:
             for species2 in species_list:
                 if species1==species2:
@@ -281,6 +298,8 @@ if __name__ == "__main__":
                     circos_outfile_name=f"{data_dir}circos_links_{species1}_vs_{species2}.txt", 
                     nucleotide_blast = False)
 
+
+    #### within Cmac populations blastp
     if False:
         blast_outfiles_dict = blast_paths_cmac_populations(username=username)
         annotations_dict = annotation_paths_cmac_populations(username=username)

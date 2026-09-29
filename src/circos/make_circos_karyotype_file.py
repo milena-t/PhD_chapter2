@@ -64,9 +64,9 @@ def autosomes_lists_cmac_populations():
 def make_karyotype_file(fai_filename1, fai_filename2 ,A_list1, A_list2 , sex_chr_list1, sex_chr_list2 ,outfile_name, min_contig_len1 = 0, min_contig_len2 = 0):
 
     circos_cols= {
-        "A" : "lorange",
-        "X" : "acen",
-        "Y" : "blue"}
+        "Y" : "myblue",
+        "X" : "myred",
+        "A" : "mygreen"}
     
     if A_list1 != []:
         min_contig_len1 = 0
@@ -165,9 +165,9 @@ def make_karyotype_file(fai_filename1, fai_filename2 ,A_list1, A_list2 , sex_chr
 
 
 if __name__=="__main__":
-    username="milena"
+    username="miltr339"
 
-    if False:
+    if True:
         sex_chromosomes_dict = sex_chromosomes.get_contig_names()
         fai_dict = fai_files(username=username)
         autosomes_dict = autosomes_lists()
@@ -185,7 +185,7 @@ if __name__=="__main__":
                     outfile_name=outname, 
                     min_contig_len1 = 7500000, min_contig_len2 = 7500000)
 
-    if True:
+    if False:
         sex_chromosomes_dict = sex_chromosomes.Cmac_S_L_nonscaffolded_contig_names()
         fai_dict = fai_files_cmac_populations(username=username)
         autosomes_dict = autosomes_lists_cmac_populations()

@@ -238,11 +238,12 @@ class MiniAln:
     """
     read miniprot alignment data 
     """
-    def __init__(self, ID:str, target:str, rank:int, identity:float, contig:str, length:int) -> None:
+    def __init__(self, ID:str, target:str, rank:int, identity:float, contig:str, start:int, end:int) -> None:
         self.ID=ID
         self.target=target
         self.rank=rank
-        self.length=length
+        self.start=start
+        self.end=end
         if identity<=1: # use percent not proportion
             self.identity=100*identity
         else:
@@ -255,6 +256,8 @@ class MiniAln:
  * query ID: {self.target}
  * aligned on contig: {self.contig} with {self.identity}% sequence identity
  * rank: {self.rank}"""
+    def length(self):
+        return abs(self.start-self.end)
 
 
 
@@ -302,8 +305,11 @@ def miniprot_parse_alignment(miniprot_file, queryIDs = True):
                         attributes[key]=value.split()[0]
                     else:
                         attributes[key]=value
-                aln_len = abs(int(start)-int(stop))
-                mini_alignment = MiniAln(ID=attributes["ID"], target=attributes["Target"], rank=int(attributes["Rank"]), identity=float(attributes["Identity"]), contig=contig, length=aln_len)
+                int(start),int(stop)
+                mini_alignment = MiniAln(
+                    ID=attributes["ID"], target=attributes["Target"], rank=int(attributes["Rank"]), identity=float(attributes["Identity"]), 
+                    contig=contig, start=int(start), stop=int(stop)
+                )
                 if queryIDs:
                     if  attributes["Target"] in geneIDs_map_counts:
                         if count_paf==1:
