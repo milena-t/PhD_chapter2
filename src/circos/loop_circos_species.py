@@ -158,7 +158,8 @@ if __name__ == "__main__":
                 # this cannot be plotted with nucleotide blast since it hits the circos max links limit
                 pass
             else:
-                
+
+                print(f"-------------------- all chromosomes --------------------")
                 modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/circos.conf", config_files_dict=infiles_dict)
                 modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/image.conf", config_files_dict=outfile)
 
@@ -168,6 +169,7 @@ if __name__ == "__main__":
                 print(f" ".join(inlist))
 
             for chr in ["X", "Y"]:
+                print(f"-------------------- {chr}-chromosome --------------------")
                 if "Lome" in species_list:
                     infiles_dict = {
                         "karyotype = " : karyotype_dict[species1][species2],
