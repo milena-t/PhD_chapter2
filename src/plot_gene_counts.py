@@ -8,6 +8,7 @@ from Bio import SeqIO, Phylo, SeqUtils
 import numpy as np
 import subprocess as sp
 from sex_chromosomes import get_contig_names
+import miniprot_stats_comparison as minialn
 
 def annotations_dict(username="miltr339"):
     dirname = f"/Users/{username}/work/chapter2/native_annotations"
@@ -22,6 +23,19 @@ def annotations_dict(username="miltr339"):
         "D_sublineata" : f"{dirname}/D_sublineata.gff",
     }   
     return out_dict
+
+def get_miniprot_paths(username="miltr339"):
+    dirpath = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/miniprot/"
+    outdict = {
+        "A_obtectus" : f"{dirpath}A_obtectus_miniprot_no_cross_no_self_hits.gff",
+        "B_siliquastri" : f"{dirpath}B_siliquastri_miniprot_no_cross_no_self_hits.gff",
+        "B_varius" : f"{dirpath}B_varius_miniprot_no_cross_no_self_hits.gff",
+        "C_chinensis" : f"{dirpath}C_chinensis_miniprot_no_cross_no_self_hits.gff",
+        "C_maculatus" : f"{dirpath}C_maculatus_miniprot_no_cross_no_self_hits.gff",
+        "D_carinulata" : f"{dirpath}D_carinulata_miniprot_no_cross_no_self_hits.gff",
+        "D_sublineata" : f"{dirpath}D_sublineata_miniprot_no_cross_no_self_hits.gff",
+    }
+    return outdict
 
 
 def get_gene_conuts_from_annot(annot_path, contig_list):
@@ -42,6 +56,13 @@ def get_gene_conuts_from_annot(annot_path, contig_list):
     # print(f"{no_genes} contigs have no annotated genes")
     return num_proteins
 
+def get_gene_counts_from_miniprot(miniprot_path, contig_list):
+    mini_dict = minialn.miniprot_parse_alignment(miniprot_path, queryIDs=False)
+    no_genes=0
+    for mini_ID,aln_class in mini_dict.items():
+        if aln_class.contig in contig_list:
+            no_genes+=1
+    return no_genes
 
 def get_coords(tree):
     """
@@ -118,7 +139,7 @@ def plot_tree_manually(species_tree, ax_tree = None, add_leaf_label=False):
 
 
 
-def plot_gene_counts(annot_dict, species_tree, sex_chromosomes_dict, chr_list=["X","Y"], filename = "only_genome_sizes_14_species.png"):
+def plot_gene_counts(annot_dict, species_tree, sex_chromosomes_dict, miniprot_dict = {}, chr_list=["X","Y"], filename = "only_genome_sizes_14_species.png"):
     """
     plot gene counts from annotations (or proteinfasta, but preferably annotation), with a species tree on the x-axis
     """
@@ -154,9 +175,22 @@ def plot_gene_counts(annot_dict, species_tree, sex_chromosomes_dict, chr_list=["
     gene_nos_chr = {
         chr : [get_gene_conuts_from_annot(annot_dict[species], contig_list=sex_chromosomes_dict[species][chr]) for species in species_names] for chr in chr_list
     }
+    if miniprot_dict != {}:
+        miniprot_nos_chr = {
+            chr : [get_gene_counts_from_miniprot(miniprot_path=miniprot_dict[species], contig_list=sex_chromosomes_dict[species][chr])+gene_nos_chr[chr][i] for i,species in enumerate(species_names)] for chr in chr_list
+        }
+
+    print("----------------------------------------------------")
+    print(f"GENE NUMBERS\n - species\t\tchromosome: annotated + miniprot = sum\n")
+    for i, species in enumerate(species_names):
+        for chr in ["X","Y"]:
+            print(f" - {species}\t\t{chr}: {gene_nos_chr[chr][i]} + {miniprot_nos_chr[chr][i]-gene_nos_chr[chr][i]} = {miniprot_nos_chr[chr][i]}")
+    print("----------------------------------------------------")
 
     chr = chr_list[0]
-    ax_data.plot(species_names, gene_nos_chr[chr], label = f"{chr} chromosome", color = colors[chr], linewidth = 4) # red
+    ax_data.plot(species_names, gene_nos_chr[chr], label = f"{chr} chromosome", color = colors[chr], linewidth = 4) 
+    if miniprot_dict!={}:
+        ax_data.plot(species_names, miniprot_nos_chr[chr], label = f"{chr} with miniprot", linestyle=":", color = colors[chr], linewidth = 4) 
     ylab = f"annotated genes on {chr}"
     ax_data.set_ylabel(ylab, color = colors[chr], fontsize = fs)
     ax_data.tick_params(axis ='y', labelcolor = colors[chr], labelsize = fs)  
@@ -165,7 +199,9 @@ def plot_gene_counts(annot_dict, species_tree, sex_chromosomes_dict, chr_list=["
     
     chr=chr_list[1]
     ax2 = ax_data.twinx() 
-    ax2.plot(species_names, gene_nos_chr[chr], label = f"{chr} chromosome", color = colors[chr], linewidth = 4) # red
+    ax2.plot(species_names, gene_nos_chr[chr], label = f"{chr} chromosome", color = colors[chr], linewidth = 4) 
+    if miniprot_dict!={}:
+        ax2.plot(species_names, miniprot_nos_chr[chr], label = f"{chr} with miniprot", linestyle=":", color = colors[chr], linewidth = 4) 
     ylab = f"annotated genes on {chr}"
     ax2.set_ylabel(ylab, color = colors[chr], fontsize = fs)
     ax2.tick_params(axis ='y', labelcolor = colors[chr], labelsize = fs)  
@@ -196,6 +232,7 @@ if __name__=="__main__":
     username="miltr339"
     sex_chromosome_contigs = get_contig_names()
     annot_dict = annotations_dict(username=username)
+    miniprot_dict = get_miniprot_paths(username=username)
     species_order = [
 "C_maculatus",
 "C_chinensis",
@@ -205,4 +242,10 @@ if __name__=="__main__":
 "D_carinulata",
 "D_sublineata"]
     data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/"
-    plot_gene_counts(annot_dict, species_tree=species_order, sex_chromosomes_dict=sex_chromosome_contigs, chr_list=["X","Y"], filename = f"{data_dir}sex_chromosome_gene_counts.png")
+    plot_gene_counts(
+        annot_dict=annot_dict, 
+        species_tree=species_order, 
+        sex_chromosomes_dict=sex_chromosome_contigs, 
+        chr_list=["X","Y"], 
+        miniprot_dict=miniprot_dict,
+        filename = f"{data_dir}sex_chromosome_gene_counts.png")

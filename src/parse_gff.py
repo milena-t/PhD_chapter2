@@ -246,6 +246,9 @@ class Feature:
 
     def add_child(self, child_id:str):
         self.child_ids_list.append(child_id)
+    
+    def length(self):
+        return abs(self.start-self.end)
 
     def __repr__(self):
         return "Feature"
