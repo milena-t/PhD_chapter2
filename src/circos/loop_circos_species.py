@@ -163,6 +163,10 @@ if __name__ == "__main__":
                 print(f" -------------------- all chromosomes --------------------")
 
                 if miniprot_aln:
+                    infiles_dict = {
+                        "karyotype = " : karyotype_dict[species1][species2],
+                        "file          = " : f"{circos_infiles_dir}/miniprot_circos_links_{species1}.txt",
+                    }
                     outfile = {
                         "dir   = " : f".", # f"{outfiles_dir}",
                         "file  = " : f"{species1}_miniprot_aln_circos.png",
@@ -188,7 +192,7 @@ if __name__ == "__main__":
                             raise RuntimeError(f"**!!  histogram file was not successfully created with command:\n{command}")
 
                         infiles_dict["file      = "] = hist_outfile
-                        
+
                     except:
                         conf_path =f"{circos_infiles_dir}/conf_files/circos.conf"
                         print(f"no link density histogram could be generated for {linksfile}")
