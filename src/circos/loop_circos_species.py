@@ -157,7 +157,7 @@ if __name__ == "__main__":
                 
             if nucleotide_blast and species1==species2:
                 # this cannot be plotted with nucleotide blast since it hits the circos max links limit
-                pass
+                continue
             else:
                 
                 print(f" -------------------- all chromosomes --------------------")
@@ -203,7 +203,7 @@ if __name__ == "__main__":
                 modify_circos_conf(circos_conf=conf_path, config_files_dict=infiles_dict)
                 modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/image.conf", config_files_dict=outfile)
 
-                conf_path = f"{circos_infiles_dir}/conf_files/circos.conf"
+                # conf_path = f"{circos_infiles_dir}/conf_files/circos.conf"
                 inlist = ["circos", "-conf", conf_path]
                 subprocess.run(inlist, check=True,  stdout=subprocess.DEVNULL)
                 print(f" ".join(inlist))
