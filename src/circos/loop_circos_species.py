@@ -126,7 +126,7 @@ if __name__ == "__main__":
     # rsync -azP "milenatr@pelle.uppmax.uu.se:/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/circos/plots/*png" /Users/miltr339/work/PhD_code/PhD_chapter2/data/circos/plots
 
     nucleotide_blast = False
-    
+    miniprot_aln = True
     
     os.chdir(outfiles_dir)
     for species1 in species_list:
@@ -134,9 +134,10 @@ if __name__ == "__main__":
 
             if species1=="Lome" and species2=="Lome" :
                 continue
-
-            # if species1 != species2:
-            #     continue
+            
+            if miniprot_aln:
+                if species1 != species2:
+                    continue
 
             print(f" ===================== {species1} vs. {species2} =====================")
             if "Lome" in species_list:
@@ -158,15 +159,56 @@ if __name__ == "__main__":
                 # this cannot be plotted with nucleotide blast since it hits the circos max links limit
                 pass
             else:
-
+                
                 print(f" -------------------- all chromosomes --------------------")
-                modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/circos.conf", config_files_dict=infiles_dict)
+
+                if miniprot_aln:
+                    outfile = {
+                        "dir   = " : f".", # f"{outfiles_dir}",
+                        "file  = " : f"{species1}_miniprot_aln_circos.png",
+                    }
+                    # add link density histogram
+                    try:
+                        conf_path =f"{circos_infiles_dir}/conf_files/circos_hist.conf"
+                        link_density_hist_exe=f"/sw/apps/circos/0.69-9/rackham/circos-tools-0.23/tools/binlinks/bin/binlinks"
+                
+                        linksfile = infiles_dict["file          = "]
+                        # hist_outfile_ = linksfile.replace(".txt", "_hist_vals.txt").split("/")[-1]
+                        hist_outfile_ = f"circos_links_{species1}_miniprot_hist_vals.txt" 
+                        hist_outfile = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/circos/histograms/{hist_outfile_}"
+                        command = [link_density_hist_exe, "-links", linksfile]# , ">", hist_outfile]
+                        print(" ".join(command))
+                        print(f"--> make histogram file:")
+                        with open(hist_outfile, "w") as f:
+                            subprocess.run(command, check=True, stdout=f)
+                        # subprocess.run(command, check=True, shell=True)
+                        if os.path.isfile(hist_outfile):
+                            print(f"successfully created histogram file: {hist_outfile}")
+                        else:
+                            raise RuntimeError(f"**!!  histogram file was not successfully created with command:\n{command}")
+
+                        infiles_dict["file      = "] = hist_outfile
+                        
+                    except:
+                        conf_path =f"{circos_infiles_dir}/conf_files/circos.conf"
+                        print(f"no link density histogram could be generated for {linksfile}")
+                        pass
+                else:
+                    conf_path =f"{circos_infiles_dir}/conf_files/circos.conf"
+                
+                modify_circos_conf(circos_conf=conf_path, config_files_dict=infiles_dict)
                 modify_circos_conf(circos_conf=f"{circos_infiles_dir}/conf_files/image.conf", config_files_dict=outfile)
 
                 conf_path = f"{circos_infiles_dir}/conf_files/circos.conf"
                 inlist = ["circos", "-conf", conf_path]
                 subprocess.run(inlist, check=True,  stdout=subprocess.DEVNULL)
                 print(f" ".join(inlist))
+
+                
+                
+                if miniprot_aln:
+                    # don't do the separate sex chromosomes
+                    continue
 
             for chr in ["X", "Y"]:
                 print(f" -------------------- {chr}-chromosome --------------------")

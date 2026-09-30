@@ -323,7 +323,15 @@ def make_circos_miniprot_file(annotation_file, miniprot_aln_file,  sex_chr_conti
                     start_annot=transcript1.start
                     end_annot=transcript1.end
                 except:
-                    raise RuntimeError(f"{transcriptID} not found in {annotation_file}!")
+                    try:
+                        transcriptIDold = transcriptID
+                        transcriptID = transcriptID[:-2]
+                        transcript1 = gff1_dict[transcriptID]
+                        contig_annot = transcript1.contig
+                        start_annot=transcript1.start
+                        end_annot=transcript1.end
+                    except:
+                        raise RuntimeError(f"neither '{transcriptIDold}' nor '{transcriptID}' found in {annotation_file}!")
 
                 if contig_annot in sex_chr_contigs_dict["X"]:
                     color = colors["X_mini"]
@@ -425,7 +433,7 @@ if __name__ == "__main__":
         for species1 in species_list:
 
             print(f"\n ------------ {species1} ------------")
-            circos_outfile_name=f"{data_dir}miniprot_circos_links_{species1}.txt", 
+            circos_outfile_name=f"{data_dir}miniprot_circos_links_{species1}.txt" 
             make_circos_miniprot_file(
                 annotation_file=annotations_dict[species1], 
                 miniprot_aln_file=miniprot_paths_dict[species1], 
