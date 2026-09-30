@@ -212,7 +212,8 @@ if __name__ == "__main__":
                 
                 if miniprot_aln:
                     # don't do the separate sex chromosomes
-                    continue
+                    # continue
+                    pass
 
             for chr in ["X", "Y"]:
                 print(f" -------------------- {chr}-chromosome --------------------")
@@ -241,8 +242,21 @@ if __name__ == "__main__":
                         "dir   = " : f".", # f"{outfiles_dir}",
                         "file  = " : f"{species1}_nucleotide_blast_circos_{chr}.png",
                     }
-                else:
 
+                
+                else:
+                    if miniprot_aln:
+                        infiles_dict = {
+                            "karyotype = " : karyotype_dict[species1][species2],
+                            "file          = " : f"{circos_infiles_dir}/miniprot_circos_links_{species1}_{chr}.txt",
+                        }
+                        outfile = {
+                            "dir   = " : f".", # f"{outfiles_dir}",
+                            "file  = " : f"{species1}_{chr}_miniprot_aln_circos.png",
+                        }
+                        hist_outfile_ = f"circos_links_{species1}_miniprot_{chr}_hist_vals.txt" 
+                    else:
+                        hist_outfile_ = f"circos_links_{species1}_vs_{species2}_{chr}_hist_vals.txt" 
                     # add link density histogram
                     try:
                         conf_path =f"{circos_infiles_dir}/conf_files/circos_hist.conf"
@@ -250,7 +264,6 @@ if __name__ == "__main__":
                 
                         linksfile = infiles_dict["file          = "]
                         # hist_outfile_ = linksfile.replace(".txt", "_hist_vals.txt").split("/")[-1]
-                        hist_outfile_ = f"circos_links_{species1}_vs_{species2}_{chr}_hist_vals.txt" 
                         hist_outfile = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/circos/histograms/{hist_outfile_}"
                         command = [link_density_hist_exe, "-links", linksfile]# , ">", hist_outfile]
                         print(" ".join(command))

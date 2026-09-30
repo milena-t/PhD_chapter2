@@ -1526,10 +1526,6 @@ rna-XM_057815278.1	Y	g5202.t1	 X       51.657</code></pre>
 </details>
 
 <p>
-    Some within-species plots show lighter lines, those are from the miniprot paralogs if the shown <code>blastp</code>
-    hits have any.
-</p>
-<p>
     The histograms show link-density, which is representative of the relative density of the blast hits in 
     nonoverlapping windows. In non-self blast it is only shown for one species, <span style="color:#909bb5">
     I don't know why, I used the circos script to make this from the links automatically, so I can't fix it 
@@ -1974,13 +1970,14 @@ NC_079473.1 2336684 2337900 scaffold_16 8524456 8529819 color=lorange</code></pr
 
 </div>
 
+
 <h4>Whole-genome paralogs</h4>
 
 <details>
     <summary>Toggle down for circos plots not filtered for sex-chromosome linked blast hits</summary>
 <p style="margin-top: 1em;">(identical information to the circos plots above, except autosome-to-autosome hits are also included. Mind the slightly different link 
     color assignment because of this.)</p>
-    
+
 <div>
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'circos_res_A_obtectus_wg')"><i>A. obtectus</i></button>
@@ -2325,6 +2322,53 @@ NC_079473.1 2336684 2337900 scaffold_16 8524456 8529819 color=lorange</code></pr
 </div>
 </details>
 
+
+<h4>miniprot paralogs</h4>
+
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'circos_miniprot_A_obtectus')"><i>A. obtectus</i></button>
+    <button class="tablinks" onclick="openTab(event, 'circos_miniprot_B_siliquastri')"><i>B. siliquastri</i></button>
+    <button class="tablinks" onclick="openTab(event, 'circos_miniprot_B_varius')"><i>B. varius</i></button>
+    <button class="tablinks" onclick="openTab(event, 'circos_miniprot_C_chinensis')"><i>C. chinensis</i></button>
+    <button class="tablinks" onclick="openTab(event, 'circos_miniprot_C_maculatus')"><i>C. maculatus</i></button>
+    <button class="tablinks" onclick="openTab(event, 'circos_miniprot_D_carinulata')"><i>D. carinulata</i></button>
+    <button class="tablinks" onclick="openTab(event, 'circos_miniprot_D_sublineata')"><i>D. sublineata</i></button>
+</div>
+<div id="circos_miniprot_A_obtectus" class="tabcontent">
+    <p float="left">
+        <img loading="lazy" src="data/circos/plots/A_obtectus_miniprot_aln_circos.png" width="49%" />
+    </p>
+</div>
+<div id="circos_miniprot_B_siliquastri" class="tabcontent">
+    <p float="left">
+        <img loading="lazy" src="data/circos/plots/B_siliquastri_miniprot_aln_circos.png" width="49%" />
+    </p>
+</div>
+<div id="circos_miniprot_B_varius" class="tabcontent">
+    <p float="left">
+        <img loading="lazy" src="data/circos/plots/B_varius_miniprot_aln_circos.png" width="49%" />
+    </p>
+</div>
+<div id="circos_miniprot_C_chinensis" class="tabcontent">
+    <p float="left">
+        <img loading="lazy" src="data/circos/plots/C_chinensis_miniprot_aln_circos.png" width="49%" />
+    </p>
+</div>
+<div id="circos_miniprot_C_maculatus" class="tabcontent">
+    <p float="left">
+        <img loading="lazy" src="data/circos/plots/C_maculatus_miniprot_aln_circos.png" width="49%" />
+    </p>
+</div>
+<div id="circos_miniprot_D_carinulata" class="tabcontent">
+    <p float="left">
+        <img loading="lazy" src="data/circos/plots/D_carinulata_miniprot_aln_circos.png" width="49%" />
+    </p>
+</div>
+<div id="circos_miniprot_D_sublineata" class="tabcontent">
+    <p float="left">
+        <img loading="lazy" src="data/circos/plots/D_sublineata_miniprot_aln_circos.png" width="49%" />
+    </p>
+</div>
 
 <h3><i>C. maculatus</i> population comparison</h3>
 

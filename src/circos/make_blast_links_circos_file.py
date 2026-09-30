@@ -306,7 +306,9 @@ def make_circos_miniprot_file(annotation_file, miniprot_aln_file,  sex_chr_conti
     # blast_outfmt6_headers = ["qseqid", "rseqid", "pident", "length", "mismatch", "gapopen", "qstart", "qend", "sstart", "send", "evalue", "bitscore"]
 
     too_low_seq_ident=0
-    with open(circos_outfile_name, "w") as circos_outfile:
+    circos_outfile_name_X = circos_outfile_name.replace(".txt", "_X.txt")
+    circos_outfile_name_Y = circos_outfile_name.replace(".txt", "_Y.txt")
+    with open(circos_outfile_name, "w") as circos_outfile, open(circos_outfile_name_X, "w") as circos_outfile_X, open(circos_outfile_name_Y, "w") as circos_outfile_Y:
         for transcriptID, aln_class_list in miniprot_aln.items():
             for aln_class in aln_class_list:
 
@@ -343,9 +345,29 @@ def make_circos_miniprot_file(annotation_file, miniprot_aln_file,  sex_chr_conti
                 
                 circos = f"{contig_annot} {start_annot} {end_annot} {contig_mini} {start_mini} {end_mini} color={color}"
                 circos_outfile.write(circos+"\n")
+                for chr in ["X","Y"]:
+                    other_chr = "Y"
+                    if chr == "Y":
+                        other_chr = "X"
+                    if contig_annot in sex_chr_contigs_dict[chr] and contig_mini in sex_chr_contigs_dict[chr]:
+                        color=colors[chr]
+                    elif (contig_annot in sex_chr_contigs_dict[chr] and contig_mini in sex_chr_contigs_dict[other_chr]) or (contig_annot in sex_chr_contigs_dict[other_chr] and contig_mini in sex_chr_contigs_dict[chr]):
+                        color=colors[other_chr]
+                    elif (contig_annot in sex_chr_contigs_dict[chr] and contig_mini not in sex_chr_contigs_dict[chr]) or (contig_annot not in sex_chr_contigs_dict[chr] and contig_mini in sex_chr_contigs_dict[chr]):
+                        color=colors["A"]
+                    else:
+                        continue
+
+                    circos = f"{contig_annot} {start_annot} {end_annot} {contig_mini} {start_mini} {end_mini} color={color}"
+                    if chr=="X":
+                        circos_outfile_X.write(circos+"\n")
+                    elif chr=="Y":
+                        circos_outfile_Y.write(circos+"\n")
+            
+                
 
             #break
-    print(f"The circos outfile is here: \n  - {circos_outfile_name}\n")
+    print(f"The circos outfile is here: \n  - {circos_outfile_name}\n  - {circos_outfile_name_X}\n  - {circos_outfile_name_Y}")
 
 
 
