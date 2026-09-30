@@ -1084,7 +1084,7 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
     <span style="color:#909bb5">The species-initial+number chromosome names are due to a requirement from MCScanX, associations to proper chromosome names are next to each plot.</span>
 </p>
 
-
+<div>
 <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'synteny_Aobt_Bsil')"><i>A. obtectus</i> vs. <i>B. siliquastri</i></button>
     <button class="tablinks" onclick="openTab(event, 'synteny_Aobt_Bvar')"><i>A. obtectus</i> vs. <i>B. varius</i></button>
@@ -1449,6 +1449,8 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
  Y - ds18</code></pre>
 </div>
 </div>
+</div>
+
 
 <details>
     <summary>Synvisio all species plot</summary>
@@ -1524,16 +1526,16 @@ rna-XM_057815278.1	Y	g5202.t1	 X       51.657</code></pre>
 </details>
 
 <p>
-    Some within-species plots show lighter lines, those are from the miniprot paralogs if there are any. 
-    <span style="color:#BD351E"><b>TODO</b>: check links plotting to make sure those are right</span>
+    Some within-species plots show lighter lines, those are from the miniprot paralogs if the shown <code>blastp</code>
+    hits have any.
 </p>
 <p>
     The histograms show link-density, which is representative of the relative density of the blast hits in 
-    nonoverlapping windows. In non-self blast it is only shown for one species, I don't know why, I used the 
-    circos script to make this from the links automatically, so I can't fix it without writing a new one from
-    scratch and I don't have time. For self-blast results this shows that mostly, X and Y-linked paralogs 
-    have their paralogs also on the X and Y respectively, there is not a lot of betwene-chromosome exchange 
-    (outside of a few hotspots in select species).
+    nonoverlapping windows. In non-self blast it is only shown for one species, <span style="color:#909bb5">
+    I don't know why, I used the circos script to make this from the links automatically, so I can't fix it 
+    without writing a new one from scratch and I don't have time. For self-blast results this shows that mostly, 
+    X and Y-linked paralogs have their paralogs also on the X and Y respectively, there is not a lot of between-
+    chromosome exchange (outside of a few hotspots in select species).</span>
 </p>
 
 <div>

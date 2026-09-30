@@ -12,6 +12,7 @@ import os
 import parse_gff as gff
 import sex_chromosomes
 import miniprot_stats_comparison as minialn
+from make_circos_karyotype_file import autosomes_lists
 
 def blast_paths_cmac_populations(username="miltr339"):
     filesdir = f"/Users/{username}/work/chapter2/circos/blast_outfiles"
@@ -235,6 +236,9 @@ def make_circos_hits_file(annotation_file1, annotation_file2, blast_outfile, sex
                     circos_outfile_Y.write(circos+"\n")
                 
                 if miniprot_aln_file!="":
+                    # if (transcriptID1 not in autosomes_dict) and (transcriptID2 not in autosomes_dict) and (color==colors["A"]):
+                    #     # if the hit is to an unplaced scaffold, it will not be shown in the plot
+                    #     continue
                     try:
                         mini_paralogs = miniprot_aln[transcriptID1]
                     except:
@@ -289,7 +293,7 @@ def make_circos_miniprot_file(annotation_file, miniprot_aln_file,  sex_chr_conti
     except:
         gff1_dict = gff.parse_gff3_general(annotation_file, gtf=True)
     
-    miniprot_aln = minialn.miniprot_parse_alignment(miniprot_aln_file, queryIDs=False)
+    miniprot_aln = minialn.miniprot_parse_alignment(miniprot_aln_file)
     
     colors = {
         "Y_mini" : "myblue",
@@ -303,34 +307,34 @@ def make_circos_miniprot_file(annotation_file, miniprot_aln_file,  sex_chr_conti
 
     too_low_seq_ident=0
     with open(circos_outfile_name, "w") as circos_outfile:
-        for minialn_ID, aln_class in miniprot_aln.items():
+        for transcriptID, aln_class_list in miniprot_aln.items():
+            for aln_class in aln_class_list:
 
-            if float(aln_class.identity) < min_seq_ident:
-                too_low_seq_ident+=1
-                continue
-            
-            contig_mini = aln_class.contig
-            start_mini = aln_class.start
-            end_mini = aln_class.end
-            transcriptID = aln_class.target
-            try:
-                transcript1 = gff1_dict[transcriptID]
-                contig_annot = transcript1.contig
-                start_annot=transcript1.start
-                end_annot=transcript1.end
-            except:
-                raise RuntimeError(f"{transcriptID} not found in {annotation_file}!")
+                if float(aln_class.identity) < min_seq_ident:
+                    too_low_seq_ident+=1
+                    continue
+                
+                contig_mini = aln_class.contig
+                start_mini = aln_class.start
+                end_mini = aln_class.end
+                try:
+                    transcript1 = gff1_dict[transcriptID]
+                    contig_annot = transcript1.contig
+                    start_annot=transcript1.start
+                    end_annot=transcript1.end
+                except:
+                    raise RuntimeError(f"{transcriptID} not found in {annotation_file}!")
 
-            if contig_annot in sex_chr_contigs_dict["X"]:
-                color = colors["X_mini"]
-            elif contig_annot in sex_chr_contigs_dict["Y"]:
-                color = colors["Y_mini"]
-            else:
-                color = colors["A_mini"]
-            
-            
-            circos = f"{contig_annot} {start_annot} {end_annot} {contig_mini} {start_mini} {end_mini} color={color}"
-            circos_outfile.write(circos+"\n")
+                if contig_annot in sex_chr_contigs_dict["X"]:
+                    color = colors["X_mini"]
+                elif contig_annot in sex_chr_contigs_dict["Y"]:
+                    color = colors["Y_mini"]
+                else:
+                    color = colors["A_mini"]
+                
+                
+                circos = f"{contig_annot} {start_annot} {end_annot} {contig_mini} {start_mini} {end_mini} color={color}"
+                circos_outfile.write(circos+"\n")
 
             #break
     print(f"The circos outfile is here: \n  - {circos_outfile_name}\n")
@@ -346,6 +350,7 @@ if __name__ == "__main__":
     blast_outfiles_dict = get_blast_paths(username=username)
     annotations_dict = get_annotation_paths(username=username)
     sex_chromosomes_dict = sex_chromosomes.get_contig_names()
+    autosomes_dict = autosomes_lists()
     species_list = list(blast_outfiles_dict.keys())
     miniprot_paths_dict = get_miniprot_paths(username=username)
     data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/circos/"
@@ -398,7 +403,7 @@ if __name__ == "__main__":
             for species2 in species_list:
                 if species1==species2:
                     max_seq_ident=100 # exclude self-hits for self-blast
-                    minaln_file = miniprot_paths_dict[species1]
+                    minaln_file = "" # miniprot_paths_dict[species1]
                 else:
                     max_seq_ident=200
                     minaln_file = ""
