@@ -367,6 +367,7 @@ def make_circos_miniprot_file(annotation_file, miniprot_aln_file,  sex_chr_conti
                 
 
             #break
+    print(f"{too_low_seq_ident} alignments discarded due to too low sequence identity")
     print(f"The circos outfile is here: \n  - {circos_outfile_name}\n  - {circos_outfile_name_X}\n  - {circos_outfile_name_Y}")
 
 
@@ -461,7 +462,7 @@ if __name__ == "__main__":
                 miniprot_aln_file=miniprot_paths_dict[species1], 
                 sex_chr_contigs_dict=sex_chromosomes_dict[species1], 
                 circos_outfile_name=circos_outfile_name, 
-                min_seq_ident=80)
+                min_seq_ident=95)
 
 
     #### within Cmac populations blastp

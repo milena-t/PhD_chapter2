@@ -133,6 +133,3 @@
 370_quiver 446310 447062 1103_quiver 71471 72223 color=mydarkgreen
 643_quiver 197592 198005 5570_quiver 249 662 color=mydarkgreen
 643_quiver 197592 198005 5570_quiver 17916 18617 color=mydarkgreen
-326_quiver 152530 152955 326_quiver 125845 125901 color=mydarkred
-326_quiver 152530 152955 326_quiver 135633 135689 color=mydarkred
-326_quiver 152530 152955 326_quiver 144063 144119 color=mydarkred

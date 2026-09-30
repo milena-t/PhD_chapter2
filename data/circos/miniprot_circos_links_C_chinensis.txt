@@ -2489,8 +2489,6 @@
 87_quiver 247465 248090 319_quiver 600746 601300 color=mygreen
 87_quiver 247465 248090 950_quiver 124865 125419 color=mygreen
 87_quiver 247465 248090 2160_quiver 22426 22980 color=mygreen
-890_quiver 38366 38665 46_quiver 89035 97911 color=mygreen
-890_quiver 38366 38665 1673_quiver 47 3423 color=mygreen
 63_quiver 1088997 1091000 46_quiver 167238 169238 color=mygreen
 79_quiver 56622 57110 46_quiver 375520 376008 color=mygreen
 79_quiver 56622 57110 43_quiver 758219 758707 color=mygreen
@@ -2699,15 +2697,7 @@
 526_quiver 46350 46652 23_quiver 1898177 1898479 color=mygreen
 526_quiver 46350 46652 288_quiver 239898 240200 color=mygreen
 526_quiver 46350 46652 304_quiver 311796 312098 color=mygreen
-526_quiver 31173 31472 66_quiver 64743 65042 color=mygreen
-526_quiver 31173 31472 8_quiver 494105 494404 color=mygreen
-526_quiver 31173 31472 237_quiver 321841 322140 color=mygreen
-526_quiver 31173 31472 82_quiver 303001 303300 color=mygreen
-526_quiver 31173 31472 611_quiver 11231 11530 color=mygreen
-526_quiver 31173 31472 197_quiver 50424 51082 color=mygreen
 526_quiver 31173 31472 206_quiver 560856 561155 color=mygreen
-526_quiver 31173 31472 205_quiver 839670 839969 color=mygreen
-526_quiver 31173 31472 698_quiver 150815 151114 color=mygreen
 526_quiver 31173 31472 3743_quiver 423 723 color=mygreen
 871_quiver 44728 45147 5646_quiver 10776 11195 color=mygreen
 1061_quiver 71419 72189 151_quiver 107110 107880 color=mygreen
@@ -2867,8 +2857,6 @@
 74_quiver 917625 919244 282_quiver 193524 195143 color=mygreen
 74_quiver 917625 919244 226_quiver 242513 244132 color=mygreen
 74_quiver 917625 919244 1506_quiver 3666 5285 color=mygreen
-189_quiver 310016 310328 888_quiver 87163 87474 color=mygreen
-189_quiver 310016 310328 3563_quiver 2731 3042 color=mygreen
 207_quiver 181358 181594 385_quiver 460829 461065 color=mygreen
 207_quiver 181358 181594 5422_quiver 6187 6423 color=mygreen
 207_quiver 181358 181594 767_quiver 83275 83511 color=mygreen
@@ -2883,7 +2871,6 @@
 1791_quiver 4339 5411 5707_quiver 472 1544 color=mygreen
 1791_quiver 4339 5411 1132_quiver 14727 15799 color=mygreen
 1791_quiver 4339 5411 1590_quiver 16714 17783 color=mygreen
-61_quiver 867447 867894 90_quiver 1339809 1340253 color=mygreen
 80_quiver 614399 614701 255_quiver 338186 338488 color=mygreen
 80_quiver 614399 614701 5588_quiver 34934 35236 color=mygreen
 80_quiver 614399 614701 1534_quiver 17010 17312 color=mygreen
@@ -2980,10 +2967,8 @@
 327_quiver 458619 459131 1161_quiver 34324 34837 color=mygreen
 927_quiver 45411 46514 2094_quiver 4783 5886 color=mygreen
 5508_quiver 20292 26706 511_quiver 209342 212802 color=mygreen
-5493_quiver 184941 217500 491_quiver 310431 329534 color=mygreen
 5493_quiver 229895 230140 491_quiver 342645 342890 color=mygreen
 398_quiver 91556 91855 470_quiver 64500 64799 color=mygreen
-5481_quiver 3287 8827 470_quiver 151483 156494 color=mygreen
 1348_quiver 283 7522 470_quiver 363596 369868 color=mygreen
 588_quiver 50208 50495 278_quiver 277973 278260 color=mygreen
 588_quiver 50208 50495 55_quiver 79034 79321 color=mygreen
@@ -2992,7 +2977,6 @@
 64_quiver 334480 335046 5105_quiver 61077 61643 color=mygreen
 746_quiver 187523 207414 432_quiver 75872 96469 color=mygreen
 5451_quiver 12351 25365 429_quiver 84484 96695 color=mygreen
-470_quiver 157366 158585 7_quiver 1985637 1987740 color=mygreen
 5019_quiver 59667 61805 7_quiver 3398432 3400576 color=mygreen
 5025_quiver 73119 76114 7_quiver 3545496 3548491 color=mygreen
 118_quiver 1115905 1117077 1092_quiver 69262 70434 color=mygreen
@@ -3025,7 +3009,6 @@
 1325_quiver 45352 46086 176_quiver 755431 756165 color=mygreen
 994_quiver 90907 99228 176_quiver 801609 807251 color=mygreen
 5247_quiver 5434 5928 169_quiver 569862 570357 color=mygreen
-107_quiver 126287 126550 201_quiver 323450 327106 color=mygreen
 1059_quiver 99006 101228 1243_quiver 3261 5483 color=mygreen
 1_quiver 6764181 6775780 5001_quiver 7269 7487 color=mygreen
 25_quiver 1469229 1469999 1211_quiver 12744 13514 color=mygreen
@@ -3057,9 +3040,6 @@
 1464_quiver 35394 35651 462_quiver 295389 295646 color=mygreen
 1464_quiver 35394 35651 1431_quiver 37296 37553 color=mygreen
 353_quiver 52227 53204 1324_quiver 6426 7403 color=myred
-1457_quiver 35448 35807 1712_quiver 30255 30611 color=mygreen
-1457_quiver 35448 35807 1395_quiver 50155 50514 color=mygreen
-1457_quiver 35448 35807 1731_quiver 24151 24510 color=mygreen
 1008_quiver 43393 48971 164_quiver 134519 139025 color=mygreen
 2684_quiver 1 403 3282_quiver 1355 1462 color=mygreen
 819_quiver 77503 83700 279_quiver 55789 58922 color=mygreen
@@ -3072,7 +3052,6 @@
 1131_quiver 47847 52280 170_quiver 260086 264452 color=mygreen
 32_quiver 170155 176221 897_quiver 126581 132674 color=mygreen
 897_quiver 78725 79444 920_quiver 142334 143053 color=mygreen
-50_quiver 189554 190045 50_quiver 183362 184021 color=mygreen
 58_quiver 866890 869700 50_quiver 445726 448536 color=mygreen
 126_quiver 97983 100907 674_quiver 95345 98268 color=mygreen
 1938_quiver 13885 16384 2575_quiver 7842 10343 color=mygreen
@@ -3118,7 +3097,6 @@
 144_quiver 1103181 1104377 2806_quiver 6855 8051 color=mygreen
 91_quiver 398054 402341 5144_quiver 10260 14538 color=mygreen
 169_quiver 909003 909347 986_quiver 110548 110892 color=mygreen
-8_quiver 1611957 1612959 139_quiver 404428 405429 color=mygreen
 1315_quiver 26809 30150 1339_quiver 5486 10832 color=mygreen
 1157_quiver 39313 40566 870_quiver 103309 104562 color=mygreen
 1157_quiver 43920 44246 870_quiver 107881 108207 color=mygreen
@@ -3137,8 +3115,6 @@
 1394_quiver 11863 18428 812_quiver 123885 139078 color=mygreen
 1172_quiver 72871 74484 1580_quiver 33903 35515 color=mygreen
 406_quiver 198084 202499 1529_quiver 2339 6761 color=mygreen
-406_quiver 196455 198063 1529_quiver 6782 8421 color=mygreen
-155_quiver 986458 987795 1336_quiver 50634 51967 color=mygreen
 128_quiver 73672 86836 761_quiver 198390 211870 color=mygreen
 1548_quiver 40565 44470 510_quiver 377242 381131 color=mygreen
 1548_quiver 40565 44470 1309_quiver 57823 61727 color=mygreen
@@ -3174,7 +3150,6 @@
 60_quiver 1349549 1353311 1952_quiver 5577 9103 color=mygreen
 321_quiver 54855 55458 584_quiver 18664 18867 color=mygreen
 60_quiver 1593871 1597869 584_quiver 184795 189441 color=mygreen
-603_quiver 306447 307016 1140_quiver 37122 37412 color=mygreen
 136_quiver 6969 8885 1140_quiver 82929 84845 color=mygreen
 55_quiver 1244950 1247613 1396_quiver 17045 19708 color=mygreen
 581_quiver 207031 237742 566_quiver 197795 230697 color=mygreen
@@ -3194,12 +3169,8 @@
 1172_quiver 46339 48396 1180_quiver 18988 21045 color=mygreen
 397_quiver 492880 503623 1393_quiver 46822 47109 color=mygreen
 280_quiver 341594 346226 1075_quiver 26922 32635 color=mygreen
-280_quiver 388459 389025 1075_quiver 72635 73198 color=mygreen
 1027_quiver 29944 32463 1058_quiver 3532 6061 color=mygreen
 1027_quiver 38276 39295 1058_quiver 11654 12673 color=mygreen
 32_quiver 1912498 1912617 1016_quiver 41058 41114 color=mygreen
 32_quiver 1912498 1912617 5687_quiver 4474 4530 color=mygreen
-326_quiver 152530 152955 326_quiver 125845 125901 color=myred
-326_quiver 152530 152955 326_quiver 135633 135689 color=myred
-326_quiver 152530 152955 326_quiver 144063 144119 color=myred
 276_quiver 422442 429355 2729_quiver 6885 13472 color=mygreen
