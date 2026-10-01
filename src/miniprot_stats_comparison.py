@@ -245,6 +245,7 @@ class MiniAln:
         self.start=start
         self.end=end
         self.contig=contig
+        # self.cds_list = []
         if identity<=1: # use percent not proportion
             self.identity=100*identity
         else:
@@ -256,13 +257,17 @@ class MiniAln:
  * query ID: {self.target}
  * aligned on contig: {self.contig} with {self.identity}% sequence identity
  * rank: {self.rank}"""
+    
     def length(self):
         return abs(self.start-self.end)
+    
+    # def add_cds(self,cds_feature):
+    #     self.cds_list.append(cds_feature)
 
 
 
 
-def miniprot_parse_alignment(miniprot_file, queryIDs = True):
+def miniprot_parse_alignment(miniprot_file, queryIDs = True, include_cds = False):
     """
     parse the miniprot alignment into a dictionary by query transcript ID
     {   
@@ -274,6 +279,9 @@ def miniprot_parse_alignment(miniprot_file, queryIDs = True):
     count_paf = 0
     count_dup_paf =0
     count_aln = 0
+    if include_cds:
+        queryIDs=False
+    
     with open(miniprot_file, "r") as miniprot_infile:
         for mini_line in miniprot_infile.readlines(): # skip gff3 header
             if mini_line[0]=="#":
@@ -291,28 +299,48 @@ def miniprot_parse_alignment(miniprot_file, queryIDs = True):
                     contig,source,category,start,stop,score,strandedness,frame,attributes_=[c for c in line if len(c)>0]
                 except Exception as e:
                     print(f"mini line could not be parsed! line: \n{mini_line}\nlist ({len(line)} items, should be 9)\n{line}\nerror:\n{e}")
-                if category != "mRNA":
-                    continue
-                attributes={}
-                for attr in attributes_.strip().split(";"):
-                    key,value=attr.strip().split("=")[-2:]
-                    if " " in value:
-                        attributes[key]=value.split()[0]
+               
+                if category != "mRNA" and include_cds:
+                    if category == "CDS":
+                        contig,source,category,start,stop,score,strandedness,frame,attributes_=[c for c in line if len(c)>0]
+                        attributes={}
+                        for attr in attributes_.strip().split(";"):
+                            key,value=attr.strip().split("=")[-2:]
+                            if " " in value:
+                                attributes[key]=value.split()[0]
+                            else:
+                                attributes[key]=value
+                        mini_alignment = MiniAln(
+                            ID=attributes["Parent"], target=attributes["Target"], rank=int(attributes["Rank"]), identity=float(attributes["Identity"]), 
+                            contig=contig, start=int(start), end=int(stop)
+                        )
+                        key_ID_ = attributes["Parent"]
+                        key_ID = f"{key_ID_}_{count_aln}"
+                        geneIDs_map_counts[key_ID] = mini_alignment
+                        count_aln+=1
+                        continue
                     else:
-                        attributes[key]=value
-                int(start),int(stop)
-                mini_alignment = MiniAln(
-                    ID=attributes["ID"], target=attributes["Target"], rank=int(attributes["Rank"]), identity=float(attributes["Identity"]), 
-                    contig=contig, start=int(start), end=int(stop)
-                )
-                count_aln+=1
-                if queryIDs:
-                    if  attributes["Target"] in geneIDs_map_counts:
-                        geneIDs_map_counts[attributes["Target"]].append(mini_alignment)
-                    else:
-                        geneIDs_map_counts[attributes["Target"]] = [mini_alignment]
+                        continue
                 else:
-                    geneIDs_map_counts[attributes["ID"]] = mini_alignment
+                    attributes={}
+                    for attr in attributes_.strip().split(";"):
+                        key,value=attr.strip().split("=")[-2:]
+                        if " " in value:
+                            attributes[key]=value.split()[0]
+                        else:
+                            attributes[key]=value
+                    mini_alignment = MiniAln(
+                        ID=attributes["ID"], target=attributes["Target"], rank=int(attributes["Rank"]), identity=float(attributes["Identity"]), 
+                        contig=contig, start=int(start), end=int(stop)
+                    )
+                    count_aln+=1
+                    if queryIDs:
+                        if  attributes["Target"] in geneIDs_map_counts:
+                            geneIDs_map_counts[attributes["Target"]].append(mini_alignment)
+                        else:
+                            geneIDs_map_counts[attributes["Target"]] = [mini_alignment]
+                    else:
+                        geneIDs_map_counts[attributes["ID"]] = mini_alignment
         if queryIDs:
             print(f"read {count_aln} MINIPROT alignments from {len(geneIDs_map_counts)} query proteins")
         else:

@@ -627,27 +627,96 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 
 <p>Gene density (percentage of bp annotated as coding regions (exons) all bp, per scaffold, shown is mean and SEM) </p>
 
-<div style="float: left;width: 32%;">
-    <p>gene annotations</p>
+<div style="float: left;width: 48%;">
+    <p style="margin-left: 3.5em;"><b>gene annotations</b></p>
     <p float="left">
-        <img loading="lazy" src="data/sex_chromosome_gene_density_gene.png" width="100%" />
+        <img loading="lazy" src="data/sex_chromosome_gene_density_gene.png" width="80%" />
     </p>
-    <p><span style="color: #BD351E;"><b>TODO</b> check <i>Diorhabda</i>, if reading exons is correct, coding proportion of 10% seems insane</span></p>
-</div>
-<div style="float: left;width: 32%;">
-    <p>mini prot alignment hits</p>
-    <p float="left">
-        <img loading="lazy" src="data/sex_chromosome_gene_density_mini.png" width="100%" />
+    <p style="margin-right: 1em;">
+        All annotations have 12-14k genes (except Bsil which has almost 18k). The <i>Diorhabdas</i> and <i>B. siliquastri</i> have smaller 
+        genomes at around 400Mb, with the others being around 1Gb, and the smaller genomes have a higher gene density and frequency, which 
+        makes sense with the same amount of genes in half the size. X and A are very similar, Y has a lower gene density.
     </p>
-    <p><span style="color: #BD351E;">miniprot does include introns right now!<br> <b>TODO</b> fix read CDS not just mRNA</span></p>
 </div>
-<div style="float: left;width: 32%;">
-    <p>sum of both</p>
+<div style="float: left;width: 48%;">
+    <p style="margin-left: 3.5em;"><b>within-species paralogs from miniprot</b></p>
     <p float="left">
-        <img loading="lazy" src="data/sex_chromosome_gene_density_all.png" width="100%" />
+        <img loading="lazy" src="data/sex_chromosome_gene_density_mini.png" width="80%" />
+    </p>
+    <p style="margin-left: 1em;">
+        This includes all regions annotated as <code>CDS</code> by miniprot, ecluding introns just like the annotations. These are generally
+        a lower proportion than the annotated regions, especially for A and X, but the Y is comparatively high. This also does not have the 
+        high densities in the smaller genomes.<br><span style="color:#BD351E">No clue what is up with the unplaced scaffolds in <i>D. carinulata</i></span>
     </p>
 </div>
 <div style="clear: both;"></div>
+
+<details>
+    <summary>Numbers and density of annotated genes (not miniprot paralogs)</summary>
+    <p>
+        I check for gene density per bp (annotated exons divided by contig length) as well as gene frequency (number of annotated genes per 1Mb).
+        Genome sizes are from the NCBI entries of the assemblies.
+    </p>
+    <ul>
+
+    <li><i>A. obtectus</i> (917.4 Mb): 169 contigs, 14841 annotated gene features
+        <ul>
+            <li style="margin-top: -0.1em;">X : 0.009 annotated as part of exons (8 contigs), (avg. 10.057 genes per Mb)</li>
+            <li style="margin-top: -0.1em;">Y : 0.004 annotated as part of exons (5 contigs), (avg. 8.599 genes per Mb)</li>
+            <li style="margin-top: -0.1em;">A : 0.020 annotated as part of exons (9 contigs), (avg. 14.564 genes per Mb)</li>
+            <li style="margin-top: -0.1em;">unplaced : 0.002 annotated as part of exons (3774 contigs), (avg. 2.070 genes per Mb)</li>
+        </ul>
+    </li>
+    <li><i>B. siliquastri</i> (375.6 Mb): 11 contigs, 17940 annotated gene features
+        <ul>
+            <li style="margin-top: -0.1em;">X : 0.052 annotated as part of exons (1 contigs), (avg. 46.437 genes per Mb)</li>
+            <li style="margin-top: -0.1em;">Y : 0.005 annotated as part of exons (1 contigs), (avg. 9.146 genes per Mb)</li>
+            <li style="margin-top: -0.1em;">A : 0.058 annotated as part of exons (9 contigs), (avg. 48.708 genes per Mb)</li>
+            <li style="margin-top: -0.1em;">unplaced : 0.000 annotated as part of exons (4 contigs), (avg. 0.000 genes per Mb)</li>
+        </ul>
+    </li>
+    <li><i>B. varius</i> (1200 Mb): 18 contigs, 12406 annotated gene features
+        <ul>
+            <li style="margin-top: -0.1em;">X : 0.021 annotated as part of exons (1 contigs), (avg. 13.974 genes per Mb)</li>
+            <li style="margin-top: -0.1em;">Y : 0.006 annotated as part of exons (1 contigs), (avg. 5.419 genes per Mb)</li>
+            <li style="margin-top: -0.1em;">A : 0.016 annotated as part of exons (8 contigs), (avg. 10.505 genes per Mb)</li>
+            <li style="margin-top: -0.1em;">unplaced : 0.002 annotated as part of exons (137 contigs), (avg. 1.165 genes per Mb)</li>
+        </ul>
+    </li>
+    <li><i>C. chinensis</i> (633.3 Mb): 1505 contigs, 13815 annotated gene features
+        <ul>
+            <li style="margin-top: -0.1em;">X : 0.026 annotated as part of exons (72 contigs), (avg. 18.918 genes per Mb)</li>
+            <li style="margin-top: -0.1em;">Y : 0.011 annotated as part of exons (4 contigs), (avg. 16.267 genes per Mb)</li>
+            <li style="margin-top: -0.1em;">A : NA, (0 contigs superscaffolded into autosomes)</li>
+            <li style="margin-top: -0.1em;">unplaced : 0.013 annotated as part of exons (4487 contigs), (avg. 12.668 genes per Mb)</li>
+        </ul>
+    </li>
+    <li><i>C. maculatus</i> (1200 Mb): 218 contigs, 14861 annotated gene features
+        <ul>
+            <li style="margin-top: -0.1em;">X : 0.014 annotated as part of exons (6 contigs), (avg. 10.454 genes per Mb)</li>
+            <li style="margin-top: -0.1em;">Y : 0.004 annotated as part of exons (5 contigs), (avg. 3.774 genes per Mb)</li>
+            <li style="margin-top: -0.1em;">A : 0.017 annotated as part of exons (9 contigs), (avg. 11.965 genes per Mb)</li>
+            <li style="margin-top: -0.1em;">unplaced : 0.006 annotated as part of exons (733 contigs), (avg. 4.541 genes per Mb)</li>
+        </ul>
+    </li>
+    <li><i>D. carinulata</i> (415.4 Mb): 40 contigs, 13530 annotated gene features
+        <ul>
+            <li style="margin-top: -0.1em;">X : 0.103 annotated as part of exons (1 contigs), (avg. 29.247 genes per Mb)</li>
+            <li style="margin-top: -0.1em;">Y : 0.023 annotated as part of exons (1 contigs), (avg. 16.353 genes per Mb)</li>
+            <li style="margin-top: -0.1em;">A : 0.095 annotated as part of exons (12 contigs), (avg. 33.653 genes per Mb)</li>
+            <li style="margin-top: -0.1em;">unplaced : 0.118 annotated as part of exons (55 contigs), (avg. 88.466 genes per Mb)</li>
+        </ul>
+    </li>
+    <li><i>D. sublineata</i> (456.2 Mb): 77 contigs, 12881 annotated gene features
+        <ul>
+            <li style="margin-top: -0.1em;">X : 0.100 annotated as part of exons (1 contigs), (avg. 28.376 genes per Mb)</li>
+            <li style="margin-top: -0.1em;">Y : 0.016 annotated as part of exons (1 contigs), (avg. 11.400 genes per Mb)</li>
+            <li style="margin-top: -0.1em;">A : 0.084 annotated as part of exons (11 contigs), (avg. 29.396 genes per Mb)</li>
+            <li style="margin-top: -0.1em;">unplaced : 0.021 annotated as part of exons (297 contigs), (avg. 12.667 genes per Mb)</li>
+        </ul>
+    </ul>  </li>
+</details>
+
 
 <h3>Other</h3>
 

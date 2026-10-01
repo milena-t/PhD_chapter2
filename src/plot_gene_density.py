@@ -14,7 +14,7 @@ from matplotlib.ticker import FuncFormatter
 import numpy as np
 
 
-def get_exon_counts(miniprot_filepath, miniprot=True, gff_annot=False):
+def get_exon_coverage(miniprot_filepath, miniprot=True, gff_annot=False):
     """
     read the gff files and make dicts of {
         species : {contig : exon_bp_count, contig : exon_bp_count , ...}
@@ -26,21 +26,43 @@ def get_exon_counts(miniprot_filepath, miniprot=True, gff_annot=False):
         # print(list(annot_dict.keys())[:50])
         miniprot=False
     if miniprot==True:
-        annot_dict = minialn.miniprot_parse_alignment(miniprot_file=miniprot_filepath, queryIDs=False)
+        annot_dict = minialn.miniprot_parse_alignment(miniprot_file=miniprot_filepath, include_cds=True)
     
 
     for miniID, gene_feature in annot_dict.items():
-        outdict.setdefault(gene_feature.contig, 0) # if contig not yet in the dict then add it as new key with value 0
+        try:
+            outdict.setdefault(gene_feature.contig, 0) # if contig not yet in the dict then add it as new key with value 0
+        except:
+            print(f"\n{gene_feature}\n")
+            raise RuntimeError
         outdict[gene_feature.contig] += gene_feature.length()
 
     return outdict
 
 
-def calculate_gene_density(contig_lengths, species_miniprot, species_gff, sex_chromosomes, autosomes):
 
-    miniprot_exon_counts = get_exon_counts(species_miniprot, miniprot=True)
-    gff_exon_counts = get_exon_counts(species_gff, gff_annot=True)
-    gene_density = { contig : {"all" : 0.0, "gene" : 0.0, "mini" : 0.0} for contig in contig_lengths.keys() }
+def calculate_gene_density(contig_lengths, species_gff, sex_chromosomes, autosomes, miniprot=False, get_gene_counts=False):
+
+    if miniprot:
+        # miniprot_exon_counts = get_exon_counts(species_miniprot, miniprot=True)
+        gff_exon_counts = get_exon_coverage(species_gff, miniprot=True)
+    else:
+        gff_exon_counts = get_exon_coverage(species_gff, gff_annot=True)
+
+
+    # gene_density = { contig : {"all" : 0.0, "gene" : 0.0, "mini" : 0.0} for contig in contig_lengths.keys() }
+    gene_density = { contig : [] for contig in contig_lengths.keys() }
+    if get_gene_counts:
+        contig_annot = gff.parse_gff3_by_contig(species_gff)
+        cds_features_counts = { contig : 0 for contig in contig_lengths.keys() }
+        for contig, length in contig_lengths.items():
+            try:
+                cds_features_counts[contig] = len(contig_annot[contig])/length
+            except:
+                cds_features_counts[contig] = 0.0
+        
+    else:
+        cds_features_counts = { contig : 0.0 for contig in contig_lengths.keys() }
 
     ## calculate densities for every contig
     for contig, contig_length in contig_lengths.items():
@@ -48,15 +70,8 @@ def calculate_gene_density(contig_lengths, species_miniprot, species_gff, sex_ch
             gff_count = gff_exon_counts[contig]
         except:
             gff_count = 0
-        try:
-            mini_count = miniprot_exon_counts[contig]
-        except:
-            mini_count = 0
         
-        all_count = gff_count+mini_count
-        gene_density[contig]["all"] = all_count/contig_length
-        gene_density[contig]["gene"] = gff_count/contig_length
-        gene_density[contig]["mini"] = mini_count/contig_length
+        gene_density[contig] = gff_count/contig_length
     
     ## calculate mean density for sex chromosomes, autosomes, and unplaced scaffolds
     sex_chromosomes["A"] = autosomes
@@ -64,15 +79,20 @@ def calculate_gene_density(contig_lengths, species_miniprot, species_gff, sex_ch
     all_scaffolds = list(contig_lengths.keys())
     sex_chromosomes["unplaced"] = list(set(all_scaffolds) - set(placed_scaffolds))
 
-    densities_category = { category : {"all" : [], "gene" : [], "mini" : []} for category in sex_chromosomes.keys()}
+    # densities_category = { category : {"all" : [], "gene" : [], "mini" : []} for category in sex_chromosomes.keys()}
+    densities_category = { category : [] for category in sex_chromosomes.keys()}
+    densities_count = { category : [] for category in sex_chromosomes.keys()}
     for chr_category, contig_list in sex_chromosomes.items():
-        for gene_category in ["all","gene","mini"]:
-            for contig in contig_list:
-                densities_category[chr_category][gene_category].append(gene_density[contig][gene_category])
+        for contig in contig_list:
+            densities_category[chr_category].append(gene_density[contig])
+            densities_count[chr_category].append(cds_features_counts[contig])
 
-    return densities_category
+    return densities_category, densities_count
 
-def plot_gene_density(gene_density_dict, outfile_name = ""):
+
+
+
+def plot_gene_density(gene_density_dict, annot,  outfile_name = ""):
     chromosome_categories = ["unplaced", "A", "X", "Y"]
 
     plt.rcParams['text.usetex'] = True # use \\textit{{{}}} for species names
@@ -98,48 +118,48 @@ def plot_gene_density(gene_density_dict, outfile_name = ""):
     point_offset=0.05
     xtick_ticklabel_pos = [i for i in range(len(species_names))]
     
-    for annot in ["all","gene","mini"]:
-        print(f" * {annot}")
-        fig, ax = plt.subplots(1, 1, figsize=(13, 8))
+    
+    print(f" * {annot}")
+    fig, ax = plt.subplots(1, 1, figsize=(13, 8))
 
-        for i,cat in enumerate(chromosome_categories):
-            mean_list = [0.0 for s in species_names]
-            stderr_list = [0.0 for s in species_names]
-            for j, species in enumerate(species_names):
-                if gene_density_dict[species][cat][annot]==[]:
-                    mean_list[j] = np.nan
-                    stderr_list[j] = np.nan
-                else:
-                    mean_list[j] = mean(gene_density_dict[species][cat][annot])
-                    stderr_list[j] = sem(gene_density_dict[species][cat][annot])
-            xtick_pos = [k+point_offset*i for k in xtick_ticklabel_pos]
-            # ax.plot(xtick_pos, mean_list, label = legend_label[cat], color = colors[cat], linewidth = 4) 
-            print(f"\t{cat}: {mean_list}")
-            ax.errorbar(xtick_pos, mean_list, yerr = stderr_list, color=colors[cat], linewidth =3, marker = ".", markersize=20, linestyle = ":", label = legend_label[cat])
+    for i,cat in enumerate(chromosome_categories):
+        mean_list = [0.0 for s in species_names]
+        stderr_list = [0.0 for s in species_names]
+        for j, species in enumerate(species_names):
+            if gene_density_dict[species][cat]==[]:
+                mean_list[j] = np.nan
+                stderr_list[j] = np.nan
+            else:
+                mean_list[j] = mean(gene_density_dict[species][cat])
+                stderr_list[j] = sem(gene_density_dict[species][cat])
+        xtick_pos = [k+point_offset*i for k in xtick_ticklabel_pos]
+        # ax.plot(xtick_pos, mean_list, label = legend_label[cat], color = colors[cat], linewidth = 4) 
+        print(f"\t{cat}: {mean_list}")
+        ax.errorbar(xtick_pos, mean_list, yerr = stderr_list, color=colors[cat], linewidth =3, marker = ".", markersize=20, linestyle = ":", label = legend_label[cat])
 
-        ax.yaxis.set_major_formatter(FuncFormatter(lambda x, pos: '' if x > 1 else f'{x*100.0:.0f}\%'))
-        ylab = f"gene density"
-        ax.set_ylabel(ylab, fontsize = fs)
-        ax.tick_params(axis ='y', labelsize = fs)  
-        # ymin,ymax = ax.get_ylim()
-        # ax.set_ylim(0,ymax)
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda x, pos: '' if x > 1 else f'{x*100.0:.0f}\%'))
+    ylab = f"gene density"
+    ax.set_ylabel(ylab, fontsize = fs)
+    ax.tick_params(axis ='y', labelsize = fs)  
+    # ymin,ymax = ax.get_ylim()
+    # ax.set_ylim(0,ymax)
 
-        ax.set_xticks([j+point_offset*1.5 for j in xtick_ticklabel_pos])
-        species_axis_labels = [species.replace("_", ". ") for species in species_names]
-        ax.set_xticklabels([f"\\textit{{{species}}}" for species in species_axis_labels], rotation=90, fontsize=fs)
-        
-        # set grid only for X axis ticks 
-        ax.grid(True)
-        ax.yaxis.grid(False)
-        
-        ax.tick_params(axis='y', labelsize=fs)
-        ax.legend(fontsize=fs)
+    ax.set_xticks([j+point_offset*1.5 for j in xtick_ticklabel_pos])
+    species_axis_labels = [species.replace("_", ". ") for species in species_names]
+    ax.set_xticklabels([f"\\textit{{{species}}}" for species in species_axis_labels], rotation=90, fontsize=fs)
+    
+    # set grid only for X axis ticks 
+    ax.grid(True)
+    ax.yaxis.grid(False)
+    
+    ax.tick_params(axis='y', labelsize=fs)
+    ax.legend(fontsize=fs)
 
-        plt.tight_layout()
+    plt.tight_layout()
 
-        outfile_annot = outfile_name.replace(".png", f"_{annot}.png")
-        plt.savefig(outfile_annot, dpi = 300, transparent = True)# , bbox_inches='tight')
-        print("Figure saved as: "+outfile_annot)
+    outfile_annot = outfile_name.replace(".png", f"_{annot}.png")
+    plt.savefig(outfile_annot, dpi = 300, transparent = True)# , bbox_inches='tight')
+    print("Figure saved as: "+outfile_annot)
 
 
 if __name__ == "__main__":
@@ -151,20 +171,45 @@ if __name__ == "__main__":
     autosomes_dict = autosomes_lists()
     data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/"
 
+    
+    ## get gene densities for annotated genes from the gff
     gene_densities = {}
+    gene_counts = {}
+    plot_miniprot = True
     for species, miniprot_path in miniprot_dict.items():
         print(f"\n====================== {species} ======================")
+        if plot_miniprot:
+            annot_path = miniprot_path
+            get_gene_counts = False
+            annot="mini"
+        else:
+            annot_path = annot_path_dict[species]
+            get_gene_counts = True
+            annot="gene"
         
-        gene_densities[species] = calculate_gene_density(
+        gene_densities[species], gene_counts[species] = calculate_gene_density(
             contig_lengths=faidx_dicts[species], 
-            species_miniprot=miniprot_path,
-            species_gff=annot_path_dict[species],
+            species_gff=annot_path,
             sex_chromosomes=sex_chromosomes_dict[species],
-            autosomes=autosomes_dict[species]
+            autosomes=autosomes_dict[species], 
+            miniprot=plot_miniprot, get_gene_counts=get_gene_counts
             )
         
-        # for chr_category, density_dict in gene_densities[species].items():
-        #     print(f" - {chr_category} : {density_dict}\n\n")
+        if plot_miniprot:
+            for chr_category, density_list in gene_densities[species].items():
+                gene_count = gene_counts[species][chr_category]
+                try:
+                    print(f" - {chr_category} : {mean(density_list):.4f} bp annotated as exons")
+                except:
+                    print(f" - {chr_category} : NA, ({len(density_list)} contigs)")
+
+        else:
+            for chr_category, density_list in gene_densities[species].items():
+                gene_count = gene_counts[species][chr_category]
+                try:
+                    print(f" - {chr_category} : {mean(density_list):.3f} bp annotated as exons ({len(density_list)} contigs), (avg. {mean(gene_count)*1000000:.3f} genes per Mb)")
+                except:
+                    print(f" - {chr_category} : NA, ({len(density_list)} contigs)")
 
 
-    plot_gene_density(gene_density_dict=gene_densities, outfile_name=f"{data_dir}sex_chromosome_gene_density.png")
+    plot_gene_density(gene_density_dict=gene_densities, annot=annot, outfile_name=f"{data_dir}sex_chromosome_gene_density.png")
