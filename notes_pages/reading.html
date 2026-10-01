@@ -95,6 +95,60 @@
         using sequence features and support vector machine. (<i>but <a href="https://www.nature.com/articles/s41467-017-00653-x">Mahajan 2017</a> warns it may be overly conservative</i>)</li>
 </ol>
 
+<h2 id="methods-translocations">Identify and characterize translocation events</h2>
+<p>
+    Since <a href="https://www.cell.com/current-biology/fulltext/S0960-9822(22)00721-7">Weismann 2022</a> finds that heterogeneous annotation methods (like I have here, 
+    unlike chapter 1) identify too many lineage-specific genes, meaning that the annptations identify some kinds of genes over others depending on properties of the pipeline 
+    and reference data. Therefore, if I want to time translocation events based on presence/absence on X/Y/A at certain points in the phylogeny, I need to take this into account 
+    and adjust the method accordingly. 
+</p>
+<ul>
+    <li>
+        <b>Between-species miniprot.</b> Since I am not interested in identifying new lineage-specific genes, but instead I want to be sure about the timing of translocations
+        through presence/absence of Y-linkage (or X-linkage) at certain nodes, I think using between-species miniprot to identify non-annotated gene-family members between 
+        species can be useful. I think about the pipeline like this:
+        <ol>
+            <li>OrthoFinder run with only annotated genes, no miniprot paralogs, to identify across-species gene families.</li>
+            <li>Expand OrthoFinder gene families with within-species-miniprot for more gene-family members in each species</li>
+            <li>
+                Check gene families for X- and Y-linkage, split by annot-Y-linked, mini-Y-linked etc. Do some summary statistics.
+                Maybe do a proportion plot within each species? All Y-linked gene families, how many Y/X/A copies do they have on average? 
+                What is the mean distance between two members on the same contig (tandem duplications)? 
+                How many have no introns on any chromosome category (retrotransposition)?
+                How high is the proportion of miniprot-members for all the gene family categories? do Y-linked gene families have more 'pseudogenes'?
+            </li>
+            <li>
+                Try to securely pin the timing of locations to the tree by checking for absence with certainty through between-species miniprot.
+                If a gene family has Y-members in only one species and is Autosome-exclusive in all others this looks like it got translocated onto 
+                the Y in this species only, making it recent. I can double-check this assumption through miniprot by mapping all gene family members 
+                onto all other species and seeing if there are (good?) hits on the Y.
+            </li>
+            <li>
+                Maybe use CPC2 (<a href="https://github.com/gao-lab/CPC2_standalone">GitHub</a>, <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5793834/">Paper</a>) 
+                to assess the coding potential of the annotate genes and varying categories of miniprot hits? This is a bit complicated to run since it needs to use 
+                appropriate noncoding-decoys that I need to make, and also <i>need to check how well the training data matches our beetles, 
+                since they are pretty far from some model organisms.</i>
+            </li>
+            <li>
+                Maybe check gene-family mean sex-bias of X- or Y- linked gene families. I don't want to get into multimapping here, and sebastians data suggests that 
+                gene families mostly follow the same expression direction, so summing all counts from member genes into family-level counts could be 
+                a good ending for this part.
+            </li>
+        </ol>
+    </li>
+    <li>
+        <b>AGORA</b> for ancestral collinearity reconstruction. (Jesper and Filip used that for their PhilTrans paper and recommended it). 
+        <a href="https://github.com/DyogenIBENS/Agora">Github</a>, <a href="https://www.nature.com/articles/s41559-022-01956-z">Paper</a>.
+        <ol>
+            <li>
+                From the abstract: "<i>By comparing successive ancestral genomes along the phylogenetic tree, we estimate the intra- 
+                and interchromosomal rearrangement history of all major vertebrate clades at high resolution</i>".<br>
+                Maybe a more SV-oritented supplement to the very individual-translocation oriented approach above.
+            </li>
+        </ol>
+    </li>
+</ul>
+
 <h1 id="reviews">Reviews</h1>
 
 <ol>
