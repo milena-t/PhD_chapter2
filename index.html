@@ -133,22 +133,24 @@
 </p>
 <details>
     <summary>Species lists and notes</summary>
+    <p>
         Maybe include different Cmac assembly? <a href="https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_058970565.1/">Chinese academy of sciences one</a>, 
         and/or well as Y<sub>L</sub>.<br>
         &rarr; all <i>Chrysomelidae</i> that have a Y and an annotation on the NCBI
+    </p>
             <pre><code>GCA_058970975.1	Acanthoscelides obtectus
 GCA_949316355.1	Bruchidius siliquastri
 GCA_058970565.1	Callosobruchus maculatus (Chinese academy of sciences)
-GCA_026250575.1	Diorhabda carinulata # this is the one with the annotation, but the ritght X is only in GCA_026250575.2
+GCA_026250575.1	Diorhabda carinulata # this is the one with the annotation, but the right X is only in GCA_026250575.2
 GCA_026230105.1	Diorhabda sublineata</code></pre>
-            Additional species I have
+            <p>All <i>C. maculatus</i> species I have:</p>
             <pre><code>Callosobruchus chinensis
 Callosobruchus maculatus Y_s (Lomé)
 Callosobruchus maculatus Y_l (Lomé)
 GCA_058970565.1 Callosobruchus maculatus (China)</code></pre>
-            There is a sister species to <i>B. siliquastri</i> with a 1.2Gb genome that has no annotation but there is RNAseq data, so I will make an annotation and include it.
+            <p>There is a sister species to <i>B. siliquastri</i> with a 1.2Gb genome that has no annotation but there is RNAseq data, so I will make an annotation and include it.</p>
             <pre><code>GCA_964204745.1	Bruchidius varius</code></pre>
-            other <i>Chrysomelidae</i> with a Y chromosome but no annotation:
+            <p>other <i>Chrysomelidae</i> with a Y chromosome but no annotation:</p>
             <pre><code>GCA_982264245.1	Chrysolina hyperici
 GCA_958507055.1	Crioceris asparagi
 GCA_963576515.1	Cryptocephalus primarius
@@ -161,9 +163,7 @@ GCA_947563755.1	Lochmaea crataegi
 GCA_979016925.1	Phaedon cochleariae
 GCA_982319415.1	Phaedon tumidulus
 GCA_980253055.1	Podagrica fuscicornis</code></pre>
-    <p>
-        Full tree with species regardless of annotation:
-    </p>
+    <p>Full topological tree of <i>Chrysomelidae</i> species that have a Y regardless of if they have an annotation:</p>
     <div id="controls">
         <textarea id="newick-exp">(((((Acanthoscelides obtectus)Acanthoscelides,(Bruchidius siliquastri,Bruchidius varius)Bruchidius,(Callosobruchus maculatus,Callosobruchus chinensis)Callosobruchus)Bruchini)Bruchinae,((((Diorhabda carinulata,Diorhabda sublineata,Diorhabda carinata,Diorhabda elongata)Diorhabda,((Galerucella sagittariae)Galerucella nymphaeae complex)Galerucella)Atysites,((Galeruca laticollis)Galeruca)Galerucites,(Lochmaea crataegi)Lochmaea)Galerucini,(((Podagrica fuscicornis)Podagrica)Podagricina)Alticini)Galerucinae,((Crioceris asparagi)Crioceris)Criocerinae,((Cryptocephalus primarius)Cryptocephalus)Cryptocephalinae,(((Gastrophysa viridula)Gastrophysa,(Phaedon cochleariae,Phaedon tumidulus)Phaedon)Chrysomelini)Chrysomelinae)Chrysomelidae);</textarea>
     </div>
