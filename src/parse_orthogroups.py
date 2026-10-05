@@ -46,15 +46,15 @@ def get_orthogroup_sizes(orthogroup_dict, q = 0):
         return OG_sizes_filtered
 
 
-def parse_orthogroups_dict(filepath, species_list):
+def parse_orthogroups_dict(filepath, species_list, OG_header = "HOG"):
     orthogroups_df = pd.read_csv(filepath, sep="\t")
     headers = set(orthogroups_df.columns)
     annot_species = set(species_list)
     headers_keep = list(annot_species & headers)
-    headers = ["HOG"] + headers_keep
+    headers = [f"{OG_header}"] + headers_keep
     
     df = orthogroups_df[headers]
-    df = df.set_index("HOG", drop=True)
+    df = df.set_index(f"{OG_header}", drop=True)
     df_dict = df.to_dict(orient="index")
     
     return df_dict
@@ -109,7 +109,7 @@ def get_species_in_OG_dict(OG_dict:dict) -> list:
 
 
 
-def parse_orthogroups_with_gff_class(filepath, annotations_dict, sex_chr_dict, miniprot_paths_dict = {}):
+def parse_orthogroups_with_gff_class(filepath, annotations_dict, sex_chr_dict, unassigned_genes_path = "", miniprot_paths_dict = {}):
     """
     Get a dictionary of all the orthogroups with counts for the sex chromosomes
     dict_out = { 
@@ -123,14 +123,23 @@ def parse_orthogroups_with_gff_class(filepath, annotations_dict, sex_chr_dict, m
     """
 
     annot_species = list(annotations_dict.keys())
-    annot_HOG_dict = parse_orthogroups_dict(filepath=filepath, species_list=annot_species)
+    annot_placed_dict = parse_orthogroups_dict(filepath=filepath, species_list=annot_species, OG_header="HOG")
+    annot_unplaced_dict = parse_orthogroups_dict(filepath=unassigned_genes_path, species_list=annot_species, OG_header="Orthogroup")
 
+    annot_HOG_dict = annot_placed_dict | annot_unplaced_dict
+
+    print(f"--- read gff annotations ---")
     annot_gff_dict = { species : gff.parse_gff3_general(annotations_dict[species], keep_feature_category=gff.FeatureCategory.Transcript, verbose=False) for species in annot_species}
-    
+    print(f"----------------------------")
+
     hog_sexchr_dict = {}
 
     if miniprot_paths_dict != {}:
+        print(f"--- read miniprot annotations ---")
         miniprot_dict = { species : minialn.miniprot_parse_alignment(miniprot_paths_dict[species]) for species in annot_species}
+        print(f"---------------------------------")
+        mini_X = {species : 0 for species in annot_species}
+        mini_Y = {species : 0 for species in annot_species}
 
         for HOG_id , OG_dict in annot_HOG_dict.items():
             sexchr_counts_dict = {}
@@ -148,13 +157,24 @@ def parse_orthogroups_with_gff_class(filepath, annotations_dict, sex_chr_dict, m
                             sex_chr_counts["Y"] += 1
                         else:
                             sex_chr_counts["O"] += 1
-                        if geneID in miniprot_dict:
-                                   
+                        
+                        if geneID in miniprot_dict[species]:
+                            for miniprot_ID in miniprot_dict[species][geneID]:
+                                mini_contig = miniprot_ID.contig
+                            if mini_contig in sex_chr_dict[species]["X"]:
+                                sex_chr_counts["X"] += 1
+                                mini_X[species] += 1
+                            elif mini_contig in sex_chr_dict[species]["Y"]:
+                                sex_chr_counts["Y"] += 1
+                                mini_Y[species] += 1
+                            else:
+                                sex_chr_counts["O"] += 1
                 else:
                     # print(f"   - {species} : 0")
                     pass
                 sexchr_counts_dict[species] = sex_chr_counts
             hog_sexchr_dict[HOG_id] = sexchr_counts_dict
+        print(f"---<>---> mini-X paralogs : {mini_X}\n---<>---> mini-Y paralogs : {mini_Y}\n")
     else:
         for HOG_id , OG_dict in annot_HOG_dict.items():
             sexchr_counts_dict = {}
@@ -233,6 +253,7 @@ if __name__ == "__main__":
 
     data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/orthofinder"
     orthogroups_file = f"{data_dir}/N0.tsv" 
+    unassigned_genes_path = f"{data_dir}/unassigned_genes.tsv" 
     sex_chromosome_contigs = get_contig_names()
     annot_dict = data_paths.annotations_dict(username=username)
     miniprot_dict = data_paths.get_miniprot_paths(username=username)
@@ -245,8 +266,17 @@ if __name__ == "__main__":
         "D_carinulata",
         "D_sublineata"
     ]
-    hog_sexchr_dict = parse_orthogroups_with_gff_class(filepath=orthogroups_file, annotations_dict=annot_dict, sex_chr_dict=sex_chromosome_contigs)
+    if False:
+        hog_sexchr_dict = parse_orthogroups_with_gff_class(filepath=orthogroups_file, annotations_dict=annot_dict, unassigned_genes_path=unassigned_genes_path, sex_chr_dict=sex_chromosome_contigs)
 
-    min_intersection_size = {"X" : 20, "Y" : 0}
-    for chr in ["Y","X"]:
-        upset_HOG_sex_chromosomes(hog_sexchr_dict=hog_sexchr_dict, chr=chr, plot_filename=f"{data_dir}/orthogroup_presence_{chr}_upsetplot.png", min_intersection_size=min_intersection_size[chr])
+        min_intersection_size = {"X" : 20, "Y" : 0}
+        for chr in ["Y","X"]:
+            upset_HOG_sex_chromosomes(hog_sexchr_dict=hog_sexchr_dict, chr=chr, plot_filename=f"{data_dir}/orthogroup_presence_{chr}_upsetplot.png", min_intersection_size=min_intersection_size[chr])
+        
+    if True:
+        mini_hog_sexchr_dict = parse_orthogroups_with_gff_class(filepath=orthogroups_file, annotations_dict=annot_dict, unassigned_genes_path=unassigned_genes_path, sex_chr_dict=sex_chromosome_contigs, miniprot_paths_dict=miniprot_dict)
+
+        min_intersection_size = {"X" : 20, "Y" : 0}
+        for chr in ["Y","X"]:
+            print(f"\n\n>>>>> {chr} <<<<<")
+            upset_HOG_sex_chromosomes(hog_sexchr_dict=mini_hog_sexchr_dict, chr=chr, plot_filename=f"{data_dir}/orthogroup_presence_with_mini_paralogs_{chr}_upsetplot.png", min_intersection_size=min_intersection_size[chr])

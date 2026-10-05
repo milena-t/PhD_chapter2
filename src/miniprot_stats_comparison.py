@@ -301,8 +301,8 @@ def miniprot_parse_alignment(miniprot_file, queryIDs = True, include_cds = False
                 except Exception as e:
                     print(f"mini line could not be parsed! line: \n{mini_line}\nlist ({len(line)} items, should be 9)\n{line}\nerror:\n{e}")
                
-                if category != "mRNA" and include_cds:
-                    if category == "CDS":
+                if category != "mRNA":
+                    if category == "CDS" and include_cds:
                         contig,source,category,start,stop,score,strandedness,frame,attributes_=[c for c in line if len(c)>0]
                         attributes={}
                         for attr in attributes_.strip().split(";"):
@@ -330,10 +330,15 @@ def miniprot_parse_alignment(miniprot_file, queryIDs = True, include_cds = False
                             attributes[key]=value.split()[0]
                         else:
                             attributes[key]=value
+                    try:
+                        attributes["ID"]
+                    except:
+                        raise RuntimeError(f" ID not found in attributes {attributes} parsed from line: \n{mini_line}")
+                    
                     mini_alignment = MiniAln(
-                        ID=attributes["ID"], target=attributes["Target"], rank=int(attributes["Rank"]), identity=float(attributes["Identity"]), 
-                        contig=contig, start=int(start), end=int(stop)
-                    )
+                            ID=attributes["ID"], target=attributes["Target"], rank=int(attributes["Rank"]), identity=float(attributes["Identity"]), 
+                            contig=contig, start=int(start), end=int(stop)
+                        )
                     count_aln+=1
                     if queryIDs:
                         if  attributes["Target"] in geneIDs_map_counts:
