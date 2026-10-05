@@ -727,8 +727,9 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 
 <p>Ideas for other things if there is time</p>
 <ul>
-    <li>gene length (should be easy)</li>
-    <li>GC content (check if miniprot alignments can be extracted as nucleotide fasta </li>
+    <li>number of introns</li>
+    <li>gene length (sum of all intron lengths per gene)</li>
+    <li>GC content (check if miniprot alignments can be extracted as nucleotide fasta)</li>
 </ul>
 
 <h2 id="res-chrysomelidae-wga">Whole genome alignments</h2>
@@ -1109,13 +1110,15 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 
 <p>
     There is not a lot of whole-genome overlap for these species, except for the <i>Diorhabda</i>, but the protein synteny is probably much higher.
+    The percentage represents the percent of reference sequence covered by query sequence alignments, which is why it is not symmetrical. I have 
+    log-transformed the heatmap colors for better interpretability, since otherwise everything except within <i>Diorhabda</i> is the same shade of red.
 </p>
 
 <p style="margin-top: 2em;"></p>
 <div style="float: left;width: 48%;">
     <p><b>X-chromosome</b></p>
     <div class="tab">
-        <button class="tablinks" onclick="openTab(event, 'heatmap_log_X')">log colors</button>
+        <button class="tablinks" onclick="openTab(event, 'heatmap_log_X')">log-transformed colors</button>
         <button class="tablinks" onclick="openTab(event, 'heatmap_norm_X')">normal colors</button>
     </div>
     <div id="heatmap_log_X" class="tabcontent">
@@ -1132,7 +1135,7 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 <div style="float: right;width: 48%;">
     <p><b>Y-chromosome</b></p>
     <div class="tab">
-        <button class="tablinks" onclick="openTab(event, 'heatmap_log_Y')">log colors</button>
+        <button class="tablinks" onclick="openTab(event, 'heatmap_log_Y')">log-transformed colors</button>
         <button class="tablinks" onclick="openTab(event, 'heatmap_norm_Y')">normal colors</button>
     </div>
     <div id="heatmap_log_Y" class="tabcontent">
@@ -1226,7 +1229,8 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 
 <p>
     Unclear why the chinese assembly as reference has 0% overlap? I think it is maybe to do with the <code>delta-filter</code> flags, and that I can't use the 
-    bidirectional <code>-m</code> because it takes too long so somehow all reference-overlaps get filtered? 
+    bidirectional <code>-m</code> because it takes too long so somehow all reference-overlaps get filtered? Same for the Y Lome-alignment. Something 
+    about this filtering calculation is weird in one direction because I can't use <code>-m</code>, but it
 </p>
 
 <p style="margin-top: 2em;"></p>
