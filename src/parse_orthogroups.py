@@ -149,7 +149,7 @@ def parse_orthogroups_with_gff_class(filepath, annotations_dict, sex_chr_dict, m
                         else:
                             sex_chr_counts["O"] += 1
                         if geneID in miniprot_dict:
-                            
+                                   
                 else:
                     # print(f"   - {species} : 0")
                     pass
