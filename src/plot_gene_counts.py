@@ -241,11 +241,18 @@ if __name__=="__main__":
 "B_varius",
 "D_carinulata",
 "D_sublineata"]
-    data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/"
-    plot_gene_counts(
-        annot_dict=annot_dict, 
-        species_tree=species_order, 
-        sex_chromosomes_dict=sex_chromosome_contigs, 
-        chr_list=["X","Y"], 
-        miniprot_dict=miniprot_dict,
-        filename = f"{data_dir}sex_chromosome_gene_counts.png")
+
+    if False:
+        data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/"
+        plot_gene_counts(
+            annot_dict=annot_dict, 
+            species_tree=species_order, 
+            sex_chromosomes_dict=sex_chromosome_contigs, 
+            chr_list=["X","Y"], 
+            miniprot_dict=miniprot_dict,
+            filename = f"{data_dir}sex_chromosome_gene_counts.png")
+
+    if True:
+        """
+        TODO plot exon counts, hist for each species like gene length in chapter 1, see PhD_chapter1/src/plotting/plot_basics.py plot_histogram_protein_properties()
+        """

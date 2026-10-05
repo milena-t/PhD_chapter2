@@ -79,19 +79,19 @@ body {
   margin-top: 1em;
 }
   
-  /* Style the buttons that are used to open the tab content */
-  .tab button {
-    background-color: inherit;
-    float: left;
-    color: #44506e;
-    font-weight: bold;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
-    font-size: 0.9rem;
-  }
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  float: left;
+  color: #44506e;
+  font-weight: bold;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 0.9rem;
+}
   
 /* Change background color of buttons on hover */
 .tab button:hover {
@@ -178,7 +178,7 @@ body {
     border-radius: 10px 10px 10px 10px;
     border-bottom-style: solid;
     border-bottom-color: #C2C8D6;
-    border-bottom-width: 0.1em;
+    border-bottom-width: var(--tab-border-width);
     text-decoration: none;
 }
 .sidebar-element:hover {
@@ -228,7 +228,7 @@ textarea {
     overflow: auto;
     background: #eaebee;
     border-radius: 10px 10px 10px 10px;
-    border: 1.5px solid #909bb5;
+    border: var(--tab-border-width) solid #C2C8D6;;
   }
 .branch {
     stroke: #44506e;

@@ -274,6 +274,7 @@ def miniprot_parse_alignment(miniprot_file, queryIDs = True, include_cds = False
         target (genomeAnnot transcriptID) : [ MiniAln(class)1, MiniAln(class)2, ... ],
     }
     if queryIDs=False, then the dict is not nested with a list, and its jus the miniprot aln IDs with the class as the key
+    if include_cds=True, read only CDS features (exons) and put them in a non-nexted dict with custom keys based on the parent ID
     """
     geneIDs_map_counts = {}
     count_paf = 0
