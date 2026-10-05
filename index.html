@@ -2816,8 +2816,49 @@ The min. sequence identity threshold is 95%, for min intron length see methods s
 
 </details>
 
-<h3>Relevant orthofinder output</h3>
+<h3>Sex chromosome presence</h3>
 
+<h4>Only gff-annotated proteins without miniprot paralogs</h4>
+
+<div style="float: left;width: 48%;">
+    <p>
+        Orthogroups with at least one member on the <b>X chromosome</b><br>
+        12886 orthogroups non-X-exclusive, 1757 are X-linked in at least one species
+    </p>
+    <p float="left">
+        <img loading="lazy" src="data/orthofinder/orthogroup_presence_X_upsetplot.png" width="90%" />
+    </p>
+    <p>
+        Mainly syntenic. <i>Diorhabda</i> (the most distant genus with two close relatives), has a lot of exclusive genes, but they have lots of X-genes in general with 
+        also many 1-to-1 orthologs and high genome alignment percentage, so this is not surprising. The second largest group is syntenic in all, and the next largest shared
+        group after that is only missing in <i>C. chinensis</i>, which is potentially more an effect of the fragemnted assembly having some short X-linked contigs that get not 
+        identified as X in SATC with the size cutoff than a biological difference. 
+    </p>
+    <p><span style="color:#BD351E">Investigate the species-exclusive OGs? GO-term enrichment?</span></p>
+</div>
+<div style="float: right;width: 48%;">
+    <p>
+        Orthogroups with at least one member on the <b>Y chromosome</b><br>
+        14432 orthogroups non-Y-exclusive, 211 are Y-linked in at least one species.
+    </p>
+    <p float="right">
+        <img loading="lazy" src="data/orthofinder/orthogroup_presence_Y_upsetplot.png" width="90%" />
+    </p>
+    <p>
+        Mostly non-syntenic, even for the <i>Diorhabda</i> genus, they have more exclusive than in common. After <i>Diorhabda</i>, the next shared ones
+        don't seem to have a phylogenetic pattern (i.e. an identifiable monophyletic group). This is mostly as expected also from the synteny plot, where 
+        the Y does not have any ribbons with anything else, and also the nucleotide alignments.
+    </p>
+</div>
+<div style="clear: both;"></div>
+
+<h4>Annotated proteins as well as within-species miniprot paralogs</h4>
+
+<p>
+    I will expand the orthofinder orthogroups by also including the miniprot paralogs identified by the within-species miniprot search. They are unique paralogs 
+    not overlapping with already annotated genes or paralogs from other genes (see filtering and numbers summary in the <a href="index.html#methods_BRH">relevant method section</a>).
+    Note that the numbers here are kind of 'inverse' to the sex-linked genes above, the <i>Diorhabda</i> genus has few paralogs, the other species many.
+</p>
 
 
 
