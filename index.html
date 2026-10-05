@@ -499,7 +499,8 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 <ol>
     <li>
         OrthoFinder run with only annotated genes, no miniprot paralogs, to identify across-species gene families. <span style="color:#909bb5">
-        I also include the chinese <i>C. maculatus</i> population in case I want to use it for anything later.</span> 
+        I also include the chinese <i>C. maculatus</i> population in case I want to use it for anything later.</span> I will use the Hierarchical 
+        Orthogroups file <code>N0.tsv</code> again and repurpose some of the parsing code I wrote for chapter 1.
     </li>
     <li>
         Expand OrthoFinder gene families with within-species-miniprot for more gene-family members in each species. This removes preliminary 
@@ -2769,17 +2770,8 @@ The min. sequence identity threshold is 95%, for min intron length see methods s
 <p>Results are here on uppmax: <code>/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/orthofinder/orthofinder_chrysomelidae/Results_Sep22/</code></p>
 
 <h3>Species tree</h3>
+<!-- <span style="color:#BD351E"></span> -->
 
-<p>
-    Results agree mostly but not completely with the topological tree in the <a href="index.html#methods-data">data summary</a> that uses the NCBI taxonomy.
-    The Data tree has a three-way split at the <i>Bruchini</i> node, with <i>Callosobruchus</i> and <i>Bruchidius</i> both having two sister species in the genus, 
-    but here this is resolved NOT by <i>Bruchidius varius</i> and <i>siliquastri</i> as sister species, instead <span style="color:#BD351E"> <i>B. siliquastri</i> 
-    splits off at N3, and is not a sister species to <i>B. varius</i>.</span>
-</p>
-<p>
-    The <i>Diorhabda</i> sister species are much more closely related to each other than any other pair. This also shows up in the Y-protein synteny in the circos 
-    plots above, but it is really clear here, they are about as close as the two <i>C. maculatus</i> populations.
-</p>
 
 <div id="controls">
     <textarea id="newick_OF">((D_sublineata:0.0096318,D_carinulata:0.0110156)N1:0.199491,(A_obtectus:0.0828729,(B_siliquastri:0.09565,((C_chinensis:0.048214,(C_maculatus_Lome:0.00774415,C_maculatus_China:0.00877372)N6:0.0328244)N5:0.0211248,B_varius:0.0412411)N4:0.0216927)N3:0.0231131)N2:0.199491)N0;</textarea>
@@ -2789,18 +2781,45 @@ The min. sequence identity threshold is 95%, for min intron length see methods s
 </div>
 <script>initTree('newick_OF', 'tree-svg-of');</script>
 
-<p style="margin-top: 1em;">
-    Orthofinder gives an unrooted tree with branch support that indicates what proportion of gene trees support any node split. Note that the N2, N3, N4 nodes that are 
-    the problematic ones have a lower support than the rest.
-</p>
+<details>
+<summary>Inconsistency with the NCBI taxonomy</summary>
+    <p>
+        Results agree mostly but not completely with the topological tree in the <a href="index.html#methods-data">data summary</a> that uses the NCBI taxonomy.
+        The Data tree has a three-way split at the <i>Bruchini</i> node, with <i>Callosobruchus</i> and <i>Bruchidius</i> both containing two sister species in the genus, 
+        but here this is resolved NOT by <i>Bruchidius varius</i> and <i>siliquastri</i> as sister species, instead <i>B. siliquastri</i> 
+        splits off at N3, and is not a sister species to <i>B. varius</i>. 
+    </p>
+    <p>
+        The <i>Diorhabda</i> sister species are much more closely related to each other than any other pair. This also shows up in the Y-protein synteny in the circos 
+        plots above, but it is really clear here, they are about as close as the two <i>C. maculatus</i> populations.
+    </p>
+    
+    <p style="margin-top: 1em;">
+        Orthofinder gives a tree with branch support that indicates what proportion of gene trees support any node split. Note that the N3 and N4 nodes that are 
+        problematic above also have a lower support than the rest. It seems like this is a complicated taxonomy to resolve
+    </p>
+    
+    <div id="controls">
+        <textarea id="newick_OF_unrooted">((D_sublineata:0.0096318,D_carinulata:0.0110156)0.997288:0.199491,(A_obtectus:0.0828729,(B_siliquastri:0.09565,((C_chinensis:0.048214,(C_maculatus_Lome:0.00774415,C_maculatus_China:0.00877372)0.868143:0.0328244)0.690325:0.0211248,B_varius:0.0412411)0.61965:0.0216927)0.460217:0.0231131)0.997288:0.199491);</textarea>
+    </div>
+    <div id="tree-container">
+        <svg id="tree-svg-of_unrooted" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+    <script>initTree('newick_OF_unrooted', 'tree-svg-of_unrooted');</script>
+    
+    <p>
+        We have decided to move on with the orthofinder tree as-is and not try to adjust it to match the NCBI taxonomy. There are two reasons: The first is that 
+        NCBI taxonomy can be wrong or outdated in some cases, the other is that the problematic nodes have lower branch support anyways, indicating that this would
+        be difficult and time intensive to investigate. Since my defense is soon and this is not at all the focus of the study, I will just accept the orthofinder 
+        tree for now.
+    </p>
 
-<div id="controls">
-    <textarea id="newick_OF_unrooted">(C_chinensis:0.048214,(C_maculatus_china:0.00877372,C_maculatus_Lome:0.00774415)0.868143:0.0328244,(B_varius:0.0412411,((A_obtectus:0.0828729,(D_carinulata:0.0110156,D_sublineata:0.0096318)0.997288:0.398982)0.460217:0.0231131,B_siliquastri:0.09565)0.61965:0.0216927)0.690325:0.0211248);</textarea>
-</div>
-<div id="tree-container">
-    <svg id="tree-svg-of_unrooted" xmlns="http://www.w3.org/2000/svg"></svg>
-</div>
-<script>initTree('newick_OF_unrooted', 'tree-svg-of_unrooted');</script>
+</details>
+
+<h3>Relevant orthofinder output</h3>
+
+
+
 
 </div>
 </div>

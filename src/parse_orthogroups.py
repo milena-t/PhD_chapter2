@@ -40,36 +40,6 @@ def get_orthogroup_sizes(orthogroup_dict, q = 0):
         return OG_sizes_filtered
 
 
-def parse_CAFE_output(filepath):
-    """
-    parse the CAFE family_results.tsv output to a dictionary with OG_id:str keys and p-value:float values
-    """
-    out_dict = {}
-    with open(filepath, "r") as file:
-        next(file) # skip first line with file headers
-        for line in file.readlines():
-            line = line.strip().split("\t")
-            out_dict[line[0]] = float(line[1])
-    return out_dict
-
-
-def get_sig_orthogroups(filepath, p_sig = 0.05):
-    """ 
-    get a list of significant orthogroup IDs from CAFE output
-    """
-    sig_list = []
-    all_list = []
-    with open(filepath, "r") as file:
-        next(file) # skip first line
-        for line in file:
-            orthogroup, p_value, sig_bool = line.strip().split("\t")
-            if float(p_value)<p_sig:
-                sig_list.append(orthogroup)
-            all_list.append(orthogroup)
-
-    return(sig_list, all_list)
-
-
 def parse_orthogroups_dict(filepath, sig_list:list[str] = [], species = ""):
     """
     Get a dictionary of all the orthogroups like below. if a list of significant orthogroups from CAFE is included then only parse those ones.
