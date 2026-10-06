@@ -31,7 +31,7 @@ do
 
     ANNOT_TRANSCRIPTS=${ANNOT_GFF_RAW}_transcripts.fna
     ANNOT_PROTEINS=${ANNOT_GFF_RAW}_proteins.faa
-    TRANSEQ_PATH=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/software_install/emboss/EMBOSS-6.6.0/EMBOSS-6.6.0/bin/transeq
+    TRANSEQ_PATH=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/software_install/emboss/EMBOSS-6.6.0/emboss/transeq
 
     echo $(pwd)
     echo $(ls -lh $ASSEMBLY)
