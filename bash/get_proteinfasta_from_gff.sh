@@ -15,13 +15,19 @@ module load gffread/0.12.7-GCCcore-13.3.0 SAMtools/1.22-GCC-13.3.0 AGAT/1.6.1-GC
 
 ASS_DIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/assemblies
 MINI_DIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/paralogs_tblastn/miniprot
+TRANSEQ_PATH=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/software_install/emboss/EMBOSS-6.6.0/emboss/transeq
+
+TRANSEQ_PATH=/Users/miltr339/work/software/EMBOSS-6.6.0/emboss/transeq
+
+
+# for SPECIES in A_obtectus B_siliquastri B_varius C_chinensis C_maculatus D_carinulata D_sublineata ;do rsync -azP "${SPECIES}_miniprot_no_cross_no_self_hits.gff" "milenatr@pelle.uppmax.uu.se:/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/paralogs_tblastn/miniprot/${SPECIES}_miniprot_no_cross_no_self_hits.gff" ; done
 
 for SPECIES in A_obtectus B_siliquastri B_varius C_chinensis C_maculatus D_carinulata D_sublineata 
 
 do 
     echo " *** -${SPECIES}- *** "
 
-    ANNOT_GFF_RAW="${MINI_DIR}/${SPECIES}.masked_align.gff"
+    ANNOT_GFF_RAW="${MINI_DIR}/${SPECIES}_miniprot_no_cross_no_self_hits.gff"
     ANNOT_GFF="${MINI_DIR}/${SPECIES}.masked_align_noPAF.gff"
     ASSEMBLY="${ASS_DIR}/${SPECIES}.masked.fna" 
 
@@ -32,7 +38,7 @@ do
 
     ANNOT_TRANSCRIPTS=${ANNOT_GFF_RAW}_transcripts.fna
     ANNOT_PROTEINS=${ANNOT_GFF_RAW}_proteins.faa
-    TRANSEQ_PATH=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/software_install/emboss/EMBOSS-6.6.0/emboss/transeq
+    
 
     echo $(pwd)
     echo $(ls -lh $ASSEMBLY)
