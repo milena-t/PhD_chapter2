@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 from statistics import mean
 import matplotlib.pyplot as plt
+import warnings
 
 import parse_gff as gff
 from sex_chromosomes import get_contig_names
@@ -202,17 +203,23 @@ def parse_orthogroups_with_gff_class(filepath, annotations_dict, sex_chr_dict, u
 
 
 
-def upset_HOG_sex_chromosomes(hog_sexchr_dict, chr = "Y", plot_filename = "upsetplot.png", min_intersection_size = 0):
+def upset_HOG_sex_chromosomes(hog_sexchr_dict, chr_string = "Y", plot_filename = "upsetplot.png", min_intersection_size = 0):
 
     hog_sexchr_unnested = []
     autosome_excl = 0
     chr_linked = 0
+
     for HOG_id, sexchr_species_dict in hog_sexchr_dict.items():
         species_incl = []
         for species, sexchr_dict in sexchr_species_dict.items():
-            if sexchr_dict[chr] >0:
+            allchr_present = 0
+            for chr in chr_string:
+                if sexchr_dict[chr] >0:
+                    allchr_present += 1
+            if len(chr_string) == allchr_present:
                 species_ = species.replace("_", ". ")
                 species_incl.append(f"\\textit{{{species_}}}")
+
         
         # only plot ones with at least one {chr}-linked member
         if species_incl !=[]:
@@ -230,8 +237,15 @@ def upset_HOG_sex_chromosomes(hog_sexchr_dict, chr = "Y", plot_filename = "upset
     plt.rcParams['font.size'] = 16
     fig = plt.figure()
 
+    warnings.filterwarnings("ignore", category=FutureWarning)
+    warnings.filterwarnings("ignore", category=UserWarning)
     data = upsetplot.from_memberships(hog_sexchr_unnested)
     upsetplot.UpSet(data, subset_size="count", sort_by="cardinality", sort_categories_by="input", show_counts=True, min_subset_size=min_intersection_size).plot(fig=fig)
+
+    if len(chr_string)==1:
+        chr = chr_string
+    elif len(chr_string)>1:
+        chr = "X and Y"
 
     if min_intersection_size>0:
         plot_title = f"Orthogroup presence on {chr} (intersection size $>$ {min_intersection_size})"
@@ -266,17 +280,23 @@ if __name__ == "__main__":
         "D_carinulata",
         "D_sublineata"
     ]
-    if False:
-        hog_sexchr_dict = parse_orthogroups_with_gff_class(filepath=orthogroups_file, annotations_dict=annot_dict, unassigned_genes_path=unassigned_genes_path, sex_chr_dict=sex_chromosome_contigs)
 
-        min_intersection_size = {"X" : 20, "Y" : 0}
-        for chr in ["Y","X"]:
-            upset_HOG_sex_chromosomes(hog_sexchr_dict=hog_sexchr_dict, chr=chr, plot_filename=f"{data_dir}/orthogroup_presence_{chr}_upsetplot.png", min_intersection_size=min_intersection_size[chr])
-        
-    if True:
-        mini_hog_sexchr_dict = parse_orthogroups_with_gff_class(filepath=orthogroups_file, annotations_dict=annot_dict, unassigned_genes_path=unassigned_genes_path, sex_chr_dict=sex_chromosome_contigs, miniprot_paths_dict=miniprot_dict)
+    #################################################
+    only_gff = False    # if True: only read the orthogroups from orthofinder and don't add the within-species paralogs from miniprot ; if False: include the miniprot paralogs
+    #################################################
+    
+    if only_gff:
+        miniprot_dict = {}
+        mini_filename = ""
+    else:
+        miniprot_dict = data_paths.get_miniprot_paths(username=username)
+        mini_filename = "with_mini_paralogs_"
 
-        min_intersection_size = {"X" : 20, "Y" : 0}
-        for chr in ["Y","X"]:
-            print(f"\n\n>>>>> {chr} <<<<<")
-            upset_HOG_sex_chromosomes(hog_sexchr_dict=mini_hog_sexchr_dict, chr=chr, plot_filename=f"{data_dir}/orthogroup_presence_with_mini_paralogs_{chr}_upsetplot.png", min_intersection_size=min_intersection_size[chr])
+    ### read dict with sex chromosome 
+    mini_hog_sexchr_dict = parse_orthogroups_with_gff_class(filepath=orthogroups_file, annotations_dict=annot_dict, unassigned_genes_path=unassigned_genes_path, sex_chr_dict=sex_chromosome_contigs, miniprot_paths_dict=miniprot_dict)
+    
+    ### plot the upsetplot for the different chromosome categories
+    min_intersection_size = {"X" : 20, "Y" : 0, "XY" : 0}
+    for chr in ["Y","X","XY"]:
+        print(f"\n\n>>>>> {chr} <<<<<")
+        upset_HOG_sex_chromosomes(hog_sexchr_dict=mini_hog_sexchr_dict, chr_string=chr, plot_filename=f"{data_dir}/orthogroup_presence_{mini_filename}{chr}_upsetplot.png", min_intersection_size=min_intersection_size[chr])

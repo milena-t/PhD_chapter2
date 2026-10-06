@@ -2830,7 +2830,7 @@ The min. sequence identity threshold is 95%, for min intron length see methods s
 <div style="float: left;width: 48%;">
     <h4>X chromosome</h4>
     <p>
-        Orthogroups with at least one member on the X chromosome, overlaps show in which species the orthogroup is X-linked, absence includes no Y-linkage.
+        Orthogroups with at least one member on the X chromosome, overlaps show in which species the orthogroup is X-linked, absence includes no X-linkage.
     </p>
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'X_gff_upset')">only gff annotation</button>
@@ -2917,6 +2917,36 @@ The min. sequence identity threshold is 95%, for min intron length see methods s
     <i>B. siliquastri</i> the number of species-exclusive X-linked genes even decreases. This can be the case if an orthogroup member 
     in another species that was previously only autosomal has an X-linked miniprot paralog (e.g. <i>B. siliquastri</i> and <i>B. varius</i> X-linked genes increase).
 </p>
+
+<h4>Orthologs that are on the X and Y chromosome</h4>
+
+
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'XY_gff_upset')">only gff annotation</button>
+    <button class="tablinks" onclick="openTab(event, 'XY_gff_mini_upset')">including miniprot paralogs</button>
+</div>
+<div id="XY_gff_upset" class="tabcontent">
+    <div style="float: left;width: 48%;">
+        <p float="right">
+            <img loading="lazy" src="data/orthofinder/orthogroup_presence_XY_upsetplot.png" width="90%" />
+        </p>
+    </div>
+    <div style="float: right;width: 48%;">
+    
+    </div>
+    <div style="clear: both;"></div>
+</div>
+<div id="XY_gff_mini_upset" class="tabcontent">
+    <div style="float: left;width: 48%;">
+        <p float="right">
+            <img loading="lazy" src="data/orthofinder/orthogroup_presence_with_mini_paralogs_XY_upsetplot.png" width="90%" />
+        </p>
+    </div>
+    <div style="float: right;width: 48%;">
+    
+    </div>
+    <div style="clear: both;"></div>
+</div>
 
 </div>
 </div>
