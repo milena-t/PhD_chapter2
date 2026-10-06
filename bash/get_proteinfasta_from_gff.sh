@@ -22,6 +22,7 @@ do
     echo " *** -${SPECIES}- *** "
 
     ANNOT_GFF_RAW="${MINI_DIR}/${SPECIES}.masked_align.gff"
+    ANNOT_GFF="${MINI_DIR}/${SPECIES}.masked_align_noPAF.gff"
     ASSEMBLY="${ASS_DIR}/${SPECIES}.masked.fna" 
 
     echo "---------------------------------------------"
@@ -43,13 +44,15 @@ do
     # agat_sp_fix_cds_phases.pl --gff $ANNOT_GFF_ID --fasta $ASSEMBLY -o $ANNOT_GFF
     # rm $ANNOT_GFF_ID
 
-
     # index assemblies (greatly decreases computing time, and won't work for the more fragmented callosobruchus assemblies otherwise)
     # samtools faidx $ASSEMBLY
 
+    ## remove PAF lines
+    grep -v '^##PAF' $ANNOT_GFF_RAW > $ANNOT_GFF
+
     # extract transcript sequences
-    echo "gffread $ANNOT_GFF_RAW -M -x $ANNOT_TRANSCRIPTS -g $ASSEMBLY"
-    gffread $ANNOT_GFF_RAW -M -x $ANNOT_TRANSCRIPTS -g $ASSEMBLY
+    echo "gffread $ANNOT_GFF -M -x $ANNOT_TRANSCRIPTS -g $ASSEMBLY"
+    gffread $ANNOT_GFF -M -x $ANNOT_TRANSCRIPTS -g $ASSEMBLY
 
     # gffread $ANNOT_GFF -g $ASSEMBLY -y $ANNOT_PROTEINS
 
