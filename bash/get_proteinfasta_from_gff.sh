@@ -17,7 +17,7 @@ ASS_DIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/assemblies
 MINI_DIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/paralogs_tblastn/miniprot
 TRANSEQ_PATH=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/software_install/emboss/EMBOSS-6.6.0/emboss/transeq
 
-TRANSEQ_PATH=/Users/miltr339/work/software/EMBOSS-6.6.0/emboss/transeq
+# TRANSEQ_PATH=/Users/miltr339/work/software/EMBOSS-6.6.0/emboss/transeq
 
 
 # for SPECIES in A_obtectus B_siliquastri B_varius C_chinensis C_maculatus D_carinulata D_sublineata ;do rsync -azP "${SPECIES}_miniprot_no_cross_no_self_hits.gff" "milenatr@pelle.uppmax.uu.se:/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/paralogs_tblastn/miniprot/${SPECIES}_miniprot_no_cross_no_self_hits.gff" ; done
