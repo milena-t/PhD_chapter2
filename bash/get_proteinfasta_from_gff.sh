@@ -17,43 +17,47 @@ ASS_DIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/assemblies
 MINI_DIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/paralogs_tblastn/miniprot
 
 for SPECIES in A_obtectus B_siliquastri B_varius C_chinensis C_maculatus D_carinulata D_sublineata 
+
 do 
+    echo " *** -${SPECIES}- *** "
 
-ANNOT_GFF_RAW="${MINI_DIR}/${SPECIEs}.masked_align.gff"
-ASSEMBLY="${ASS_DIR}/${SPECIES}.masked.fna" 
+    ANNOT_GFF_RAW="${MINI_DIR}/${SPECIES}.masked_align.gff"
+    ASSEMBLY="${ASS_DIR}/${SPECIES}.masked.fna" 
 
-echo " * ${ANNOT_GFF_RAW}"
-echo " * ${ASSEMBLY}"
+    echo "---------------------------------------------"
+    echo " * ${ANNOT_GFF_RAW}"
+    echo " * ${ASSEMBLY}"
+    echo "---------------------------------------------"
 
-ANNOT_TRANSCRIPTS=${ANNOT_GFF_RAW}_transcripts.fna
-ANNOT_PROTEINS=${ANNOT_GFF_RAW}_proteins.faa
-TRANSEQ_PATH=/proj/naiss2023-6-65/Milena/software_install/emboss/EMBOSS-6.6.0/EMBOSS-6.6.0/bin/transeq
+    ANNOT_TRANSCRIPTS=${ANNOT_GFF_RAW}_transcripts.fna
+    ANNOT_PROTEINS=${ANNOT_GFF_RAW}_proteins.faa
+    TRANSEQ_PATH=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/software_install/emboss/EMBOSS-6.6.0/EMBOSS-6.6.0/bin/transeq
 
-echo $(pwd)
-echo $(ls -lh $ASSEMBLY)
+    echo $(pwd)
+    echo $(ls -lh $ASSEMBLY)
 
-## fix IDs and cds reading frame with AGAT
-# ANNOT_GFF_ID=${ANNOT_GFF_RAW}_AGAT_ID.gff
-# agat_sp_manage_IDs.pl --gff $ANNOT_GFF_RAW -o $ANNOT_GFF_ID
-# ANNOT_GFF=${ANNOT_GFF_ID}_CDS.gff
-# agat_sp_fix_cds_phases.pl --gff $ANNOT_GFF_ID --fasta $ASSEMBLY -o $ANNOT_GFF
-# rm $ANNOT_GFF_ID
+    ## fix IDs and cds reading frame with AGAT
+    # ANNOT_GFF_ID=${ANNOT_GFF_RAW}_AGAT_ID.gff
+    # agat_sp_manage_IDs.pl --gff $ANNOT_GFF_RAW -o $ANNOT_GFF_ID
+    # ANNOT_GFF=${ANNOT_GFF_ID}_CDS.gff
+    # agat_sp_fix_cds_phases.pl --gff $ANNOT_GFF_ID --fasta $ASSEMBLY -o $ANNOT_GFF
+    # rm $ANNOT_GFF_ID
 
 
-# index assemblies (greatly decreases computing time, and won't work for the more fragmented callosobruchus assemblies otherwise)
-# samtools faidx $ASSEMBLY
+    # index assemblies (greatly decreases computing time, and won't work for the more fragmented callosobruchus assemblies otherwise)
+    # samtools faidx $ASSEMBLY
 
-# extract transcript sequences
-echo "gffread $ANNOT_GFF -M -x $ANNOT_TRANSCRIPTS -g $ASSEMBLY"
-gffread $ANNOT_GFF -M -x $ANNOT_TRANSCRIPTS -g $ASSEMBLY
+    # extract transcript sequences
+    echo "gffread $ANNOT_GFF -M -x $ANNOT_TRANSCRIPTS -g $ASSEMBLY"
+    gffread $ANNOT_GFF -M -x $ANNOT_TRANSCRIPTS -g $ASSEMBLY
 
-# gffread $ANNOT_GFF -g $ASSEMBLY -y $ANNOT_PROTEINS
+    # gffread $ANNOT_GFF -g $ASSEMBLY -y $ANNOT_PROTEINS
 
-# change fasta headers to include species names
-# sed -i "s/>/>${SPECIES_NAME}_/g" $ANNOT_TRANSCRIPTS
-# translate transcript sequences
-$TRANSEQ_PATH -sequence $ANNOT_TRANSCRIPTS -outseq $ANNOT_PROTEINS
-ls -lh $ANNOT_TRANSCRIPTS
-echo "###########################################"
+    # change fasta headers to include species names
+    # sed -i "s/>/>${SPECIES_NAME}_/g" $ANNOT_TRANSCRIPTS
+    # translate transcript sequences
+    $TRANSEQ_PATH -sequence $ANNOT_TRANSCRIPTS -outseq $ANNOT_PROTEINS
+    ls -lh $ANNOT_TRANSCRIPTS
+    echo "###########################################"
 
 done
