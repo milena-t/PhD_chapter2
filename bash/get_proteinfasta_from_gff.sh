@@ -48,16 +48,16 @@ do
     # samtools faidx $ASSEMBLY
 
     # extract transcript sequences
-    echo "gffread $ANNOT_GFF -M -x $ANNOT_TRANSCRIPTS -g $ASSEMBLY"
-    gffread $ANNOT_GFF -M -x $ANNOT_TRANSCRIPTS -g $ASSEMBLY
+    echo "gffread $ANNOT_GFF_RAW -M -x $ANNOT_TRANSCRIPTS -g $ASSEMBLY"
+    gffread $ANNOT_GFF_RAW -M -x $ANNOT_TRANSCRIPTS -g $ASSEMBLY
 
     # gffread $ANNOT_GFF -g $ASSEMBLY -y $ANNOT_PROTEINS
 
     # change fasta headers to include species names
     # sed -i "s/>/>${SPECIES_NAME}_/g" $ANNOT_TRANSCRIPTS
     # translate transcript sequences
-    # $TRANSEQ_PATH -sequence $ANNOT_TRANSCRIPTS -outseq $ANNOT_PROTEINS
-    # ls -lh $ANNOT_TRANSCRIPTS
+    $TRANSEQ_PATH -sequence $ANNOT_TRANSCRIPTS -outseq $ANNOT_PROTEINS
+    ls -lh $ANNOT_TRANSCRIPTS
     echo "###########################################"
 
 done
