@@ -56,8 +56,8 @@ do
     # change fasta headers to include species names
     # sed -i "s/>/>${SPECIES_NAME}_/g" $ANNOT_TRANSCRIPTS
     # translate transcript sequences
-    $TRANSEQ_PATH -sequence $ANNOT_TRANSCRIPTS -outseq $ANNOT_PROTEINS
-    ls -lh $ANNOT_TRANSCRIPTS
+    # $TRANSEQ_PATH -sequence $ANNOT_TRANSCRIPTS -outseq $ANNOT_PROTEINS
+    # ls -lh $ANNOT_TRANSCRIPTS
     echo "###########################################"
 
 done
