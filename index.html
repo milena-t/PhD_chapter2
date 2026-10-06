@@ -2818,71 +2818,105 @@ The min. sequence identity threshold is 95%, for min intron length see methods s
 
 <h3>Sex chromosome presence</h3>
 
-<p>All results here also include unplaced genes, they are treated as single-gene orthogroups.</p>
-
-<h4>Only gff-annotated proteins without miniprot paralogs</h4>
+<p>
+    The orthogroups include the longest isoform of all proteins annotated in the gff (tab <code>only gff annotation</code>)
+    All results here also include unplaced genes, they are treated as single-gene orthogroups. 
+    I will expand the orthofinder orthogroups by also including the miniprot paralogs identified by the within-species miniprot search (tab <code>including miniprot paralogs</code>). 
+    They are unique paralogs not overlapping with already annotated genes or paralogs from other genes (see filtering and numbers summary in the 
+    <a href="index.html#methods_BRH">relevant method section</a>). Note that the numbers here are kind of 'inverse' to the sex-linked genes above, the <i>Diorhabda</i> 
+    genus has few paralogs, the other species many.
+</p>
 
 <div style="float: left;width: 48%;">
+    <h4>X chromosome</h4>
     <p>
-        Orthogroups with at least one member on the <b>X chromosome</b><br>
-        12886 orthogroups non-X-exclusive (17898 with unplaced genes), 1757 are X-linked in at least one species (2041 with unplaced genes).
+        Orthogroups with at least one member on the X chromosome, overlaps show in which species the orthogroup is X-linked, absence includes no Y-linkage.
     </p>
-    <p float="left">
-        <img loading="lazy" src="data/orthofinder/orthogroup_presence_X_upsetplot.png" width="90%" />
-    </p>
-    <p>
-        Mainly syntenic. <i>Diorhabda</i> (the most distant genus with two close relatives), has a lot of exclusive genes, but they have lots of X-genes in general with 
-        also many 1-to-1 orthologs and high genome alignment percentage, so this is not surprising. The second largest group is syntenic in all, and the next largest shared
-        group after that is only missing in <i>C. chinensis</i>, which is potentially more an effect of the fragemnted assembly having some short X-linked contigs that get not 
-        identified as X in SATC with the size cutoff than a biological difference. 
-    </p>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'X_gff_upset')">only gff annotation</button>
+        <button class="tablinks" onclick="openTab(event, 'X_gff_mini_upset')">including miniprot paralogs</button>
+    </div>
+    <div id="X_gff_upset" class="tabcontent">
+        <p float="left">
+            <img loading="lazy" src="data/orthofinder/orthogroup_presence_X_upsetplot.png" width="90%" />
+        </p>
+        <p>
+            12886 orthogroups non-X-exclusive (17898 with unplaced genes), 1757 are X-linked in at least one species (2041 with unplaced genes).
+        </p>
+        <p>
+            Mainly syntenic. <i>Diorhabda</i> (the most distant genus with two close relatives), has a lot of exclusive genes, but they have lots of X-genes in general with 
+            also many 1-to-1 orthologs and high genome alignment percentage, so this is not surprising. The second largest group is syntenic in all, and the next largest shared
+            group after that is only missing in <i>C. chinensis</i>, which is potentially more an effect of the fragemnted assembly having some short X-linked contigs that get not 
+            identified as X in SATC with the size cutoff than a biological difference. 
+        </p>
+    </div>
+    <div id="X_gff_mini_upset" class="tabcontent">
+        <p float="left">
+            <img loading="lazy" src="data/orthofinder/orthogroup_presence_with_mini_paralogs_X_upsetplot.png" width="90%" />
+        </p>
+        <p>
+            Number of paralogs on the X chromosome (irregardless of overlap)
+            <pre style="margin-top: 0.5em;"><code>mini-X paralogs : {
+    'A_obtectus': 19, 
+    'B_siliquastri': 16, 
+    'B_varius': 38, 
+    'C_chinensis': 11, 
+    'C_maculatus': 39, 
+    'D_carinulata': 8, 
+    'D_sublineata': 6}</code></pre>
+        </p>
+    </div>
     <p><span style="color:#BD351E">Investigate the species-exclusive OGs? GO-term enrichment?</span></p>
 </div>
+
 <div style="float: right;width: 48%;">
+    <h4>Y chromosome</h4>
     <p>
-        Orthogroups with at least one member on the <b>Y chromosome</b><br>
-        14432 orthogroups non-Y-exclusive (19719 with unplaced genes), 211 are Y-linked in at least one species (220 with unplaced genes).
+        Orthogroups with at least one member on the Y chromosome, overlaps show in which species the orthogroup is Y-linked, absence includes no Y-linkage.
     </p>
-    <p float="right">
-        <img loading="lazy" src="data/orthofinder/orthogroup_presence_Y_upsetplot.png" width="90%" />
-    </p>
-    <p>
-        Mostly non-syntenic, even for the <i>Diorhabda</i> genus, they have more exclusive than in common. After <i>Diorhabda</i>, the next shared ones
-        don't seem to have a phylogenetic pattern (i.e. an identifiable monophyletic group). This is mostly as expected also from the synteny plot, where 
-        the Y does not have any ribbons with anything else, and also the nucleotide alignments.
-    </p>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'Y_gff_upset')">only gff annotation</button>
+        <button class="tablinks" onclick="openTab(event, 'Y_gff_mini_upset')">including miniprot paralogs</button>
+    </div>
+    <div id="Y_gff_upset" class="tabcontent">
+        <p float="right">
+            <img loading="lazy" src="data/orthofinder/orthogroup_presence_Y_upsetplot.png" width="90%" />
+        </p>
+        <p>
+            14432 orthogroups non-Y-exclusive (19719 with unplaced genes), 211 are Y-linked in at least one species (220 with unplaced genes).
+        </p>
+        <p>
+            Mostly non-syntenic, even for the <i>Diorhabda</i> genus, they have more exclusive than in common. After <i>Diorhabda</i>, the next shared ones
+            don't seem to have a phylogenetic pattern (i.e. an identifiable monophyletic group). This is mostly as expected also from the synteny plot, where 
+            the Y does not have any ribbons with anything else, and also the nucleotide alignments.
+        </p>
+    </div>
+    <div id="Y_gff_mini_upset" class="tabcontent">
+        <p float="right">
+            <img loading="lazy" src="data/orthofinder/orthogroup_presence_with_mini_paralogs_Y_upsetplot.png" width="90%" />
+        </p>
+        <p>
+            Number of paralogs on the Y chromosome (irregardless of overlap)
+            <pre style="margin-top: 0.5em;"><code>mini-Y paralogs : {
+    'A_obtectus': 3, 
+    'B_siliquastri': 2, 
+    'B_varius': 15, 
+    'C_chinensis': 0, 
+    'C_maculatus': 22, 
+    'D_carinulata': 25, 
+    'D_sublineata': 7}</code></pre>
+        </p>
+    </div>
 </div>
 <div style="clear: both;"></div>
 
-<h4>Annotated proteins as well as within-species miniprot paralogs</h4>
+<h4>Notes on differences between gff-only and miniprot</h4>
 
-<p>
-    I will expand the orthofinder orthogroups by also including the miniprot paralogs identified by the within-species miniprot search. They are unique paralogs 
-    not overlapping with already annotated genes or paralogs from other genes (see filtering and numbers summary in the <a href="index.html#methods_BRH">relevant method section</a>).
-    Note that the numbers here are kind of 'inverse' to the sex-linked genes above, the <i>Diorhabda</i> genus has few paralogs, the other species many. See sex-chromosome linkage
-    numbers:
-    <pre style="margin-top: 0.5em;"><code>mini-X paralogs : {'A_obtectus': 19, 'B_siliquastri': 16, 'B_varius': 38, 'C_chinensis': 11, 'C_maculatus': 39, 'D_carinulata': 8, 'D_sublineata': 6}
-mini-Y paralogs : {'A_obtectus': 3, 'B_siliquastri': 2, 'B_varius': 15, 'C_chinensis': 0, 'C_maculatus': 22, 'D_carinulata': 25, 'D_sublineata': 7}</code></pre>
-</p>
 <p>
     The results don't meaningfully change from the normal orthofinder results, some X and Y linked genes are added for all species. In 
-    <i>B. siliquastri</i> the number of species-exclusive X-linked genes even decreases. 
-    This can be the case if an orthogroup member in another species that was previously only autosomal has an X-linked miniprot paralog (e.g. <i>B. siliquastri</i> 
-    and <i>B. varius</i> X-linked genes increase).
+    <i>B. siliquastri</i> the number of species-exclusive X-linked genes even decreases. This can be the case if an orthogroup member 
+    in another species that was previously only autosomal has an X-linked miniprot paralog (e.g. <i>B. siliquastri</i> and <i>B. varius</i> X-linked genes increase).
 </p>
-<div style="float: left;width: 48%;">
-    <p float="left">
-        <img loading="lazy" src="data/orthofinder/orthogroup_presence_with_mini_paralogs_X_upsetplot.png" width="90%" />
-    </p>
-</div>
-<div style="float: right;width: 48%;">
-    <p float="right">
-        <img loading="lazy" src="data/orthofinder/orthogroup_presence_with_mini_paralogs_Y_upsetplot.png" width="90%" />
-    </p>
-</div>
-<div style="clear: both;"></div>
-
-
 
 </div>
 </div>
