@@ -134,7 +134,7 @@ def parse_orthogroups_with_gff_class(filepath, annotations_dict, sex_chr_dict, u
     else:
         annot_unplaced_dict = parse_orthogroups_dict(filepath=unassigned_genes_path, species_list=annot_species, OG_header="Orthogroup")
         annot_HOG_dict = annot_placed_dict | annot_unplaced_dict
-        print(annot_HOG_dict["OG0014394"])
+        # print(annot_HOG_dict["OG0014394"])
 
     print(f"----- read gff annotations -----")
     annot_gff_dict = { species : gff.parse_gff3_general(annotations_dict[species], keep_feature_category=gff.FeatureCategory.Transcript, verbose=False) for species in annot_species}
@@ -302,7 +302,7 @@ def get_sexchr_gf_size(sexchr_dict):
     return size
 
 
-def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal["X", "Y", "XY"], excl_chr:Literal["X", "Y",""] = "", outfile="boxplot.png", min_OG_size = 2, ymax_plot = 0, plot_type:Literal["medians_box", "means_bar"]="means_bar"):
+def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal["X", "Y", "XY"], excl_chr:Literal["X", "Y",""] = "", outfile="boxplot.png", min_OG_size = 2, min_GF_size = 0, ymax_plot = 0, plot_type:Literal["medians_box", "means_bar"]="means_bar"):
     """
     Take sexchr size dict and make list of orthogroup sizes that are X-linked/Y-linked 
     if excl_chr is specified, then all orthogroups that have members on this chromosome are excluded from any analysis
@@ -315,7 +315,7 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
     if chr_string == "XY":
         plot_type = "means_bar"
     
-    count_xy_linked = {s : 0 for s in species_list}
+    count_xy_linked = {s : [] for s in species_list}
     for HOG_id, sexchr_species_dict in hog_sexchr_dict.items():
         
         if get_sexchr_hog_size(sexchr_species_dict) <min_OG_size:
@@ -324,7 +324,8 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
         
         for species, sexchr_dict in sexchr_species_dict.items():
             
-            if get_sexchr_gf_size(sexchr_dict=sexchr_dict) ==0:
+            # if get_sexchr_gf_size(sexchr_dict=sexchr_dict) ==0:
+            if get_sexchr_gf_size(sexchr_dict=sexchr_dict) <=min_GF_size:
                 continue
 
             if excl_chr != "":
@@ -341,7 +342,7 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
             
             if len(chr_string)>1:
                 if len(chr_string) == sum(chr_count.values()):
-                    count_xy_linked[species] += 1
+                    count_xy_linked[species].append(get_sexchr_gf_size(sexchr_dict=sexchr_dict))
                     # print(f"{HOG_id}:{species}:{chr_count} : {sexchr_species_dict[species]}")
                     continue # gene on X and Y -> do not include
             
@@ -361,8 +362,13 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
                 elif sum(A_count.values())>0:
                     O_sizes[species].append(get_sexchr_gf_size(sexchr_dict=sexchr_dict))
 
-
-    print(f"  orthogroups per species that are excluded because they are X and Y linked at the same time:\n  {count_xy_linked}\n")
+    print(f"  orthogroups per species that are excluded because they are X and Y linked at the same time:")
+    for s, xy_count in count_xy_linked.items():
+        if len(xy_count)>1:
+            sem_s = sem(xy_count)
+        else:
+            sem_s = np.nan
+        print(f"   - {s} ({len(xy_count)}) -->\t mean {mean(xy_count):.3f} [SEM: {sem_s:.3f}])")
 
     hog_excl = [og for og in excl_OG if "HOG" in og]
     print(f"  {len(excl_OG)} gene families excluded since they have a size < {min_OG_size}\n  {len(excl_OG)-len(hog_excl)} true unplaced genes and {len(hog_excl)} HOGs (not sigletons, but might be part of Cmac_C and only one other species making them effectively singletons for this analysis) ")
@@ -548,6 +554,8 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
     else:
         chr_string_ = chr_string
     title = f"Sizes of A and {chr_string_}-linked gene families"
+    if min_GF_size >0:
+        title = f"{title} " + r"(min. GF size $\geq 2$)"
     ax.set_title(title, fontsize=fs)
 
     if ymax_plot>0:
@@ -560,6 +568,8 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
     # transparent background
     plt.savefig(outfile, dpi = dpi, transparent = True)
     print(f"plot saved in current working directory as: {outfile}")
+
+
 
 
 def orthogroups_summary_stats(hog_sexchr_dict = {}, filepath = "", annot_species = []):
@@ -650,7 +660,7 @@ if __name__ == "__main__":
     ]
 
     #################################################
-    only_gff = False    # if True: only read the orthogroups from orthofinder and don't add the within-species paralogs from miniprot ; if False: include the miniprot paralogs
+    only_gff = True    # if True: only read the orthogroups from orthofinder and don't add the within-species paralogs from miniprot ; if False: include the miniprot paralogs
     #################################################
     
     if only_gff:
@@ -694,6 +704,14 @@ if __name__ == "__main__":
         if True:
             # plot three-color bar chart with all of them
             chr_ = "XY"
-            filename = f"{data_dir}/GF_sizes_{chr_}-linked_vs_A_comparison.png"
+            if only_gff:
+                filename = f"{data_dir}/GF_sizes_{chr_}-linked_vs_A_comparison_no_miniprot.png"
+            else:
+                filename = f"{data_dir}/GF_sizes_{chr_}-linked_vs_A_comparison.png"
+            
+            mingf = 2 # gene families need to have at least two members in the species
+            if mingf>0:
+                filename = filename.replace(".png", f"_gfsize_min{mingf}.png")
+
             print(f"\n\n>>>>> {chr_} <<<<< ")
-            check_sex_linked_GF_size(hog_sexchr_dict=mini_hog_sexchr_dict, species_list=species_order, chr_string=chr_, outfile=filename, plot_type="means_bar")
+            check_sex_linked_GF_size(hog_sexchr_dict=mini_hog_sexchr_dict, species_list=species_order, chr_string=chr_, min_GF_size = mingf, outfile=filename, plot_type="means_bar")

@@ -2858,8 +2858,8 @@ The min. sequence identity threshold is 95%, for min intron length see methods s
         Orthogroups with at least one member on the X chromosome, overlaps show in which species the orthogroup is X-linked, absence includes no X-linkage.
     </p>
     <div class="tab">
-        <button class="tablinks" onclick="openTab(event, 'X_gff_upset')">only gff annotation</button>
         <button class="tablinks" onclick="openTab(event, 'X_gff_mini_upset')">including miniprot paralogs</button>
+        <button class="tablinks" onclick="openTab(event, 'X_gff_upset')">only gff annotation</button>
     </div>
     <div id="X_gff_upset" class="tabcontent">
         <p float="left">
@@ -2900,8 +2900,8 @@ The min. sequence identity threshold is 95%, for min intron length see methods s
         Orthogroups with at least one member on the Y chromosome, overlaps show in which species the orthogroup is Y-linked, absence includes no Y-linkage.
     </p>
     <div class="tab">
-        <button class="tablinks" onclick="openTab(event, 'Y_gff_upset')">only gff annotation</button>
         <button class="tablinks" onclick="openTab(event, 'Y_gff_mini_upset')">including miniprot paralogs</button>
+        <button class="tablinks" onclick="openTab(event, 'Y_gff_upset')">only gff annotation</button>
     </div>
     <div id="Y_gff_upset" class="tabcontent">
         <p float="right">
@@ -2947,8 +2947,8 @@ The min. sequence identity threshold is 95%, for min intron length see methods s
 
 
 <div class="tab">
-    <button class="tablinks" onclick="openTab(event, 'XY_gff_upset')">only gff annotation</button>
     <button class="tablinks" onclick="openTab(event, 'XY_gff_mini_upset')">including miniprot paralogs</button>
+    <button class="tablinks" onclick="openTab(event, 'XY_gff_upset')">only gff annotation</button>
 </div>
 <div id="XY_gff_upset" class="tabcontent">
     <div style="float: left;width: 48%;">
@@ -2982,36 +2982,140 @@ The min. sequence identity threshold is 95%, for min intron length see methods s
 <h3>Are larger gene families more prone to translocate on the sex chromosomes?</h3>
 
 <p>
-    In general
+    In general, we assume that none of the Y genes are ancestral (gametologs), since they are lineage/species-specific and the Y is assumed to be a hostile environment
+    for protein coding genes since it is so repeat rich and nonrecombining. Therefore any genes translocated there have to have come from the autosomes or X from 
+    existing gene families.
+</p>
+<div style="float: left;width: 55%;">
+    <h4>Mean gene family size split by X or Y-linkage</h4>
+    <p>
+        Any gene families that are still single-member after including the miniprot paralogs are excluded since Y-linkage cannot be the product of a duplication.
+        Therefore they are not included when investigating expansions onto the X and Y here
+    </p>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'XY_gf_size_gff_mini_upset')">including miniprot paralogs</button>
+        <button class="tablinks" onclick="openTab(event, 'XY_gf_size_gff_upset')">only gff annotation</button>
+    </div>
+    <div id="XY_gf_size_gff_mini_upset" class="tabcontent">
+        <p>
+            Gene families that are both X and Y linked are excluded, the numbers are 
+            <code> {'C_maculatus': 11, 'C_chinensis': 1, 'A_obtectus': 3, 'B_siliquastri': 7, 'B_varius': 25, 'D_carinulata': 17, 'D_sublineata': 12}</code> 
+            (matches with the upsetplot).<br>
+            The size represented is mean size of gene families present in the species, not orthogroup size.
+        </p>
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'XY_gf_size_gff_mini')">any GF size</button>
+            <button class="tablinks" onclick="openTab(event, 'XY_gf_size_gff_mini_mingf')">GF size &#8805;2</button>
+        </div>
+        <div id="XY_gf_size_gff_mini" class="tabcontent">
+            <p float="right">
+                <img loading="lazy" src="data/orthofinder/GF_sizes_XY-linked_vs_A_comparison.png" width="100%" />
+            </p>
+        </div>
+        <div id="XY_gf_size_gff_mini_mingf" class="tabcontent">
+            <p float="right">
+                <img loading="lazy" src="data/orthofinder/GF_sizes_XY-linked_vs_A_comparison_gfsize_min2.png" width="100%" />
+            </p>
+        </div>
+        <p>Orthogroups (including miniprot paralogs) that can have members on the X and Y.</p>
+        <ul>
+            <li style="margin-top: -0.1em;"><i>C. maculatus</i> (11) --> mean 6.727 [SEM: 1.389])</li>
+            <li style="margin-top: -0.1em;"><i>C. chinensis</i> (1) --> mean 7.000 [SEM: nan])</li>
+            <li style="margin-top: -0.1em;"><i>A. obtectus</i> (3) --> mean 15.667 [SEM: 7.667])</li>
+            <li style="margin-top: -0.1em;"><i>B. siliquastri</i> (7) --> mean 37.143 [SEM: 19.639])</li>
+            <li style="margin-top: -0.1em;"><i>B. varius</i> (25) --> mean 13.320 [SEM: 2.613])</li>
+            <li style="margin-top: -0.1em;"><i>D. carinulata</i> (17) --> mean 14.118 [SEM: 2.463])</li>
+            <li style="margin-top: -0.1em;"><i>D. sublineata</i> (12) --> mean 12.667 [SEM: 2.179])</li>
+        </ul>
+    </div>
+
+    <div id="XY_gf_size_gff_upset" class="tabcontent">
+        <p>
+            Gene families that are both X and Y linked are excluded, the numbers are 
+            <code> {'C_maculatus': 10, 'C_chinensis': 1, 'A_obtectus': 3, 'B_siliquastri': 6, 'B_varius': 21, 'D_carinulata': 16, 'D_sublineata': 12}</code> 
+            (matches with the upsetplot).<br>
+            The size represented is mean size of gene families present in the species, not orthogroup size.
+        </p>
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'XY_gf_size_gff')">any GF size</button>
+            <button class="tablinks" onclick="openTab(event, 'XY_gf_size_gff_mingf')">GF size &#8805;2</button>
+        </div>
+        <div id="XY_gf_size_gff" class="tabcontent">
+            <p float="right">
+                <img loading="lazy" src="data/orthofinder/GF_sizes_XY-linked_vs_A_comparison_no_miniprot.png" width="100%" />
+            </p>
+        </div>
+        <div id="XY_gf_size_gff_mingf" class="tabcontent">
+            <p float="right">
+                <img loading="lazy" src="data/orthofinder/GF_sizes_XY-linked_vs_A_comparison_no_miniprot_gfsize_min2.png" width="100%" />
+            </p>
+        </div>
+        <p>Orthogroups (including miniprot paralogs) that can have members on the X and Y.</p>
+        <ul>
+            <li style="margin-top: -0.1em;"><i>C. maculatus</i> (10) --> mean 4.900 [SEM: 1.005])</li>
+            <li style="margin-top: -0.1em;"><i>C. chinensis</i> (1) --> mean 5.000 [SEM: nan])</li>
+            <li style="margin-top: -0.1em;"><i>A. obtectus</i> (3) --> mean 13.667 [SEM: 6.667])</li>
+            <li style="margin-top: -0.1em;"><i>B. siliquastri</i> (6) --> mean 28.500 [SEM: 16.407])</li>
+            <li style="margin-top: -0.1em;"><i>B. varius</i> (21) --> mean 11.524 [SEM: 2.342])</li>
+            <li style="margin-top: -0.1em;"><i>D. carinulata</i> (16) --> mean 13.875 [SEM: 2.386])</li>
+            <li style="margin-top: -0.1em;"><i>D. sublineata</i> (12) --> mean 11.333 [SEM: 1.940])</li>
+        </ul>
+    </div>
+</div>
+
+<div style="float: right;width: 44%;">
+    <h4 style="margin-left: 1em;">Mean gene family size across chromosome categories</h4>
+    <ol>
+        <li>no singletons, but with miniprot paralogs</li>
+        <ul>
+            <li>mean orthogroup size: 6.467 [SEM: 0.039]</li>
+            <li style="margin-top: -0.1em;">gene family sizes:</li>
+            <ul>
+                <li style="margin-top: -0.1em;"><i>C. maculatus</i> (11127 gene families):   mean: 1.363 [SEM: 0.012]</li>
+                <li style="margin-top: -0.1em;"><i>C. chinensis</i> (10600 gene families):   mean: 1.286 [SEM: 0.011]</li>
+                <li style="margin-top: -0.1em;"><i>A. obtectus</i> (10614 gene families):   mean: 1.408 [SEM: 0.016]</li>
+                <li style="margin-top: -0.1em;"><i>B. siliquastri</i> (11033 gene families):   mean: 1.340 [SEM: 0.029]</li>
+                <li style="margin-top: -0.1em;"><i>B. varius</i> (9979 gene families):   mean: 1.259 [SEM: 0.017]</li>
+                <li style="margin-top: -0.1em;"><i>D. carinulata</i> (10669 gene families):   mean: 1.114 [SEM: 0.009]</li>
+                <li style="margin-top: -0.1em;"><i>D. sublineata</i> (10459 gene families):   mean: 1.119 [SEM: 0.010]</li>
+            </ul>
+        </ul>
+        
+        <li>including singleton orthogroups (they can have miniprot paralogs)</li>
+        <ul>
+            <li>mean orthogroup size: 5.009 [SEM: 0.033]</li>
+            <li style="margin-top: -0.1em;">gene family sizes:</li>
+            <ul>
+                <li style="margin-top: -0.1em;"><i>C. maculatus</i> (11350 gene families):   mean: 1.357 [SEM: 0.012]</li>
+                <li style="margin-top: -0.1em;"><i>C. chinensis</i> (11135 gene families):   mean: 1.277 [SEM: 0.010]</li>
+                <li style="margin-top: -0.1em;"><i>A. obtectus</i> (11056 gene families):   mean: 1.394 [SEM: 0.016]</li>
+                <li style="margin-top: -0.1em;"><i>B. siliquastri</i> (14468 gene families):   mean: 1.260 [SEM: 0.022]</li>
+                <li style="margin-top: -0.1em;"><i>B. varius</i> (10191 gene families):   mean: 1.255 [SEM: 0.016]</li>
+                <li style="margin-top: -0.1em;"><i>D. carinulata</i> (10834 gene families):   mean: 1.113 [SEM: 0.009]</li>
+                <li style="margin-top: -0.1em;"><i>D. sublineata</i> (10537 gene families):   mean: 1.118 [SEM: 0.010]</li>
+            </ul>
+        </ul>
+    </ol>
+    <p style="margin-left: 1em; margin-top: 2em;">
+        For numbers of gene family sizes that are X and Y linked at the same time see tabs on the left. Just from the annotation, these have much 
+        larger gene families than even Y-linked genes, and including miniprot paralogs increases the size further. <span style="color: #BD351E;">
+        Investigating these separately with GO-terms may also be interesting?</span>
+    </p>
+
+</div>
+<div style="clear: both;"></div>
+
+<h4>Conclusion</h4>
+
+<p>
+    Only very large orthogroups can make it onto the Y, and the X-linked orthogroups also trend larger in <i>Bruchini</i> but not in <i>Diorhabda</i>.
+    These plots already exclude singe-copy gene
 </p>
 
-<div style="float: left;width: 58%;">
-    <p>Gene families that are both X and Y linked are excluded, size represented is mean size of gene families present in the species, not orthogroup size.</p>
-    <p float="right">
-        <img loading="lazy" src="data/orthofinder/GF_sizes_XY-linked_vs_A_comparison.png" width="100%" />
-    </p>
-</div>
 
-<div style="float: right;width: 40%;">
-    <p><b>Mean GF sizes</b> (no singletons, but with miniprot paralogs)</p>
-    <ul>
-        <li>mean orthogroup size: 6.467 [SEM: 0.039]</li>
-        <li>gene family sizes:</li>
-        <ul>
-            <li style="margin-top: -0.1em;"><i>C. maculatus</i> (11127 gene families):   mean: 1.363 [SEM: 0.012]</li>
-            <li style="margin-top: -0.1em;"><i>C. chinensis</i> (10600 gene families):   mean: 1.286 [SEM: 0.011]</li>
-            <li style="margin-top: -0.1em;"><i>A. obtectus</i> (10614 gene families):   mean: 1.408 [SEM: 0.016]</li>
-            <li style="margin-top: -0.1em;"><i>B. siliquastri</i> (11033 gene families):   mean: 1.340 [SEM: 0.029]</li>
-            <li style="margin-top: -0.1em;"><i>B. varius</i> (9979 gene families):   mean: 1.259 [SEM: 0.017]</li>
-            <li style="margin-top: -0.1em;"><i>D. carinulata</i> (10669 gene families):   mean: 1.114 [SEM: 0.009]</li>
-            <li style="margin-top: -0.1em;"><i>D. sublineata</i> (10459 gene families):   mean: 1.119 [SEM: 0.010]</li>
-        </ul>
-    </ul>
-</div>
+<h3>Are gene families that translocate to sex chromosomes different than gene families that translocate between autosomal linkage groups?</h3>
 
 
-
-<div style="clear: both;"></div>
 
 </div>
 </div>
