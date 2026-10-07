@@ -59,6 +59,8 @@ def parse_orthogroups_dict(filepath, species_list, OG_header = "HOG"):
     df = orthogroups_df[headers]
     df = df.set_index(f"{OG_header}", drop=True)
     df_dict = df.to_dict(orient="index")
+    # if OG_header != "HOG":
+    #     print(df.loc["OG0014394"])
     
     return df_dict
 
@@ -129,13 +131,14 @@ def parse_orthogroups_with_gff_class(filepath, annotations_dict, sex_chr_dict, u
     annot_placed_dict = parse_orthogroups_dict(filepath=filepath, species_list=annot_species, OG_header="HOG")
     if unassigned_genes_path == "":
         annot_HOG_dict = annot_placed_dict
-    else:    
+    else:
         annot_unplaced_dict = parse_orthogroups_dict(filepath=unassigned_genes_path, species_list=annot_species, OG_header="Orthogroup")
         annot_HOG_dict = annot_placed_dict | annot_unplaced_dict
+        print(annot_HOG_dict["OG0014394"])
 
-    print(f"--- read gff annotations ---")
+    print(f"----- read gff annotations -----")
     annot_gff_dict = { species : gff.parse_gff3_general(annotations_dict[species], keep_feature_category=gff.FeatureCategory.Transcript, verbose=False) for species in annot_species}
-    print(f"----------------------------")
+    print(f"--------------------------------")
 
     hog_sexchr_dict = {}
 
@@ -146,6 +149,7 @@ def parse_orthogroups_with_gff_class(filepath, annotations_dict, sex_chr_dict, u
         mini_X = {species : 0 for species in annot_species}
         mini_Y = {species : 0 for species in annot_species}
 
+        singletons_with_miniprot_paralogs = 0
         for HOG_id , OG_dict in annot_HOG_dict.items():
             sexchr_counts_dict = {}
             # print(f" --- {HOG_id} --- ")
@@ -174,12 +178,18 @@ def parse_orthogroups_with_gff_class(filepath, annotations_dict, sex_chr_dict, u
                                 mini_Y[species] += 1
                             else:
                                 sex_chr_counts["O"] += 1
+                    
+                    if HOG_id[:2] == "OG" and sum(list(sex_chr_counts.values()))>1:
+                        singletons_with_miniprot_paralogs += 1
+                        # print(f"{HOG_id}:{species} -> geneid {geneIDs}, {len(miniprot_dict[species][geneID])} miniprot paralog(s)")
                 else:
                     # print(f"   - {species} : 0")
                     pass
                 sexchr_counts_dict[species] = sex_chr_counts
             hog_sexchr_dict[HOG_id] = sexchr_counts_dict
-        print(f"---<>---> mini-X paralogs : {mini_X}\n---<>---> mini-Y paralogs : {mini_Y}\n")
+        print(f"---<>---> mini-X paralogs : {mini_X}\n---<>---> mini-Y paralogs : {mini_Y} \n")
+        print(f"---<>---> {singletons_with_miniprot_paralogs} singleton-OG miniprot paralogs")
+
     else:
         for HOG_id , OG_dict in annot_HOG_dict.items():
             sexchr_counts_dict = {}
@@ -304,7 +314,8 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
 
     if chr_string == "XY":
         plot_type = "means_bar"
-        
+    
+    count_xy_linked = {s : 0 for s in species_list}
     for HOG_id, sexchr_species_dict in hog_sexchr_dict.items():
         
         if get_sexchr_hog_size(sexchr_species_dict) <min_OG_size:
@@ -330,7 +341,8 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
             
             if len(chr_string)>1:
                 if len(chr_string) == sum(chr_count.values()):
-                    print(f"{HOG_id}:{species}:{chr_count} : {sexchr_species_dict}")
+                    count_xy_linked[species] += 1
+                    # print(f"{HOG_id}:{species}:{chr_count} : {sexchr_species_dict[species]}")
                     continue # gene on X and Y -> do not include
             
                 if len(chr_string) == sum(A_count.values()):
@@ -350,9 +362,10 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
                     O_sizes[species].append(get_sexchr_gf_size(sexchr_dict=sexchr_dict))
 
 
+    print(f"  orthogroups per species that are excluded because they are X and Y linked at the same time:\n  {count_xy_linked}\n")
 
     hog_excl = [og for og in excl_OG if "HOG" in og]
-    print(f"{len(excl_OG)} orthogroups excluded since they have a size < {min_OG_size}\n  {len(excl_OG)-len(hog_excl)} true unplaced genes and {len(hog_excl)} HOGs (might be part of Cmac_C and only one other species making them effectively singletons for this analysis) ")
+    print(f"  {len(excl_OG)} gene families excluded since they have a size < {min_OG_size}\n  {len(excl_OG)-len(hog_excl)} true unplaced genes and {len(hog_excl)} HOGs (not sigletons, but might be part of Cmac_C and only one other species making them effectively singletons for this analysis) ")
     # for hog_id in hog_excl:
     #     print_dict_ = hog_sexchr_dict[hog_id]
     #     print(f"{hog_id} : {print_dict_}")
@@ -361,6 +374,7 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
     ## make dicts into one interleaved ones for easier plotting
     data_dict = {}
 
+    print(f"\n---\nplotted numbers: ")
     if len(chr_string)==1:
         for species in species_list:
             chr_size = chr_sizes[chr_string][species]
@@ -385,7 +399,7 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
 
             # print(f" * {species} : GF_size means ({chr_string}: {mean(chr_size):.3f}) and (A {mean(O_size):.3f})")
             try:
-                print(f"{species}")
+                print(f"  * {species}")
                 for c in chr_string:
                     print(f"\t({c}: mean {mean(chr_size):.3f} ; length {len(chr_size)})")
             except:
@@ -548,6 +562,71 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
     print(f"plot saved in current working directory as: {outfile}")
 
 
+def orthogroups_summary_stats(hog_sexchr_dict = {}, filepath = "", annot_species = []):
+    """
+    calculate mean orthogroup and gene family size
+    """
+    if hog_sexchr_dict != {}:
+        print(f"\n-------------------------------------------------------")
+        print(f" results from orthogroups after sex chromosome assignment")
+        test_og="OG0019090"
+        # print(f"{test_og} : {hog_sexchr_dict[test_og]}")
+        OG_sizes = {og : 0 for og in hog_sexchr_dict.keys()}
+        GF_sizes = {s : [] for s in annot_species}
+        for orthogroup, orthogroup_dict in hog_sexchr_dict.items():
+            OG_size = 0
+            for species, chr_dict in orthogroup_dict.items():
+                gf_size = sum(list(chr_dict.values()))
+                if gf_size == 0:
+                    continue
+                # if orthogroup[:2] == "OG" and gf_size>1:
+                #     raise RuntimeError(f"parsing error for unplaced gene in orthogroup {orthogroup}: {orthogroup_dict}")
+                GF_sizes[species].append(gf_size)
+                OG_size += gf_size
+            OG_sizes[orthogroup] = OG_size
+        
+        OG_sizes_list = list(OG_sizes.values())
+        
+        print(f"mean orthogroup size: {mean(OG_sizes_list):.3f} [SEM: {sem(OG_sizes_list):.3f}]")
+        print(f"gene family sizes:")
+        for species , gf_sizes in GF_sizes.items():
+            print(f" * {species} ({len(gf_sizes)} gene families):\t mean: {mean(gf_sizes):.3f} [SEM: {sem(gf_sizes):.3f}]")
+
+        print(f"\n")
+    
+    if filepath != "":
+        assert len(annot_species)>0
+
+        print(f"\n-----------------------------------------------------")
+        filepath_ = filepath.split("/")[-1]
+        print(f" results directly from {filepath_}, no sex chromosome assignment")
+        
+        orthogroups_dict = parse_orthogroups_dict(filepath=filepath, species_list=annot_species, OG_header="HOG")
+        # print(orthogroups_dict["N0.HOG0000061"])
+        OG_sizes = {og : 0 for og in orthogroups_dict.keys()}
+        GF_sizes = {s : [] for s in annot_species}
+        for orthogroup, orthogroup_dict in orthogroups_dict.items():
+            OG_size = 0
+            for species, list_ in orthogroup_dict.items():
+                if isinstance(list_, str):
+                    list_ = list_.split(", ")
+                    gf_size = len(list_)
+                    GF_sizes[species].append(gf_size)
+                    OG_size += gf_size
+                else:
+                    list_ = []
+                    gf_size = len(list_)
+                OG_sizes[orthogroup] = OG_size
+
+        OG_sizes_list = list(OG_sizes.values())
+        print(f"mean orthogroup size: {mean(OG_sizes_list):.3f} [SEM: {sem(OG_sizes_list):.3f}]")
+        print(f"gene family sizes:")
+        for species , gf_sizes in GF_sizes.items():
+            print(f" * {species} ({len(gf_sizes)} gene families):\t mean: {mean(gf_sizes):.3f} [SEM: {sem(gf_sizes):.3f}]")
+                    
+
+
+
 
 
 if __name__ == "__main__":
@@ -581,7 +660,11 @@ if __name__ == "__main__":
         miniprot_dict = data_paths.get_miniprot_paths(username=username)
         mini_filename = "with_mini_paralogs_"
 
+    if False:
+        mini_hog_sexchr_dict = parse_orthogroups_with_gff_class(filepath=orthogroups_file, annotations_dict=annot_dict, unassigned_genes_path=unassigned_genes_path, sex_chr_dict=sex_chromosome_contigs, miniprot_paths_dict=miniprot_dict)
+        orthogroups_summary_stats(hog_sexchr_dict=mini_hog_sexchr_dict, filepath=orthogroups_file, annot_species=species_order)
     
+
     ### plot the upsetplot for the different chromosome categories
     if False:
         ### read dict with sex chromosome 
@@ -594,10 +677,11 @@ if __name__ == "__main__":
 
     ### check if gene fmailies with X/Y members are on average larger
     if True:
-        mini_hog_sexchr_dict = parse_orthogroups_with_gff_class(filepath=orthogroups_file, annotations_dict=annot_dict, sex_chr_dict=sex_chromosome_contigs, miniprot_paths_dict=miniprot_dict)
-        ymax_plot = {"X" : 20, "Y" : 0} # specify y limit in gene family size for the plot  (no filtering of the GF size data itself!)
+        mini_hog_sexchr_dict = parse_orthogroups_with_gff_class(filepath=orthogroups_file, annotations_dict=annot_dict, unassigned_genes_path=unassigned_genes_path, sex_chr_dict=sex_chromosome_contigs, miniprot_paths_dict=miniprot_dict)
+        orthogroups_summary_stats(hog_sexchr_dict=mini_hog_sexchr_dict, filepath=orthogroups_file, annot_species=species_order)
 
         if False:
+            ymax_plot = {"X" : 20, "Y" : 0} # specify y limit in gene family size for the plot  (no filtering of the GF size data itself!)
             ## plot X and Y in separate plots
             for chr in ["Y","X"]:
                 excl_chr = "X"
@@ -607,7 +691,7 @@ if __name__ == "__main__":
 
                 print(f"\n\n>>>>> {chr} <<<<< (excl: {excl_chr})")
                 check_sex_linked_GF_size(hog_sexchr_dict=mini_hog_sexchr_dict, species_list=species_order, chr_string=chr, excl_chr=excl_chr, outfile=filename, ymax_plot = ymax_plot[chr])
-        else:
+        if True:
             # plot three-color bar chart with all of them
             chr_ = "XY"
             filename = f"{data_dir}/GF_sizes_{chr_}-linked_vs_A_comparison.png"
