@@ -11,7 +11,7 @@ body {
   h4, h5, h6 { margin-top: 1.6em; color:#44506e;}
   h1 { border-bottom: 1px solid #d0d7de; padding-bottom: .3em; }
   h2 { border-bottom: 1px solid #d0d7de; padding-bottom: .3em; }
-  p,li {margin-top: 0.5em;}
+  p {margin-top: 0.5em;}
 
   ul {
     /* user-agent styles */
@@ -125,11 +125,11 @@ body {
 
     .left-div {
        float: left;
-       width: 50%;
+       width: 49%;
     }
     .right-div {
        float: right;
-       width: 50%;
+       width: 49%;
     }
 
 *{
