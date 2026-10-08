@@ -492,7 +492,12 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
         print(f"plot saved in current working directory as: {outfile}")
 
 
-def scatter_GF_GS_comparison(sizes_dict, GS_dict, species_order, outfile=""):
+def scatter_GF_GS_comparison(sizes_dict, GS_dict, outfile=""):
+
+    ## get species names in order of size
+    sizes_sorted = sorted(list(GS_dict.values()))
+    GS_dict_ = {size : species for species,size in GS_dict.items()} 
+    species_order = [GS_dict_[size] for size in sizes_sorted]
 
     plt.rcParams['text.usetex'] = True # use \textit{} for species names
     plt.rcParams['text.latex.preamble'] = r'\usepackage{sfmath} \renewcommand{\familydefault}{\sfdefault}'
@@ -539,7 +544,7 @@ def scatter_GF_GS_comparison(sizes_dict, GS_dict, species_order, outfile=""):
 
         x_coord = [i+x_offset[c] for i in GS_list]
         ax.scatter(x_coord, GF_sizes, color = colors_dict[c], s=ps)
-        ax.errorbar(x_coord, GF_sizes, yerr=GF_errors, fmt="none", ecolor=colors_dict[f"{c}_edge"], capsize=4, elinewidth=lw)
+        ax.errorbar(x_coord, GF_sizes, yerr=GF_errors, color = colors_dict[c], ecolor=colors_dict[f"{c}_edge"], capsize=4, elinewidth=lw, linestyle = ":", linewidth =lw*0.5)
 
     ax.set_xlabel("Genome size in Mb", fontsize=fs)
     ax.set_ylabel("Gene family size", fontsize=fs)
@@ -704,11 +709,11 @@ if __name__ == "__main__":
     if True:
         mini_hog_sexchr_dict = parse_orthogroups_with_gff_class(filepath=orthogroups_file, annotations_dict=annot_dict, unassigned_genes_path=unassigned_genes_path, sex_chr_dict=sex_chromosome_contigs, miniprot_paths_dict=miniprot_dict)
 
-        mingf = 0 # gene families need to have at least two members in the species
+        mingf = 2 # gene families need to have at least 2 members in the species, default 0 
         if mingf>0:
             filename = f"{data_dir}/GF_sizes_min{mingf}_chr-linked_vs_GS.png"
         else:
             filename = f"{data_dir}/GF_sizes_chr-linked_vs_GS.png"
         xy_sizes,O_sizes = check_sex_linked_GF_size(hog_sexchr_dict=mini_hog_sexchr_dict, species_list=species_order, chr_string="XY", min_GF_size = mingf, outfile="", plot_type="no_plot")
         sizes_dict = xy_sizes | {"O" : O_sizes}
-        scatter_GF_GS_comparison(sizes_dict, GS_dict=genome_sizes, species_order=species_order, outfile=filename)
+        scatter_GF_GS_comparison(sizes_dict, GS_dict=genome_sizes, outfile=filename)
