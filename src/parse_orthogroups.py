@@ -134,8 +134,21 @@ class OrthoGroup:
                     gfsize += 1
             return gfsize
 
-    def linkagegroups(self):
-        return list(set([m.LG for m in self.members]))
+    def sex_linkage(self, species):
+        """
+        return a dict of geneID lists that are X/Y or O linked (O for other, either A or unplaced)
+        """
+        out_dict = {lg_ : 0 for lg_ in self.linkagegroups(species)}
+        for m in self.members:
+            if m.species==species:
+                out_dict[m.LG]+=1
+        return out_dict
+
+    def linkagegroups(self, species=""):
+        if species =="":
+            return list(set([m.LG for m in self.members]))
+        else:
+            return list(set([m.LG for m in self.members if m.species==species]))
 
     def species(self):
         return list(set([m.species for m in self.members]))

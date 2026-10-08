@@ -3069,9 +3069,12 @@ The min. sequence identity threshold is 95%, for min intron length see methods s
             (matches with the upsetplot).<br>
             The size represented is mean size of gene families present in the species, not orthogroup size.
         </p>
+        <p>I have also made scatterplots to correlate the GF sizes with the genome size, but at least from looking at it there does not seem to be a trend either way</p>
         <div class="tab">
             <button class="tablinks" onclick="openTab(event, 'XY_gf_size_gff_mini')">any GF size</button>
             <button class="tablinks" onclick="openTab(event, 'XY_gf_size_gff_mini_mingf')">GF size &#8805;2</button>
+            <button class="tablinks" onclick="openTab(event, 'XY_gf_size_gff_minivs_GS')">any GF size (scatterplot vs. GS)</button>
+            <button class="tablinks" onclick="openTab(event, 'XY_gf_size_gff_mini_mingfvs_GS')">GF size &#8805;2 (scatterplot vs. GS)</button>
         </div>
         <div id="XY_gf_size_gff_mini" class="tabcontent">
             <p float="right">
@@ -3081,6 +3084,19 @@ The min. sequence identity threshold is 95%, for min intron length see methods s
         <div id="XY_gf_size_gff_mini_mingf" class="tabcontent">
             <p float="right">
                 <img loading="lazy" src="data/orthofinder/GF_sizes_XY-linked_vs_A_comparison_gfsize_min2.png" width="100%" />
+            </p>
+        </div>
+
+        <div id="XY_gf_size_gff_minivs_GS" class="tabcontent">
+            <p>(slight x-scatter to avoid overlapping points, vertical lines show true GS</p>
+            <p float="right">
+                <img loading="lazy" src="data/orthofinder/GF_sizes_chr-linked_vs_GS.png" width="100%" />
+            </p>
+        </div>
+        <div id="XY_gf_size_gff_mini_mingfvs_GS" class="tabcontent">
+            <p>(slight x-scatter to avoid overlapping points, vertical lines show true GS</p>
+            <p float="right">
+                <img loading="lazy" src="data/orthofinder/GF_sizes_min2_chr-linked_vs_GS.png" width="100%" />
             </p>
         </div>
         <p>Orthogroups (including miniprot paralogs) that can have members on the X and Y.</p>

@@ -20,6 +20,17 @@ import plot_gene_counts as data_paths
 from parse_orthogroups import  parse_orthogroups_dict
 
 
+genome_sizes = {
+    ## in Mb, from the ncbi entries of all of the assemblies unless otherwise stated
+    "A_obtectus" : 917.4,
+    "B_siliquastri" : 375.6,
+    "B_varius" : 1153.97, #https://insect-genome.com/genome/IBG_03258
+    "C_chinensis" : 633.3,
+    "C_maculatus" : 1020.40, #https://insect-genome.com/genome/IBG_00154, #but NCBI says 1200
+    "D_carinulata" : 415.4,
+    "D_sublineata" : 456.2,
+}
+
 def parse_orthogroups_with_gff_class(filepath, annotations_dict, sex_chr_dict, unassigned_genes_path = "", miniprot_paths_dict = {}):
     """
     Get a dictionary of all the orthogroups with counts for the sex chromosomes
@@ -208,7 +219,7 @@ def get_sexchr_gf_size(sexchr_dict):
     return size
 
 
-def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal["X", "Y", "XY"], excl_chr:Literal["X", "Y",""] = "", outfile="boxplot.png", min_OG_size = 2, min_GF_size = 0, ymax_plot = 0, plot_type:Literal["medians_box", "means_bar"]="means_bar"):
+def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal["X", "Y", "XY"], excl_chr:Literal["X", "Y",""] = "", outfile="boxplot.png", min_OG_size = 2, min_GF_size = 0, ymax_plot = 0, plot_type:Literal["medians_box", "means_bar", "no_plot"]="means_bar"):
     """
     Take sexchr size dict and make list of orthogroup sizes that are X-linked/Y-linked 
     if excl_chr is specified, then all orthogroups that have members on this chromosome are excluded from any analysis
@@ -218,8 +229,8 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
     O_sizes = {species : [] for species in species_list}
     excl_OG = []
 
-    if chr_string == "XY":
-        plot_type = "means_bar"
+    # if chr_string == "XY":
+    #     plot_type = "means_bar"
     
     count_xy_linked = {s : [] for s in species_list}
     for HOG_id, sexchr_species_dict in hog_sexchr_dict.items():
@@ -281,200 +292,268 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
     # for hog_id in hog_excl:
     #     print_dict_ = hog_sexchr_dict[hog_id]
     #     print(f"{hog_id} : {print_dict_}")
-
-
-    ## make dicts into one interleaved ones for easier plotting
-    data_dict = {}
-
-    print(f"\n---\nplotted numbers: ")
-    if len(chr_string)==1:
-        for species in species_list:
-            chr_size = chr_sizes[chr_string][species]
-            data_dict[f"\\textit{{{species}}}\n{chr_string} ({len(chr_size)} GFs)"] = chr_size
-            O_size = O_sizes[species]
-            data_dict[f"\\textit{{{species}}}\nA ({len(O_size)} GFs)"] = O_size
-            # print(f" * {species} : GF_size means ({chr_string}: {mean(chr_size):.3f}) and (A {mean(O_size):.3f})")
-            if plot_type == "means_bar":
-                try:
-                    print(f" * {species} : GF_size means ({chr_string}: {mean(chr_size):.3f} (length {len(chr_size)}), A: {mean(O_size):.3f} (length {len(O_size)}))")
-                except:
-                    print(f" * {species} : GF_size cant calculate means! ({chr_string}: length {len(chr_size)}), A: (length {len(O_size)}))")
-                    raise RuntimeError
-            else:
-                print(f" * {species} : GF_size medians ({chr_string}: {median(chr_size):.3f}, A: {median(O_size):.3f})")
-    elif len(chr_string)>1:
-        for i, species in enumerate(species_list):
-            for chr_ in chr_string:
-                chr_size = chr_sizes[chr_][species]
-                # data_dict[f"\\textit{{{species}}}\n{chr_} ({len(chr_size)} GFs)"] = chr_size
-                data_dict[f"({len(chr_size)}) {chr_}:{i}"] = chr_size
-
-            # print(f" * {species} : GF_size means ({chr_string}: {mean(chr_size):.3f}) and (A {mean(O_size):.3f})")
-            try:
-                print(f"  * {species}")
-                for c in chr_string:
-                    print(f"\t({c}: mean {mean(chr_size):.3f} ; length {len(chr_size)})")
-            except:
-                print(f"{species}")
-                for c in chr_string:
-                    print(f"\t({c}: length {len(chr_size)})")
-                # print(f"\t(A: length {len(O_size)})")
-                raise RuntimeError
-
-            O_size = O_sizes[species]
-            print(f"\t(A: mean {mean(O_size):.3f} ; length {len(O_size)})")
-            #data_dict[f"\\textit{{{species}}}\nA ({len(O_size)} GFs)"] = O_size
-            data_dict[f"({len(O_size)}) A:{i}"] = O_size
-
-    ### make boxplot to show median size
     
+    print(repr(plot_type), type(plot_type))
+    if plot_type=="no_plot":
+        return chr_sizes,O_sizes
+
+    else:
+
+        ## make dicts into one interleaved ones for easier plotting
+        data_dict = {}
+
+        print(f"\n---\nplotted numbers: ")
+        if len(chr_string)==1:
+            for species in species_list:
+                chr_size = chr_sizes[chr_string][species]
+                data_dict[f"\\textit{{{species}}}\n{chr_string} ({len(chr_size)} GFs)"] = chr_size
+                O_size = O_sizes[species]
+                data_dict[f"\\textit{{{species}}}\nA ({len(O_size)} GFs)"] = O_size
+                # print(f" * {species} : GF_size means ({chr_string}: {mean(chr_size):.3f}) and (A {mean(O_size):.3f})")
+                if plot_type == "means_bar":
+                    try:
+                        print(f" * {species} : GF_size means ({chr_string}: {mean(chr_size):.3f} (length {len(chr_size)}), A: {mean(O_size):.3f} (length {len(O_size)}))")
+                    except:
+                        print(f" * {species} : GF_size cant calculate means! ({chr_string}: length {len(chr_size)}), A: (length {len(O_size)}))")
+                        raise RuntimeError
+                else:
+                    print(f" * {species} : GF_size medians ({chr_string}: {median(chr_size):.3f}, A: {median(O_size):.3f})")
+        elif len(chr_string)>1:
+            for i, species in enumerate(species_list):
+                for chr_ in chr_string:
+                    chr_size = chr_sizes[chr_][species]
+                    # data_dict[f"\\textit{{{species}}}\n{chr_} ({len(chr_size)} GFs)"] = chr_size
+                    data_dict[f"({len(chr_size)}) {chr_}:{i}"] = chr_size
+
+                # print(f" * {species} : GF_size means ({chr_string}: {mean(chr_size):.3f}) and (A {mean(O_size):.3f})")
+                try:
+                    print(f"  * {species}")
+                    for c in chr_string:
+                        print(f"\t({c}: mean {mean(chr_size):.3f} ; length {len(chr_size)})")
+                except:
+                    print(f"{species}")
+                    for c in chr_string:
+                        print(f"\t({c}: length {len(chr_size)})")
+                    # print(f"\t(A: length {len(O_size)})")
+                    raise RuntimeError
+
+                O_size = O_sizes[species]
+                print(f"\t(A: mean {mean(O_size):.3f} ; length {len(O_size)})")
+                #data_dict[f"\\textit{{{species}}}\nA ({len(O_size)} GFs)"] = O_size
+                data_dict[f"({len(O_size)}) A:{i}"] = O_size
+
+        ### make boxplot to show median size
+        
+        plt.rcParams['text.usetex'] = True # use \textit{} for species names
+        plt.rcParams['text.latex.preamble'] = r'\usepackage{sfmath} \renewcommand{\familydefault}{\sfdefault}'
+        plt.rcParams['font.family'] = 'sans-serif'
+        # plt.rcParams['font.size'] = 16
+        fs = 15 # font size
+        lw = 2 # line width
+
+        colors_dict = {
+            "Y_fill" : "#495E83", # dusk blue
+            "Y_edge" : "#374C6E", # dusk blue darker
+            "Y_medians" : "#A7CCED", # icy blue
+            "X_fill" : "#AB354A", # cherry rose
+            "X_edge" : "#771C2C", # dark amaranth
+            "X_medians" : "#EA9AA9", # cotton candy
+            "O_fill" : "#51997C", # seagrass
+            "O_edge" : "#376F59", # deep teal
+            "O_medians" : "#8FCEB5", # perl_aqua
+        }
+
+        aspect_ratio = 20 / 12 # height / width
+        height_pixels = 1400  # Height in pixels
+        dpi = 300
+        width_pixels = int(height_pixels * aspect_ratio)  # Width in pixels
+
+        fig, ax = plt.subplots(1,1,figsize=(width_pixels/dpi, height_pixels/dpi))
+
+        # tick_labels = [f"{key}\n({len(lists)} GFs)" for key,lists in data_dict.items()]
+        tick_labels = [k.split(":")[0] for k in data_dict.keys()]
+        lists = [means_list for means_list in data_dict.values()]
+
+        if plot_type == "medians_box":
+
+            width = 0.7
+            pos_adjust=width*0.125
+
+            tick_pos = [i+pos_adjust if i%2==1 else i-pos_adjust for i in range(1,len(tick_labels)+1)]
+            bp = ax.boxplot(lists, positions=tick_pos, widths=width, patch_artist=True)   
+            # set axis labels
+            ax.set_ylabel("gene family size", fontsize=fs)
+
+            ## modify boxplot colors
+            if True:
+                for i, box in enumerate(bp['boxes']):
+                    if i%2==0:
+                        box.set(facecolor=colors_dict[f"{chr_string}_fill"], edgecolor=colors_dict[f"{chr_string}_edge"], linewidth=2)
+                    else:
+                        box.set(facecolor=colors_dict["O_fill"], edgecolor=colors_dict["O_edge"], linewidth=2)
+                for i, median_ in enumerate(bp['medians']):
+                    if i%2==0:
+                        median_.set(color=colors_dict[f'{chr_string}_medians'], linewidth=lw)
+                    else:
+                        median_.set(color=colors_dict['O_medians'], linewidth=lw)
+                for i, whisker in enumerate(bp['whiskers']):
+                    # print(f"whisker: {i}")
+                    if i//2 % 2==0:
+                        whisker.set(color=colors_dict[f'{chr_string}_edge'], linestyle='-',linewidth=lw)
+                    else:
+                        whisker.set(color=colors_dict['O_edge'], linestyle='-',linewidth=lw)
+                for i, cap in enumerate(bp['caps']):
+                    if i//2 % 2==0:
+                        cap.set(color=colors_dict[f'{chr_string}_edge'],linewidth=lw)
+                    else:
+                        cap.set(color=colors_dict['O_edge'],linewidth=lw)
+                for i, flier in enumerate(bp['fliers']):
+                    if i%2==0:
+                        flier.set(marker='.', markerfacecolor=colors_dict[f'{chr_string}_edge'], markeredgecolor=colors_dict[f'{chr_string}_edge'])
+                    else:
+                        flier.set(marker='.', markerfacecolor=colors_dict['O_edge'], markeredgecolor=colors_dict['O_edge'])
+
+        elif plot_type == "means_bar":
+
+            if len(chr_string)>1:
+                tick_pos = [i for i in range(1,len(tick_labels)+1)]
+                box_width = 1/5
+                pos_adjust=box_width*1.3
+                for i in range(len(tick_labels)):
+                    if i%3 == 0:
+                        tick_pos[i] =1+ i//3 -pos_adjust
+                    if i%3 == 1:
+                        tick_pos[i] =1+ i//3 
+                    if i%3 == 2:
+                        tick_pos[i] =1+ i//3 +pos_adjust
+                    print(f"{i} : {tick_pos[i]}")
+            else:
+                box_width = 0.7
+                pos_adjust=box_width*0.125
+                tick_pos = [i+pos_adjust if i%2==1 else i-pos_adjust for i in range(1,len(tick_labels)+1)]
+
+            ymax_plot = 0
+            colors_list = []
+            errors_colors = []
+            for data_key in tick_labels:
+                if " A" in data_key:
+                    colors_list.append(colors_dict["O_fill"])
+                    errors_colors.append(colors_dict["O_edge"])
+                else:
+                    for chr_ in chr_string:
+                        if f" {chr_}" in data_key:
+                            colors_list.append(colors_dict[f"{chr_}_fill"])
+                            errors_colors.append(colors_dict[f"{chr_}_edge"])
+            
+            # set axis labels
+            ax.set_ylabel("mean gene family size", fontsize=fs)
+            means_lists = [mean(gf_sizes) for gf_sizes in lists]
+            sem_lists = [sem(gf_sizes) for gf_sizes in lists]
+            ax.bar(x=tick_pos, height=means_lists, yerr=sem_lists, width=box_width, color = colors_list)
+
+            #custom errorbars for matching colors
+            for xi, m, e, c in zip(tick_pos, means_lists, sem_lists, errors_colors):
+                ax.errorbar(xi, m, yerr=e, fmt="none", ecolor=c, capsize=4, elinewidth=1.5)
+
+            if len(chr_string)>1:
+                fs_factor=0.8
+                ax2 = ax.secondary_xaxis('bottom')
+                ax2.set_xticks([i+1 for i in range(len(species_list))])
+                species_list_ = [s.replace("_", ". ") for s in species_list]
+                ax2.set_xticklabels([f"\\textit{{{s}}}" for s in species_list_], fontsize=fs*fs_factor, rotation=90)
+                ax2.spines['bottom'].set_position(('outward', 70))   # 70 fo rbelow
+                ax2.xaxis.set_ticks_position('none')
+                ax2.spines['bottom'].set_visible(False)
+                ax2.tick_params(axis='x', labelsize=fs*fs_factor)
+
+        # ax.set_yscale('log')
+        ax.set_xlabel("")
+        ax.tick_params(axis='x', labelsize=fs) 
+        ax.set_xticks(ticks = tick_pos, labels = tick_labels, fontsize=fs, rotation=90)
+        ax.tick_params(axis='y', labelsize=fs)
+        if chr_string == "XY":
+            chr_string_ = "X or Y"
+        else:
+            chr_string_ = chr_string
+        title = f"Sizes of A and {chr_string_}-linked gene families"
+        if min_GF_size >0:
+            title = f"{title} " + r"(min. GF size $\geq 2$)"
+        ax.set_title(title, fontsize=fs)
+
+        if ymax_plot>0:
+            ax.set_ylim(0.5,ymax_plot)
+        # layout rect=(left, bottom, right, top)
+
+        ax.axhline(y=1, color='#B78F85', linestyle='--', linewidth=lw)
+        plt.tight_layout()# rect=[0.0, 0.05, 1, 1])
+
+        # transparent background
+        plt.savefig(outfile, dpi = dpi, transparent = True)
+        print(f"plot saved in current working directory as: {outfile}")
+
+
+def scatter_GF_GS_comparison(sizes_dict, GS_dict, species_order, outfile=""):
+
     plt.rcParams['text.usetex'] = True # use \textit{} for species names
     plt.rcParams['text.latex.preamble'] = r'\usepackage{sfmath} \renewcommand{\familydefault}{\sfdefault}'
     plt.rcParams['font.family'] = 'sans-serif'
     # plt.rcParams['font.size'] = 16
     fs = 15 # font size
-    lw = 2 # line width
+    ps = 20
+    lw = 2
 
     colors_dict = {
-        "Y_fill" : "#495E83", # dusk blue
+        "Y" : "#495E83", # dusk blue
         "Y_edge" : "#374C6E", # dusk blue darker
-        "Y_medians" : "#A7CCED", # icy blue
-        "X_fill" : "#AB354A", # cherry rose
+        "X" : "#AB354A", # cherry rose
         "X_edge" : "#771C2C", # dark amaranth
-        "X_medians" : "#EA9AA9", # cotton candy
-        "O_fill" : "#51997C", # seagrass
+        "O" : "#51997C", # seagrass
         "O_edge" : "#376F59", # deep teal
-        "O_medians" : "#8FCEB5", # perl_aqua
+        "vline" : '#9499A5', # cool steel
+        "vtext" : "#5B6378", #blue slate
     }
 
-    aspect_ratio = 20 / 12 # height / width
+    aspect_ratio = 18 / 14 # height / width
     height_pixels = 1400  # Height in pixels
     dpi = 300
     width_pixels = int(height_pixels * aspect_ratio)  # Width in pixels
 
     fig, ax = plt.subplots(1,1,figsize=(width_pixels/dpi, height_pixels/dpi))
 
-    # tick_labels = [f"{key}\n({len(lists)} GFs)" for key,lists in data_dict.items()]
-    tick_labels = [k.split(":")[0] for k in data_dict.keys()]
-    lists = [means_list for means_list in data_dict.values()]
+    GS_list = [GS_dict[s] for s in species_order]
+    for x,s in zip(GS_list,species_order):
+        ax.axvline(x=x, color=colors_dict["vline"], linestyle='-', linewidth=lw*0.25)
+        species = s.replace("_", ". ")
+        ax.text(
+        x, 0.98, f"\\textit{{{species}}}",
+        rotation=90,transform=ax.get_xaxis_transform(),  # x: data, y: axes fraction
+        va="top",        # text hangs down from y=0.98
+        ha="right",      # sits just left of the line (use "left" for right side)
+        fontsize=fs*0.8, color=colors_dict["vtext"]
+    )
+    
+    x_offset = {c:i*max(GS_list)/120 for c,i in zip(sizes_dict.keys(),range(-1,2))}
+    for c , species_sizes in sizes_dict.items():
+        GF_sizes = [mean(species_sizes[s]) for s in species_order]
+        GF_errors = [sem(species_sizes[s]) for s in species_order]
 
-    if plot_type == "medians_box":
+        x_coord = [i+x_offset[c] for i in GS_list]
+        ax.scatter(x_coord, GF_sizes, color = colors_dict[c], s=ps)
+        ax.errorbar(x_coord, GF_sizes, yerr=GF_errors, fmt="none", ecolor=colors_dict[f"{c}_edge"], capsize=4, elinewidth=lw)
 
-        width = 0.7
-        pos_adjust=width*0.125
-
-        tick_pos = [i+pos_adjust if i%2==1 else i-pos_adjust for i in range(1,len(tick_labels)+1)]
-        bp = ax.boxplot(lists, positions=tick_pos, widths=width, patch_artist=True)   
-        # set axis labels
-        ax.set_ylabel("gene family size", fontsize=fs)
-
-        ## modify boxplot colors
-        if True:
-            for i, box in enumerate(bp['boxes']):
-                if i%2==0:
-                    box.set(facecolor=colors_dict[f"{chr_string}_fill"], edgecolor=colors_dict[f"{chr_string}_edge"], linewidth=2)
-                else:
-                    box.set(facecolor=colors_dict["O_fill"], edgecolor=colors_dict["O_edge"], linewidth=2)
-            for i, median_ in enumerate(bp['medians']):
-                if i%2==0:
-                    median_.set(color=colors_dict[f'{chr_string}_medians'], linewidth=lw)
-                else:
-                    median_.set(color=colors_dict['O_medians'], linewidth=lw)
-            for i, whisker in enumerate(bp['whiskers']):
-                # print(f"whisker: {i}")
-                if i//2 % 2==0:
-                    whisker.set(color=colors_dict[f'{chr_string}_edge'], linestyle='-',linewidth=lw)
-                else:
-                    whisker.set(color=colors_dict['O_edge'], linestyle='-',linewidth=lw)
-            for i, cap in enumerate(bp['caps']):
-                if i//2 % 2==0:
-                    cap.set(color=colors_dict[f'{chr_string}_edge'],linewidth=lw)
-                else:
-                    cap.set(color=colors_dict['O_edge'],linewidth=lw)
-            for i, flier in enumerate(bp['fliers']):
-                if i%2==0:
-                    flier.set(marker='.', markerfacecolor=colors_dict[f'{chr_string}_edge'], markeredgecolor=colors_dict[f'{chr_string}_edge'])
-                else:
-                    flier.set(marker='.', markerfacecolor=colors_dict['O_edge'], markeredgecolor=colors_dict['O_edge'])
-
-    elif plot_type == "means_bar":
-
-        if len(chr_string)>1:
-            tick_pos = [i for i in range(1,len(tick_labels)+1)]
-            box_width = 1/5
-            pos_adjust=box_width*1.3
-            for i in range(len(tick_labels)):
-                if i%3 == 0:
-                    tick_pos[i] =1+ i//3 -pos_adjust
-                if i%3 == 1:
-                    tick_pos[i] =1+ i//3 
-                if i%3 == 2:
-                    tick_pos[i] =1+ i//3 +pos_adjust
-                print(f"{i} : {tick_pos[i]}")
-        else:
-            box_width = 0.7
-            pos_adjust=box_width*0.125
-            tick_pos = [i+pos_adjust if i%2==1 else i-pos_adjust for i in range(1,len(tick_labels)+1)]
-
-        ymax_plot = 0
-        colors_list = []
-        errors_colors = []
-        for data_key in tick_labels:
-            if " A" in data_key:
-                colors_list.append(colors_dict["O_fill"])
-                errors_colors.append(colors_dict["O_edge"])
-            else:
-                for chr_ in chr_string:
-                    if f" {chr_}" in data_key:
-                        colors_list.append(colors_dict[f"{chr_}_fill"])
-                        errors_colors.append(colors_dict[f"{chr_}_edge"])
-        
-        # set axis labels
-        ax.set_ylabel("mean gene family size", fontsize=fs)
-        means_lists = [mean(gf_sizes) for gf_sizes in lists]
-        sem_lists = [sem(gf_sizes) for gf_sizes in lists]
-        ax.bar(x=tick_pos, height=means_lists, yerr=sem_lists, width=box_width, color = colors_list)
-
-        #custom errorbars for matching colors
-        for xi, m, e, c in zip(tick_pos, means_lists, sem_lists, errors_colors):
-            ax.errorbar(xi, m, yerr=e, fmt="none", ecolor=c, capsize=4, elinewidth=1.5)
-
-        if len(chr_string)>1:
-            fs_factor=0.8
-            ax2 = ax.secondary_xaxis('bottom')
-            ax2.set_xticks([i+1 for i in range(len(species_list))])
-            species_list_ = [s.replace("_", ". ") for s in species_list]
-            ax2.set_xticklabels([f"\\textit{{{s}}}" for s in species_list_], fontsize=fs*fs_factor, rotation=90)
-            ax2.spines['bottom'].set_position(('outward', 70))   # 70 fo rbelow
-            ax2.xaxis.set_ticks_position('none')
-            ax2.spines['bottom'].set_visible(False)
-            ax2.tick_params(axis='x', labelsize=fs*fs_factor)
-
-    # ax.set_yscale('log')
-    ax.set_xlabel("")
+    ax.set_xlabel("Genome size in Mb", fontsize=fs)
+    ax.set_ylabel("Gene family size", fontsize=fs)
     ax.tick_params(axis='x', labelsize=fs) 
-    ax.set_xticks(ticks = tick_pos, labels = tick_labels, fontsize=fs, rotation=90)
     ax.tick_params(axis='y', labelsize=fs)
-    if chr_string == "XY":
-        chr_string_ = "X or Y"
-    else:
-        chr_string_ = chr_string
-    title = f"Sizes of A and {chr_string_}-linked gene families"
-    if min_GF_size >0:
-        title = f"{title} " + r"(min. GF size $\geq 2$)"
-    ax.set_title(title, fontsize=fs)
 
-    if ymax_plot>0:
-        ax.set_ylim(0.5,ymax_plot)
-    # layout rect=(left, bottom, right, top)
+    ymin,ymax = ax.get_ylim()
+    ax.set_ylim(ymin, ymax*1.1)
 
-    ax.axhline(y=1, color='#B78F85', linestyle='--', linewidth=lw)
     plt.tight_layout()# rect=[0.0, 0.05, 1, 1])
 
     # transparent background
     plt.savefig(outfile, dpi = dpi, transparent = True)
     print(f"plot saved in current working directory as: {outfile}")
-
 
 
 
@@ -592,7 +671,7 @@ if __name__ == "__main__":
             upset_HOG_sex_chromosomes(hog_sexchr_dict=mini_hog_sexchr_dict, chr_string=chr, plot_filename=f"{data_dir}/orthogroup_presence_{mini_filename}{chr}_upsetplot.png", min_intersection_size=min_intersection_size[chr])
 
     ### check if gene fmailies with X/Y members are on average larger
-    if True:
+    if False:
         mini_hog_sexchr_dict = parse_orthogroups_with_gff_class(filepath=orthogroups_file, annotations_dict=annot_dict, unassigned_genes_path=unassigned_genes_path, sex_chr_dict=sex_chromosome_contigs, miniprot_paths_dict=miniprot_dict)
         orthogroups_summary_stats(hog_sexchr_dict=mini_hog_sexchr_dict, filepath=orthogroups_file, annot_species=species_order)
 
@@ -607,7 +686,7 @@ if __name__ == "__main__":
 
                 print(f"\n\n>>>>> {chr} <<<<< (excl: {excl_chr})")
                 check_sex_linked_GF_size(hog_sexchr_dict=mini_hog_sexchr_dict, species_list=species_order, chr_string=chr, excl_chr=excl_chr, outfile=filename, ymax_plot = ymax_plot[chr])
-        if True:
+        if False:
             # plot three-color bar chart with all of them
             chr_ = "XY"
             if only_gff:
@@ -621,3 +700,15 @@ if __name__ == "__main__":
 
             print(f"\n\n>>>>> {chr_} <<<<< ")
             check_sex_linked_GF_size(hog_sexchr_dict=mini_hog_sexchr_dict, species_list=species_order, chr_string=chr_, min_GF_size = mingf, outfile=filename, plot_type="means_bar")
+        
+    if True:
+        mini_hog_sexchr_dict = parse_orthogroups_with_gff_class(filepath=orthogroups_file, annotations_dict=annot_dict, unassigned_genes_path=unassigned_genes_path, sex_chr_dict=sex_chromosome_contigs, miniprot_paths_dict=miniprot_dict)
+
+        mingf = 0 # gene families need to have at least two members in the species
+        if mingf>0:
+            filename = f"{data_dir}/GF_sizes_min{mingf}_chr-linked_vs_GS.png"
+        else:
+            filename = f"{data_dir}/GF_sizes_chr-linked_vs_GS.png"
+        xy_sizes,O_sizes = check_sex_linked_GF_size(hog_sexchr_dict=mini_hog_sexchr_dict, species_list=species_order, chr_string="XY", min_GF_size = mingf, outfile="", plot_type="no_plot")
+        sizes_dict = xy_sizes | {"O" : O_sizes}
+        scatter_GF_GS_comparison(sizes_dict, GS_dict=genome_sizes, species_order=species_order, outfile=filename)
