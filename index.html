@@ -682,6 +682,10 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
         X and A are very similar, Y has a lower gene density, more on the level with unplaced scaffolds, and it stays low even in the 
         smaller genomes.
     </p>
+    <p>
+        Seems like on X and A smaller genomes have a higher gene density, which makes sense, but the Y has low gene density regardless of genome size
+    </p>
+
 </div>
 <div style="float: right;width: 48%;">
     <p style="margin-left: 3.5em;"><b>within-species paralogs from miniprot</b></p>
@@ -702,7 +706,12 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
     <p style="margin-left: 1em;">
         This includes all regions annotated as <code>CDS</code> by miniprot, ecluding introns just like the annotations. These are generally
         a lower proportion than the annotated regions, especially for A and X, but the Y is comparatively high. This also does not have the 
-        high densities in the smaller genomes.<br><span style="color:#BD351E">No clue what is up with the unplaced scaffolds in <i>D. carinulata</i></span>
+        high densities in the smaller genomes.
+    </p>
+    <p>
+        The miniprot paralogs are maybe slightly higher in X and A for larger genomes, but in opposition to the annotation results on the left, the 
+        Y is consistently higher (except in <i>B. siliquastri</i>) and gets even higher with genome size. Unsure how i would test anything involving Y 
+        since the sample size is so low though
     </p>
 </div>
 <div style="clear: both;"></div>
@@ -3204,6 +3213,11 @@ The min. sequence identity threshold is 95%, for min intron length see methods s
         For numbers of gene family sizes that are X and Y linked at the same time see tabs on the left. Just from the annotation, these have much 
         larger gene families than even Y-linked genes, and including miniprot paralogs increases the size further. <span style="color: #BD351E;">
         Investigating these separately with GO-terms may also be interesting?</span>
+    </p>
+    <p style="color: #BD351E;">
+        What statistical test for the GF size differences? I want to test for difference in mean, but sample sizes 
+        (and probably variance distributions) are very different between chromosome categories. I don't think testing for correlation with GS is very 
+        productive, looks not correlated, and the association i find in chapter 1 is only sig. rapidly evolving orthogroups, which are only ca 2% of all orthogroups.
     </p>
     
     <h4>Conclusions</h4>

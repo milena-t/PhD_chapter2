@@ -166,7 +166,12 @@ def plot_gene_density(gene_density_dict, annot,  outfile_name = "", chromosome_c
     print("Figure saved as: "+outfile_annot)
 
 
-def plot_gene_density_vs_GS(gene_density_dict, annot, species_names,  outfile_name = "", chromosome_categories = ["unplaced", "A", "X", "Y"], genome_sizes = {}, legend_loc="best"):
+def plot_gene_density_vs_GS(gene_density_dict, annot,  outfile_name = "", chromosome_categories = ["unplaced", "A", "X", "Y"], genome_sizes = {}, legend_loc="best"):
+
+    ## get species names in order of size
+    sizes_sorted = sorted(list(genome_sizes.values()))
+    genome_sizes_ = {size : species for species,size in genome_sizes.items()} 
+    species_names = [genome_sizes_[size] for size in sizes_sorted]
 
     plt.rcParams['text.usetex'] = True # use \\textit{{{}}} for species names
     plt.rcParams['text.latex.preamble'] = r'\usepackage{sfmath} \renewcommand{\familydefault}{\sfdefault}'
@@ -235,7 +240,11 @@ def plot_gene_density_vs_GS(gene_density_dict, annot, species_names,  outfile_na
         print(f"\t{cat}: {gene_density}")
 
         ax.scatter(x_coord, gene_density, color = colors_dict[cat], s=ps, label = legend_label[cat])
-        ax.errorbar(x_coord, gene_density, yerr=gd_errors, fmt="none", ecolor=colors_dict[f"{cat}_edge"], capsize=4, elinewidth=lw)
+        ax.errorbar(x_coord, gene_density, yerr=gd_errors, 
+            # fmt="none", 
+            color = colors_dict[cat], ecolor=colors_dict[f"{cat}_edge"], 
+            capsize=4, elinewidth=lw, 
+            linestyle = ":", linewidth =lw*0.5)
         # ax.errorbar(xtick_pos, mean_list, yerr = stderr_list, color=colors[cat], linewidth =3, marker = ".", markersize=20, linestyle = ":", label = legend_label[cat])
 
     ax.yaxis.set_major_formatter(FuncFormatter(lambda x, pos: '' if x > 1 else f'{x*100.0:.0f}\%'))
@@ -271,7 +280,7 @@ if __name__ == "__main__":
     gene_densities = {}
     gene_counts = {}
 
-    plot_miniprot = False
+    plot_miniprot = True
 
 
     for species, miniprot_path in miniprot_dict.items():
@@ -321,6 +330,6 @@ if __name__ == "__main__":
         legend_loc = "center"
 
     plot_gene_density_vs_GS(
-        gene_density_dict=gene_densities, annot=annot, species_names=list(genome_sizes.keys()),
+        gene_density_dict=gene_densities, annot=annot, # species_names=list(genome_sizes.keys()),
         outfile_name=f"{data_dir}sex_chromosome_gene_density_vs_GS.png",
         chromosome_categories = ["A", "X", "Y"],genome_sizes=genome_sizes, legend_loc=legend_loc)
