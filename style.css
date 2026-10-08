@@ -45,6 +45,7 @@ body {
     border-radius: 10px;
     overflow-x: auto;
     max-width: 100%;
+    color: #44506e;
   }
   details {
     background: #dddee5;

@@ -20,6 +20,8 @@
     <!--
         grey : #909bb5
         red : #BD351E
+        cd /Users/miltr339/work/PhD_code/PhD_chapter2 ; python3 -m http.server 8000
+        http://localhost:8000/index.html
     -->
 <div id="outer-box">
     <div id="header-image" style="border-radius: 50px 50px 50px 50px;">
@@ -2861,6 +2863,41 @@ The min. sequence identity threshold is 95%, for min intron length see methods s
     </p>
 
 </details>
+
+<h4>Basics from orthofinder statistics</h4>
+
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'tree_node_duplications')">Tree node duplications</button>
+    <button class="tablinks" onclick="openTab(event, 'pairwise_orthogroups')">Pairwise shared orthogroups</button>
+    <button class="tablinks" onclick="openTab(event, 'statistics_overall')">Statistic overall</button>
+</div>
+<div id="tree_node_duplications" class="tabcontent">
+    <p><code>data/orthofinder/Duplications_per_Species_Tree_Node.txt</code></p>
+
+    <pre id="of_duplications_stats" style="height:30vh; overflow:auto; margin:0;"></pre>
+    <script>
+    fetch("data/orthofinder/Duplications_per_Species_Tree_Node.txt")
+        .then(r => r.text())
+        .then(t => document.getElementById("of_duplications_stats").textContent = t);
+    </script>
+</div>
+<div id="pairwise_orthogroups" class="tabcontent">
+    <p>How many orthogroups are shared between species pairs, <code>Orthogroups_SpeciesOverlaps.txt</code></p></p>
+    <pre id="of_overlaps_stats" style="height:30vh; overflow:auto; margin:0;"></pre>
+    <script>
+    fetch("data/orthofinder/Orthogroups_SpeciesOverlaps.txt")
+        .then(r => r.text())
+        .then(t => document.getElementById("of_overlaps_stats").textContent = t);
+    </script>
+</div>
+<div id="statistics_overall" class="tabcontent">
+    <pre id="of_stats_overall" style="height:30vh; overflow:auto; margin:0;"></pre>
+    <script>
+    fetch("data/orthofinder/Statistics_Overall.txt")
+        .then(r => r.text())
+        .then(t => document.getElementById("of_stats_overall").textContent = t);
+    </script>
+</div>
 
 <h2 id="translocations">Translocation dynamics</h2>
 

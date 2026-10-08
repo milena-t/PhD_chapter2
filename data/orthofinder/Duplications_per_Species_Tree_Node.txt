@@ -1,0 +1,16 @@
+Species Tree Node	Duplications (all)	Duplications (50% support)
+B_siliquastri	2262	2262
+N2	1010	313
+N6	610	610
+C_chinensis	1756	1756
+A_obtectus	3064	3064
+C_maculatusC	1430	1430
+B_varius	1418	1418
+N5	199	95
+N4	438	203
+N0	374	117
+N1	527	527
+D_sublineata	592	592
+D_carinulata	577	577
+C_maculatus	2122	2122
+N3	705	92
