@@ -198,9 +198,6 @@ def plot_gene_density_vs_GS(gene_density_dict, annot,  outfile_name = "", chromo
     ps = 20
     lw = 2
     
-    point_offset=0.05
-    xtick_ticklabel_pos = [i for i in range(len(species_names))]
-    
     aspect_ratio = 18 / 14 # height / width
     height_pixels = 1400  # Height in pixels
     dpi = 300

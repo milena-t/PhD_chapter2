@@ -3247,7 +3247,105 @@ The min. sequence identity threshold is 95%, for min intron length see methods s
     being on more than one autosome or being on an autosome and a sex chromosome. Therefore I will use the synteny plot to create linkage groups 
     for <i>Bruchini</i> and <i>Carinulata</i> (not between them since there's too many rearrangements).
 </p>
+<p style="color: #BD351E;"> Is there a difference between the (TODO) curve fit of exclusively autosomal orthologs compared to X or Y linked ones?</p>
 
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'A_obtectus_GFvsLG')"><i>A. obtectus</i></button>
+    <button class="tablinks" onclick="openTab(event, 'C_maculatus_GFvsLG')"><i>C. maculatus</i></button>
+    <button class="tablinks" onclick="openTab(event, 'C_chinensis_GFvsLG')"><i>C. chinensis</i></button>
+    <button class="tablinks" onclick="openTab(event, 'B_siliquastri_GFvsLG')"><i>B. siliquastri</i></button>
+    <button class="tablinks" onclick="openTab(event, 'B_varius_GFvsLG')"><i>B. varius</i></button>
+    <button class="tablinks" onclick="openTab(event, 'D_carinulata_GFvsLG')"><i>D. carinulata</i></button>
+    <button class="tablinks" onclick="openTab(event, 'D_sublineata_GFvsLG')"><i>D. sublineata</i></button>
+</div>
+<div id="A_obtectus_GFvsLG" class="tabcontent">
+    <div style="float:left;width:40%;">
+        <p float="right">
+            <img loading="lazy" src="data/orthofinder/translocations_sexchr_vs_A_numbers_A_obtectus.png" width="100%" />
+        </p>
+    </div>
+    <div style="float:right;width:58%"></div>
+    <div style="clear:both"></div>
+</div>
+
+<div id="C_maculatus_GFvsLG" class="tabcontent">
+    <div style="float:left;width:40%;">
+        <p float="right">
+            <img loading="lazy" src="data/orthofinder/translocations_sexchr_vs_A_numbers_C_maculatus.png" width="100%" />
+        </p>
+    </div>
+    <div style="float:right;width:58%"></div>
+    <div style="clear:both"></div>
+</div>
+
+<div id="C_chinensis_GFvsLG" class="tabcontent">
+    <div style="float:left;width:40%;">
+        <p float="right">
+            <img loading="lazy" src="data/orthofinder/translocations_sexchr_vs_A_numbers_C_chinensis.png" width="100%" />
+        </p>
+    </div>
+    <div style="float:right;width:58%">
+        <p>
+            <i>C. chinensis</i> is not scaffolded, so everything non-X and non-Y just gets sorted into the unassigned linkage group
+        </p>
+    </div>
+    <div style="clear:both"></div>
+</div>
+
+<div id="B_siliquastri_GFvsLG" class="tabcontent">
+    <div style="float:left;width:40%;">
+        <p float="right">
+            <img loading="lazy" src="data/orthofinder/translocations_sexchr_vs_A_numbers_B_siliquastri.png" width="100%" />
+        </p>
+    </div>
+    <div style="float:right;width:58%"></div>
+    <div style="clear:both"></div>
+</div>
+
+<div id="B_varius_GFvsLG" class="tabcontent">
+    <div style="float:left;width:40%;">
+        <p float="right">
+            <img loading="lazy" src="data/orthofinder/translocations_sexchr_vs_A_numbers_B_varius.png" width="100%" />
+        </p>
+    </div>
+    <div style="float:right;width:58%">
+    <p>
+        <i>B. varius</i> has a fusion of what is <code>BLG8</code> and <code>BLG9</code> in the other <i>Bruchini</i>, so I only assign the fusion 
+        chromosome to <code>BLG8</code>.
+    </p>
+    </div>
+    <div style="clear:both"></div>
+</div>
+
+<div id="D_carinulata_GFvsLG" class="tabcontent">
+    <div style="float:left;width:40%;">
+        <p float="right">
+            <img loading="lazy" src="data/orthofinder/translocations_sexchr_vs_A_numbers_D_carinulata.png" width="100%" />
+        </p>
+    </div>
+    <div style="float:right;width:58%">
+    <p>
+        The <i>Diorhabda</i> genus currently has common linkage groups defined for both, where <code>DLG1</code> and <code>DLG6</code> contain 
+        two or three chromosomes (because the affected chromosomes have fission/fusion events between the species)
+    </p>
+    </div>
+    <div style="clear:both"></div>
+</div>
+
+<div id="D_sublineata_GFvsLG" class="tabcontent">
+    <div style="float:left;width:40%;">
+        <p float="right">
+            <img loading="lazy" src="data/orthofinder/translocations_sexchr_vs_A_numbers_D_sublineata.png" width="100%" />
+        </p>
+    </div>
+    <div style="float:right;width:58%">
+    <p>
+        The <i>Diorhabda</i> genus currently has common linkage groups defined for both, where <code>DLG1</code> and <code>DLG6</code> contain 
+        two or three chromosomes (because the affected chromosomes have fission/fusion events between the species)
+    </p>
+    </div>
+    <div style="clear:both"></div>
+</div>
 
 
 
