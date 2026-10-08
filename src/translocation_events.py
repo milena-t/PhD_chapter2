@@ -30,3 +30,12 @@ if __name__ == "__main__":
         "D_carinulata",
         "D_sublineata"
     ]
+
+    orthogorups = og.parse_orthogroups_class(
+        filepath=orthogroups_file,
+        annot_species=species_order,
+        annotations_dict=annot_dict,
+        unassigned_genes_path=unassigned_genes_path,
+        miniprot_paths_dict=miniprot_dict)
+    
+    print(orthogorups["N0.HOG0000064"])

@@ -19,15 +19,15 @@ class LinkageGroup(str, Enum):
 
     LGX = "X",
     LGY = "Y",
-    LGU = "", # unplaced scaffolds
+    LGU = "unplaced", # unplaced scaffolds
     
-    DLG1 = "NC_079476.1",
-    DLG2 = "NC_079478.1",
-    DLG3 = "NC_079479.1",
-    DLG4 = "NC_079480.1",
-    DLG5 = "NC_079481.1",
-    DLG6 = "NC_079477.1",
-    DLG7 = "NC_079484.1",
+    DLG1 = "1",
+    DLG2 = "2",
+    DLG3 = "3",
+    DLG4 = "4",
+    DLG5 = "5",
+    DLG6 = "6",
+    DLG7 = "7",
 
 
 contigname_to_linkagegroup = {
