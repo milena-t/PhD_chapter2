@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 from circos.make_circos_karyotype_file import autosomes_lists
 from matplotlib.ticker import FuncFormatter
 import numpy as np
+from GF_sizes import genome_sizes
 
 
 def get_exon_coverage(miniprot_filepath, miniprot=True, gff_annot=False):
@@ -92,8 +93,7 @@ def calculate_gene_density(contig_lengths, species_gff, sex_chromosomes, autosom
 
 
 
-def plot_gene_density(gene_density_dict, annot,  outfile_name = ""):
-    chromosome_categories = ["unplaced", "A", "X", "Y"]
+def plot_gene_density(gene_density_dict, annot,  outfile_name = "", chromosome_categories = ["unplaced", "A", "X", "Y"], genome_sizes = {}):
 
     plt.rcParams['text.usetex'] = True # use \\textit{{{}}} for species names
     plt.rcParams['text.latex.preamble'] = r'\usepackage{sfmath} \renewcommand{\familydefault}{\sfdefault}'
@@ -127,8 +127,12 @@ def plot_gene_density(gene_density_dict, annot,  outfile_name = ""):
         stderr_list = [0.0 for s in species_names]
         for j, species in enumerate(species_names):
             if gene_density_dict[species][cat]==[]:
-                mean_list[j] = np.nan
-                stderr_list[j] = np.nan
+                if species == "C_chinensis" and cat == "A":
+                    mean_list[j] = mean(gene_density_dict[species]["unplaced"])
+                    stderr_list[j] = sem(gene_density_dict[species]["unplaced"])
+                else:
+                    mean_list[j] = np.nan
+                    stderr_list[j] = np.nan
             else:
                 mean_list[j] = mean(gene_density_dict[species][cat])
                 stderr_list[j] = sem(gene_density_dict[species][cat])
@@ -162,6 +166,97 @@ def plot_gene_density(gene_density_dict, annot,  outfile_name = ""):
     print("Figure saved as: "+outfile_annot)
 
 
+def plot_gene_density_vs_GS(gene_density_dict, annot, species_names,  outfile_name = "", chromosome_categories = ["unplaced", "A", "X", "Y"], genome_sizes = {}, legend_loc="best"):
+
+    plt.rcParams['text.usetex'] = True # use \\textit{{{}}} for species names
+    plt.rcParams['text.latex.preamble'] = r'\usepackage{sfmath} \renewcommand{\familydefault}{\sfdefault}'
+    plt.rcParams['font.family'] = 'sans-serif'
+
+    colors_dict = {
+        "A" : "#748B7A",
+        "X" : "#BD351E", # red
+        "Y" : "#5E79BD", # blue
+        "Y_edge" : "#374C6E", # dusk blue darker
+        "X_edge" : "#771C2C", # dark amaranth
+        "A_edge" : "#376F59", # deep teal
+        "unplaced" : "#909bb5",
+        "vline" : '#9499A5', # cool steel
+        "vtext" : "#5B6378", #blue slate
+    }
+    legend_label = {
+        "A" : "Autosomes",
+        "unplaced" : "unpl. scaffolds",
+        "X" : "X chromosome",
+        "Y" : "Y chromosome"
+    }
+    fs = 15 # font size
+    ps = 20
+    lw = 2
+    
+    point_offset=0.05
+    xtick_ticklabel_pos = [i for i in range(len(species_names))]
+    
+    aspect_ratio = 18 / 14 # height / width
+    height_pixels = 1400  # Height in pixels
+    dpi = 300
+    width_pixels = int(height_pixels * aspect_ratio)  # Width in pixels
+
+    fig, ax = plt.subplots(1,1,figsize=(width_pixels/dpi, height_pixels/dpi))
+
+    GS_list = [genome_sizes[s] for s in species_names]
+    for x,s in zip(GS_list,species_names):
+        ax.axvline(x=x, color=colors_dict["vline"], linestyle='-', linewidth=lw*0.25)
+        species = s.replace("_", ". ")
+        ax.text(
+        x, 0.98, f"\\textit{{{species}}}",
+        rotation=90,transform=ax.get_xaxis_transform(),  # x: data, y: axes fraction
+        va="top",        # text hangs down from y=0.98
+        ha="right",      # sits just left of the line (use "left" for right side)
+        fontsize=fs*0.8, color=colors_dict["vtext"]
+    )
+    x_offset = {c:i*max(GS_list)/120 for c,i in zip(chromosome_categories,range(-1,2))}
+
+    for i,cat in enumerate(chromosome_categories):
+        gene_density = [0.0 for s in species_names]
+        gd_errors = [0.0 for s in species_names]
+        for j, species in enumerate(species_names):
+            if gene_density_dict[species][cat]==[]:
+                if species == "C_chinensis" and cat == "A":
+                    gene_density[j] = mean(gene_density_dict[species]["unplaced"])
+                    gd_errors[j] = sem(gene_density_dict[species]["unplaced"])
+                else:
+                    gene_density[j] = np.nan
+                    gd_errors[j] = np.nan
+            else:
+                gene_density[j] = mean(gene_density_dict[species][cat])
+                gd_errors[j] = sem(gene_density_dict[species][cat])
+        x_coord = [i+x_offset[cat] for i in GS_list]
+        # ax.plot(xtick_pos, mean_list, label = legend_label[cat], color = colors[cat], linewidth = 4) 
+        print(f"\t{cat}: {gene_density}")
+
+        ax.scatter(x_coord, gene_density, color = colors_dict[cat], s=ps, label = legend_label[cat])
+        ax.errorbar(x_coord, gene_density, yerr=gd_errors, fmt="none", ecolor=colors_dict[f"{cat}_edge"], capsize=4, elinewidth=lw)
+        # ax.errorbar(xtick_pos, mean_list, yerr = stderr_list, color=colors[cat], linewidth =3, marker = ".", markersize=20, linestyle = ":", label = legend_label[cat])
+
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda x, pos: '' if x > 1 else f'{x*100.0:.0f}\%'))
+    ylab = f"gene density"
+    ax.set_ylabel(ylab, fontsize = fs)
+    ax.tick_params(axis ='y', labelsize = fs)  
+    ax.tick_params(axis ='x', labelsize = fs)  
+    ax.set_xlabel(f"Genome size in Mb", fontsize = fs)
+    # ymin,ymax = ax.get_ylim()
+    # ax.set_ylim(0,ymax)
+    
+    ax.tick_params(axis='y', labelsize=fs)
+    ax.legend(fontsize=fs, loc=legend_loc)
+
+    plt.tight_layout()
+
+    outfile_annot = outfile_name.replace(".png", f"_{annot}.png")
+    plt.savefig(outfile_annot, dpi = 300, transparent = True)# , bbox_inches='tight')
+    print("Figure saved as: "+outfile_annot)
+
+
 if __name__ == "__main__":
     username = "miltr339"
     faidx_dicts,_ = fasta_indices(username=username)
@@ -175,7 +270,10 @@ if __name__ == "__main__":
     ## get gene densities for annotated genes from the gff
     gene_densities = {}
     gene_counts = {}
-    plot_miniprot = True
+
+    plot_miniprot = False
+
+
     for species, miniprot_path in miniprot_dict.items():
         print(f"\n====================== {species} ======================")
         if plot_miniprot:
@@ -212,4 +310,17 @@ if __name__ == "__main__":
                     print(f" - {chr_category} : NA, ({len(density_list)} contigs)")
 
 
-    plot_gene_density(gene_density_dict=gene_densities, annot=annot, outfile_name=f"{data_dir}sex_chromosome_gene_density.png")
+    # plot_gene_density(
+    #     gene_density_dict=gene_densities, annot=annot, 
+    #     outfile_name=f"{data_dir}sex_chromosome_gene_density.png",
+    #     chromosome_categories = ["A", "X", "Y"])
+
+    if plot_miniprot:
+        legend_loc = "center left"
+    else:
+        legend_loc = "center"
+
+    plot_gene_density_vs_GS(
+        gene_density_dict=gene_densities, annot=annot, species_names=list(genome_sizes.keys()),
+        outfile_name=f"{data_dir}sex_chromosome_gene_density_vs_GS.png",
+        chromosome_categories = ["A", "X", "Y"],genome_sizes=genome_sizes, legend_loc=legend_loc)

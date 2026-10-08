@@ -40,8 +40,4 @@ if __name__ == "__main__":
         unassigned_genes_path=unassigned_genes_path,
         miniprot_paths_dict=miniprot_dict)
 
-    plot_GS_correlations(
-        orthogroups=orthogorups,
-        genome_sizes=genome_sizes,
-        outfile_prefix=f"{data_dir}/GS_correlation")
     

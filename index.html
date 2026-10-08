@@ -663,20 +663,42 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 
 <div style="float: left;width: 48%;">
     <p style="margin-left: 3.5em;"><b>gene annotations</b></p>
-    <p float="left">
-        <img loading="lazy" src="data/sex_chromosome_gene_density_gene.png" width="80%" />
-    </p>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'gene_density_annot')">basic species order</button>
+        <button class="tablinks" onclick="openTab(event, 'gene_density_annot_vs_GS')">vs. genome size</button>
+    </div>
+    <div id="gene_density_annot" class="tabcontent">
+        <p float="left">
+            <img loading="lazy" src="data/sex_chromosome_gene_density_gene.png" width="100%" />
+        </p>
+    </div>
+    <div id="gene_density_annot_vs_GS" class="tabcontent">
+        <p float="left">
+            <img loading="lazy" src="data/sex_chromosome_gene_density_vs_GS_gene.png" width="100%" />
+        </p>
+    </div>
     <p style="margin-right: 1em;">
         The smaller genomes have a higher gene density and frequency, which makes sense with the same amount of genes in half the size. 
         X and A are very similar, Y has a lower gene density, more on the level with unplaced scaffolds, and it stays low even in the 
         smaller genomes.
     </p>
 </div>
-<div style="float: left;width: 48%;">
+<div style="float: right;width: 48%;">
     <p style="margin-left: 3.5em;"><b>within-species paralogs from miniprot</b></p>
-    <p float="left">
-        <img loading="lazy" src="data/sex_chromosome_gene_density_mini.png" width="80%" />
-    </p>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'gene_density_mini')">basic species order</button>
+        <button class="tablinks" onclick="openTab(event, 'gene_density_mini_vs_GS')">vs. genome size</button>
+    </div>
+    <div id="gene_density_mini" class="tabcontent">
+        <p float="left">
+            <img loading="lazy" src="data/sex_chromosome_gene_density_mini.png" width="100%" />
+        </p>
+    </div>
+    <div id="gene_density_mini_vs_GS" class="tabcontent">
+        <p float="left">
+            <img loading="lazy" src="data/sex_chromosome_gene_density_vs_GS_mini.png" width="100%" />
+        </p>
+    </div>
     <p style="margin-left: 1em;">
         This includes all regions annotated as <code>CDS</code> by miniprot, ecluding introns just like the annotations. These are generally
         a lower proportion than the annotated regions, especially for A and X, but the Y is comparatively high. This also does not have the 
