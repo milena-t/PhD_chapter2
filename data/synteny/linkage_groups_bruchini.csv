@@ -1,10 +1,10 @@
 group, A_obtectus, B_siliquastri, B_varius, C_maculatus
-BLK1, ao109, bs1, bv16, cm141
-BLK2, ao73, bs2, bv4, cm7
-BLK3, ao11, bs10, bv10, cm125
-BLK4, ao62, bs3, bv17, cm98 cm49 cm163
-BLK5, ao126, bs6, bv11, cm119
-BLK6, ao149, bs5, bv12, cm38
-BLK7, ao77, bs4, bv15, cm123
-BLK8, ao135, bs11, bv2, cm44 cm83
-BLK9, ao159, bs7, bv2, cm145 cm130
+BLG1, ao109, bs1, bv16, cm141
+BLG2, ao73, bs2, bv4, cm7
+BLG3, ao11, bs10, bv10, cm125
+BLG4, ao62, bs3, bv17, cm98 cm49 cm163
+BLG5, ao126, bs6, bv11, cm119
+BLG6, ao149, bs5, bv12, cm38
+BLG7, ao77, bs4, bv15, cm123
+BLG8, ao135, bs11, bv2, cm44 cm83
+BLG9, ao159, bs7, bv2, cm145 cm130
