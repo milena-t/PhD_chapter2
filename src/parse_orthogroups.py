@@ -4,6 +4,7 @@ from statistics import mean
 import linkage_groups as lg
 import parse_gff as gff
 import miniprot_stats_comparison as minialn
+from collections import defaultdict
 
 def get_orthogroup_sizes(orthogroup_dict, q = 0):
     """
@@ -99,11 +100,12 @@ def get_species_in_OG_dict(OG_dict:dict) -> list:
 
 
 class OGMember:
-    def __init__(self, transcript_ID:str, species:str, LG:lg.LinkageGroup, is_miniprot=False) -> None:
+    def __init__(self, transcript_ID:str, species:str, LG:lg.LinkageGroup, is_miniprot=False, gff_feature:gff.Feature=None) -> None:
         self.transcript_ID=transcript_ID
         self.species=species
         self.LG=LG
         self.is_miniprot=is_miniprot
+        self.gff_feature=gff_feature
     
     def __repr__(self):
         return "OrthoGroupMember"
@@ -134,15 +136,27 @@ class OrthoGroup:
                     gfsize += 1
             return gfsize
 
-    def sex_linkage(self, species):
+    def sex_linkage(self, species = ""):
         """
         return a dict of geneID lists that are X/Y or O linked (O for other, either A or unplaced)
         """
-        out_dict = {lg_ : 0 for lg_ in self.linkagegroups(species)}
-        for m in self.members:
-            if m.species==species:
-                out_dict[m.LG]+=1
-        return out_dict
+        if species !="":
+            out_dict = {lg_ : 0 for lg_ in self.linkagegroups(species)}
+            for m in self.members:
+                if m.species==species:
+                    out_dict[m.LG]+=1
+            return out_dict
+        else:
+            out_dict ={ s: {"X" : 0, "Y" : 0, "O" : 0} for s in self.species()}
+            for m in self.members:
+                if m.LG == lg.LinkageGroup.LGX:
+                    out_dict[m.species]["X"] += 1
+                if m.LG == lg.LinkageGroup.LGY:
+                    out_dict[m.species]["Y"] += 1
+                if m.LG != lg.LinkageGroup.LGY and m.LG != lg.LinkageGroup.LGX:
+                    out_dict[m.species]["O"] += 1
+            return out_dict
+
 
     def linkagegroups(self, species=""):
         if species =="":

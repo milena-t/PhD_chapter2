@@ -216,7 +216,7 @@ def plot_gene_density_vs_GS(gene_density_dict, annot,  outfile_name = "", chromo
         ha="right",      # sits just left of the line (use "left" for right side)
         fontsize=fs*0.8, color=colors_dict["vtext"]
     )
-    x_offset = {c:i*max(GS_list)/120 for c,i in zip(chromosome_categories,range(-1,2))}
+    x_offset = {c:i*max(GS_list)/150 for c,i in zip(chromosome_categories,range(-1,2))}
 
     for i,cat in enumerate(chromosome_categories):
         gene_density = [0.0 for s in species_names]
@@ -277,7 +277,7 @@ if __name__ == "__main__":
     gene_densities = {}
     gene_counts = {}
 
-    plot_miniprot = True
+    plot_miniprot = False
 
 
     for species, miniprot_path in miniprot_dict.items():
