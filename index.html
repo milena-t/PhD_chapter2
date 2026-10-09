@@ -518,6 +518,35 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
     </ul>
 </details>
 
+<h3>Orthofinder output files</h3>
+
+<p>
+    I will run orthofinder again like before and use the following files:
+</p>
+<ul>
+    <li><code><b>N0.tsv</b></code>: Hierarchical orthogroups</li>
+    <li><code><b>unassigned_genes.tsv</b></code>: treated as "singleton" orthogroups with only one member</li>
+</ul>
+<p>These two will be used to make the orthogroup structures</p>
+<ul>
+    <li>
+        <code><b>Duplications.tsv</b></code>: Identify the earliest duplication from the oldest two members in the HOG.<br>
+        This is a bit complicated, since <code>N0.tsv</code> is the result after resolving incongruencies between the gene and species tree, where unresolvable
+        geneIDs are removed that remain present in <code>Duplications.tsv</code>. I treat these as unassigned to an orthogroup (NOT as a singleton!!) and exclude them for now.
+        These are the numbers:
+    </li>
+    <ul>
+        <li><i>B. siliquastri</i> (894 unassigned to a HOG)</li>
+        <li><i>C. maculatus</i> (2013 unassigned to a HOG)</li>
+        <li><i>C. maculatusC</i> (3 unassigned to a HOG)</li>
+        <li><i>D. sublineata</i> (6 unassigned to a HOG)</li>
+        <li><i>D. carinulata</i> (2 unassigned to a HOG)</li>
+        <li><i>B. varius</i> (3 unassigned to a HOG)</li>
+        <li><i>C. chinensis</i> (2 unassigned to a HOG)</li>
+    </ul>
+</ul>
+
+
 <h2 id="translocation-characteristics">Characterize translocation events</h2>
 
 <h3>Identify translocation events</h3>

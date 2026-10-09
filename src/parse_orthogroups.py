@@ -4,6 +4,7 @@ from statistics import mean
 import linkage_groups as lg
 import parse_gff as gff
 import miniprot_stats_comparison as minialn
+from collections import defaultdict
 
 
 def get_orthogroup_sizes(orthogroup_dict, q = 0):
@@ -35,10 +36,13 @@ def get_orthogroup_sizes(orthogroup_dict, q = 0):
         return OG_sizes_filtered
 
 
-def parse_orthogroups_dict(filepath, species_list, OG_header = "HOG"):
+def parse_orthogroups_dict(filepath, species_list ="", OG_header = "HOG"):
     orthogroups_df = pd.read_csv(filepath, sep="\t")
     headers = set(orthogroups_df.columns)
-    annot_species = set(species_list)
+    if species_list != "":
+        annot_species = set(species_list)
+    else:
+        annot_species = set(list(headers)[3:])
     headers_keep = list(annot_species & headers)
     headers = [f"{OG_header}"] + headers_keep
     
@@ -271,3 +275,94 @@ def parse_orthogroups_class(filepath, annot_species, annotations_dict, unassigne
                         )
     
     return(og_class_dict)
+
+
+class EarliestDuplication:
+    def __init__(self, HOG_ID, geneIDs_side1:list, geneIDs_side2:list, support:float, tree_node:str=None) -> None:
+        self.HOG_ID=HOG_ID
+        self.geneIDs_side1=geneIDs_side1
+        self.geneIDs_side2=geneIDs_side2
+        self.support=support
+        self.tree_node=tree_node
+
+
+
+def parse_duplications(duplications_path, orthogroups_path, min_support = 0.5 ):
+    
+    ### make lookup table for {geneID : orthogroup}
+    orthogroup_hogdict = parse_orthogroups_dict(orthogroups_path)
+    # print(orthogroup_hogdict["N0.HOG0000001"])
+    geneid_hogid_dict = {}
+    for HOG_id, species_dict in orthogroup_hogdict.items():
+        for species, geneIDs in species_dict.items():
+            if isinstance(geneIDs, str): ## if not np.nan
+                geneIDs_ = geneIDs.strip().split(", ")
+                for geneID_ in geneIDs_:
+                    sp_geneID = f"{species}_{geneID_}"
+                    geneid_hogid_dict[sp_geneID] = HOG_id
+
+    # print(geneid_hogid_dict["B_siliquastri_BRAKERILHT00000009893"])
+    ## read duplications, make depth metric (lower is closer to root and therefore earlier) from node names
+    df = pd.read_csv(duplications_path, sep="\t")
+    df = df[df["Support"]>min_support]
+    df = df[df["Type"] != "Terminal"] # remove terminal duplications since i don't care about those for sure
+    df["Depth"] = df["Species Tree Node"].apply(lambda x : int(x[-1]) if len(x)==2 else x)
+    df["Genes 1"] = df["Genes 1"].apply(lambda x : x.split(", "))
+    df["Genes 2"] = df["Genes 2"].apply(lambda x : x.split(", "))
+
+    ## associate HOG ideas with geneIDs
+    def groug_by_HOG(geneIDs_list):
+        d = defaultdict(list)
+        for g in geneIDs_list:
+            d[geneid_hogid_dict.get(g, "unassigned")].append(g)
+        return dict(d)
+    df["HOG 1"] = df["Genes 1"].apply(groug_by_HOG)
+    df["HOG 2"] = df["Genes 2"].apply(groug_by_HOG)
+
+    ## get unassigned genes
+    unassigned_genes = set()
+    for col in ("HOG 1", "HOG 2"):
+        for d in df[col]:
+            unassigned_genes.update(d.get("unassigned", []))
+    unassigned_dict = defaultdict(list)
+    for gid in unassigned_genes:
+        species = gff.split_at_second_occurrence(gid)
+        gid_ = gid.replace(f"{species}_", "")
+        unassigned_dict.setdefault(species, [gid_]).append(gid_)
+    unassigned_dict = {species : list(set(l)) for species,l in unassigned_dict.items()}
+
+    print(f"---------------------------------")
+    print(f"...reading {duplications_path}")
+    for species,ulist in unassigned_dict.items():
+        print(f"{species} ({len(ulist)} unassigned to a HOG)")
+    print(f"---------------------------------")
+    
+
+    ## filter within HOG for the earliest HOG duplication eventd (oldest duplication on the gene tree, lowest node integer in gt_num)
+    df["gt_num"] = df["Gene Tree Node"].str.extract(r"(\d+)", expand=False).astype(int) 
+    # all unique HOGs involved in either side of the duplicaiton event
+    df["HOG"] = df.apply(lambda r: set(r["HOG 1"]) | set(r["HOG 2"]), axis=1)
+
+    long = df.explode("HOG")
+    long = long[long["HOG"] != "unassigned"]
+    earliest = (long.sort_values(["HOG", "Depth", "gt_num", "Support"],
+                         ascending=[True, True, True, False]).drop_duplicates("HOG", keep="first").copy())
+
+    ### make new dict with earliest duplication events for every HOG
+    hog_events = defaultdict(list)
+    hog_read=[]
+    for r in earliest.to_dict("records"): 
+        hog = r["HOG"]
+        if hog not in hog_read:
+            hog_events[hog] = EarliestDuplication(
+                HOG_ID=hog, 
+                geneIDs_side1=r["HOG 1"].get(hog, []),
+                geneIDs_side2=r["HOG 2"].get(hog, []),
+                support=r["Support"],
+                tree_node=r["Species Tree Node"],
+            )
+        else:
+            e = earliest[earliest["HOG"]==hog]
+            raise RuntimeError(f"{hog} is duplicated even after filtering!\n{e}")
+        
+    return hog_events, unassigned_dict

@@ -113,9 +113,6 @@ def GS_vs_LG_number_correlations(orthogroups, species_order, filename_prefix, ma
         print("Figure saved as: "+outfile_annot)
 
 
-
-
-
     
 
 
@@ -124,6 +121,7 @@ if __name__ == "__main__":
     username="miltr339"
 
     data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/orthofinder"
+
     orthogroups_file = f"{data_dir}/N0.tsv" 
     unassigned_genes_path = f"{data_dir}/unassigned_genes.tsv" 
     annot_dict = data_paths.annotations_dict(username=username)
@@ -138,15 +136,20 @@ if __name__ == "__main__":
         "D_sublineata"
     ]
 
-    orthogroups = og.parse_orthogroups_class(
-        filepath=orthogroups_file,
-        annot_species=species_order,
-        annotations_dict=annot_dict,
-        unassigned_genes_path=unassigned_genes_path,
-        miniprot_paths_dict=miniprot_dict)
+    if False:
+        orthogroups = og.parse_orthogroups_class(
+            filepath=orthogroups_file,
+            annot_species=species_order,
+            annotations_dict=annot_dict,
+            unassigned_genes_path=unassigned_genes_path,
+            miniprot_paths_dict=miniprot_dict)
 
-    print(orthogroups["N0.HOG0000056"])
+        print(orthogroups["N0.HOG0000056"])
         
     ### plot Genome size vs. presence on linkage group scatter    
     if False:
         GS_vs_LG_number_correlations(orthogroups, species_order=species_order, filename_prefix=f"{data_dir}/translocations_sexchr_vs_A_numbers.png", max_GF_size=50)
+
+
+    if True:
+        earliest_duplications, unassigned_geneIDs = og.parse_duplications(duplications_path=f"{data_dir}/Duplications.tsv", orthogroups_path=orthogroups_file, min_support=0.5)
