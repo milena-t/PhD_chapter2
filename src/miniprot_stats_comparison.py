@@ -234,11 +234,35 @@ def single_exon_paths(username="miltr339"):
     return outdict_native,outdict_miniprot
 
 
+class MiniCDS:
+    def __init__(self, ID:str, parent:str, rank:int, identity:float, start:int, end:int,) -> None:
+        self.ID=ID
+        self.parent=parent
+        self.rank=rank
+        self.start=start
+        self.end=end
+        if identity<=1: # use percent not proportion
+            self.identity=100*identity
+        else:
+            self.identity=identity
+
+    def length(self):
+        return abs(self.start-self.end)
+    
+    def __str__(self) -> str:
+        return f"""
+    Miniprot CDS: {self.ID}
+        - parent: {self.parent}
+        - aligned with {self.identity}% sequence identity
+        - rank: {self.rank}"""
+    
+
+
 class MiniAln:
     """
     read miniprot alignment data 
     """
-    def __init__(self, ID:str, target:str, rank:int, identity:float, contig:str, start:int, end:int) -> None:
+    def __init__(self, ID:str, target:str, rank:int, identity:float, contig:str, start:int, end:int, children:list[MiniCDS]=[]) -> None:
         self.ID=ID
         self.target=target
         self.rank=rank
@@ -250,24 +274,27 @@ class MiniAln:
             self.identity=100*identity
         else:
             self.identity=identity
+        self.children=children
+
     def __repr__(self):
         return "MiniAln"
     def __str__(self) -> str:
         return f"""Miniprot Alignment ID: {self.ID}
  * query ID: {self.target}
  * aligned on contig: {self.contig} with {self.identity}% sequence identity
- * rank: {self.rank}"""
+ * rank: {self.rank}
+ * {len(self.children)} CDS (separated by introns): {self.children}"""
     
     def length(self):
         return abs(self.start-self.end)
     
-    # def add_cds(self,cds_feature):
-    #     self.cds_list.append(cds_feature)
+    def add_cds(self, cds_feature:MiniCDS):
+        self.children.append(cds_feature)
+    
 
 
 
-
-def miniprot_parse_alignment(miniprot_file, queryIDs = True, include_cds = False):
+def miniprot_parse_alignment(miniprot_file, queryIDs = True, include_cds = False, nest_cds=False):
     """
     parse the miniprot alignment into a dictionary by query transcript ID
     {   
@@ -302,7 +329,7 @@ def miniprot_parse_alignment(miniprot_file, queryIDs = True, include_cds = False
                     print(f"mini line could not be parsed! line: \n{mini_line}\nlist ({len(line)} items, should be 9)\n{line}\nerror:\n{e}")
                
                 if category != "mRNA":
-                    if category == "CDS" and include_cds:
+                    if (category == "CDS" and include_cds) or (category == "CDS" and nest_cds):
                         contig,source,category,start,stop,score,strandedness,frame,attributes_=[c for c in line if len(c)>0]
                         attributes={}
                         for attr in attributes_.strip().split(";"):
@@ -311,15 +338,38 @@ def miniprot_parse_alignment(miniprot_file, queryIDs = True, include_cds = False
                                 attributes[key]=value.split()[0]
                             else:
                                 attributes[key]=value
-                        mini_alignment = MiniAln(
-                            ID=attributes["Parent"], target=attributes["Target"], rank=int(attributes["Rank"]), identity=float(attributes["Identity"]), 
-                            contig=contig, start=int(start), end=int(stop)
-                        )
                         key_ID_ = attributes["Parent"]
                         key_ID = f"{key_ID_}_{count_aln}"
-                        geneIDs_map_counts[key_ID] = mini_alignment
                         count_aln+=1
-                        continue
+                        if include_cds:
+                            mini_alignment = MiniAln(
+                                ID=attributes["Parent"], target=attributes["Target"], rank=int(attributes["Rank"]), identity=float(attributes["Identity"]), 
+                                contig=contig, start=int(start), end=int(stop)
+                            )
+                            geneIDs_map_counts[key_ID] = mini_alignment
+                            continue
+
+                        elif nest_cds:
+                            child_cds = MiniCDS(
+                                ID=key_ID, parent=attributes["Parent"], 
+                                rank=int(attributes["Rank"]), identity=float(attributes["Identity"]),
+                                start=int(start), end=int(stop),
+                                )
+                            try:
+                                tar=attributes["Target"]
+                                if tar in geneIDs_map_counts:
+                                    ## iterate through list elements, and return REFERENCE to correct minialn if ID matches parent
+                                    obj = next((mini_aln for mini_aln in geneIDs_map_counts[tar] if mini_aln.ID == attributes["Parent"]), None)
+                                    ## the reference (like a pointer) then lets me edit the list element directly
+                                    if obj is not None:
+                                        obj.add_cds(child_cds)
+                                else:
+                                    raise RuntimeError(f"{tar} of CDS feature not alreday found in struct!!")
+                            except:
+                                raise RuntimeError(f"""
+                                child feature ---{child_cds}--- could not be aligned to any parent in this target group ---{geneIDs_map_counts[attributes["Target"]]}---
+                                """)
+                            
                     else:
                         continue
                 else:
@@ -353,6 +403,8 @@ def miniprot_parse_alignment(miniprot_file, queryIDs = True, include_cds = False
             print(f"\t(read {count_aln} alignments from {miniprot_file})")
 
     return geneIDs_map_counts
+
+
 
 if __name__ == "__main__":
 

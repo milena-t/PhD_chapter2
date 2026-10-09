@@ -145,6 +145,8 @@ if __name__ == "__main__":
         unassigned_genes_path=unassigned_genes_path,
         miniprot_paths_dict=miniprot_dict)
 
-    # print(orthogroups["N0.HOG0000056"])
-
-    GS_vs_LG_number_correlations(orthogroups, species_order=species_order, filename_prefix=f"{data_dir}/translocations_sexchr_vs_A_numbers.png", max_GF_size=50)
+    print(orthogroups["N0.HOG0000056"])
+        
+    ### plot Genome size vs. presence on linkage group scatter    
+    if False:
+        GS_vs_LG_number_correlations(orthogroups, species_order=species_order, filename_prefix=f"{data_dir}/translocations_sexchr_vs_A_numbers.png", max_GF_size=50)

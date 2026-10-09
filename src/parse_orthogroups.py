@@ -4,7 +4,7 @@ from statistics import mean
 import linkage_groups as lg
 import parse_gff as gff
 import miniprot_stats_comparison as minialn
-from collections import defaultdict
+
 
 def get_orthogroup_sizes(orthogroup_dict, q = 0):
     """
@@ -136,6 +136,9 @@ class OrthoGroup:
                     gfsize += 1
             return gfsize
 
+    def miniprot_members(self):
+        return [m for m in self.members if m.is_miniprot]
+
     def sex_linkage(self, species = ""):
         """
         return a dict of geneID lists that are X/Y or O linked (O for other, either A or unplaced)
@@ -173,12 +176,17 @@ class OrthoGroup:
             outlink[m.species].append(m.LG)
         outstr = "\n  * ".join([f"{s} ({len(lglist)}) : {set(lglist)}" for s,lglist in outlink.items()])
 
+        minilink = {s: [] for s in self.species()}
+        for m in self.miniprot_members():
+            minilink[m.species].append(m.gff_feature.ID)
+        ministr = "\n  - ".join([f"{s} ({len(lglist)}) : {set(lglist)}" for s,lglist in minilink.items()])
         return (
 f"""
 Orthogroup {self.OG_id} has {self.OG_size()} members and is present on {len(self.species())} species ({self.species()})
 it is on {len(self.linkagegroups())} linkage groups ({self.linkagegroups()})
 in these species:
-  * {outstr}\n
+  * {outstr}
+with {len(self.miniprot_members())} being miniprot alignments:\n  - {ministr}
 """
         )
     def __repr__(self):
@@ -186,7 +194,7 @@ in these species:
 
     
 
-def parse_orthogroups_class(filepath, annot_species, annotations_dict, unassigned_genes_path = "", miniprot_paths_dict = {}):
+def parse_orthogroups_class(filepath, annot_species, annotations_dict, unassigned_genes_path = "", miniprot_paths_dict = {}, add_gff_feature=False):
     """
     parse orthogroups into the class structure with defined linkage group membership
     """
@@ -207,7 +215,7 @@ def parse_orthogroups_class(filepath, annot_species, annotations_dict, unassigne
 
     if miniprot_paths_dict != {}:
         print(f"--- read miniprot annotations ---")
-        miniprot_dict = { species : minialn.miniprot_parse_alignment(miniprot_paths_dict[species]) for species in annot_species}
+        miniprot_dict = { species : minialn.miniprot_parse_alignment(miniprot_paths_dict[species], nest_cds=True) for species in annot_species}
         print(f"---------------------------------")
     else:
         miniprot_dict = { species : [] for species in annot_species}
@@ -222,7 +230,25 @@ def parse_orthogroups_class(filepath, annot_species, annotations_dict, unassigne
             if isinstance(geneIDs, str): ## if not np.nan
                 geneIDs = geneIDs.strip().split(", ")
                 # print(f"   - {species} : {len(geneIDs)}")
-                geneIDs_species = [ OGMember(transcript_ID=gid, species=species, LG=lg.assign_linkagegoup(annot_gff_dict[species][gid].contig)) for gid in geneIDs]
+                if add_gff_feature:
+                    geneIDs_species = [ 
+                        OGMember(
+                            transcript_ID=gid, 
+                            species=species, 
+                            LG=lg.assign_linkagegoup(annot_gff_dict[species][gid].contig), 
+                            gff_feature=annot_gff_dict[species][gid],
+                            is_miniprot=False
+                            ) 
+                        for gid in geneIDs]
+                else:
+                    geneIDs_species = [ 
+                        OGMember(
+                            transcript_ID=gid, 
+                            species=species, 
+                            LG=lg.assign_linkagegoup(annot_gff_dict[species][gid].contig),
+                            is_miniprot=False) 
+                        for gid in geneIDs]
+                
                 all_geneids_class.extend(geneIDs_species)
         
         og_class_dict[HOG_id] = OrthoGroup(OG_id=HOG_id, members=all_geneids_class)
@@ -235,6 +261,13 @@ def parse_orthogroups_class(filepath, annot_species, annotations_dict, unassigne
                 if geneID in miniprot_dict[mini_species]:
                     for miniprot_ID in miniprot_dict[mini_species][geneID]:
                         mini_contig = miniprot_ID.contig
-                        og_class_dict[HOG_id].add_member(OGMember(transcript_ID=miniprot_ID, species=mini_species, LG=lg.assign_linkagegoup(mini_contig), is_miniprot=True))
+                        og_class_dict[HOG_id].add_member(OGMember(
+                            transcript_ID=miniprot_ID, 
+                            species=mini_species, 
+                            LG=lg.assign_linkagegoup(mini_contig), 
+                            is_miniprot=True,
+                            gff_feature=miniprot_ID,
+                            ),
+                        )
     
     return(og_class_dict)
