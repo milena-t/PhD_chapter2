@@ -2,7 +2,7 @@ from enum import Enum
 import time
 from tqdm import tqdm
 import re
-
+from collections import defaultdict
 
 
 ### Utility functions
@@ -178,7 +178,7 @@ class FeatureCategory(str,Enum):
 
 string_to_category = { # define aliases when some strings should map to the same feature category
     "gene": FeatureCategory.Gene,
-    "pseudogene": FeatureCategory.Gene,
+    "pseudogene": FeatureCategory.Transcript,
     "sequence_feature": FeatureCategory.Region,
     "mobile_genetic_element": FeatureCategory.Region,
     "CDS": FeatureCategory.CDS,
@@ -200,12 +200,12 @@ string_to_category = { # define aliases when some strings should map to the same
     "antisense_RNA": FeatureCategory.RNA,
     "miRNA": FeatureCategory.RNA,
     "piRNA": FeatureCategory.RNA,
-    "rRNA": FeatureCategory.RNA,
-    "snoRNA": FeatureCategory.RNA,
-    "snRNA": FeatureCategory.RNA,
-    "ncRNA": FeatureCategory.RNA,
-    "tRNA": FeatureCategory.RNA,
-    "lnc_RNA": FeatureCategory.RNA,
+    "rRNA": FeatureCategory.Transcript,
+    "tRNA": FeatureCategory.Transcript,
+    "lnc_RNA": FeatureCategory.Transcript,
+    "snRNA": FeatureCategory.Transcript,
+    "snoRNA": FeatureCategory.Transcript,
+    "ncRNA": FeatureCategory.Transcript,
     "RNase_MRP_RNA": FeatureCategory.RNA,
     "RNase_P_RNA": FeatureCategory.RNA,
     "SRP_RNA": FeatureCategory.RNA,
@@ -297,7 +297,7 @@ def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_fe
         separator = " "
         if "=" in tail_line:
             separator = "="
-        if mRNA_top_feature:
+        if gtf and mRNA_top_feature:
             separator = "="
 
         count_mRNA = 0
@@ -321,7 +321,8 @@ def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_fe
                     pass
                 else:
                     continue
-
+            if mRNA_top_feature and category == FeatureCategory.Gene:
+                continue
             if only_genes and category != FeatureCategory.Gene:
                 # If there's only genes supposed to be included, skip everything that isn't a gene
                 continue
@@ -366,6 +367,7 @@ def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_fe
                         raise RuntimeError(f"no Target property found for gene in line: {line}\nattributes are {attributes}")
                 else:
                     raise RuntimeError(f"no id property found for gene in line: {line}\nattributes are {attributes}")
+            
             if "Parent" not in attributes and not category==FeatureCategory.Gene and not category==FeatureCategory.Region:
                 if gtf or mRNA_top_feature:
                     parent_id = None
@@ -376,12 +378,14 @@ def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_fe
             parent_id = None
             if "Parent" in attributes and keep_feature_category==None:
                 parent_id = attributes["Parent"]
-                if parent_id in genome_annotation:
+                if mRNA_top_feature and category == FeatureCategory.Transcript:
+                    parent_id = None
+                elif parent_id in genome_annotation:
                     genome_annotation[parent_id].add_child(attributes["ID"])
                     test_break = True
+                
                 else:
                     raise RuntimeError(f"Feature {attributes['ID']} has a parent ID {parent_id} that does not exist prior to it.")           
-
             ## add Feature to the output dict
             new_feature=Feature(feature_id=attributes["ID"],contig = contig,category=category,start=int(start),end=int(stop),strandedness=strandedness, frame=frame, parent_id=parent_id)
             # if gtf and category == FeatureCategory.Transcript:

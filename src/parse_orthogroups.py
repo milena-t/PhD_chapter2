@@ -42,7 +42,7 @@ def parse_orthogroups_dict(filepath, species_list ="", OG_header = "HOG"):
     if species_list != "":
         annot_species = set(species_list)
     else:
-        annot_species = set(list(headers)[3:])
+        annot_species = set(orthogroups_df.columns[3:])
     headers_keep = list(annot_species & headers)
     headers = [f"{OG_header}"] + headers_keep
     
@@ -113,6 +113,17 @@ class OGMember:
     
     def __repr__(self):
         return "OrthoGroupMember"
+
+    def __str__(self):
+        mini = "NOT "
+        if self.is_miniprot:
+            mini = ""
+        return(
+            f"""
+ID: {self.transcript_ID} is {mini}a miniprot paralog
+on linkage group {self.LG} in species {self.species}
+"""
+        )
 
 
 
@@ -213,7 +224,8 @@ def parse_orthogroups_class(filepath, annot_species, annotations_dict, unassigne
         # print(annot_HOG_dict["OG0014394"])
 
     print(f"----- read gff annotations -----")
-    annot_gff_dict = { species : gff.parse_gff3_general(annotations_dict[species], keep_feature_category=gff.FeatureCategory.Transcript, verbose=False) for species in annot_species}
+    # annot_gff_dict = { species : gff.parse_gff3_general(annotations_dict[species], keep_feature_category=gff.FeatureCategory.Transcript, verbose=False) for species in annot_species}
+    annot_gff_dict = { species : gff.parse_gff3_general(annotations_dict[species], mRNA_top_feature=True, verbose=False) for species in annot_species}
     print(f"--------------------------------")
 
 
@@ -250,7 +262,8 @@ def parse_orthogroups_class(filepath, annot_species, annotations_dict, unassigne
                             transcript_ID=gid, 
                             species=species, 
                             LG=lg.assign_linkagegoup(annot_gff_dict[species][gid].contig),
-                            is_miniprot=False) 
+                            is_miniprot=False
+                            ) 
                         for gid in geneIDs]
                 
                 all_geneids_class.extend(geneIDs_species)
@@ -258,21 +271,30 @@ def parse_orthogroups_class(filepath, annot_species, annotations_dict, unassigne
         og_class_dict[HOG_id] = OrthoGroup(OG_id=HOG_id, members=all_geneids_class)
 
         if miniprot_paths_dict != {}:
-            for member in og_class_dict[HOG_id].members:
+            for member in list(og_class_dict[HOG_id].members):
                 geneID = member.transcript_ID
                 mini_species = member.species
 
                 if geneID in miniprot_dict[mini_species]:
                     for miniprot_ID in miniprot_dict[mini_species][geneID]:
                         mini_contig = miniprot_ID.contig
-                        og_class_dict[HOG_id].add_member(OGMember(
-                            transcript_ID=miniprot_ID, 
-                            species=mini_species, 
-                            LG=lg.assign_linkagegoup(mini_contig), 
-                            is_miniprot=True,
-                            gff_feature=miniprot_ID,
-                            ),
-                        )
+                        if add_gff_feature:
+                            og_class_dict[HOG_id].add_member(OGMember(
+                                transcript_ID=miniprot_ID.ID, 
+                                species=mini_species, 
+                                LG=lg.assign_linkagegoup(mini_contig), 
+                                is_miniprot=True,
+                                gff_feature=miniprot_ID,
+                                ),
+                            )
+                        else:
+                            og_class_dict[HOG_id].add_member(OGMember(
+                                transcript_ID=miniprot_ID.ID, 
+                                species=mini_species, 
+                                LG=lg.assign_linkagegoup(mini_contig), 
+                                is_miniprot=True,
+                                ),
+                            )
     
     return(og_class_dict)
 

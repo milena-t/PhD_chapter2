@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 from statistics import mean
 from scipy.stats import sem
+from collections import defaultdict
 
 import linkage_groups as lg
 import GF_sizes as OGs
@@ -112,13 +113,71 @@ def GS_vs_LG_number_correlations(orthogroups, species_order, filename_prefix, ma
         plt.savefig(outfile_annot, dpi = 300, transparent = True)# , bbox_inches='tight')
         print("Figure saved as: "+outfile_annot)
 
+def plot_LG_GFsize(orthogroups_dict, outfile_name):
+    """
+    Plot the avg. gene family size on all linkage groups, with and without miniprot paralogs, and 
+    showing the proportion of which are single-exon
+    """
+
+    mini_intronless = defaultdict(list)
+    mini_intronfull = defaultdict(list)
+    annot_intronless = defaultdict(list)
+    annot_intronfull = defaultdict(list)
+
+    def count_LGid_GF_size(hog_LG_dict):
+        size_LG_dict = {lg_ : 0 for lg_ in hog_LG_dict.keys()}
+        for lg_ , tr_list in hog_LG_dict.items():
+            size_LG_dict[lg_]+= len(tr_list)
+        return size_LG_dict
+
+    for HOG_id, orthogroup in orthogroups_dict.items():
+        # print(f"\n-------{HOG_id}")
+
+        hog_mini_intronless=defaultdict(int)
+        hog_mini_intronfull=defaultdict(int)
+        hog_annot_intronless=defaultdict(int)
+        hog_annot_intronfull=defaultdict(int)
+
+        for OG_member in orthogroup.members:
+            feature_kids=OG_member.gff_feature.child_ids_list
+            assert feature_kids !=None
+            if OG_member.is_miniprot:
+                assert feature_kids !=None
+                if len(feature_kids)>1:
+                    hog_mini_intronfull.setdefault(OG_member.LG, [OG_member.transcript_ID]).append(OG_member.transcript_ID)
+                else:
+                    print(OG_member)
+                    hog_mini_intronless.setdefault(OG_member.LG, [OG_member.transcript_ID]).append(OG_member.transcript_ID)
+
+            else:
+                if len(feature_kids)>1:
+                    hog_annot_intronfull.setdefault(OG_member.LG, [OG_member.transcript_ID]).append(OG_member.transcript_ID)
+                else:
+                    hog_annot_intronless.setdefault(OG_member.LG, [OG_member.transcript_ID]).append(OG_member.transcript_ID)
+            
+            # print(f" - {OG_member.transcript_ID} child features: {len(feature_kids)}: {feature_kids[:30]}")
+        hog_mini_intronless = count_LGid_GF_size(hog_mini_intronless)
+        hog_mini_intronfull = count_LGid_GF_size(hog_mini_intronfull)
+        hog_annot_intronless = count_LGid_GF_size(hog_annot_intronless)
+        hog_annot_intronfull = count_LGid_GF_size(hog_annot_intronfull)
+
+        for lg_, gfsize in hog_mini_intronless.items():
+            mini_intronless.setdefault(lg_, []).append(gfsize)
+        for lg_, gfsize in hog_mini_intronfull.items():
+            mini_intronfull.setdefault(lg_, []).append(gfsize)
+        for lg_, gfsize in hog_annot_intronless.items():
+            annot_intronless.setdefault(lg_, []).append(gfsize)
+        for lg_, gfsize in hog_annot_intronfull.items():
+            annot_intronfull.setdefault(lg_, []).append(gfsize)
 
     
+    
+    return dict(mini_intronless),dict(mini_intronfull),dict(annot_intronless),dict(annot_intronfull)
 
 
 if __name__ == "__main__":
     
-    username="miltr339"
+    username="milena"
 
     data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/orthofinder"
 
@@ -136,11 +195,12 @@ if __name__ == "__main__":
         "D_sublineata"
     ]
 
-    if False:
+    if True:
         orthogroups = og.parse_orthogroups_class(
             filepath=orthogroups_file,
             annot_species=species_order,
             annotations_dict=annot_dict,
+            add_gff_feature=True,
             unassigned_genes_path=unassigned_genes_path,
             miniprot_paths_dict=miniprot_dict)
 
@@ -150,6 +210,18 @@ if __name__ == "__main__":
     if False:
         GS_vs_LG_number_correlations(orthogroups, species_order=species_order, filename_prefix=f"{data_dir}/translocations_sexchr_vs_A_numbers.png", max_GF_size=50)
 
-
     if True:
+        # !!! remove duplicate cds from aobt bvar cchi cmac with 
+        # sed '/^[^#\t]*\t[^\t]*\tCDS\t/d'
+        mini_intronless,mini_intronfull,annot_intronless,annot_intronfull = plot_LG_GFsize(orthogroups_dict = orthogroups, outfile_name=f"{data_dir}/GFsize_on_linkagegroups.png")
+        print(
+            f"""
+mini_intronless : {mini_intronless.keys()}
+mini_intronfull : {mini_intronfull.keys()}
+annot_intronless : {annot_intronless.keys()}
+annot_intronfull : {annot_intronfull.keys()}
+"""
+        )
+
+    if False:
         earliest_duplications, unassigned_geneIDs = og.parse_duplications(duplications_path=f"{data_dir}/Duplications.tsv", orthogroups_path=orthogroups_file, min_support=0.5)

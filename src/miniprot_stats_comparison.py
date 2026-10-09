@@ -262,7 +262,8 @@ class MiniAln:
     """
     read miniprot alignment data 
     """
-    def __init__(self, ID:str, target:str, rank:int, identity:float, contig:str, start:int, end:int, children:list[MiniCDS]=[]) -> None:
+    def __init__(self, ID:str, target:str, rank:int, identity:float, contig:str, start:int, end:int, child_ids_list:list[str]
+                 ) -> None:
         self.ID=ID
         self.target=target
         self.rank=rank
@@ -274,7 +275,7 @@ class MiniAln:
             self.identity=100*identity
         else:
             self.identity=identity
-        self.children=children
+        self.child_ids_list = list(child_ids_list) if child_ids_list else []
 
     def __repr__(self):
         return "MiniAln"
@@ -283,13 +284,13 @@ class MiniAln:
  * query ID: {self.target}
  * aligned on contig: {self.contig} with {self.identity}% sequence identity
  * rank: {self.rank}
- * {len(self.children)} CDS (separated by introns): {self.children}"""
+ * {len(self.child_ids_list)} CDS (separated by introns): {self.child_ids_list}"""
     
     def length(self):
         return abs(self.start-self.end)
     
-    def add_cds(self, cds_feature:MiniCDS):
-        self.children.append(cds_feature)
+    def add_cds(self, cds_feature:str):
+        self.child_ids_list.append(cds_feature)
     
 
 
@@ -350,11 +351,11 @@ def miniprot_parse_alignment(miniprot_file, queryIDs = True, include_cds = False
                             continue
 
                         elif nest_cds:
-                            child_cds = MiniCDS(
-                                ID=key_ID, parent=attributes["Parent"], 
-                                rank=int(attributes["Rank"]), identity=float(attributes["Identity"]),
-                                start=int(start), end=int(stop),
-                                )
+                            # child_cds = MiniCDS(
+                            #     ID=key_ID, parent=attributes["Parent"], 
+                            #     rank=int(attributes["Rank"]), identity=float(attributes["Identity"]),
+                            #     start=int(start), end=int(stop),
+                            #     )
                             try:
                                 tar=attributes["Target"]
                                 if tar in geneIDs_map_counts:
@@ -362,12 +363,15 @@ def miniprot_parse_alignment(miniprot_file, queryIDs = True, include_cds = False
                                     obj = next((mini_aln for mini_aln in geneIDs_map_counts[tar] if mini_aln.ID == attributes["Parent"]), None)
                                     ## the reference (like a pointer) then lets me edit the list element directly
                                     if obj is not None:
-                                        obj.add_cds(child_cds)
+                                        obj.add_cds(key_ID)
+                                    else:
+                                        par = attributes["Parent"]
+                                        raise RuntimeError(f"parent {par} of {key_ID} CDS feature not alreday found in struct!!")
                                 else:
                                     raise RuntimeError(f"{tar} of CDS feature not alreday found in struct!!")
                             except:
                                 raise RuntimeError(f"""
-                                child feature ---{child_cds}--- could not be aligned to any parent in this target group ---{geneIDs_map_counts[attributes["Target"]]}---
+                                child feature ---{key_ID}--- could not be aligned to any parent in this target group ---{geneIDs_map_counts[attributes["Target"]]}---
                                 """)
                             
                     else:
@@ -387,7 +391,7 @@ def miniprot_parse_alignment(miniprot_file, queryIDs = True, include_cds = False
                     
                     mini_alignment = MiniAln(
                             ID=attributes["ID"], target=attributes["Target"], rank=int(attributes["Rank"]), identity=float(attributes["Identity"]), 
-                            contig=contig, start=int(start), end=int(stop)
+                            contig=contig, start=int(start), end=int(stop), child_ids_list=[]
                         )
                     count_aln+=1
                     if queryIDs:
