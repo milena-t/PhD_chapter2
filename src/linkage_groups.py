@@ -7,27 +7,49 @@ class LinkageGroup(str, Enum):
     Here listed are the Bsil and Dcar chromosome names respectively
     Since X is syntenic and Y is doing whatever anyways i do not split those by species
     """
-    BLG1 = "1",
-    BLG2 = "2",
-    BLG3 = "3",
-    BLG4 = "4",
-    BLG5 = "5",
-    BLG6 = "6",
-    BLG7 = "7",
-    BLG8 = "8",
-    BLG9 = "9",
+    BLG1 = "Bruchini 1",
+    BLG2 = "Bruchini 2",
+    BLG3 = "Bruchini 3",
+    BLG4 = "Bruchini 4",
+    BLG5 = "Bruchini 5",
+    BLG6 = "Bruchini 6",
+    BLG7 = "Bruchini 7",
+    BLG8 = "Bruchini 8",
+    BLG9 = "Bruchini 9",
 
     LGX = "X",
     LGY = "Y",
     LGU = "unplaced", # unplaced scaffolds
     
-    DLG1 = "1",
-    DLG2 = "2",
-    DLG3 = "3",
-    DLG4 = "4",
-    DLG5 = "5",
-    DLG6 = "6",
-    DLG7 = "7",
+    DLG1 = "Diorhabda 1",
+    DLG2 = "Diorhabda 2",
+    DLG3 = "Diorhabda 3",
+    DLG4 = "Diorhabda 4",
+    DLG5 = "Diorhabda 5",
+    DLG6 = "Diorhabda 6",
+    DLG7 = "Diorhabda 7",
+
+LG_names = {
+    LinkageGroup.BLG1 : "Bruchini 1",
+    LinkageGroup.BLG2 : "Bruchini 2",
+    LinkageGroup.BLG3 : "Bruchini 3",
+    LinkageGroup.BLG4 : "Bruchini 4",
+    LinkageGroup.BLG5 : "Bruchini 5",
+    LinkageGroup.BLG6 : "Bruchini 6",
+    LinkageGroup.BLG7 : "Bruchini 7",
+    LinkageGroup.BLG8 : "Bruchini 8",
+    LinkageGroup.BLG9 : "Bruchini 9",
+    LinkageGroup.LGX : "X",
+    LinkageGroup.LGY : "Y",
+    LinkageGroup.LGU : "unplaced",
+    LinkageGroup.DLG1 : "Diorhabda 1",
+    LinkageGroup.DLG2 : "Diorhabda 2",
+    LinkageGroup.DLG3 : "Diorhabda 3",
+    LinkageGroup.DLG4 : "Diorhabda 4",
+    LinkageGroup.DLG5 : "Diorhabda 5",
+    LinkageGroup.DLG6 : "Diorhabda 6",
+    LinkageGroup.DLG7 : "Diorhabda 7",
+}
 
 
 contigname_to_linkagegroup = {

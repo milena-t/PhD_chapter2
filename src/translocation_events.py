@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+import numpy as np
 from statistics import mean
 from scipy.stats import sem
 from collections import defaultdict
@@ -113,7 +115,7 @@ def GS_vs_LG_number_correlations(orthogroups, species_order, filename_prefix, ma
         plt.savefig(outfile_annot, dpi = 300, transparent = True)# , bbox_inches='tight')
         print("Figure saved as: "+outfile_annot)
 
-def plot_LG_GFsize(orthogroups_dict, outfile_name):
+def plot_LG_GFsize(orthogroups_dict, outfile_name = ""):
     """
     Plot the avg. gene family size on all linkage groups, with and without miniprot paralogs, and 
     showing the proportion of which are single-exon
@@ -146,7 +148,6 @@ def plot_LG_GFsize(orthogroups_dict, outfile_name):
                 if len(feature_kids)>1:
                     hog_mini_intronfull.setdefault(OG_member.LG, [OG_member.transcript_ID]).append(OG_member.transcript_ID)
                 else:
-                    print(OG_member)
                     hog_mini_intronless.setdefault(OG_member.LG, [OG_member.transcript_ID]).append(OG_member.transcript_ID)
 
             else:
@@ -170,10 +171,81 @@ def plot_LG_GFsize(orthogroups_dict, outfile_name):
         for lg_, gfsize in hog_annot_intronfull.items():
             annot_intronfull.setdefault(lg_, []).append(gfsize)
 
-    
-    
-    return dict(mini_intronless),dict(mini_intronfull),dict(annot_intronless),dict(annot_intronfull)
+    if outfile_name == "":
+        return dict(mini_intronless),dict(mini_intronfull),dict(annot_intronless),dict(annot_intronfull)
+    else:
+        lw = 2
+        fs = 20
+        ymax_factor = 1.25
 
+        vals_dict = {
+            "mini_intronfull" : dict(mini_intronfull),
+            "mini_intronless" : dict(mini_intronless),
+            "annot_intronfull" : dict(annot_intronfull),
+            "annot_intronless" : dict(annot_intronless),
+        }
+        colors = {
+            "mini_intronfull" : "#676F54", # dusty olive
+            "mini_intronless" : "#676F54", # dusty olive
+            "annot_intronfull" : "#5F4B66", # vintage grape
+            "annot_intronless" : "#5F4B66", # vintage grape
+        }
+        hatching = {
+            "mini_intronfull" : "", 
+            "mini_intronless" : "//",
+            "annot_intronfull" : "", 
+            "annot_intronless" : "//",
+        }
+        leg_labels = {
+            "mini_intronfull" : "miniprot (multi-exon)",
+            "mini_intronless" : "miniprot (single-exon)",
+            "annot_intronfull" : "annotation (multi-exon)",
+            "annot_intronless" : "annotation (single-exon)",
+        }
+        
+        hatch_color = '#ffffff' # '#E2D4CA' #kind of eggshell white
+        plt.rcParams['hatch.linewidth'] = lw  # default is 1.0
+        plt.rcParams['hatch.color'] = hatch_color
+
+        plt.rcParams['text.usetex'] = True # use \\textit{{{}}} for species names
+        plt.rcParams['text.latex.preamble'] = r'\usepackage{sfmath} \renewcommand{\familydefault}{\sfdefault}'
+        plt.rcParams['font.family'] = 'sans-serif'
+
+        fig, ax = plt.subplots(1, 1, figsize=(20, 8))
+
+        all_LGs_ = mini_intronless.keys() | mini_intronfull.keys() | annot_intronless.keys() | annot_intronfull.keys()
+        all_LGs = [m for m in lg.LinkageGroup if m in all_LGs_]
+        x_coord = range(len(all_LGs))
+        print(all_LGs)
+
+        prev = [0 for x in x_coord]
+        for category,vals in vals_dict.items():
+            yval_ = [mean(vals[lg_]) if lg_ in vals else np.nan for lg_ in all_LGs]
+            yval = [y+prev[i] for i,y in enumerate(yval_)]
+            yval_str =[f"{lg.LG_names[lg_]}:{mean(vals[lg_]):.3f}" if lg_ in vals else np.nan for lg_ in all_LGs]
+            print(f"--{category}-- {yval_str}\n")
+
+            ax.bar(x_coord, yval, bottom=prev, label=leg_labels[category], color= colors[category], hatch=hatching[category])
+            prev = [v if np.isnan(v)==False else prev[i] for i,v in enumerate(yval)]
+
+        ax.tick_params(axis='x', labelsize=fs)
+        ax.tick_params(axis='y', labelsize=fs)
+        # xtick_labels = [lg.LG_names[lg_].replace("Bruchini", "\\textit{{{Bruchini}}}") if "Bruchini" in lg.LG_names[lg_] else lg.LG_names[lg_].replace("Diorhabda", "\\textit{{{Diorhabda}}}") for lg_ in all_LGs]
+        xtick_labels = [lg.LG_names[lg_] for lg_ in all_LGs]
+        ax.set_xticks(ticks = x_coord, labels = xtick_labels, rotation=90, fontsize=fs)
+        ax.set_ylabel('mean GF size', fontsize=fs)
+
+        ## legend
+        plt.rcParams.update({'hatch.color': "#3f3832ff"})
+        dashed_handle = mpatches.Patch(hatch = "//", alpha = 0.0)
+        dashed_label = "proportion of genes \nthat are single-exon"
+    
+        plt.tight_layout()
+        plt.savefig(outfile_name, dpi = 300, transparent = True)# , bbox_inches='tight')
+        print("Figure saved in the current working directory directory as: "+outfile_name)
+
+
+        return mini_intronless,mini_intronfull,annot_intronless,annot_intronfull
 
 if __name__ == "__main__":
     
@@ -204,7 +276,7 @@ if __name__ == "__main__":
             unassigned_genes_path=unassigned_genes_path,
             miniprot_paths_dict=miniprot_dict)
 
-        print(orthogroups["N0.HOG0000056"])
+        # print(orthogroups["N0.HOG0000056"])
         
     ### plot Genome size vs. presence on linkage group scatter    
     if False:
@@ -213,15 +285,14 @@ if __name__ == "__main__":
     if True:
         # !!! remove duplicate cds from aobt bvar cchi cmac with 
         # sed '/^[^#\t]*\t[^\t]*\tCDS\t/d'
-        mini_intronless,mini_intronfull,annot_intronless,annot_intronfull = plot_LG_GFsize(orthogroups_dict = orthogroups, outfile_name=f"{data_dir}/GFsize_on_linkagegroups.png")
-        print(
-            f"""
-mini_intronless : {mini_intronless.keys()}
-mini_intronfull : {mini_intronfull.keys()}
-annot_intronless : {annot_intronless.keys()}
-annot_intronfull : {annot_intronfull.keys()}
-"""
+        
+        mini_intronless,mini_intronfull,annot_intronless,annot_intronfull = plot_LG_GFsize(
+            orthogroups_dict = orthogroups, 
+            outfile_name=f"{data_dir}/GFsize_on_linkagegroups.png"
         )
-
+        ## TODO no intronless annotations?
+        ## TODO what exactly am i computing even, the mean GF size seems absurd???
+        print(f"\nannot_intronless.keys()")
+        print(annot_intronless.keys())
     if False:
         earliest_duplications, unassigned_geneIDs = og.parse_duplications(duplications_path=f"{data_dir}/Duplications.tsv", orthogroups_path=orthogroups_file, min_support=0.5)
