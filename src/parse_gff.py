@@ -178,7 +178,7 @@ class FeatureCategory(str,Enum):
 
 string_to_category = { # define aliases when some strings should map to the same feature category
     "gene": FeatureCategory.Gene,
-    "pseudogene": FeatureCategory.Transcript,
+    "pseudogene": FeatureCategory.Gene,
     "sequence_feature": FeatureCategory.Region,
     "mobile_genetic_element": FeatureCategory.Region,
     "CDS": FeatureCategory.CDS,
@@ -243,12 +243,21 @@ class Feature:
         # since they're not always present
         self.parent_id = parent_id 
         self.child_ids_list = []
+        self.child_ids_dict = {}
 
-    def add_child(self, child_id:str):
+    def add_child(self, child_id:str, child_category=None):
         self.child_ids_list.append(child_id)
+        if child_category != None:
+            self.child_ids_dict[child_id] = child_category
     
     def length(self):
         return abs(self.start-self.end)
+
+    def is_intronless(self):
+        if self.category==FeatureCategory.Transcript:
+            return len([c for c in self.child_ids_dict.values() if c == FeatureCategory.Exon])==1
+        else:
+            return False
 
     def __repr__(self):
         return "Feature"
@@ -264,7 +273,7 @@ class Feature:
         )
 
 
-def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_feature_category=None, gtf=False, mRNA_top_feature=False):
+def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_feature_category=None, gtf=False, mRNA_top_feature=False, no_start_stop=True):
     """
     Read a gff file specified in the filepath and parse it into a dictionary of Feature IDs and instances of the Feature class
     {
@@ -316,6 +325,9 @@ def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_fe
 
             category = categorize_string(category_)
 
+            if no_start_stop:
+                if category==FeatureCategory.Start_codon or category==FeatureCategory.Stop_codon:
+                    continue
             if gtf:
                 if category == FeatureCategory.Gene or category==FeatureCategory.Transcript:
                     pass
@@ -381,7 +393,7 @@ def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_fe
                 if mRNA_top_feature and category == FeatureCategory.Transcript:
                     parent_id = None
                 elif parent_id in genome_annotation:
-                    genome_annotation[parent_id].add_child(attributes["ID"])
+                    genome_annotation[parent_id].add_child(child_id = attributes["ID"], child_category=category)
                     test_break = True
                 
                 else:

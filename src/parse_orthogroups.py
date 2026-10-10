@@ -190,18 +190,26 @@ class OrthoGroup:
         for m in self.members:
             outlink[m.species].append(m.LG)
         outstr = "\n  * ".join([f"{s} ({len(lglist)}) : {set(lglist)}" for s,lglist in outlink.items()])
+        outids = [f"{m.species}:{m.transcript_ID} ({len(m.gff_feature.child_ids_list)}) : {m.gff_feature.child_ids_list}" for m in self.members if m.is_miniprot==False]
+        outids_str = "\n\t - ".join(outids)
+        
 
         minilink = {s: [] for s in self.species()}
         for m in self.miniprot_members():
             minilink[m.species].append(m.gff_feature.ID)
-        ministr = "\n  - ".join([f"{s} ({len(lglist)}) : {set(lglist)}" for s,lglist in minilink.items()])
+        ministr = "\n\t - ".join([f"{s} ({len(lglist)}) : {set(lglist)}" for s,lglist in minilink.items()])
+        miniids = [f"{m.species}:{m.transcript_ID} ({len(m.gff_feature.child_ids_list)}) : {m.gff_feature.child_ids_list}" for m in self.members if m.is_miniprot]
+        miniids_str = "\n\t - ".join(miniids)
+        
         return (
 f"""
 Orthogroup {self.OG_id} has {self.OG_size()} members and is present on {len(self.species())} species ({self.species()})
 it is on {len(self.linkagegroups())} linkage groups ({self.linkagegroups()})
 in these species:
   * {outstr}
-with {len(self.miniprot_members())} being miniprot alignments:\n  - {ministr}
+with {len(self.miniprot_members())} being miniprot alignments:\n\t - {ministr}
+The child features for the annotated genes are this:\n\t - {outids_str}
+The child features for the miniprot alignments are this:\n\t - {miniids_str}
 """
         )
     def __repr__(self):
@@ -224,8 +232,10 @@ def parse_orthogroups_class(filepath, annot_species, annotations_dict, unassigne
         # print(annot_HOG_dict["OG0014394"])
 
     print(f"----- read gff annotations -----")
-    # annot_gff_dict = { species : gff.parse_gff3_general(annotations_dict[species], keep_feature_category=gff.FeatureCategory.Transcript, verbose=False) for species in annot_species}
-    annot_gff_dict = { species : gff.parse_gff3_general(annotations_dict[species], mRNA_top_feature=True, verbose=False) for species in annot_species}
+    if add_gff_feature:
+        annot_gff_dict = { species : gff.parse_gff3_general(annotations_dict[species], verbose=False, no_start_stop=True) for species in annot_species}
+    else:
+        annot_gff_dict = { species : gff.parse_gff3_general(annotations_dict[species], keep_feature_category=gff.FeatureCategory.Transcript, verbose=False) for species in annot_species}
     print(f"--------------------------------")
 
 

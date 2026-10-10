@@ -51,6 +51,27 @@ LG_names = {
     LinkageGroup.DLG7 : "Diorhabda 7",
 }
 
+LG_species_numbers = {
+    LinkageGroup.BLG1 : 3, ## Cchi gets not assigned to any of them 
+    LinkageGroup.BLG2 : 3,
+    LinkageGroup.BLG3 : 3,
+    LinkageGroup.BLG4 : 3,
+    LinkageGroup.BLG5 : 3,
+    LinkageGroup.BLG6 : 3,
+    LinkageGroup.BLG7 : 3,
+    LinkageGroup.BLG8 : 3,
+    LinkageGroup.BLG9 : 3,
+    LinkageGroup.LGX : 5,
+    LinkageGroup.LGY : 5,
+    LinkageGroup.DLG1 : 2,
+    LinkageGroup.DLG2 : 2,
+    LinkageGroup.DLG3 : 2,
+    LinkageGroup.DLG4 : 2,
+    LinkageGroup.DLG5 : 2,
+    LinkageGroup.DLG6 : 2,
+    LinkageGroup.DLG7 : 2,
+}
+
 
 contigname_to_linkagegroup = {
     # B. siliquastri
