@@ -65,16 +65,13 @@
     \begin{subfigure}[t]{\textwidth}
     %\makebox[0pt][l]{\hspace{200pt}\textbf{A}}
     \begin{picture}(0,0)
-   	  		\put(30,-30){\textbf{A}} % adjust the x and y values here
+   	  		\put(80,-25){\textbf{A}} % adjust the x and y values here
 		\end{picture}
         \begin{center}
-        %\includegraphics[width=\linewidth]{../data/fastX_ortholog_ident/fastX_permutation_bruchini.png}
+        \includegraphics[width=0.6\linewidth]{../data/sex_chromosome_gene_counts.png}
         \end{center}        
         %\caption{ } \label{OG_stats:num_genes}
     \end{subfigure}
-
-    \hfill
-
     \begin{subfigure}[t]{0.49\linewidth}
 	    %\raggedleft
 	    %\makebox[0pt][l]{\hspace{30pt}\textbf{C}}
@@ -82,7 +79,7 @@
    	  		\put(30,-5){\textbf{B}} % adjust the x and y values here
 		\end{picture}
 	    \begin{center}
-        %\includegraphics[width=\linewidth]{../data/fastX_ortholog_ident/fastX_permutation_coccinella.png}
+        \includegraphics[width=\linewidth]{../data/sex_chromosome_gene_density_vs_GS_gene.png}
         \end{center}        
         %\caption{ } \label{OG_stats:GF_vs_GS}
     \end{subfigure}
@@ -92,18 +89,14 @@
    	  		\put(30,-5){\textbf{C}} % adjust the x and y values here
 		\end{picture}
 	    \begin{center}
-        %\includegraphics[width=\linewidth]{../data/fastX_ortholog_ident/fastX_permutation_tribolium.png}
+        \includegraphics[width=\linewidth]{../data/sex_chromosome_gene_density_vs_GS_mini.png}
         \end{center}        
         %\caption{ } \label{OG_stats:GF_vs_rep}
     \end{subfigure}
     
     
-    \caption{\textbf{$dN$/$dS$ of autosomal (A) and X-linked (X) genes} 
-    Pairwise comparisons between members of three species lineages with violin plots of $dN$/$dS$ values for X-linked and autosomal 
-    1-to-1 orthologs. Permutation tests (n=10000, visualized with histograms, pink line shows measured median difference) 
-    show that $dN$/$dS$ is significantly lower for X-linked orthologs in all comparisons within Bruchini (\textbf{A}), 
-    \textit{Coccinella} (\textbf{B}), and \textit{Tribolium} (\textbf{C}). 
-    }\label{dS_plots}
+    \caption{\textbf{Gene counts and density split by X, Y and autosome linkage.}
+    }\label{gene_density_counts}
     
 \end{figure}
 

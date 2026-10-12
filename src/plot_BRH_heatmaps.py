@@ -112,7 +112,7 @@ def plot_pairwise_heatmaps(pair_tables:dict, plot_filename:str="heatmap.png", ch
     else:
         fig, axes = plt.subplots(rows, cols, figsize=(15, 10)) # for more than three rows
     
-    fs = 25
+    fs = 30
 
     for row, species1 in enumerate(species_list):
         for col, species2 in enumerate(species_list):

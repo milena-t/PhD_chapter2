@@ -65,45 +65,42 @@ def get_gene_counts_from_miniprot(miniprot_path, contig_list):
     return no_genes
 
 def get_coords(tree):
-    """
-    Traverse tree and assign x/y positions for each clade.
-    The tree orientation is intended with leaves pointing upwards in a normal x/y coordinate system
-    """
+    depths = tree.depths()                      # cumulative branch length from root
+    if not max(depths.values()):                # no branch lengths -> cladogram
+        depths = tree.depths(unit_branch_lengths=True)
+    max_depth = max(depths[t] for t in tree.get_terminals())
+
     coords = {}
-    x = 0
-    max_depth = 0 # get position of the deepest leaf so that you can align all the leaf labels later
-    leaf_names = []
-    
-    # recursion through every node of the tree
-    def assign(clade, depth):
-        nonlocal x
-        nonlocal max_depth
-        
-        if depth>max_depth:
-            max_depth = depth
-        if clade.is_terminal():
-            coords[clade] = (x, depth) # depth is the distance from the root
-            x += 1 # orientation of the node along the x-axis (left/right orientation)
-        else:
-            for child in clade.clades:
-                assign(child, depth + clade.branch_length if clade.branch_length else depth)
-            # if the node has multiple children, determine the x coordinates of all the children and take the mean to center the line in the middle above the children
-            child_coords = [coords[c][0] for c in clade.clades]
-            coords[clade] = (sum(child_coords) / len(child_coords), depth)
+    for i, leaf in enumerate(tree.get_terminals()):
+        coords[leaf] = (i, depths[leaf])
 
-    assign(tree.root, 0)
-
+    # internal nodes: x = midpoint of children, y = own depth
+    for clade in tree.get_nonterminals(order="postorder"):
+        xs = [coords[c][0] for c in clade.clades]
+        coords[clade] = ((min(xs) + max(xs)) / 2, depths[clade])
     return coords, max_depth
 
 
 
-def plot_tree_manually(species_tree, ax_tree = None, add_leaf_label=False):
+def plot_tree_manually(species_tree, lw, ax_tree = None, add_leaf_label=False, exclude_leaves=None):
     """
     plot a phylogenetic tree (newick format in a file in species_tree)
     manually so that the leaves point upwards. 
     ax_tree is the plot axis defined in fig, (ax_data, ax_tree) = plt.subplots()
     """
     tree = Phylo.read(species_tree, "newick")
+    Phylo.draw_ascii(tree)
+
+    # Prune excluded leaves before computing coordinates
+    if exclude_leaves is not None:
+        if isinstance(exclude_leaves, str):
+            exclude_leaves = [exclude_leaves]
+        for name in exclude_leaves:
+            try:
+                tree.prune(name)
+            except ValueError:
+                print(f"Warning: leaf '{name}' not found in tree, skipping")
+
     tree.ladderize()
     coords, max_depth = get_coords(tree)
     leaf_names = {}
@@ -117,16 +114,19 @@ def plot_tree_manually(species_tree, ax_tree = None, add_leaf_label=False):
 
             if ax_tree != None:
                 # Vertical line
-                ax_tree.plot([x2, x2], [y, y2], color="black")
+                ax_tree.plot([x2, x2], [y, y2], color="black", linewidth=lw)
                 # Horizontal line
-                ax_tree.plot([x, x2], [y, y], color="black")
+                ax_tree.plot([x, x2], [y, y], color="black", linewidth=lw)
 
         # Draw labels on tips
         if clade.is_terminal():
             if ax_tree != None:
-                ax_tree.plot([x, x], [y, y + max_depth-y + 0.2], color="black")
+                if not add_leaf_label:
+                    ax_tree.plot([x, x], [y, y + max_depth-y + 0.2], color="black", linewidth=lw)
                 if add_leaf_label:
-                    ax_tree.text(x, y + max_depth-y + 0.25, clade.name, ha="center", va="bottom", rotation=90)
+                    pad = 0.02 * max_depth          # small gap above the tip, scales with the tree
+                    # ax_tree.text(x, y + pad, clade.name, ha="center", va="bottom", rotation=90)
+                    ax_tree.plot([x, x], [y, max_depth], color="black", linestyle=":", linewidth=lw*0.75)
             leaf_names[x] = clade.name
 
     # Adjust and flip y-axis so tree grows upwards
@@ -153,13 +153,14 @@ def plot_gene_counts(annot_dict, species_tree, sex_chromosomes_dict, miniprot_di
     }
     
     fs = 30 # set font size
+    lw = 4
 
     if type(species_tree) != list:
-        species_names = gff.make_species_order_from_tree(species_tree)
-        fig, (ax_data, ax_tree) = plt.subplots(2, 1, figsize=(10, 15), gridspec_kw={'height_ratios': [1, 2]})
+        # species_names = gff.make_species_order_from_tree(species_tree)
+        fig, (ax_data, ax_tree) = plt.subplots(2, 1, figsize=(9, 18), gridspec_kw={'height_ratios': [1, 3]})
     
         # plot tree manually with leaves pointing upwards
-        species_names_unsorted = plot_tree_manually(species_tree, ax_tree)
+        species_names_unsorted = plot_tree_manually(species_tree, lw=lw, ax_tree=ax_tree, add_leaf_label=True, exclude_leaves="C_maculatusC")
         # get species order from plotted tree
         species_coords_sorted = sorted(list(species_names_unsorted.keys()))
         species_names = [species_names_unsorted[species_coord] for species_coord in species_coords_sorted]
@@ -188,9 +189,9 @@ def plot_gene_counts(annot_dict, species_tree, sex_chromosomes_dict, miniprot_di
     print("----------------------------------------------------")
 
     chr = chr_list[0]
-    ax_data.plot(species_names, gene_nos_chr[chr], label = f"{chr} chromosome", color = colors[chr], linewidth = 4) 
+    ax_data.plot(species_names, gene_nos_chr[chr], label = f"{chr} chromosome", color = colors[chr], linewidth = lw) 
     if miniprot_dict!={}:
-        ax_data.plot(species_names, miniprot_nos_chr[chr], label = f"{chr} with miniprot", linestyle=":", color = colors[chr], linewidth = 4) 
+        ax_data.plot(species_names, miniprot_nos_chr[chr], label = f"{chr} with miniprot", linestyle=":", color = colors[chr], linewidth = lw) 
     ylab = f"annotated genes on {chr}"
     ax_data.set_ylabel(ylab, color = colors[chr], fontsize = fs)
     ax_data.tick_params(axis ='y', labelcolor = colors[chr], labelsize = fs)  
@@ -199,9 +200,9 @@ def plot_gene_counts(annot_dict, species_tree, sex_chromosomes_dict, miniprot_di
     
     chr=chr_list[1]
     ax2 = ax_data.twinx() 
-    ax2.plot(species_names, gene_nos_chr[chr], label = f"{chr} chromosome", color = colors[chr], linewidth = 4) 
+    ax2.plot(species_names, gene_nos_chr[chr], label = f"{chr} chromosome", color = colors[chr], linewidth = lw) 
     if miniprot_dict!={}:
-        ax2.plot(species_names, miniprot_nos_chr[chr], label = f"{chr} with miniprot", linestyle=":", color = colors[chr], linewidth = 4) 
+        ax2.plot(species_names, miniprot_nos_chr[chr], label = f"{chr} with miniprot", linestyle=":", color = colors[chr], linewidth = lw) 
     ylab = f"annotated genes on {chr}"
     ax2.set_ylabel(ylab, color = colors[chr], fontsize = fs)
     ax2.tick_params(axis ='y', labelcolor = colors[chr], labelsize = fs)  
@@ -241,18 +242,20 @@ if __name__=="__main__":
 "B_varius",
 "D_carinulata",
 "D_sublineata"]
+    species_tree_path=f"/Users/{username}/work/PhD_code/PhD_chapter2/data/orthofinder/SpeciesTree_rooted_node_labels.txt"
 
-    if False:
+    if True:
         data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/"
         plot_gene_counts(
             annot_dict=annot_dict, 
-            species_tree=species_order, 
+            # species_tree=species_order, 
+            species_tree=species_tree_path, 
             sex_chromosomes_dict=sex_chromosome_contigs, 
             chr_list=["X","Y"], 
             miniprot_dict=miniprot_dict,
-            filename = f"{data_dir}sex_chromosome_gene_counts.png")
+            filename = f"{data_dir}sex_chromosome_gene_counts_tree.png")
 
-    if True:
+    if False:
         """
         TODO plot exon counts, hist for each species like gene length in chapter 1, see PhD_chapter1/src/plotting/plot_basics.py plot_histogram_protein_properties()
         """
