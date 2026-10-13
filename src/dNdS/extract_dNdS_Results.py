@@ -35,8 +35,11 @@ def extract_dNdS_file(dNdS_path, row=None,col=None, dS_file = False):
                 try:
                     value= lines[row].strip().split()[col] 
                 except:
-                    v = lines[row].strip().split()
-                    raise RuntimeError(f"row:{row} col:{col} not possible for {v} [dS_file=True]\nfile read: {dNdS_path}")
+                    try:
+                        v = lines[row].strip().split()
+                    except:
+                        v = lines
+                    raise RuntimeError(f"row:{row} col:{col} not possible for \n{v} [dS_file=True]\nfile read: {dNdS_path}")
         else:
             # only look at second line for dNdS file
             if row==None and col==None:
@@ -291,6 +294,7 @@ if __name__ == "__main__":
                             continue
                         elif col>row:
                             continue
+                        print(f"- row:{row}:{rowspecies} - col:{col}:{colspecies}")
                         get_dNdS_values_by_ortholog(results_dir=results_path_dNdS, row=row,col=col,
                                                      outfile_name= f"dNdS_diorhabdaX_bruchini{chr_type}_ortholog_pair_{rowspecies}_{colspecies}.txt", 
                                                      file_prefix="2NG", nested_pair_dirs=False)
