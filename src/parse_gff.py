@@ -273,7 +273,7 @@ class Feature:
         )
 
 
-def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_feature_category=None, gtf=False, mRNA_top_feature=False, no_start_stop=True):
+def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_feature_category=None, gtf=False, mRNA_top_feature=False, no_start_stop=True, contig_list=None):
     """
     Read a gff file specified in the filepath and parse it into a dictionary of Feature IDs and instances of the Feature class
     {
@@ -322,6 +322,9 @@ def parse_gff3_general(filepath:str, verbose = True, only_genes = False, keep_fe
             
             # more info on file format and columns here: https://www.ensembl.org/info/website/upload/gff.html?redirect=no
             contig,source,category_,start,stop,score,strandedness,frame,attributes_=[c for c in line.split("\t") if len(c)>0]
+
+            if contig_list!=None and contig not in contig_list:
+                continue
 
             category = categorize_string(category_)
 

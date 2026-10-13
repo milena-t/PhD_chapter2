@@ -5,10 +5,13 @@ Plot gene counts in each species on the sex chromosomes
 import matplotlib.pyplot as plt
 import parse_gff as gff
 from Bio import SeqIO, Phylo, SeqUtils
+from matplotlib.ticker import FuncFormatter
 import numpy as np
 import subprocess as sp
+import pandas as pd
 from sex_chromosomes import get_contig_names
 import miniprot_stats_comparison as minialn
+from pairwise_wga_heatmap import fasta_indices
 
 def annotations_dict(username="miltr339"):
     dirname = f"/Users/{username}/work/chapter2/native_annotations"
@@ -228,11 +231,116 @@ def plot_gene_counts(annot_dict, species_tree, sex_chromosomes_dict, miniprot_di
     print("Figure saved in the current working directory directory as: "+filename)
 
 
+def get_window_intervals(contig_length, window_length:int) -> list[list[int]]:
+    """
+    get the intervals of the non-overlapping windows in a list of lists like this:
+    [ [window1_start, window1_end] ,  [window2_start, window2_end] ,  ... ]
+    """
+    contig_end = contig_length
+    contig_start = 0
+
+    windows_list: list[list[int]] = []
+    curr_window_start = contig_start
+    curr_window_end = window_length
+
+    while curr_window_end < contig_end:
+        windows_list.append([curr_window_start, curr_window_end])
+        curr_window_start = curr_window_end+1
+        curr_window_end = curr_window_start+window_length-1
+    
+    windows_list.append([curr_window_start, contig_end])
+
+    return(windows_list)
+
+
+
+
+def plot_X_gene_counts_window(orthologs_path, diorhabda_annotations, sex_chromosomes, diorhabda_indices, plot_categories, winlen = 1e5, outfile_prefix=None):
+    """
+    Plot gene numbers in winlen bp long windows in two categories: X in Diorhabda, A everywhere else, and X everywhere
+    """
+    plt.rcParams['text.usetex'] = True # use \\textit{{{}}} for species names
+    plt.rcParams['text.latex.preamble'] = r'\usepackage{sfmath} \renewcommand{\familydefault}{\sfdefault}'
+    plt.rcParams['font.family'] = 'sans-serif'
+
+    colors = {
+        "X in bruchini" : "#776274", # dusty lavender
+        "A in bruchini" : "#006D77", # stormy teal
+    }
+    fs = 30 # set font size
+    lw = 3
+
+    orthologs_df = pd.read_csv(orthologs_path)
+
+    linkage_df_dict = {}
+    for chr_linkage, linkage_dict in plot_categories.items():
+        mod_df = orthologs_df
+        for h,chr_ in linkage_dict.items():
+            mod_df = mod_df[mod_df[h]==chr_]
+        linkage_df_dict[chr_linkage] = mod_df
+        chr_linkage_ = chr_linkage.replace(" ","_")
+        orthologs_path_ = orthologs_path.replace(".csv", f"_{chr_linkage_}.csv")
+        mod_df.to_csv(path_or_buf=orthologs_path_)
+
+        print(f"  - {mod_df.shape[0]} orthologs in '{chr_linkage}'")
+    
+    for diorhabda_species, d_annotation in diorhabda_annotations.items():
+        
+        filename = outfile_prefix.replace(".png", f"_{diorhabda_species}.png")
+        fig, ax = plt.subplots(1, 1, figsize=(13, 8))
+        X_chr = sex_chromosomes[diorhabda_species]["X"][0]
+
+        print(f"parse annotation: {d_annotation}\nonly including the X chromosome '{X_chr}'")
+        annot_df = gff.parse_gff3_general(d_annotation, keep_feature_category=gff.FeatureCategory.Transcript, contig_list=[X_chr], verbose=False)
+        assert len(annot_df)>0
+
+        ## get window intervals, compute window edges
+        window_intervals = get_window_intervals(contig_length=diorhabda_indices[diorhabda_species][X_chr], window_length=winlen)
+        
+        for plot_cat, data_df in linkage_df_dict.items():
+            legend_label = plot_cat.replace("bruchini", "\\textit{{{Bruchini}}}")
+            transcriptIDs = data_df[diorhabda_species].values.tolist()
+            x_coords = []
+            y_coords = []
+            for window_interval in window_intervals:
+                window_start,window_stop = window_interval
+                x_coords.append(window_start)
+                x_coords.append(window_stop)
+                genecount_window = 0
+                ## I count a gene as present in a window by the START of the feature annotation! if a gene goes across a window border it is counted in the earlier window
+                for geneID in transcriptIDs:
+                    if annot_df[geneID].start < window_stop and annot_df[geneID].start > window_start:
+                        genecount_window +=1
+                # append twice to match x coords
+                y_coords.append(genecount_window)
+                y_coords.append(genecount_window)
+            
+            ax.plot(x_coords, y_coords, label = legend_label, color = colors[plot_cat], linewidth = lw) 
+            plt.fill_between(x=x_coords, y1=y_coords, color=colors[plot_cat], alpha = 0.4)
+
+        ax.xaxis.set_major_formatter(FuncFormatter(lambda x, pos: '' if x <= 0 else f'{x / 1e6:.0f} Mb'))
+        ax.set_ylabel(f"gene count per window", fontsize = fs)
+        ax.tick_params(axis='y', labelsize=fs)
+        ax.tick_params(axis='x', labelsize=fs)
+        ax.set_xlim(0,diorhabda_indices[diorhabda_species][X_chr])
+        ax.set_ylim(0,29)
+
+        species = diorhabda_species.replace("_", ". ")
+        plt.title(f"Gene counts on \\textit{{{species}}} X chromosome in {int(winlen)}bp windows", fontsize = fs)
+        plt.legend(fontsize=fs)
+        plt.tight_layout()
+        plt.savefig(filename, dpi = 300, transparent = True)# , bbox_inches='tight')
+
+        print(f"{filename}")
+
+
+
 if __name__=="__main__":
 
     username="miltr339"
     sex_chromosome_contigs = get_contig_names()
     annot_dict = annotations_dict(username=username)
+    faidx_dict,_ = fasta_indices(username=username)
     miniprot_dict = get_miniprot_paths(username=username)
     species_order = [
 "C_maculatus",
@@ -244,7 +352,7 @@ if __name__=="__main__":
 "D_sublineata"]
     species_tree_path=f"/Users/{username}/work/PhD_code/PhD_chapter2/data/orthofinder/SpeciesTree_rooted_node_labels.txt"
 
-    if True:
+    if False:
         data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/"
         plot_gene_counts(
             annot_dict=annot_dict, 
@@ -255,7 +363,20 @@ if __name__=="__main__":
             miniprot_dict=miniprot_dict,
             filename = f"{data_dir}sex_chromosome_gene_counts_tree.png")
 
-    if False:
-        """
-        TODO plot exon counts, hist for each species like gene length in chapter 1, see PhD_chapter1/src/plotting/plot_basics.py plot_histogram_protein_properties()
-        """
+    if True:
+        # Plot gene counts in windows for Diorhabda X chromosomes
+        diorhabda = ["D_carinulata","D_sublineata"]
+        bruchini = ["C_maculatus","C_chinensis","A_obtectus","B_siliquastri","B_varius"]
+        orthologs_path=f"/Users/{username}/work/PhD_code/PhD_chapter2/data/BRH_orthologs/chrysomelidae_orthologs.csv"
+        plot_cats = {
+            "X in bruchini" : {f"{s}:chr" : "X" for s in species_order},
+            "A in bruchini" : {f"{s}:chr" : "X" if s in diorhabda else "A" for s in species_order}
+        }
+        print(plot_cats)
+        plot_X_gene_counts_window(
+            orthologs_path=orthologs_path, 
+            diorhabda_annotations ={d : annot_dict[d] for d in diorhabda}, 
+            diorhabda_indices = {d : faidx_dict[d] for d in diorhabda},
+            sex_chromosomes = sex_chromosome_contigs, 
+            plot_categories = plot_cats, winlen = 75e4, 
+            outfile_prefix=f"/Users/{username}/work/PhD_code/PhD_chapter2/data/BRH_orthologs/XA_gene_density.png")
