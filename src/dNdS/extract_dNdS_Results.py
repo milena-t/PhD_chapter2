@@ -10,7 +10,7 @@ from statistics import mean
 import numpy as np
 
 
-def extract_dNdS_file(dNdS_path, dS_file = False):
+def extract_dNdS_file(dNdS_path, row=None,col=None, dS_file = False):
     if not os.path.exists(dNdS_path):
         # print(f"{dNdS_path} does not exist")
         # return(np.NaN)
@@ -24,10 +24,26 @@ def extract_dNdS_file(dNdS_path, dS_file = False):
 
         if dS_file:
             # only look at third line for dS file
-            value= lines[2].strip().split()[-1]
+            if row==None and col==None:
+                value= lines[2].strip().split()[-1]
+            else:
+                row+=1 # theres an additional first line in the dN and dS files
+                col+=1
+                if row<col:
+                    col_ = col
+                    col = row
+                    row = col_
+                value= lines[row].strip().split()[col+1] # first col is transcript ID
         else:
             # only look at second line for dNdS file
-            value= lines[1].strip().split("\t")[-1]
+            if row==None and col==None:
+                value= lines[1].strip().split("\t")[-1]
+            else:
+                if row<col:
+                    col_ = col
+                    col = row
+                    row = col_
+                value= lines[row].strip().split("\t")[col+1] # first col is transcript ID
 
     return(float(value))
 
@@ -60,60 +76,8 @@ def dNdS_list_of_pair(pair_dir, results_dir, only_dNdS = True):
         return dNdS_dS_pairs
 
 
-def get_dNdS_pairs_dict(results_dir, outfile_name = "", only_dNdS = True):
-    """
-    Extracts either only dNdS values as a list, or corresponding dS values of the same ortholog as well, in a list of the same order
-    """
-    pair_dirs = []
-    for d in os.listdir(results_dir):
-        if os.path.isfile(d):
-            continue
-        d_sp = d.split("_")
-        try:
-            species1 = f"{d_sp[0]}_{d_sp[1]}"
-            species2 = f"{d_sp[2]}_{d_sp[3]}"
-        except:
-            print(f"{d} cannot be parsed as species")
-            continue
-        if species1 != species2:
-            pair_dirs.append(d)
 
-    pair_lists = {f"{d}":[] for d in pair_dirs}
-    if outfile_name == "":
-        for pair_dir in pair_lists.keys():
-            if ".out" in pair_dir or ".log" in pair_dir or ".txt" in pair_dir:
-                continue
-            if not os.path.isdir(f"{results_dir}{pair_dir}"):
-                raise RuntimeError(f"parsed dir {results_dir}{pair_dir} does not exist!")
-            pair_lists[pair_dir] = dNdS_list_of_pair(pair_dir, results_dir, only_dNdS=only_dNdS)
-            print(f"{pair_dir} : {pair_lists[pair_dir]}")
-        return pair_lists
-
-    else:
-        outfile_name = f"{results_dir}{outfile_name}"
-        with open(outfile_name, "w") as outfile:
-            for pair_dir in pair_lists.keys():
-                print(f" --> {pair_dir}")
-                if ".out" in pair_dir or ".log" in pair_dir or ".txt" in pair_dir:
-                    print(f"\t! log file ignired")
-                    continue
-                if not os.path.isdir(f"{results_dir}{pair_dir}"):
-                    raise RuntimeError(f"parsed dir {results_dir}{pair_dir} does not exist!")
-                pair_list = dNdS_list_of_pair(pair_dir, results_dir, only_dNdS=only_dNdS)
-                if only_dNdS:
-                    pair_list = ",".join([str(dNdS) for dNdS in pair_list])
-                    outfile.write(f"{pair_dir} : {pair_list}\n")
-                else:
-                    pairs_names = list(pair_list.keys())
-                    pair_list_dNdS = ",".join([str(pair_list[pair][0]) for pair in pairs_names])
-                    pair_list_dS = ",".join([str(pair_list[pair][1]) for pair in pairs_names])
-                    pair_name = pair_dir.replace("_pairwise_dNdS", "")
-                    outfile.write(f"{pair_name}_dNdS : {pair_list_dNdS}\n")
-                    outfile.write(f"{pair_name}_dS : {pair_list_dS}\n")
-        print(f"outfile saved to: {outfile_name}\nin {results_dir}")
-
-
-def get_dNdS_values_by_ortholog(results_dir, outfile_name = "", file_prefix="2NG", nested_pair_dirs=True):
+def get_dNdS_values_by_ortholog(results_dir, row,col,outfile_name = "", file_prefix="2NG", nested_pair_dirs=True):
     """
     Extract dN, dS and dN/dS values from paml results, save for each ortholog individually like the site classes
     """
@@ -161,19 +125,19 @@ def get_dNdS_values_by_ortholog(results_dir, outfile_name = "", file_prefix="2NG
                 
                 
                 if os.path.isfile(file_dNdS) :
-                    value_dNdS = extract_dNdS_file(file_dNdS, dS_file=False)
+                    value_dNdS = extract_dNdS_file(file_dNdS, row=row,col=col, dS_file=False)
                 else:
                     value_dNdS="not_found" 
                     # raise RuntimeError(f"one of these files does not exist in the run directory!\n{run_directory}\n - {file_dNdS}\n")
 
                 if os.path.isfile(file_dS) :
-                    value_dS = extract_dNdS_file(file_dS, dS_file=True)
+                    value_dS = extract_dNdS_file(file_dS, row=row,col=col, dS_file=True)
                 else:
                     value_dS="not_found" 
                     # raise RuntimeError(f"one of these files does not exist in the run directory!\n{run_directory}\n - {file_dS}\n")
 
                 if os.path.isfile(file_dN):
-                    value_dN = extract_dNdS_file(file_dN, dS_file=True)
+                    value_dN = extract_dNdS_file(file_dN, row=row,col=col, dS_file=True)
                 else:
                     value_dN="not_found" 
                     # raise RuntimeError(f"one of these files does not exist in the run directory!\n{run_directory}\n - {file_dN}\n")
@@ -306,10 +270,17 @@ if __name__ == "__main__":
         if True:
             # dNdS
             chr_types = ["X","A"]
+            diorhabda = ["D_carinulata","D_sublineata"]
+            bruchini = ["C_maculatus","C_chinensis","A_obtectus","B_siliquastri","B_varius"]
+            species_list = diorhabda+bruchini
             for chr_type in chr_types:
-                results_path_dNdS = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/dNdS_diorhabda_X/branch_model_results_{chr_type}/"
                 print(f"\n//////////////////// {chr_type} ////////////////////\n")
-                get_dNdS_values_by_ortholog(results_path_dNdS, outfile_name= f"dNdS_diorhabdaX_bruchini{chr_type}_ortholog_pairwise.txt", file_prefix="2NG", nested_pair_dirs=False)
+                results_path_dNdS = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/dNdS_diorhabda_X/branch_model_results_{chr_type}/"
+                for row,rowspecies in enumerate(species_list):
+                    for col, colspecies in enumerate(species_list):
+                        get_dNdS_values_by_ortholog(results_dir=results_path_dNdS, row=row,col=col,
+                                                     outfile_name= f"dNdS_diorhabdaX_bruchini{chr_type}_ortholog_pair_{rowspecies}_{colspecies}.txt", 
+                                                     file_prefix="2NG", nested_pair_dirs=False)
         if False:
             ## site-model
             # chr_types = ["X","A"]
