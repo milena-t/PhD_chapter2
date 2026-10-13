@@ -105,17 +105,12 @@ if __name__ == "__main__":
     elif analysis == "LRT":
         chr_type = "A"
         outdir = f"{datadir}site_model_res_{chr_type}/"
+    
+    #### chrysomelidae
     elif analysis == "dNdS":
         chr_type = "A"
         outdir = f"{datadir}branch_model_results_{chr_type}/"
 
-    ### second run for the ancestral X-syntenic chromosome in Dcar as X
-    # X_path = f"{datadir}brh_sequences_{chr_type}_Dcar_X_syntenic/"
-    # outdir = f"{datadir}brh_results_{chr_type}_Dcar_X_syntenic/"
-
-    # x_paths_nested_dict = make_nested_lists(X_path, include_list=["C_magnifica","C_septempunctata","T_castaneum","T_freemani"])
-    # x_paths_nested_dict = make_nested_lists(X_path, include_list=["A_obtectus","B_siliquastri","C_chinensis","C_maculatus"])
-    
     
     if True:
         ########

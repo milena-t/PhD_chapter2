@@ -12,7 +12,7 @@ IN_LIST=$@ # space separated list of filenames, do like 100 at a time
 
 CHR_TYPE=A
 
-RUN_DIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/src/blast_BRH/
+RUN_DIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/src/dNdS/
 if [ -d "$RUN_DIR" ]; then
     module load FastTree/2.2-GCCcore-13.3.0
     module load Biopython/1.84-gfbf-2024a
