@@ -133,26 +133,28 @@ def get_dNdS_values_by_ortholog(results_dir, row,col,outfile_name = "", file_pre
                 
                 
                 if os.path.isfile(file_dNdS) :
-                    value_dNdS = extract_dNdS_file(file_dNdS, row=row,col=col, dS_file=False)
+                    value_dNdS = extract_dNdS_file(file_dNdS, row=row+1,col=col+1, dS_file=False)
                 else:
                     value_dNdS="not_found" 
                     # raise RuntimeError(f"one of these files does not exist in the run directory!\n{run_directory}\n - {file_dNdS}\n")
 
                 if os.path.isfile(file_dS) :
-                    value_dS = extract_dNdS_file(file_dS, row=row,col=col, dS_file=True)
+                    value_dS = extract_dNdS_file(file_dS, row=row+1,col=col+1, dS_file=True)
                 else:
                     value_dS="not_found" 
                     # raise RuntimeError(f"one of these files does not exist in the run directory!\n{run_directory}\n - {file_dS}\n")
 
                 if os.path.isfile(file_dN):
-                    value_dN = extract_dNdS_file(file_dN, row=row,col=col, dS_file=True)
+                    value_dN = extract_dNdS_file(file_dN, row=row+1,col=col+1, dS_file=True)
                 else:
                     value_dN="not_found" 
                     # raise RuntimeError(f"one of these files does not exist in the run directory!\n{run_directory}\n - {file_dN}\n")
                 print(f" * {file_dN}")
                 outfile.write(f"{d}:dN={value_dN},dS={value_dS},dNdS={value_dNdS}\n")
-                # print(f"{d}:dN={value_dN},dS={value_dS},dNdS={value_dNdS}\n")
-                # break
+
+
+                print(f"{d}:dN={value_dN},dS={value_dS},dNdS={value_dNdS}\n")
+                break
             
         print(f"outfile saved to: {outfile_name}\nin {results_dir}")
 
