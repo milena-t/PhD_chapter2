@@ -287,6 +287,10 @@ if __name__ == "__main__":
                 results_path_dNdS = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/dNdS_diorhabda_X/branch_model_results_{chr_type}/"
                 for row,rowspecies in enumerate(species_list):
                     for col, colspecies in enumerate(species_list):
+                        if row==col:
+                            continue
+                        elif col>row:
+                            continue
                         get_dNdS_values_by_ortholog(results_dir=results_path_dNdS, row=row,col=col,
                                                      outfile_name= f"dNdS_diorhabdaX_bruchini{chr_type}_ortholog_pair_{rowspecies}_{colspecies}.txt", 
                                                      file_prefix="2NG", nested_pair_dirs=False)
