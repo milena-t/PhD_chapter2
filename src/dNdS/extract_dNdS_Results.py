@@ -111,7 +111,7 @@ def get_dNdS_values_by_ortholog(results_dir, row,col,outfile_name = "", file_pre
     outfile_name = f"{results_dir}{outfile_name}"
     with open(outfile_name, "w") as outfile:
         for pair_dir in pair_dirs:
-            print(f" --> {pair_dir}")
+            # print(f" --> {pair_dir}")
             if ".out" in pair_dir or ".log" in pair_dir or ".txt" in pair_dir:
                 print(f"\t! log file ignired")
                 continue
@@ -151,7 +151,8 @@ def get_dNdS_values_by_ortholog(results_dir, row,col,outfile_name = "", file_pre
                 else:
                     value_dN="not_found" 
                     # raise RuntimeError(f"one of these files does not exist in the run directory!\n{run_directory}\n - {file_dN}\n")
-                print(f" * {file_dN}")
+                file_ = "/".join(file_dN.split("/")[-3:])
+                print(f" * {file_}")
                 outfile.write(f"{d}:dN={value_dN},dS={value_dS},dNdS={value_dNdS}\n")
 
 
@@ -237,7 +238,7 @@ def get_site_classes(results_dir, outfile_name = ""):
         outfile_name = f"{results_dir}{outfile_name}"
         with open(outfile_name, "w") as outfile:
             for pair_dir in pair_lists.keys():
-                print(f" --> {pair_dir}")
+                # print(f" --> {pair_dir}")
                 if ".out" in pair_dir or ".log" in pair_dir or ".txt" in pair_dir:
                     print(f"\t! log file ignired")
                     continue
