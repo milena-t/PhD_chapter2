@@ -278,9 +278,11 @@ def plot_X_gene_counts_window(orthologs_path, diorhabda_annotations, sex_chromos
         for h,chr_ in linkage_dict.items():
             mod_df = mod_df[mod_df[h]==chr_]
         linkage_df_dict[chr_linkage] = mod_df
+
         chr_linkage_ = chr_linkage.replace(" ","_")
         orthologs_path_ = orthologs_path.replace(".csv", f"_{chr_linkage_}.csv")
-        mod_df.to_csv(path_or_buf=orthologs_path_)
+        ## save orthogroups to file for dNdS without including the columns that have the A or X category
+        mod_df.to_csv(path_or_buf=orthologs_path_, index=False , columns=[c for c in mod_df.columns if ":chr" not in c])
 
         print(f"  - {mod_df.shape[0]} orthologs in '{chr_linkage}'")
     
@@ -326,7 +328,7 @@ def plot_X_gene_counts_window(orthologs_path, diorhabda_annotations, sex_chromos
         ax.set_ylim(0,29)
 
         species = diorhabda_species.replace("_", ". ")
-        plt.title(f"Gene counts on \\textit{{{species}}} X chromosome in {int(winlen)}bp windows", fontsize = fs)
+        plt.title(f"Gene counts on \\textit{{{species}}} X chromosome in {winlen / 1e3:.0f}kb windows", fontsize = fs)
         plt.legend(fontsize=fs)
         plt.tight_layout()
         plt.savefig(filename, dpi = 300, transparent = True)# , bbox_inches='tight')
