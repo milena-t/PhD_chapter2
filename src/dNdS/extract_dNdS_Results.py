@@ -309,7 +309,7 @@ if __name__ == "__main__":
             for chr_type in chr_types:
                 results_path_dNdS = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/dNdS_diorhabda_X/branch_model_results_{chr_type}/"
                 print(f"\n//////////////////// {chr_type} ////////////////////\n")
-                get_dNdS_values_by_ortholog(results_path_dNdS, outfile_name= f"dNdS_diorhabdaX_bruchini{chr_type}_ortholog_pairwise.txt", file_prefix="2NG")
+                get_dNdS_values_by_ortholog(results_path_dNdS, outfile_name= f"dNdS_diorhabdaX_bruchini{chr_type}_ortholog_pairwise.txt", file_prefix="2NG", nested_pair_dirs=False)
         if False:
             ## site-model
             # chr_types = ["X","A"]
