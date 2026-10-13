@@ -37,7 +37,7 @@ def extract_dNdS_file(dNdS_path, row=None,col=None, dS_file = False):
                     value= lines[row].strip().split()[col] 
                 except:
                     v = lines[row].strip().split()
-                    raise RuntimeError(f"row:{row} col:{col} not possible for {v} [dS_file=True]")
+                    raise RuntimeError(f"row:{row} col:{col} not possible for {v} [dS_file=True]\nfile read: {dNdS_path}")
         else:
             # only look at second line for dNdS file
             if row==None and col==None:
@@ -51,7 +51,7 @@ def extract_dNdS_file(dNdS_path, row=None,col=None, dS_file = False):
                     value= lines[row].strip().split("\t")[col] 
                 except:
                     v = lines[row].strip().split("\t")
-                    raise RuntimeError(f"row:{row} col:{col} not possible for {v}")
+                    raise RuntimeError(f"row:{row} col:{col} not possible for {v}\nfile read: {dNdS_path}")
 
     return(float(value))
 
