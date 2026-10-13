@@ -28,7 +28,6 @@ def extract_dNdS_file(dNdS_path, row=None,col=None, dS_file = False):
                 value= lines[2].strip().split()[-1]
             else:
                 row+=1 # theres an additional first line in the dN and dS files
-                col+=1
                 if row<col:
                     col_ = col
                     col = row
