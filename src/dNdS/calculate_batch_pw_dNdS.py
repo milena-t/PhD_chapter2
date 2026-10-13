@@ -108,7 +108,7 @@ if __name__ == "__main__":
     
     #### chrysomelidae
     elif analysis == "dNdS":
-        chr_type = "X"
+        chr_type = "A"
         outdir = f"{datadir}branch_model_results_{chr_type}/"
 
     
@@ -138,11 +138,11 @@ if __name__ == "__main__":
         for fasta_list_sublist in sep_lists:
 
             # re-do specific batches, 4,5 or 20,25 where there is something weird
-            # if i not in [4,5]:
-            #     print("------------------------------")
-            #     print(f"skip : {i}")
-            #     i +=1
-            #     continue
+            if i not in [2]:
+                print("------------------------------")
+                print(f"skip : {i}")
+                i +=1
+                continue
 
             # fasta_list_sublist.reverse() 
             # some batches contain orthologs where the loop does not continue, but the job also does not terminate
