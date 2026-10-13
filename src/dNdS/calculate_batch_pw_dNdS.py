@@ -121,7 +121,7 @@ if __name__ == "__main__":
         ########
         ## for testing purposes only do a few files of each pair
         ## if 0 then it takes all files, for a normal run
-        num_files = 50
+        num_files = 0
         ########
         os.chdir(outdir)
         print(f"ANALYZING : {analysis}")
@@ -135,10 +135,7 @@ if __name__ == "__main__":
         fasta_unique_list = sorted(list(set(fasta_overall_list)))
         print(f"\n{len(fasta_unique_list)} unique fasta files: {fasta_unique_list[:2]}...\n")
         
-        if analysis == "M7-M8_LRT":
-            batch_size = 100
-        else:
-            batch_size = 500
+        batch_size = 100
         i = 0 # counter
 
         sep_lists = chunks(fasta_unique_list, batch_size)
@@ -146,11 +143,11 @@ if __name__ == "__main__":
         for fasta_list_sublist in sep_lists:
 
             # re-do specific batches, 4,5 or 20,25 where there is something weird
-            if i not in [4,5]:
-                print("------------------------------")
-                print(f"skip : {i}")
-                i +=1
-                continue
+            # if i not in [4,5]:
+            #     print("------------------------------")
+            #     print(f"skip : {i}")
+            #     i +=1
+            #     continue
 
             # fasta_list_sublist.reverse() 
             # some batches contain orthologs where the loop does not continue, but the job also does not terminate
