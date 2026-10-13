@@ -11,7 +11,7 @@ from matplotlib.colors import LinearSegmentedColormap
 
 def get_summary_paths(username = "miltr339"):
     summary_paths = {
-        "A_dNdS" : f"/Users/{username}/work/PhD_code/PhD_chapter2/data/dNdS_diorhabdaX/dNdS_diorhabdaX_bruchiniX_summary.txt",
+        "A_dNdS" : f"/Users/{username}/work/PhD_code/PhD_chapter2/data/dNdS_diorhabdaX/dNdS_diorhabdaX_bruchiniA_summary.txt",
         "X_dNdS" : f"/Users/{username}/work/PhD_code/PhD_chapter2/data/dNdS_diorhabdaX/dNdS_diorhabdaX_bruchiniX_summary.txt",
     }
     return summary_paths
@@ -32,6 +32,7 @@ def read_dNdS_dS_summary_file(summary_path, only_metric="", exclude_list = [], m
     """
     out_dict = {}
     pairs_done = []
+    rem_counts = {}
     if by_ortholog_file:
         separator = ":"
         max_dN = max_dS
@@ -79,8 +80,12 @@ def read_dNdS_dS_summary_file(summary_path, only_metric="", exclude_list = [], m
                         ## this is set up so that i can also pick different maximum values for dN, dS or dNdS
                         if name == "dN" and number > max_dN:
                             number = np.nan
+                            rem_counts.setdefault(pair, 0)
+                            rem_counts[pair]+=1
                         elif name == "dS" and number > max_dS:
                             number = np.nan
+                            rem_counts.setdefault(pair, 0)
+                            rem_counts[pair]+=1
                         elif name == "dNdS" and number > max_dS:
                             number = np.nan
                     vals_dict[name] = number
@@ -107,7 +112,7 @@ def read_dNdS_dS_summary_file(summary_path, only_metric="", exclude_list = [], m
                 if d_sp[-1] == "dNdS" and only_metric == "":
                     out_dict[pair]["dNdS"] = values_list
     
-    print(f"read summary file with {len(out_dict)} species pair(s)")
+    print(f"read summary file with {len(out_dict)} species pair(s)\ndS>{max_dS} per pair : {rem_counts}")
     if True and only_metric!="":
         for key,value in out_dict.items():
             print(f"\t * {key}: {len(value)}")
@@ -296,18 +301,21 @@ def violinplot_pair(data_A_X, row, col, n_A, n_X, mean_A, mean_X, axes, colors_d
         axes[row, col].set_ylabel('')
     axes[row, col].tick_params(axis='x', labelsize=fs)
     axes[row, col].tick_params(axis='y', labelsize=fs)
+    text_A = f"n={n_A}"#\nmedian={mean_A:.2f}"
+    text_X = f"n={n_X}"#\nmedian={mean_X:.2f}"
+
     if ymax == 0:
-        max_dNdS_add = 0.3
-        axes[row, col].set_ylim([0,1+max_dNdS_add])
-        axes[row, col].text(1-text_x_offset, 0.78+max_dNdS_add, f"n={n_A}\nmedian={mean_A:.2f}", fontsize = fs, color = colors_dict["A"])
-        axes[row, col].text(2-text_x_offset, 0.78+max_dNdS_add, f"n={n_X}\nmedian={mean_X:.2f}", fontsize = fs, color = colors_dict["X"])
+        max_dNdS_add = 0.1
+        axes[row, col].set_ylim([0,0.43+max_dNdS_add])
+        axes[row, col].text(1-text_x_offset, 0.5-1+0.84+max_dNdS_add, text_A, fontsize = fs, color = colors_dict["A"])
+        axes[row, col].text(2-text_x_offset, 0.5-1+0.84+max_dNdS_add, text_X, fontsize = fs, color = colors_dict["X"])
         axes[row, col].hlines(y=mean_A, xmin=0.5, xmax=2.5, linewidth=2, color=colors_dict["A"])
         axes[row, col].hlines(y=mean_X, xmin=0.5, xmax=2.5, linewidth=2, color=colors_dict["X"])
-        axes[row, col].hlines(y=1, xmin=0.5, xmax=2.5, linewidth=2, linestyle = ":", color="#818181")
+        # axes[row, col].hlines(y=1, xmin=0.5, xmax=2.5, linewidth=2, linestyle = ":", color="#818181")
     else:
         axes[row, col].set_ylim([0,ymax])
-        axes[row, col].text(1-text_x_offset, 0.8*ymax, f"n={n_A}\nmedian={mean_A:.2f}", fontsize = fs, color = colors_dict["A"])
-        axes[row, col].text(2-text_x_offset, 0.8*ymax, f"n={n_X}\nmedian={mean_X:.2f}", fontsize = fs, color = colors_dict["X"])
+        axes[row, col].text(1-text_x_offset, 0.8*ymax, text_A, fontsize = fs, color = colors_dict["A"])
+        axes[row, col].text(2-text_x_offset, 0.8*ymax, text_X, fontsize = fs, color = colors_dict["X"])
     axes[row, col].set_xticks([1,2])
     axes[row, col].set_xticklabels(xticks)
 
@@ -333,7 +341,7 @@ def violinplot_pair_single(data_A_X, col, n_A, n_X, mean_A, mean_X, axes, colors
         axes[col].set_ylim([0,1+max_dNdS_add])
         axes[col].text(1- text_x_offset -0.1, 0.75+max_dNdS_add, f"n={n_A}\nmedian={mean_A:.2f}", fontsize = fs, color = colors_dict["A"])
         axes[col].text(2- text_x_offset-0.025, 0.75+max_dNdS_add, f"n={n_X}\nmedian={mean_X:.2f}", fontsize = fs, color = colors_dict["X"])
-        axes[col].hlines(y=1, xmin=0.5, xmax=2.5, linewidth=2, linestyle = ":", color="#818181")
+        # axes[col].hlines(y=1, xmin=0.5, xmax=2.5, linewidth=2, linestyle = ":", color="#818181")
     else:
         axes[col].set_ylim([0,ymax])
         axes[col].text(1-0.5, 2, f"n={n_A}\nmedian={mean_A:.3f}", fontsize = fs, color = colors_dict["A"])
@@ -366,12 +374,15 @@ def plot_dNdS_violins(A_dict:dict, X_dict:dict, filename = "dNdS_ratios_A_X.png"
 
     cols = species_count
     rows = cols
+    plt.rcParams['text.usetex'] = True # use \\textit{{{}}} for species names
+    plt.rcParams['text.latex.preamble'] = r'\usepackage{sfmath} \renewcommand{\familydefault}{\sfdefault}'
+    plt.rcParams['font.family'] = 'sans-serif'
     if rows>2:
-        fig, axes = plt.subplots(rows, cols, figsize=(25, 25)) # for more than three rows
+        fig, axes = plt.subplots(rows, cols, figsize=(35, 35)) # for more than three rows
     else:
         fig, axes = plt.subplots(rows, cols, figsize=(15, 10)) # for more than three rows
     
-    fs = 25
+    fs = 40
 
     colors_dict = {
         # "A" : "#4d7298", # uniform_unfiltered blue
@@ -392,6 +403,12 @@ def plot_dNdS_violins(A_dict:dict, X_dict:dict, filename = "dNdS_ratios_A_X.png"
         species2 = f"{gen2}_{spec2}"
         col = species_index[species2]
 
+        ## plot species name on diagonals
+        if row not in diagonals_done:
+            s1_ = species1.replace("_", ". ")
+            axes[row,row].text(0,0.5,f"\\textit{{{s1_}}}", rotation = 0, fontsize = fs*1.3)
+            diagonals_done.append(row)
+
         # only do top right matrix
         if row>col:
             col_temp = col
@@ -401,9 +418,9 @@ def plot_dNdS_violins(A_dict:dict, X_dict:dict, filename = "dNdS_ratios_A_X.png"
             species2 = species1
             species1 = species2_temp
 
-        ## plot species name on diagonals
         if row not in diagonals_done:
-            axes[row,row].text(0.8,0.2,f"{species1}", rotation = 90, fontsize = fs)
+            s1_ = species1.replace("_", ". ")
+            axes[row,row].text(0,0.5,f"\\textit{{{s1_}}}", rotation = 0, fontsize = fs*1.3)
             diagonals_done.append(row)
             
         ## exclude all the nans because violinplot can't handle them
@@ -428,7 +445,8 @@ def plot_dNdS_violins(A_dict:dict, X_dict:dict, filename = "dNdS_ratios_A_X.png"
         # plot mirror
         violinplot_pair(data_A_X=data_AX, row=row, col=col, n_A=n_A, n_X=n_X, mean_A=mean_A, mean_X=mean_X, axes = axes, colors_dict=colors_dict, fs=fs)
         # axes[row, col].set_title(f'{species1}\n{species2}', fontsize = fs*0.85)
-        axes[row, col].set_title(f'{species2}', fontsize = fs)
+        s2_ = species2.replace("_", ". ")
+        axes[row, col].set_title(f'\\textit{{{s2_}}}', fontsize = fs*1.15)
         # violinplot_pair(data_A_X=data_AX, row=col, col=row, n_A=n_A, n_X=n_X, mean_A=mean_A, mean_X=mean_X)
         # axes[col, row].set_title(f'{species2}\n{species1}', fontsize = fs*0.85)
         axes[col,row].axis('off')
@@ -445,7 +463,7 @@ def plot_dNdS_violins(A_dict:dict, X_dict:dict, filename = "dNdS_ratios_A_X.png"
 
     if dark_mode:
         filename = filename.replace(".png", "_darkmode.png")
-    plt.savefig(filename, dpi = 300, transparent = False)
+    plt.savefig(filename, dpi = 300, transparent = True)
     print(f"plot saved in current working directory as: {filename}")
 
 
@@ -457,13 +475,18 @@ if __name__ == "__main__":
     data_files = {"A" : ["A_dNdS", "A_LRT"],
                   "X" : ["X_dNdS", "X_LRT"]}
     summary_paths = get_summary_paths(username=username)
-    dNdS_dict_A = read_dNdS_dS_summary_file(summary_paths[data_files["A"][0]], max_dS=2,only_metric="dNdS", exclude_list=["D_carinulata", "D_sublineata"])
-    dNdS_dict_X = read_dNdS_dS_summary_file(summary_paths[data_files["X"][0]], max_dS=2,only_metric="dNdS", exclude_list=["D_carinulata", "D_sublineata"])
+
+    ###################
+    max_dS = 2 ## 2 for filtering and 10 for no filtering
+    ###################
+
+    dNdS_dict_A = read_dNdS_dS_summary_file(summary_paths[data_files["A"][0]], max_dS=max_dS,only_metric="dNdS")
+    dNdS_dict_X = read_dNdS_dS_summary_file(summary_paths[data_files["X"][0]], max_dS=max_dS,only_metric="dNdS")
     species = get_species_list(dNdS_dict_A)
 
-    # plot_dNdS_violins(A_dict=dNdS_dict_A, X_dict=dNdS_dict_X,filename=f"/Users/{username}/work/PhD_code/PhD_chapter3/data/fastX_ortholog_ident/dNdS_violin_plot.png")
+    plot_dNdS_violins(A_dict=dNdS_dict_A, X_dict=dNdS_dict_X,filename=f"/Users/{username}/work/PhD_code/PhD_chapter2/data/dNdS_diorhabdaX/dNdS_violin_plot_dSmax{max_dS}.png")
     
-    if True:
+    if False:
         ## bootstrap significance test to see if dS is sig. diff. on X vs. A
         ## this is not plotted, only command line output
         num_permutations = 10000

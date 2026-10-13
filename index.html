@@ -1786,6 +1786,8 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
     </p>
 </details>
 
+<h3><i>Diorhabda</i> X-ortholog translocations</h3>
+
 <p>
     There are many orthologs that are X-lined in <i>Diorhabda</i> and A-linked in <i>Bruchini</i>. I check if they are the result of one translocation event (somehow not 
     observed in the synteny plot) by determining clade-wide 1-to-1 orthologs (1-to-1 orthogroups in all species) from the pairwise BRHs (with the code from chapter III), 
@@ -1793,7 +1795,6 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 </p>
 <p>
     This results in a shared set of 487 orthologs, 213 are X-linked in <i>Bruchini</i>, 274 are autosomal.
-  
 </p>
 <p>
     <img loading="lazy" src="data/BRH_orthologs/XA_gene_density_D_carinulata.png" width="49%" />
@@ -1805,6 +1806,85 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
     telomeric regions, which looks like this may be a result of a lot of accumulated recombination with autosomes? There is also this non-telomeric region in 
     <i>D. sublineata</i> at aroun 15Mb, unsure what the deal with that is.
 </p>
+
+<p>
+    I use the code from chapter 3 to calculate a branch model-based pairwise dNdS of all of these orthologs to compare if the 
+    <i>Bruchini</i> A-linked ones have elevated dNdS compared to the exclusively X-linked ones.
+</p>
+
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'dNdS_maxdS2')">only dS &lt; 2</button>
+    <button class="tablinks" onclick="openTab(event, 'dNdS_maxdS10')">any dS</button>
+</div>
+<div id="dNdS_maxdS2" class="tabcontent">
+    <p>
+        <img loading="lazy" src="data/dNdS_diorhabdaX/dNdS_violin_plot_dSmax2.png" width="100%" />
+    </p>
+    <p>
+        Removed <i>Bruchini</i> <b>autosomal</b> orthologs due to dS &gt; 2:
+        <pre><code>{'A_obtectus_C_chinensis': 8, 'A_obtectus_C_maculatus': 9, 'A_obtectus_D_carinulata': 261, 'A_obtectus_D_sublineata': 260, 'B_siliquastri_A_obtectus': 4, 'B_siliquastri_D_carinulata': 253, 'B_siliquastri_D_sublineata': 251, 'B_varius_A_obtectus': 5, 'B_varius_D_carinulata': 256, 'B_varius_D_sublineata': 255, 'C_chinensis_D_carinulata': 258, 'C_chinensis_D_sublineata': 258, 'C_maculatus_D_carinulata': 255, 'C_maculatus_D_sublineata': 255}</code></pre>
+    </p>
+    <p>
+        Removed <i>Bruchini</i> <b>X-linked</b> orthologs due to dS &gt; 2:
+        <pre><code>{'A_obtectus_C_chinensis': 5, 'A_obtectus_C_maculatus': 5, 'A_obtectus_D_carinulata': 196, 'A_obtectus_D_sublineata': 199, 'B_siliquastri_A_obtectus': 1, 'B_siliquastri_D_carinulata': 202, 'B_siliquastri_D_sublineata': 202, 'B_varius_A_obtectus': 1, 'B_varius_D_carinulata': 200, 'B_varius_D_sublineata': 201, 'C_chinensis_D_carinulata': 193, 'C_chinensis_D_sublineata': 192, 'C_maculatus_D_carinulata': 199, 'C_maculatus_D_sublineata': 198}</code></pre>
+    </p>
+    <p>
+        Permutation test results (significant marked with <code> * </code>):
+        <pre><code>   A_obtectus vs. C_chinensis -- median(dNdS_A)-median(dNdS_X) = 0.007, mean bootstrap diff = 0.00003 with CI [-0.00969,0.00975] -- (nonsignificant)
+ *  A_obtectus vs. C_maculatus -- median(dNdS_A)-median(dNdS_X) = 0.009, mean bootstrap diff = -0.00001 with CI [-0.00855,0.00852] -- SIGNIFICANT
+ *  A_obtectus vs. D_carinulata -- median(dNdS_A)-median(dNdS_X) = 0.109, mean bootstrap diff = -0.00073 with CI [-0.07906,0.07760] -- SIGNIFICANT
+ *  A_obtectus vs. D_sublineata -- median(dNdS_A)-median(dNdS_X) = 0.161, mean bootstrap diff = -0.00007 with CI [-0.07942,0.07928] -- SIGNIFICANT
+    B_siliquastri vs. A_obtectus -- median(dNdS_A)-median(dNdS_X) = 0.008, mean bootstrap diff = 0.00004 with CI [-0.00942,0.00951] -- (nonsignificant)
+    B_siliquastri vs. C_chinensis -- median(dNdS_A)-median(dNdS_X) = 0.004, mean bootstrap diff = 0.00001 with CI [-0.01124,0.01127] -- (nonsignificant)
+    B_siliquastri vs. C_maculatus -- median(dNdS_A)-median(dNdS_X) = 0.009, mean bootstrap diff = -0.00001 with CI [-0.01010,0.01008] -- (nonsignificant)
+ *  B_siliquastri vs. D_carinulata -- median(dNdS_A)-median(dNdS_X) = 0.165, mean bootstrap diff = 0.00021 with CI [-0.11963,0.12005] -- SIGNIFICANT
+ *  B_siliquastri vs. D_sublineata -- median(dNdS_A)-median(dNdS_X) = 0.157, mean bootstrap diff = -0.00062 with CI [-0.10537,0.10413] -- SIGNIFICANT
+ *  B_varius vs. A_obtectus -- median(dNdS_A)-median(dNdS_X) = 0.009, mean bootstrap diff = -0.00010 with CI [-0.00892,0.00873] -- SIGNIFICANT
+    B_varius vs. B_siliquastri -- median(dNdS_A)-median(dNdS_X) = 0.010, mean bootstrap diff = 0.00005 with CI [-0.01121,0.01132] -- (nonsignificant)
+    B_varius vs. C_chinensis -- median(dNdS_A)-median(dNdS_X) = 0.006, mean bootstrap diff = -0.00011 with CI [-0.01234,0.01211] -- (nonsignificant)
+ *  B_varius vs. C_maculatus -- median(dNdS_A)-median(dNdS_X) = 0.011, mean bootstrap diff = 0.00002 with CI [-0.00947,0.00951] -- SIGNIFICANT
+ *  B_varius vs. D_carinulata -- median(dNdS_A)-median(dNdS_X) = 0.109, mean bootstrap diff = 0.00070 with CI [-0.08441,0.08581] -- SIGNIFICANT
+ *  B_varius vs. D_sublineata -- median(dNdS_A)-median(dNdS_X) = 0.108, mean bootstrap diff = 0.00020 with CI [-0.08051,0.08091] -- SIGNIFICANT
+    C_chinensis vs. C_maculatus -- median(dNdS_A)-median(dNdS_X) = -0.000, mean bootstrap diff = -0.00009 with CI [-0.01287,0.01270] -- (nonsignificant)
+ *  C_chinensis vs. D_carinulata -- median(dNdS_A)-median(dNdS_X) = 0.139, mean bootstrap diff = 0.00014 with CI [-0.09561,0.09588] -- SIGNIFICANT
+ *  C_chinensis vs. D_sublineata -- median(dNdS_A)-median(dNdS_X) = 0.122, mean bootstrap diff = 0.00075 with CI [-0.08793,0.08944] -- SIGNIFICANT
+ *  C_maculatus vs. D_carinulata -- median(dNdS_A)-median(dNdS_X) = 0.150, mean bootstrap diff = 0.00006 with CI [-0.11049,0.11060] -- SIGNIFICANT
+ *  C_maculatus vs. D_sublineata -- median(dNdS_A)-median(dNdS_X) = 0.144, mean bootstrap diff = 0.00059 with CI [-0.10310,0.10428] -- SIGNIFICANT
+    D_sublineata vs. D_carinulata -- median(dNdS_A)-median(dNdS_X) = 0.022, mean bootstrap diff = -0.00025 with CI [-0.02761,0.02711] -- (nonsignificant)</code></pre>
+    </p>
+</div>
+
+<div id="dNdS_maxdS10" class="tabcontent">
+    <p>
+        <img loading="lazy" src="data/dNdS_diorhabdaX/dNdS_violin_plot_dSmax10.png" width="100%" />
+    </p>
+    <p>All orthologs are included, nothing is removed due to dS filtering</p>
+    <p>
+        Permutation test results (significant marked with <code> * </code>):
+        <pre><code>    A_obtectus_C_maculatus -- median(dNdS_A)-median(dNdS_X) = 0.008, mean bootstrap diff = 0.00003 with CI [-0.00820,0.00826] -- (nonsignificant)
+    A_obtectus vs. C_chinensis -- median(dNdS_A)-median(dNdS_X) = 0.006, mean bootstrap diff = -0.00005 with CI [-0.00965,0.00954] -- (nonsignificant)
+ *  A_obtectus vs. D_carinulata -- median(dNdS_A)-median(dNdS_X) = 0.012, mean bootstrap diff = -0.00003 with CI [-0.01100,0.01093] -- SIGNIFICANT
+ *  A_obtectus vs. D_sublineata -- median(dNdS_A)-median(dNdS_X) = 0.012, mean bootstrap diff = -0.00005 with CI [-0.01094,0.01084] -- SIGNIFICANT
+    B_siliquastri vs. A_obtectus -- median(dNdS_A)-median(dNdS_X) = 0.008, mean bootstrap diff = -0.00001 with CI [-0.00940,0.00938] -- (nonsignificant)
+    B_siliquastri vs. C_chinensis -- median(dNdS_A)-median(dNdS_X) = 0.004, mean bootstrap diff = 0.00006 with CI [-0.01134,0.01146] -- (nonsignificant)
+    B_siliquastri vs. C_maculatus -- median(dNdS_A)-median(dNdS_X) = 0.009, mean bootstrap diff = -0.00003 with CI [-0.01004,0.00999] -- (nonsignificant)
+ *  B_siliquastri vs. D_carinulata -- median(dNdS_A)-median(dNdS_X) = 0.014, mean bootstrap diff = 0.00000 with CI [-0.01230,0.01231] -- SIGNIFICANT
+ *  B_siliquastri vs. D_sublineata -- median(dNdS_A)-median(dNdS_X) = 0.016, mean bootstrap diff = -0.00005 with CI [-0.01186,0.01176] -- SIGNIFICANT
+    B_varius vs. A_obtectus -- median(dNdS_A)-median(dNdS_X) = 0.009, mean bootstrap diff = 0.00009 with CI [-0.00868,0.00886] -- (nonsignificant)
+    B_varius vs. B_siliquastri -- median(dNdS_A)-median(dNdS_X) = 0.010, mean bootstrap diff = 0.00007 with CI [-0.01108,0.01122] -- (nonsignificant)
+    B_varius vs. C_chinensis -- median(dNdS_A)-median(dNdS_X) = 0.006, mean bootstrap diff = -0.00003 with CI [-0.01224,0.01218] -- (nonsignificant)
+ *  B_varius vs. C_maculatus -- median(dNdS_A)-median(dNdS_X) = 0.011, mean bootstrap diff = -0.00005 with CI [-0.00953,0.00943] -- SIGNIFICANT
+ *  B_varius vs. D_carinulata -- median(dNdS_A)-median(dNdS_X) = 0.013, mean bootstrap diff = 0.00009 with CI [-0.01078,0.01095] -- SIGNIFICANT
+ *  B_varius vs. D_sublineata -- median(dNdS_A)-median(dNdS_X) = 0.015, mean bootstrap diff = -0.00004 with CI [-0.01082,0.01073] -- SIGNIFICANT
+    C_chinensis vs. C_maculatus -- median(dNdS_A)-median(dNdS_X) = -0.000, mean bootstrap diff = 0.00005 with CI [-0.01285,0.01295] -- (nonsignificant)
+ *  C_chinensis vs. D_carinulata -- median(dNdS_A)-median(dNdS_X) = 0.012, mean bootstrap diff = 0.00015 with CI [-0.01168,0.01199] -- SIGNIFICANT
+ *  C_chinensis vs. D_sublineata -- median(dNdS_A)-median(dNdS_X) = 0.015, mean bootstrap diff = 0.00008 with CI [-0.01164,0.01180] -- SIGNIFICANT
+ *  C_maculatus vs. D_carinulata -- median(dNdS_A)-median(dNdS_X) = 0.016, mean bootstrap diff = -0.00002 with CI [-0.01205,0.01202] -- SIGNIFICANT
+ *  C_maculatus vs. D_sublineata -- median(dNdS_A)-median(dNdS_X) = 0.018, mean bootstrap diff = 0.00002 with CI [-0.01169,0.01173] -- SIGNIFICANT
+    D_sublineata vs. D_carinulata -- median(dNdS_A)-median(dNdS_X) = 0.022, mean bootstrap diff = 0.00011 with CI [-0.02777,0.02798] -- (nonsignificant)</code></pre>
+    </p>
+</div>
+
 
 <h2 id="paralogs-sex-chr">Paralogs</h2>
 
