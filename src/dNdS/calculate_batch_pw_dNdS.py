@@ -126,54 +126,53 @@ if __name__ == "__main__":
         os.chdir(outdir)
         print(f"ANALYZING : {analysis}")
                 
-        if chr_type == "A" and num_files == 0:
-            ### split into several batches because it doesn't run with too many fasta files
-            print(datadir)
-            fastadir=f"{datadir}multifasta_diorhabdaX_bruchini{chr_type}/"
-            print(fastadir)
-            fasta_overall_list = [f"{fastadir}{f}" for f in os.listdir(fastadir)  if ".fasta" in f]
-            
-            fasta_unique_list = sorted(list(set(fasta_overall_list)))
-            print(f"\n{len(fasta_unique_list)} unique fasta files: {fasta_unique_list[:2]}...\n")
-            
-            if analysis == "M7-M8_LRT":
-                batch_size = 100
-            else:
-                batch_size = 500
-            i = 0 # counter
+        ### split into several batches because it doesn't run with too many fasta files
+        print(datadir)
+        fastadir=f"{datadir}multifasta_diorhabdaX_bruchini{chr_type}/"
+        print(fastadir)
+        fasta_overall_list = [f"{fastadir}{f}" for f in os.listdir(fastadir)  if ".fasta" in f]
+        
+        fasta_unique_list = sorted(list(set(fasta_overall_list)))
+        print(f"\n{len(fasta_unique_list)} unique fasta files: {fasta_unique_list[:2]}...\n")
+        
+        if analysis == "M7-M8_LRT":
+            batch_size = 100
+        else:
+            batch_size = 500
+        i = 0 # counter
 
-            sep_lists = chunks(fasta_unique_list, batch_size)
-            print(f"run {len(sep_lists)} jobs ... \n")
-            for fasta_list_sublist in sep_lists:
+        sep_lists = chunks(fasta_unique_list, batch_size)
+        print(f"run {len(sep_lists)} jobs ... \n")
+        for fasta_list_sublist in sep_lists:
 
-                # re-do specific batches, 4,5 or 20,25 where there is something weird
-                if i not in [4,5]:
-                    print("------------------------------")
-                    print(f"skip : {i}")
-                    i +=1
-                    continue
-
-                # fasta_list_sublist.reverse() 
-                # some batches contain orthologs where the loop does not continue, but the job also does not terminate
-                # So I re-run those from the other side (reversed list) to get all orthologs in that batch. 
-                # remember to rename the first output files to keep the results from the first half of the orthologs in this batch!
-                
+            # re-do specific batches, 4,5 or 20,25 where there is something weird
+            if i not in [4,5]:
                 print("------------------------------")
-                print(f"\t * {len(fasta_list_sublist)} fasta list: {fasta_list_sublist[0][51:]}...{fasta_list_sublist[-1][51:]}")
-                fasta_string = " ".join(fasta_list_sublist)
-                if pelle:
-                    jobname = f"{i}_{analysis}_{chr_type}-linked"
-                    dNdS_command = f"{dNdS_exec} -J {jobname} -o {jobname}.out {script_path} {fasta_string}"
-                else:
-                    dNdS_command = f"{dNdS_exec} {script_path} {fasta_string}"
-
-                if True:
-                    os.system(dNdS_command)
-                    os.system("sleep .5") # wait a little bit after each command so that the job manager can keep up
-                comm_spl=dNdS_command.split(" ")
-                print(len(comm_spl))
-                dNdS_command_print="\n".join(comm_spl)
-                print(f"\t{dNdS_command_print[:500]}...{dNdS_command_print[-50:]}\n")
+                print(f"skip : {i}")
                 i +=1
+                continue
+
+            # fasta_list_sublist.reverse() 
+            # some batches contain orthologs where the loop does not continue, but the job also does not terminate
+            # So I re-run those from the other side (reversed list) to get all orthologs in that batch. 
+            # remember to rename the first output files to keep the results from the first half of the orthologs in this batch!
+            
+            print("------------------------------")
+            print(f"\t * {len(fasta_list_sublist)} fasta list: {fasta_list_sublist[0][51:]}...{fasta_list_sublist[-1][51:]}")
+            fasta_string = " ".join(fasta_list_sublist)
+            if pelle:
+                jobname = f"{i}_{analysis}_{chr_type}-linked"
+                dNdS_command = f"{dNdS_exec} -J {jobname} -o {jobname}.out {script_path} {fasta_string}"
+            else:
+                dNdS_command = f"{dNdS_exec} {script_path} {fasta_string}"
+
+            if True:
+                os.system(dNdS_command)
+                os.system("sleep .5") # wait a little bit after each command so that the job manager can keep up
+            comm_spl=dNdS_command.split(" ")
+            print(len(comm_spl))
+            dNdS_command_print="\n".join(comm_spl)
+            print(f"\t{dNdS_command_print[:500]}...{dNdS_command_print[-50:]}\n")
+            i +=1
         print(f"FILES IN : {outdir}")
 
