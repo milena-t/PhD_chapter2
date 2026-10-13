@@ -10,7 +10,7 @@
 
 IN_LIST=$@ # space separated list of filenames, do like 100 at a time
 
-CHR_TYPE=A
+CHR_TYPE=X
 
 RUN_DIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/src/dNdS/
 if [ -d "$RUN_DIR" ]; then

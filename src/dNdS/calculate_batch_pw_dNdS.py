@@ -108,7 +108,7 @@ if __name__ == "__main__":
     
     #### chrysomelidae
     elif analysis == "dNdS":
-        chr_type = "A"
+        chr_type = "X"
         outdir = f"{datadir}branch_model_results_{chr_type}/"
 
     
