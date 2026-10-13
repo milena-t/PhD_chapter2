@@ -445,8 +445,10 @@ def plot_dNdS_violins(A_dict:dict, X_dict:dict, filename = "dNdS_ratios_A_X.png"
         # plot mirror
         violinplot_pair(data_A_X=data_AX, row=row, col=col, n_A=n_A, n_X=n_X, mean_A=mean_A, mean_X=mean_X, axes = axes, colors_dict=colors_dict, fs=fs)
         # axes[row, col].set_title(f'{species1}\n{species2}', fontsize = fs*0.85)
-        s2_ = species2.replace("_", ". ")
-        axes[row, col].set_title(f'\\textit{{{s2_}}}', fontsize = fs*1.15)
+
+        # s2_ = species2.replace("_", ". ")
+        # axes[row, col].set_title(f'\\textit{{{s2_}}}', fontsize = fs*1.15)
+        
         # violinplot_pair(data_A_X=data_AX, row=col, col=row, n_A=n_A, n_X=n_X, mean_A=mean_A, mean_X=mean_X)
         # axes[col, row].set_title(f'{species2}\n{species1}', fontsize = fs*0.85)
         axes[col,row].axis('off')
@@ -477,7 +479,7 @@ if __name__ == "__main__":
     summary_paths = get_summary_paths(username=username)
 
     ###################
-    max_dS = 2 ## 2 for filtering and 10 for no filtering
+    max_dS = 10 ## 2 for filtering and 10 for no filtering
     ###################
 
     dNdS_dict_A = read_dNdS_dS_summary_file(summary_paths[data_files["A"][0]], max_dS=max_dS,only_metric="dNdS")
