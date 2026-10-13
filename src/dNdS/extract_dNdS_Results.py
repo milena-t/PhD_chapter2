@@ -90,7 +90,7 @@ def dNdS_list_of_pair(pair_dir, results_dir, only_dNdS = True):
 
 
 
-def get_dNdS_values_by_ortholog(results_dir, row,col,outfile_name = "", file_prefix="2NG", nested_pair_dirs=True):
+def get_dNdS_values_by_ortholog(results_dir, row,col,rowspecies,colspecies,outfile_name = "", file_prefix="2NG", nested_pair_dirs=True):
     """
     Extract dN, dS and dN/dS values from paml results, save for each ortholog individually like the site classes
     """
@@ -156,7 +156,7 @@ def get_dNdS_values_by_ortholog(results_dir, row,col,outfile_name = "", file_pre
                     # raise RuntimeError(f"one of these files does not exist in the run directory!\n{run_directory}\n - {file_dN}\n")
                 file_ = "/".join(file_dN.split("/")[-3:])
                 print(f" * {file_}")
-                outfile.write(f"{d}:dN={value_dN},dS={value_dS},dNdS={value_dNdS}\n")
+                outfile.write(f"{rowspecies}_{colspecies}_{d}:dN={value_dN},dS={value_dS},dNdS={value_dNdS}\n")
 
                 if False:
                     print(f"{d}:dN={value_dN},dS={value_dS},dNdS={value_dNdS}\n")
@@ -300,6 +300,8 @@ if __name__ == "__main__":
                             continue
                         print(f"- row:{row}:{rowspecies} - col:{col}:{colspecies}")
                         get_dNdS_values_by_ortholog(results_dir=results_path_dNdS, row=row,col=col,
+                                                    rowspecies=rowspecies,
+                                                    colspecies=colspecies,
                                                      outfile_name= f"dNdS_diorhabdaX_bruchini{chr_type}_ortholog_pair_{rowspecies}_{colspecies}.txt", 
                                                      file_prefix="2NG", nested_pair_dirs=False)
         if False:
