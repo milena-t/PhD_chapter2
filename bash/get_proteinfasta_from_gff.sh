@@ -22,7 +22,7 @@ TRANSEQ_PATH=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/software_instal
 
 # for SPECIES in A_obtectus B_siliquastri B_varius C_chinensis C_maculatus D_carinulata D_sublineata ;do rsync -azP "${SPECIES}_miniprot_no_cross_no_self_hits.gff" "milenatr@pelle.uppmax.uu.se:/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/paralogs_tblastn/miniprot/${SPECIES}_miniprot_no_cross_no_self_hits.gff" ; done
 
-for SPECIES in A_obtectus B_siliquastri B_varius C_chinensis C_maculatus D_carinulata D_sublineata 
+for SPECIES in T_castaneum # A_obtectus B_siliquastri B_varius C_chinensis C_maculatus D_carinulata D_sublineata 
 
 do 
     echo " *** -${SPECIES}- *** "
@@ -31,14 +31,21 @@ do
     ANNOT_GFF="${MINI_DIR}/${SPECIES}.masked_align_noPAF.gff"
     ASSEMBLY="${ASS_DIR}/${SPECIES}.masked.fna" 
 
+    ANNOT_GFF_RAW=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/native_annotations/T_castaneum.gff
+    ANNOT_GFF=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/native_annotations/T_castaneum.gff
+    ASSEMBLY="${ASS_DIR}/${SPECIES}.masked.fna" 
+
     echo "---------------------------------------------"
     echo " * ${ANNOT_GFF_RAW}"
+    echo " * ${ANNOT_GFF}"
     echo " * ${ASSEMBLY}"
     echo "---------------------------------------------"
 
     ANNOT_TRANSCRIPTS=${ANNOT_GFF_RAW}_transcripts.fna
     ANNOT_PROTEINS=${ANNOT_GFF_RAW}_proteins.faa
     
+    ANNOT_TRANSCRIPTS=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/T_castaneum_transcripts.fna
+    ANNOT_PROTEINS=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/T_castaneum.faa
 
     echo $(pwd)
     echo $(ls -lh $ASSEMBLY)
@@ -54,7 +61,8 @@ do
     # samtools faidx $ASSEMBLY
 
     ## remove PAF lines
-    grep -v '^##PAF' $ANNOT_GFF_RAW > $ANNOT_GFF
+    # grep -v '^##PAF' $ANNOT_GFF_RAW > $ANNOT_GFF
+
 
     # extract transcript sequences
     echo "gffread $ANNOT_GFF -M -x $ANNOT_TRANSCRIPTS -g $ASSEMBLY"
