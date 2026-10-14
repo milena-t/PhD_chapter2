@@ -17,11 +17,12 @@ C_chinensis_proteins=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter
 C_maculatus_proteins=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/C_maculatus.faa
 D_carinulata_proteins=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/D_carinulata.faa
 D_sublineata_proteins=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/D_sublineata.faa
+T_castaneum_proteins=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/T_castaneum.faa
 
 ## --> re-run for new proteinfiles!
 
 ## make databases
-for SPECIES1 in $A_obtectus_proteins $B_varius_proteins $C_chinensis_proteins # $C_maculatus_proteins $D_carinulata_proteins $D_sublineata_proteins $B_siliquastri_proteins
+for SPECIES1 in $T_castaneum_proteins #  $A_obtectus_proteins $B_varius_proteins $C_chinensis_proteins # $C_maculatus_proteins $D_carinulata_proteins $D_sublineata_proteins $B_siliquastri_proteins
 do
     makeblastdb -in $SPECIES1 -dbtype prot
     echo " ---> done database ${SPECIES1}"
@@ -30,10 +31,10 @@ done
 
 cd /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/blastp_results
 
-for SPECIES1 in $A_obtectus_proteins $B_varius_proteins $C_chinensis_proteins $C_maculatus_proteins $D_carinulata_proteins $D_sublineata_proteins $B_siliquastri_proteins
+for SPECIES1 in $D_carinulata_proteins $T_castaneum_proteins # $A_obtectus_proteins $B_varius_proteins $C_chinensis_proteins $C_maculatus_proteins $D_carinulata_proteins $D_sublineata_proteins $B_siliquastri_proteins
 do  
 
-    for SPECIES2 in $A_obtectus_proteins $B_varius_proteins $C_chinensis_proteins $C_maculatus_proteins $D_carinulata_proteins $D_sublineata_proteins $B_siliquastri_proteins
+    for SPECIES2 in $D_carinulata_proteins $T_castaneum_proteins # $A_obtectus_proteins $B_varius_proteins $C_chinensis_proteins $C_maculatus_proteins $D_carinulata_proteins $D_sublineata_proteins $B_siliquastri_proteins
     do
 
         SPECIES1_name="${SPECIES1##*/}"

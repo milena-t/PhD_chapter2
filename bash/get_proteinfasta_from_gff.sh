@@ -31,9 +31,9 @@ do
     ANNOT_GFF="${MINI_DIR}/${SPECIES}.masked_align_noPAF.gff"
     ASSEMBLY="${ASS_DIR}/${SPECIES}.masked.fna" 
 
-    ANNOT_GFF_RAW=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/native_annotations/T_castaneum.gff
-    ANNOT_GFF=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/native_annotations/T_castaneum.gff
-    ASSEMBLY="${ASS_DIR}/${SPECIES}.masked.fna" 
+    # ANNOT_GFF_RAW=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/native_annotations/T_castaneum.gff
+    # ANNOT_GFF=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/native_annotations/T_castaneum.gff
+    # ASSEMBLY="${ASS_DIR}/${SPECIES}.masked.fna" 
 
     echo "---------------------------------------------"
     echo " * ${ANNOT_GFF_RAW}"
@@ -44,8 +44,8 @@ do
     ANNOT_TRANSCRIPTS=${ANNOT_GFF_RAW}_transcripts.fna
     ANNOT_PROTEINS=${ANNOT_GFF_RAW}_proteins.faa
     
-    ANNOT_TRANSCRIPTS=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/T_castaneum_transcripts.fna
-    ANNOT_PROTEINS=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/T_castaneum.faa
+    # ANNOT_TRANSCRIPTS=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/T_castaneum_transcripts.fna
+    # ANNOT_PROTEINS=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/T_castaneum.faa
 
     echo $(pwd)
     echo $(ls -lh $ASSEMBLY)
