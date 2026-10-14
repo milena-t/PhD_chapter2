@@ -9,6 +9,7 @@ from matplotlib.ticker import FuncFormatter
 import numpy as np
 import subprocess as sp
 import pandas as pd
+import linkage_groups as lg
 from sex_chromosomes import get_contig_names
 import miniprot_stats_comparison as minialn
 from pairwise_wga_heatmap import fasta_indices
@@ -255,7 +256,7 @@ def get_window_intervals(contig_length, window_length:int) -> list[list[int]]:
 
 
 
-def plot_X_gene_counts_window(orthologs_path, diorhabda_annotations, sex_chromosomes, diorhabda_indices, plot_categories, winlen = 1e5, outfile_prefix=None):
+def plot_X_gene_counts_window(orthologs_path, all_annotations, sex_chromosomes, diorhabda_indices, plot_categories, winlen = 1e5, outfile_prefix=None, assign_LG=True):
     """
     Plot gene numbers in winlen bp long windows in two categories: X in Diorhabda, A everywhere else, and X everywhere
     """
@@ -279,6 +280,13 @@ def plot_X_gene_counts_window(orthologs_path, diorhabda_annotations, sex_chromos
             mod_df = mod_df[mod_df[h]==chr_]
         linkage_df_dict[chr_linkage] = mod_df
 
+        if assign_LG and "A " in chr_linkage:
+            for species in [c for c in mod_df.columns if ":chr" not in c]:
+                if species=="orthogroup_ID":
+                    continue
+                annot_df = gff.parse_gff3_general(all_annotations[species], keep_feature_category=gff.FeatureCategory.Transcript, verbose=False) 
+                mod_df[f"{species}:LG"] = mod_df[species].apply(lambda x : lg.assign_linkagegoup(annot_df[x].contig))
+
         chr_linkage_ = chr_linkage.replace(" ","_")
         orthologs_path_ = orthologs_path.replace(".csv", f"_{chr_linkage_}.csv")
         ## save orthogroups to file for dNdS without including the columns that have the A or X category
@@ -286,6 +294,10 @@ def plot_X_gene_counts_window(orthologs_path, diorhabda_annotations, sex_chromos
 
         print(f"  - {mod_df.shape[0]} orthologs in '{chr_linkage}'")
     
+    if assign_LG:
+        return linkage_df_dict
+
+    diorhabda_annotations = {d : all_annotations[d] for d in diorhabda}
     for diorhabda_species, d_annotation in diorhabda_annotations.items():
         
         filename = outfile_prefix.replace(".png", f"_{diorhabda_species}.png")
@@ -336,6 +348,78 @@ def plot_X_gene_counts_window(orthologs_path, diorhabda_annotations, sex_chromos
         print(f"{filename}")
 
 
+def plot_LG_stacked_bar(df, filename):
+
+    plt.rcParams['text.usetex'] = True # use \\textit{{{}}} for species names
+    plt.rcParams['text.latex.preamble'] = r'\usepackage{sfmath} \renewcommand{\familydefault}{\sfdefault}'
+    plt.rcParams['font.family'] = 'sans-serif'
+
+    colors = {
+        lg.LinkageGroup.BLG1 :"#C4906Eff", #toasted-almond
+        lg.LinkageGroup.BLG2 :"#CBAF73ff", #soft-fawn
+        lg.LinkageGroup.BLG3 :"#bdc667ff", #golden-sand
+        lg.LinkageGroup.BLG4 :"#77966dff", #sage-green
+        lg.LinkageGroup.BLG5 :"#626d58ff", #ebony
+        lg.LinkageGroup.BLG6 :"#544343ff", #mauve-bark
+        lg.LinkageGroup.BLG7 :"#56282dff", #espresso
+        lg.LinkageGroup.BLG8 :"#6C3657ff", #blackberry-cream
+        lg.LinkageGroup.BLG9 :"#865A87ff", #dusty-lavender
+        lg.LinkageGroup.LGU  :"#AAAAAAff", #silver
+    }
+    legend_labels = {
+        lg.LinkageGroup.BLG1 :"chr. 1",
+        lg.LinkageGroup.BLG2 :"chr. 2",
+        lg.LinkageGroup.BLG3 :"chr. 3",
+        lg.LinkageGroup.BLG4 :"chr. 4",
+        lg.LinkageGroup.BLG5 :"chr. 5",
+        lg.LinkageGroup.BLG6 :"chr. 6",
+        lg.LinkageGroup.BLG7 :"chr. 7",
+        lg.LinkageGroup.BLG8 :"chr. 8",
+        lg.LinkageGroup.BLG9 :"chr. 9",
+        lg.LinkageGroup.LGU  :"unassigned",
+    }
+    fs = 30 # set font size
+    fig, ax = plt.subplots(1, 1, figsize=(10, 10))
+
+    c=[c for c in df.columns if ":LG" in c]
+    cols_list = [c_ for c_ in c if c_ not in ["C_chinensis:LG","D_sublineata:LG","D_carinulata:LG"]]
+    species_vals = {s : {l:0 for l in colors.keys()} for s in cols_list}
+    for species in cols_list:
+        vals = df[species].value_counts()
+        for lg_ in colors.keys():
+            try:
+                species_vals[species][lg_]=vals[lg_]
+            except:
+                pass
+    
+    for s,v in species_vals.items():
+        print(f" - {s} : {v}")
+
+    bottom = [0 for l in cols_list]
+    xval = range(len(cols_list))
+    for lg_ in colors.keys():
+        lg_vals = [species_vals[s][lg_] for s in cols_list]
+        ax.bar(xval, lg_vals, bottom=bottom, label=legend_labels[lg_], color= colors[lg_])
+        # ax.bar(xval, lg_vals, bottom=bottom, label=lg_)
+        bottom=[bottom[i]+lg_vals[i] for i in range(len(bottom))]
+
+    species_axis_labels = [species.replace(":LG", "").replace("_", ". ") for species in cols_list]
+    ax.set_xticks(ticks = xval, labels =[f"\\textit{{{species}}}" for species in species_axis_labels], rotation=90, fontsize=fs)
+    # ax.set_xticklabels([f"\\textit{{{species}}}" for species in species_axis_labels], rotation=90, fontsize=fs)
+    ax.set_ylabel("number of \\textit{{{Diorhabda}}} X-linked \n1-to-1 orthologs on \\textit{{{Bruchini}}} autosomes", fontsize=fs)
+    # handles, labels = ax.get_legend_handles_labels()
+    # labels = [legend_labels[l] for l in labels]
+    # ax.legend(handles = handles, labels=labels, fontsize = fs*0.8, ncols=3, loc="upper center")
+    plt.legend(ncols=3, loc="upper center", fontsize=fs*0.8)
+
+    ax.tick_params(axis='y', labelsize=fs)
+    ax.tick_params(axis='x', labelsize=fs)
+    ax.set_ylim(0,400)
+    plt.tight_layout()
+
+    plt.savefig(filename, dpi = 300, transparent = True)# , bbox_inches='tight')
+    print("Figure saved in the current working directory directory as: "+filename)
+
 
 if __name__=="__main__":
 
@@ -375,10 +459,14 @@ if __name__=="__main__":
             "A in bruchini" : {f"{s}:chr" : "X" if s in diorhabda else "A" for s in species_order}
         }
         print(plot_cats)
-        plot_X_gene_counts_window(
+        df_dict = plot_X_gene_counts_window(
             orthologs_path=orthologs_path, 
-            diorhabda_annotations ={d : annot_dict[d] for d in diorhabda}, 
+            all_annotations =annot_dict, 
             diorhabda_indices = {d : faidx_dict[d] for d in diorhabda},
             sex_chromosomes = sex_chromosome_contigs, 
             plot_categories = plot_cats, winlen = 75e4, 
-            outfile_prefix=f"/Users/{username}/work/PhD_code/PhD_chapter2/data/BRH_orthologs/XA_gene_density.png")
+            outfile_prefix=f"/Users/{username}/work/PhD_code/PhD_chapter2/data/BRH_orthologs/XA_gene_density.png",
+            assign_LG=True)
+
+        plot_LG_stacked_bar(df_dict["A in bruchini"], filename=f"/Users/{username}/work/PhD_code/PhD_chapter2/data/BRH_orthologs/X_diorhabda_gene_source.png")
+            

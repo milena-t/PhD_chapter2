@@ -288,7 +288,7 @@ if __name__ == "__main__":
             chr_types = ["X","A"]
             diorhabda = ["D_carinulata","D_sublineata"]
             bruchini = ["C_maculatus","C_chinensis","A_obtectus","B_siliquastri","B_varius"]
-            species_list = diorhabda+bruchini
+            species_list = diorhabda+bruchini ## the species order is the same as in make_multifasta_files_for_dNdS.py so this is correct
             for chr_type in chr_types:
                 print(f"\n//////////////////// {chr_type} ////////////////////\n")
                 results_path_dNdS = f"/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/dNdS_diorhabda_X/branch_model_results_{chr_type}/"
