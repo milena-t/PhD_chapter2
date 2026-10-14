@@ -12,9 +12,9 @@ ANN_DIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/native_anno
 SCRIPT_PATH=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/PhD_chapter2/src
 
 
-for SPECIES1 in A_obtectus B_siliquastri B_varius C_chinensis C_maculatus D_carinulata D_sublineata 
+for SPECIES1 in T_castaneum D_carinulata # A_obtectus B_siliquastri B_varius C_chinensis C_maculatus D_sublineata 
 do 
-    for SPECIES2 in A_obtectus B_siliquastri B_varius C_chinensis C_maculatus D_carinulata D_sublineata
+    for SPECIES2 in T_castaneum D_carinulata # A_obtectus B_siliquastri B_varius C_chinensis C_maculatus D_sublineata
     do 
 
         [[ "$SPECIES1" == "$SPECIES2" ]] && continue # skip self-blast
