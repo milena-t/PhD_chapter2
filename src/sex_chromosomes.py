@@ -28,6 +28,10 @@ def get_contig_names():
             "X": ["NC_079485.1"],
             "Y": ["NC_079486.1"],
         },
+        "T_castaneum" : {
+            "X" : ['NC_087403.1'],
+            "Y" : ['unidentified'],
+        },
     }
     return out_dict
 
