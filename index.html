@@ -1815,6 +1815,7 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'dNdS_maxdS2')">only dS &lt; 2</button>
     <button class="tablinks" onclick="openTab(event, 'dNdS_maxdS10')">any dS</button>
+    <button class="tablinks" onclick="openTab(event, 'dNdS_diorhabda')">only pairwise <i>Callosobruchus</i> and <i>Diorhabda</i></button>
 </div>
 <div id="dNdS_maxdS2" class="tabcontent">
     <p>
@@ -1885,6 +1886,32 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
     </p>
 </div>
 
+<div id="dNdS_diorhabda" class="tabcontent">
+    <div style="float: left;width: 48%;">
+        <p>
+            <img loading="lazy" src="data/dNdS_diorhabdaX/dNdS_boxplot_diorhabda_callosobruchus.png" width="100%" />
+        </p>
+    </div>
+    <div style="float: right;width: 48%;">
+        <p>
+            All orthologs shown are X-linked in <i>Diorhabda</i>, they are sorted by whether they are also X-linked in 
+            <i>Bruchini</i> or autosomal in <i>Bruchini</i>.
+            The dN/dS results are based on whole-phylogeny branch models and shown are the results from the 
+            pairwise matrix between the sister species in the <i>Diorhabda</i> genus and the <i>Callosobruchus</i> genus.
+        </p>
+        <p style="margin-top: 1em;"><b>Statistical test results</b> (Mann-Whitney)</p>
+        <ol>
+            <li><i>Callosobruchus</i> Bruchini(A) vs. Bruchini(X) &rarr; U statistic: 29382.0, p-value: 0.77</li>
+            <li><i>Diorhabda</i> Bruchini(A) vs. Bruchini(X) &rarr; U statistic: 31480.5, p-value: 0.044</li>
+            <li><i>Callosobruchus</i>:Bruchini(A) vs <i>Diorhabda</i>:Bruchini(A) &rarr; U statistic: 29362.0, p-value: 3.11e-05</li>
+        </ol>
+    </div>
+    <div style="clear: both;"></div>
+    <p>
+        I don't know if i can actually compare the two <i>Bruchini</i>A-linked dNdS values like that, since the 
+        <i>Callosobruchus</i> species are like 27MY apart, but the <i>Diorhabda</i> ones only (maybe?) like 12.
+    </p>
+</div>
 
 <h2 id="paralogs-sex-chr">Paralogs</h2>
 

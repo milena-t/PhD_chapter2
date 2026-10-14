@@ -470,6 +470,119 @@ def plot_dNdS_violins(A_dict:dict, X_dict:dict, filename = "dNdS_ratios_A_X.png"
 
 
 
+def plot_logFC_boxplots(infiles_dict, plot_filename  = "dNdS_boxplot.png", plot_title = ""):
+    """
+    This is modified from the function plot_logFC_boxplots() in PhD_chapter4/src/plot_DE_stuff.py
+    """
+    plt.rcParams['text.usetex'] = True # use \\textit{{{}}} for species names
+    plt.rcParams['text.latex.preamble'] = r'\usepackage{sfmath} \renewcommand{\familydefault}{\sfdefault}'
+    plt.rcParams['font.family'] = 'sans-serif'
+    
+    xtick_labels = list(infiles_dict.keys())
+    tick_pos = range(len(xtick_labels))
+    tables_list = [infiles_dict[n] for n in xtick_labels]
+
+    colors_dict = {
+        "fill" : "#F2933A", # uniform_filtered orange
+        "edge" : "#C36711", # darker orange
+        "medians" : "#FFBB7C", # lighter orange
+        "X_fill" : "#b82946", # native red
+        "X_edge" : "#861D32", #dark red
+        "X_medians" : "#D86A80" # light red
+    }
+    
+    fs = 60 # font size
+    lw = 6
+    width = 0.7
+    # set figure aspect ratio
+    aspect_ratio = 14 / 10
+    height_pixels = 1500  # Height in pixels
+    width_pixels = int(height_pixels * aspect_ratio)  # Width in pixels
+    fig, ax = plt.subplots(1,1,figsize=(width_pixels / 100, height_pixels / 100), dpi=100)
+
+    bp = ax.boxplot(tables_list, positions=tick_pos, widths=width, patch_artist=True)
+
+    ax.tick_params(axis='y', labelsize=fs*0.9)
+    ax.tick_params(axis='x', labelsize=fs*0.9)
+    xtick_labels = ["\\textit{{{"+x.split("_")[0]+"}}}\n"+x.split("_")[1] for x in xtick_labels]
+    ax.set_xticklabels(xtick_labels, fontsize=fs, rotation = 90)
+    ax.set_ylabel("dN/dS", fontsize = fs)#, x=0.0, y=0.625)
+    if len(plot_title)>0:
+        ax.set_title(plot_title, fontsize=fs*1.1)#, fontstyle='italic')
+
+    ## modify boxplot colors
+    if True:
+        for i, box in enumerate(bp['boxes']):
+            if i%2==0:
+                box.set(facecolor=colors_dict["fill"], edgecolor=colors_dict["edge"], linewidth=lw)
+            else:
+                box.set(facecolor=colors_dict["X_fill"], edgecolor=colors_dict["X_edge"], linewidth=lw)
+        for i, median in enumerate(bp['medians']):
+            if i%2==0:
+                median.set(color=colors_dict['medians'], linewidth=lw)
+            else:
+                median.set(color=colors_dict['X_medians'], linewidth=lw)
+        for i, whisker in enumerate(bp['whiskers']):
+            # print(f"whisker: {i}")
+            if i//2 % 2==0:
+                whisker.set(color=colors_dict['edge'], linestyle='-',linewidth=lw)
+            else:
+                whisker.set(color=colors_dict['X_edge'], linestyle='-',linewidth=lw)
+        for i, cap in enumerate(bp['caps']):
+            if i//2 % 2==0:
+                cap.set(color=colors_dict['edge'],linewidth=lw)
+            else:
+                cap.set(color=colors_dict['X_edge'],linewidth=lw)
+        for i, flier in enumerate(bp['fliers']):
+            if i%2==0:
+                flier.set(marker='.', markersize = lw*6, markerfacecolor=colors_dict['edge'], markeredgecolor=colors_dict['edge'])
+            else:
+                flier.set(marker='.', markersize = lw*6, markerfacecolor=colors_dict['X_edge'], markeredgecolor=colors_dict['X_edge'])
+
+    ## make statistical annotation
+    if True:
+        def add_significance_bar_log(ax, x1, x2, data, y, factor=1.07, color='black', lw=lw, fs=fs):
+            """
+            This function was modified from one created by claude code
+            """
+            # run the test
+            data1 = data[x1]
+            data2 = data[x2]
+            stat, p = sts.mannwhitneyu(data1, data2, alternative='two-sided')
+
+            # convert p-value to stars
+            text = 'ns'
+            color="#8e8e8e" #light grey
+            tick_top = y * factor
+            if p < 0.05:
+                text = '*'
+                color="#343434"# darker grey
+                ax.text((x1+x2)/2, tick_top*1.025, text, ha='center', va='bottom', color=color, fontsize=fs)
+                print(f"  * Mann-Whitney {xtick_labels[x1]}-{xtick_labels[x2]} : \t U statistic: {stat}, p-value: {p}")
+            else:
+                print(f"    Mann-Whitney {xtick_labels[x1]}-{xtick_labels[x2]} : \t U statistic: {stat}, p-value: {p}")
+                ax.text((x1+x2)/2, tick_top*1.025, text, ha='center', va='bottom', color=color, fontsize=fs)
+            if y>0:
+                bar_raise = 0
+            else:
+                bar_raise = 0
+            ax.plot([x1, x1, x2, x2], [y+bar_raise, tick_top, tick_top, y+bar_raise], lw=lw, color=color)
+
+        # ymax = max([max(box) for box in tables_list])
+        ymax = 0.4
+
+        add_significance_bar_log(ax=ax, x1=tick_pos[0], x2=tick_pos[1], data=tables_list, y=ymax+0.1, lw=lw, fs=fs)
+        add_significance_bar_log(ax=ax, x1=tick_pos[2], x2=tick_pos[3], data=tables_list, y=ymax+0.1, lw=lw, fs=fs)
+        add_significance_bar_log(ax=ax, x1=tick_pos[0], x2=tick_pos[2], data=tables_list, y=ymax+0.2, lw=lw, fs=fs)
+        
+        ax.set_ylim(0,ymax+0.35)
+
+    plt.tight_layout()
+    plt.savefig(plot_filename, dpi = 300, transparent = True)
+    print(f"plot saved in current working directory as: {plot_filename}")
+
+
+
 if __name__ == "__main__":
     # username = "miltr339"
     username = "milena" 
@@ -477,17 +590,51 @@ if __name__ == "__main__":
     data_files = {"A" : ["A_dNdS", "A_LRT"],
                   "X" : ["X_dNdS", "X_LRT"]}
     summary_paths = get_summary_paths(username=username)
-
+    # incl_pairs = ['C_chinensis_C_maculatus', 'C_chinensis_D_carinulata', 'C_chinensis_D_sublineata', 'C_maculatus_D_carinulata', 'C_maculatus_D_sublineata', 'D_sublineata_D_carinulata']
+    incl_pairs = ['C_chinensis_C_maculatus', 'D_sublineata_D_carinulata']
+    
     ###################
-    max_dS = 10 ## 2 for filtering and 10 for no filtering
+    max_dS = 2 ## 2 for filtering and 10 for no filtering
     ###################
 
     dNdS_dict_A = read_dNdS_dS_summary_file(summary_paths[data_files["A"][0]], max_dS=max_dS,only_metric="dNdS")
     dNdS_dict_X = read_dNdS_dS_summary_file(summary_paths[data_files["X"][0]], max_dS=max_dS,only_metric="dNdS")
-    species = get_species_list(dNdS_dict_A)
 
-    plot_dNdS_violins(A_dict=dNdS_dict_A, X_dict=dNdS_dict_X,filename=f"/Users/{username}/work/PhD_code/PhD_chapter2/data/dNdS_diorhabdaX/dNdS_violin_plot_dSmax{max_dS}.png")
+    if False:
+        ### all pairwise comparisons like chapter 3
+        species = get_species_list(dNdS_dict_A)
+        plot_dNdS_violins(A_dict=dNdS_dict_A, X_dict=dNdS_dict_X,filename=f"/Users/{username}/work/PhD_code/PhD_chapter2/data/dNdS_diorhabdaX/dNdS_violin_plot_dSmax{max_dS}.png")
+
+        if False:
+            ## bootstrap significance test to see if dS is sig. diff. on X vs. A
+            ## this is not plotted, only command line output
+            num_permutations = 10000
+
+            for pair in dNdS_dict_A.keys():
+                dNdS_A = dNdS_dict_A[pair]
+                dNdS_X = dNdS_dict_X[pair]
+                median_diffs = np.nanmedian(dNdS_A) - np.nanmedian(dNdS_X)
+                bootstraps = permutate_dNdS(dNdS_A=dNdS_A, dNdS_X=dNdS_X, num_permut=num_permutations)
+                mean_cor,std_cor,lower_CI,upper_CI = calculate_list_CI(bootstraps)
+                mean_boot = np.mean(bootstraps)
+                if median_diffs<lower_CI or median_diffs>upper_CI:
+                    print(f" *  {pair} --> \t median(dNdS_A)-median(dNdS_X) = {median_diffs:.3f}, mean bootstrap diff = {mean_boot:.5f} with CI [{lower_CI:.5f},{upper_CI:.5f}] --> SIGNIFICANT")
+                else:
+                    print(f" *  {pair} --> \t median(dNdS_A)-median(dNdS_X) = {median_diffs:.3f}, mean bootstrap diff = {mean_boot:.5f} with CI [{lower_CI:.5f},{upper_CI:.5f}] --> (nonsignificant)")
+
+
+    dNdS_dict_A = {k:v  for k,v in dNdS_dict_A.items() if k in incl_pairs}
+    dNdS_dict_X = {k:v  for k,v in dNdS_dict_X.items() if k in incl_pairs}
+
+    vals_dict = {
+            "Callosobruchus_(A in \\textit{{{Bruchini}}})" : dNdS_dict_A["C_chinensis_C_maculatus"],
+            "Callosobruchus_(X in \\textit{{{Bruchini}}})" : dNdS_dict_X["C_chinensis_C_maculatus"],
+            "Diorhabda_(A in \\textit{{{Bruchini}}})" : dNdS_dict_A["D_sublineata_D_carinulata"],
+            "Diorhabda_(X in \\textit{{{Bruchini}}})" : dNdS_dict_X["D_sublineata_D_carinulata"],
+    }
+    plot_logFC_boxplots(infiles_dict=vals_dict,plot_filename=f"/Users/{username}/work/PhD_code/PhD_chapter2/data/dNdS_diorhabdaX/dNdS_boxplot_diorhabda_callosobruchus.png", plot_title="\\textit{{{Diorhabda}}} X-linked 1-to-1 orthologs")
     
+
     if False:
         ## bootstrap significance test to see if dS is sig. diff. on X vs. A
         ## this is not plotted, only command line output
