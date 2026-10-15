@@ -451,11 +451,11 @@ if __name__=="__main__":
 
     if True:
         ## check how many Dcar-Tcas orthologs are X-linked
-        infile = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/BRH_orthologs/D_carinulata_vs_T_castaneum_BRHs_X_linked.tsv"
+        infile = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/BRH_orthologs/D_carinulata_vs_T_castaneum_BRHs.tsv"
         infile_cmac = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/BRH_orthologs/C_maculatus_vs_D_carinulata_BRHs.tsv"
         df_tcas = pd.read_csv(infile, sep="\t")
         df_cmac = pd.read_csv(infile_cmac, sep="\t")
-        df = df_tcas.merge(df_cmac, on="D_carinulata", how="inner")
+        df = df_tcas.merge(df_cmac, on="D_carinulata", how="outer")
         df = df.rename(columns={
             "chromosome_x" :"chr_Dcar",
             "chromosome.1_x": "chr_Tcas",
