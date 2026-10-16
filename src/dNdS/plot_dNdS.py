@@ -573,7 +573,7 @@ def plot_logFC_boxplots(infiles_dict, plot_filename  = "dNdS_boxplot.png", plot_
 
         add_significance_bar_log(ax=ax, x1=tick_pos[0], x2=tick_pos[1], data=tables_list, y=ymax+0.1, lw=lw, fs=fs)
         add_significance_bar_log(ax=ax, x1=tick_pos[2], x2=tick_pos[3], data=tables_list, y=ymax+0.1, lw=lw, fs=fs)
-        add_significance_bar_log(ax=ax, x1=tick_pos[0], x2=tick_pos[2], data=tables_list, y=ymax+0.2, lw=lw, fs=fs)
+        # add_significance_bar_log(ax=ax, x1=tick_pos[0], x2=tick_pos[2], data=tables_list, y=ymax+0.2, lw=lw, fs=fs)
         
         ax.set_ylim(0,ymax+0.35)
 
@@ -585,7 +585,7 @@ def plot_logFC_boxplots(infiles_dict, plot_filename  = "dNdS_boxplot.png", plot_
 
 if __name__ == "__main__":
     # username = "miltr339"
-    username = "milena" 
+    username = "miltr339" 
     chromosome = "A"
     data_files = {"A" : ["A_dNdS", "A_LRT"],
                   "X" : ["X_dNdS", "X_LRT"]}
