@@ -14,8 +14,8 @@
 # Load modules
 module load eggnog-mapper/2.1.12-foss-2024a
 
-DBDIR=/proj/naiss2023-6-65/Milena/chapter3/Cmac_func_annot/
-INDIR=/proj/naiss2023-6-65/Milena/chapter4/annotation/
+DBDIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter3/Cmac_func_annot/
+INDIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter4/annotation/
 OutDIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/eggnog/Dcar
 InFAA=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/D_carinulata.faa
 GFF=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/native_annotations/D_carinulata.gff
