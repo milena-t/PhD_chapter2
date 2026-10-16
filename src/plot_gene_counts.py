@@ -488,9 +488,9 @@ if __name__=="__main__":
         print(df)
         Cmac_A = df[df["chromosome"]=="A"]
         Cmac_X = df[df["chromosome"]=="X"]
-        CmacA_DcarA = Cmac_A[Cmac_A["chromosome.1"]=="A"]["C_maculatus"].to_list()
-        CmacA_DcarX = Cmac_A[Cmac_A["chromosome.1"]=="X"]["C_maculatus"].to_list()
-        CmacX_DcarX = Cmac_X[Cmac_X["chromosome.1"]=="X"]["C_maculatus"].to_list()
+        CmacA_DcarA = Cmac_A[Cmac_A["chromosome.1"]=="A"]["D_carinulata"].to_list()
+        CmacA_DcarX = Cmac_A[Cmac_A["chromosome.1"]=="X"]["D_carinulata"].to_list()
+        CmacX_DcarX = Cmac_X[Cmac_X["chromosome.1"]=="X"]["D_carinulata"].to_list()
         with open(f"{data_dir}Dcar_ancestralX.txt", "w") as dcarX, open(f"{data_dir}Dcar_ancestralA.txt", "w") as dcarA:
             dcarX.write(header)
             dcarA.write(header)
