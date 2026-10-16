@@ -453,42 +453,61 @@ if __name__=="__main__":
         ## check how many Dcar-Tcas orthologs are X-linked
         infile = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/BRH_orthologs/D_carinulata_vs_T_castaneum_BRHs.tsv"
         infile_cmac = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/BRH_orthologs/C_maculatus_vs_D_carinulata_BRHs.tsv"
-        df_tcas = pd.read_csv(infile, sep="\t")
-        df_cmac = pd.read_csv(infile_cmac, sep="\t")
-        df = df_tcas.merge(df_cmac, on="D_carinulata", how="outer")
-        df = df.rename(columns={
-            "chromosome_x" :"chr_Dcar",
-            "chromosome.1_x": "chr_Tcas",
-            "chromosome_y" : "chr_Cmac",
-        })
-        print(df)
-        from matplotlib_venn import venn3
-        set1 = set(df.loc[df["chr_Dcar"] == "X", "D_carinulata"])
-        set2 = set(df.loc[df["chr_Tcas"] == "X", "D_carinulata"])
-        set3 = set(df.loc[df["chr_Cmac"] == "X", "D_carinulata"])
+
+        if False:
+            df_tcas = pd.read_csv(infile, sep="\t")
+            df_cmac = pd.read_csv(infile_cmac, sep="\t")
+            df = df_tcas.merge(df_cmac, on="D_carinulata", how="outer")
+            df = df.rename(columns={
+                "chromosome_x" :"chr_Dcar",
+                "chromosome.1_x": "chr_Tcas",
+                "chromosome_y" : "chr_Cmac",
+            })
+            print(df)
+            from matplotlib_venn import venn3
+            set1 = set(df.loc[df["chr_Dcar"] == "X", "D_carinulata"])
+            set2 = set(df.loc[df["chr_Tcas"] == "X", "D_carinulata"])
+            set3 = set(df.loc[df["chr_Cmac"] == "X", "D_carinulata"])
+            
+            plt.rcParams['text.usetex'] = True # use \\textit{{{}}} for species names
+            plt.rcParams['text.latex.preamble'] = r'\usepackage{sfmath} \renewcommand{\familydefault}{\sfdefault}'
+            plt.rcParams['font.family'] = 'sans-serif'
+            plt.rcParams['font.size'] = 16
         
-        plt.rcParams['text.usetex'] = True # use \\textit{{{}}} for species names
-        plt.rcParams['text.latex.preamble'] = r'\usepackage{sfmath} \renewcommand{\familydefault}{\sfdefault}'
-        plt.rcParams['font.family'] = 'sans-serif'
-        plt.rcParams['font.size'] = 16
+            venn3([set1, set2, set3], set_labels=("\\textit{{{D. carinulata}}}", "\\textit{{{T. castaneum}}}", "\\textit{{{C. maculatus}}}"))
+            plt.title("1-to-1 Orthologs on X")
+            plt.tight_layout()
+            filename = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/BRH_orthologs/Diorhabda_X_conservation.png"
+            plt.savefig(filename, dpi = 300, transparent = True)# , bbox_inches='tight')
 
-        venn3([set1, set2, set3], set_labels=("\\textit{{{D. carinulata}}}", "\\textit{{{T. castaneum}}}", "\\textit{{{C. maculatus}}}"))
-        plt.title("1-to-1 Orthologs on X")
-        plt.tight_layout()
-        filename = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/BRH_orthologs/Diorhabda_X_conservation.png"
-        plt.savefig(filename, dpi = 300, transparent = True)# , bbox_inches='tight')
+        ## get file for GO enrichment, 
+        data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/GO_enrichment/"
 
-        # df_TcasX = df[df["chromosome.1"]=="X"][["chromosome"]].value_counts()
-        # print(f"--- Tcas == X : Dcar X/A counts --> \n{df_TcasX}\n")
-        # df_DcarX = df[df["chromosome"]=="X"][["chromosome.1"]].value_counts()
-        # print(f"--- Dcar == X : Tcas X/A counts --> \n{df_DcarX}\n")
+        header = "geneID,sig_DE\n"
+        df = pd.read_csv(infile_cmac, sep="\t")
+        print(df)
+        Cmac_A = df[df["chromosome"]=="A"]
+        Cmac_X = df[df["chromosome"]=="X"]
+        CmacA_DcarA = Cmac_A[Cmac_A["chromosome.1"]=="A"]["C_maculatus"].to_list()
+        CmacA_DcarX = Cmac_A[Cmac_A["chromosome.1"]=="X"]["C_maculatus"].to_list()
+        CmacX_DcarX = Cmac_X[Cmac_X["chromosome.1"]=="X"]["C_maculatus"].to_list()
+        with open(f"{data_dir}Dcar_ancestralX.txt", "w") as dcarX, open(f"{data_dir}Dcar_ancestralA.txt", "w") as dcarA:
+            dcarX.write(header)
+            dcarA.write(header)
+            for geneid in CmacA_DcarX:
+                dcarA.write(f"{geneid},1\n")
+            for geneid in CmacX_DcarX:
+                dcarX.write(f"{geneid},1\n")
+            for geneid in CmacA_DcarA:
+                dcarX.write(f"{geneid},0\n")
+                dcarA.write(f"{geneid},0\n")
 
 
     
+    # Plot gene counts in windows for Diorhabda X chromosomes
+    diorhabda = ["D_carinulata","D_sublineata"]
+    bruchini = ["C_maculatus","C_chinensis","A_obtectus","B_siliquastri","B_varius"]
     if False:
-        # Plot gene counts in windows for Diorhabda X chromosomes
-        diorhabda = ["D_carinulata","D_sublineata"]
-        bruchini = ["C_maculatus","C_chinensis","A_obtectus","B_siliquastri","B_varius"]
         orthologs_path=f"/Users/{username}/work/PhD_code/PhD_chapter2/data/BRH_orthologs/chrysomelidae_orthologs.csv"
         plot_cats = {
             "X in bruchini" : {f"{s}:chr" : "X" for s in species_order},

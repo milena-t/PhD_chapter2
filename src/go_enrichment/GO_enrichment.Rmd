@@ -1,0 +1,167 @@
+---
+title: "DE_analysis"
+author: "Milena Trabert"
+date: "2026-03-27"
+output: html_document
+---
+
+# GO term enrichment on the significant gene sets 
+
+I have lists of significantly DE genes in all contrasts. This is the same as the GO enrichment for chapter3.
+Detailed documentation is here: https://rdrr.io/bioc/topGO/f/inst/doc/topGO.pdf
+
+## Install libraries
+
+```{r}
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("topGO")
+BiocManager::install("GO.db")
+```
+```{r}
+
+### simplifyEnrichment package and dependencies:
+
+# There is an error in GlobalOptions where it imports findMatches from a wrong namespace that i fixed like this in the source code:
+# 1. download from source: 
+#     curl -O https://cloud.r-project.org/src/contrib/GlobalOptions_0.1.4.tar.gz
+#     tar -xzf GlobalOptions_0.1.4.tar.gz
+# 2. find the wrong import:
+#     grep -n "findMatches" GlobalOptions/NAMESPACE
+# 3. remove the wrong line:
+#     sed -i '' '/importFrom(utils,findMatches)/d' GlobalOptions/NAMESPACE
+# 4. build:
+#     R CMD build GlobalOptions
+if(FALSE){
+  install.packages("/Users/miltr339/work/software/GlobalOptions_0.1.4.tar.gz", repos = NULL, type = "source")
+  library(GlobalOptions)
+  install.packages("RcppParallel")
+  library(RcppParallel)
+  BiocManager::install("simplifyEnrichment")
+}
+```
+
+```{r}
+library(topGO)
+library(plyr)
+library(stringr)
+library(GlobalOptions)
+library(RcppParallel)
+library(simplifyEnrichment)
+```
+
+## read input files
+
+annotation and background gene set
+
+```{r}
+make_annotation_df_from_eggnog <- function(annotation_path){
+    annot_header = c("query","seed_ortholog","evalue","score","eggNOG_OGs","max_annot_lvl","COG_category","Description","Preferred_name","GOs","EC","KEGG_ko","KEGG_Pathway","KEGG_Module","KEGG_Reaction","KEGG_rclass","BRITE","KEGG_TC","CAZy","BiGG_Reaction","PFAMs")
+    annotation <- read.csv(annotation_path, sep="\t", comment.char = "#", header=FALSE, col.names = annot_header)
+    background_geneIDs <- annotation$query
+    # prepare for input
+    valid <- !is.na(annotation$GOs) & annotation$GOs != "-"
+    annotation_df <- strsplit(annotation$GOs[valid], ",")
+    names(annotation_df) <- annotation$query[valid]
+
+    return(annotation_df)
+}
+
+annotation_path="/Users/miltr339/work/c_maculatus/C_mac_eggnog_diamond.emapper.annotations_geneIDs" # created from the eggnogmapper output with /Users/miltr339/work/PhD_code/PhD_chapter4/src/make_annot_with_geneIDs.py
+### annotation has the wrong geneIDs because life hates me
+###
+
+annotation_df <- make_annotation_df_from_eggnog(annotation_path)
+```
+
+
+## run enrichment
+
+make GO enrichment object for each contrast
+```{r}
+GO_enrichment_analysis <- function(sig_infile, annotation_df, semantic_clustering=FALSE){
+  # prepare input data
+  sig_df <- read.csv(sig_infile, sep=",", header=TRUE)
+  geneList <- factor(as.integer(sig_df$sig_DE))
+  names(geneList) <- sig_df$geneID
+  ## downsample annotation to only include genes in the current test
+  counts <- count(geneList)
+  sigs_num <- length(geneList[geneList==1])
+
+  ## only run if there are at least 10 significantly differentially expressed genes! # nolint
+  if (sigs_num > 9){
+    gene2GO <- annotation_df[names(annotation_df) %in% names(geneList)]
+    ## create topGO object
+    # ontology = BP means that it's all biological process level GOs
+    GOdata <- new("topGOdata", ontology = "BP", allGenes = geneList, annot = annFUN.gene2GO, gene2GO = gene2GO)
+    # run enrichment test
+    result <- runTest(GOdata, algorithm = "elim", statistic = "fisher")
+    ## about the "elim" algorithm from the documentation: "Here one computes the p-value of a GO term conditioned on the neighbouring terms. The tests are therefore not independent and the multiple testing theory does not directly apply. We like to interpret the p-values returned by these methods as corrected or not affected by multiple testing."
+    allRes <- GenTable(GOdata,classicFisher = result,orderBy = "classicFisher",topNodes = 1000)
+    # make vector of sig. GO terms
+    allRes$classicFisher <- as.numeric(gsub("< ", "", allRes$classicFisher))
+    sigRes <- allRes[allRes$classicFisher < 0.05, ]
+    go_ids <- sigRes$GO.ID
+    # write to outfile
+    outfile_name <- str_replace(sig_infile, "sig_DE_list_", "GO_enrichment_")
+    outfile_name <- str_replace(sig_infile, "interaction", "interaction_GO_enrichment") 
+    outfile_name <- str_replace(sig_infile, "ignore", "ignore_GO_enrichment") 
+    outfile_name <- str_replace(outfile_name, ".txt", ".csv") 
+    write.csv(sigRes, outfile_name, row.names=TRUE)
+
+    ## make enrichment visualization
+    # use simplifyEnrichment
+    # this takes super long, so only do when it's relevant, not worth it for everything
+    if(semantic_clustering){
+      outfile_name <- str_replace(outfile_name, ".csv", ".png") 
+      mat <- GO_similarity(go_ids, ont = "BP")  # biological process (BP) like above! needs to match
+      # do the clustering, this takes quite a while
+      png(outfile_name, width = 10, height = 8, units = "in", res = 300)
+      df <- simplifyGO(mat, use_raster = FALSE)
+      dev.off()
+    }
+
+    return(sigRes)
+  }
+}
+```
+
+
+list for genes that are sig line-biased in males in both day14 and day16
+```{r}
+sig_list = "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/Dcar_ancestralA.txt"
+GO_enrichment_analysis(sig_infile = sig_list, annotation_df = annotation_df)
+sig_list = "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/Dcar_ancestralX.txt"
+GO_enrichment_analysis(sig_infile = sig_list, annotation_df = annotation_df)
+```
+
+
+analyze GO term enrichment from upsetplot intersection lists
+```{r}
+semantic_clistering_from_table <- function(sig_infile){
+  # prepare input data
+  sig_df <- read.csv(sig_infile, sep="\t", header=FALSE)
+  go_ids <- sig_df$V1
+  sigs_num <- length(go_ids)
+
+  ## only run if there are at least 10 significantly differentially expressed genes! # nolint
+  if (sigs_num > 9){
+    outfile_name <- str_replace(sig_infile, ".txt", ".png") 
+
+    ## make enrichment visualization
+    # use simplifyEnrichment
+    mat <- GO_similarity(go_ids, ont = "BP")  # biological process (BP) like above! needs to match
+    # do the clustering, this takes quite a while
+    png(outfile_name, width = 10, height = 8, units = "in", res = 300)
+    df <- simplifyGO(mat, use_raster = FALSE)
+    dev.off()
+  }
+}
+```
+
+Full dataset line fixed effect: genes that are sex-biased on all days
+```{r}
+sig_list = "/Users/miltr339/work/PhD_code/PhD_chapter4/data/DE_figures_python/GO_enrichment/upsetplot_GO_terms_no_separation_line_random_line_ign_alldays.txt"
+semantic_clistering_from_table(sig_infile=sig_list)
+```
