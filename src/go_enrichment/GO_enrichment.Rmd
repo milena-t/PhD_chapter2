@@ -69,8 +69,8 @@ make_annotation_df_from_eggnog <- function(annotation_path){
 }
 
 annotation_path="/Users/miltr339/work/c_maculatus/C_mac_eggnog_diamond.emapper.annotations_geneIDs" # created from the eggnogmapper output with /Users/miltr339/work/PhD_code/PhD_chapter4/src/make_annot_with_geneIDs.py
-### annotation has the wrong geneIDs because life hates me
-###
+## Dcar annotation:
+#/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/eggnog/Dcar/Dcar_eggnog_diamond.emapper.annotations
 
 annotation_df <- make_annotation_df_from_eggnog(annotation_path)
 ```
