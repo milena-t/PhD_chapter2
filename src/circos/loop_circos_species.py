@@ -126,7 +126,7 @@ if __name__ == "__main__":
     # rsync -azP "milenatr@pelle.uppmax.uu.se:/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/circos/plots/*png" /Users/miltr339/work/PhD_code/PhD_chapter2/data/circos/plots
 
     nucleotide_blast = False
-    miniprot_aln = True
+    miniprot_aln = False
     
     os.chdir(outfiles_dir)
     for species1 in species_list:
