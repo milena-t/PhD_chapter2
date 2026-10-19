@@ -211,7 +211,7 @@ if __name__ == "__main__":
                 
                 
                 if miniprot_aln:
-                    # don't do the separate sex chromosomes
+                    # use continue if I don't do the separate sex chromosomes
                     # continue
                     pass
 
