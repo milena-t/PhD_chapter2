@@ -3105,13 +3105,10 @@ The min. sequence identity threshold is 95%, for min intron length see methods s
     </script>
 </div>
 <div id="pairwise_orthogroups" class="tabcontent">
-    <p>How many orthogroups are shared between species pairs, <code>Orthogroups_SpeciesOverlaps.txt</code></p></p>
-    <pre id="of_overlaps_stats" style="height:30vh; overflow:auto; margin:0;"></pre>
-    <script>
-    fetch("data/orthofinder/Orthogroups_SpeciesOverlaps.txt")
-        .then(r => r.text())
-        .then(t => document.getElementById("of_overlaps_stats").textContent = t);
-    </script>
+    <p>How many orthogroups are shared between species pairs, <code>data/orthofinder/Orthogroups_SpeciesOverlaps.txt</code></p></p>
+    <p float="left">
+        <img loading="lazy" src="data/orthofinder/Orthogroups_SpeciesOverlaps.png" width="40%" />
+    </p>
 </div>
 <div id="statistics_overall" class="tabcontent">
     <pre id="of_stats_overall" style="height:30vh; overflow:auto; margin:0;"></pre>

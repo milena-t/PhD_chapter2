@@ -192,12 +192,15 @@ def make_array_for_heatmap(aln_coord_files, sex_chr_dict, faidx_dicts, chr = "X"
 
 
 
-def plot_heatmap(counts_array, species_list, filename = "BRH_orthologs_heatmap.png", title = f"pairwise orthologs counts", log_data = False):
+def plot_heatmap(counts_array, species_list, filename = "BRH_orthologs_heatmap.png", title = f"pairwise orthologs counts", log_data = False,integer_numbers=False):
     """
     plot the heatmap created in make_array_for_heatmap()
     """
+    plt.rcParams['text.usetex'] = True # use \textit{} for species names
+    plt.rcParams['text.latex.preamble'] = r'\usepackage{sfmath} \renewcommand{\familydefault}{\sfdefault}'
+    plt.rcParams['font.family'] = 'sans-serif'
 
-    fs = 40
+    fs = 48
     aspect_ratio = 18 / 18
     height_pixels = 2000  # Height in pixels
     width_pixels = int(height_pixels * aspect_ratio)  # Width in pixels
@@ -212,17 +215,21 @@ def plot_heatmap(counts_array, species_list, filename = "BRH_orthologs_heatmap.p
     # create text annotations
     for i in range(len(species_list)):
         for j in range(len(species_list)):
-            if i==j:
+            if i==j and not integer_numbers:
                 continue
             try:
                 count = counts_array[i, j]
                 if log_data: # back-transform to actual percentage, only log by color
                     count = math.exp(count)
-                text = ax.text(j, i, f"{count:.1f}%",ha="center", va="center", color="w", fontsize = fs)
+                if integer_numbers:
+                    text = ax.text(j, i, f"{count}",ha="center", va="center", color="w", fontsize = fs*0.9)
+                else:
+                    text = ax.text(j, i, f"{count:.1f}\%",ha="center", va="center", color="w", fontsize = fs)
             except:
                 continue
 
     species_list = [species.replace("_", ". ") for species in species_list]
+    species_list = [f"\\textit{{{species}}}" for species in species_list]
     # Show all ticks and label them with the respective list entries
     ax.set_xticks(range(len(species_list)), labels=species_list,rotation=45, ha="right", rotation_mode="anchor", fontsize = fs)
     ax.set_yticks(range(len(species_list)), labels=species_list, fontsize = fs)
@@ -245,7 +252,7 @@ if __name__ == "__main__":
     aln_coord_files,aln_coord_files_cmac = get_aln_coord_files(username=username)
     outdir_wga = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/pairwise_wga"
 
-    if True:
+    if False:
         ###### chrysomelidae between-species comparison
 
         logtr = True
@@ -261,6 +268,18 @@ if __name__ == "__main__":
             print(perc_X_overlap)
             plot_heatmap(counts_array=perc_X_overlap, species_list=species_list, log_data=logtr,
             filename = f"{outdir_wga}/{chr}_chr_{log_text}_alignment_coverage_heatmap.png", title = f"{chr}-Chromosome aln. coverage")
+
+    if True:
+        ### make orthofinder pairwise shared orthogroups heatmap
+        infile = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/orthofinder/Orthogroups_SpeciesOverlaps.txt"
+        df = pd.read_csv(infile, sep="\t", index_col=0)
+        df = df.drop(columns="C_maculatusC", index="C_maculatusC")
+        species_list = list(df.columns)
+        array = df.to_numpy(dtype=int)
+        print(array)
+        print(df)
+        plot_heatmap(counts_array=array, species_list=species_list, log_data=False, integer_numbers=True,
+            filename = infile.replace(".txt", ".png"), title = f"Pairwise shared orthogroups")
 
     if False:
         ###### Cmac within-species comparison
