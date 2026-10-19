@@ -218,7 +218,7 @@ def plot_heatmap(counts_array, species_list, filename = "BRH_orthologs_heatmap.p
                 count = counts_array[i, j]
                 if log_data: # back-transform to actual percentage, only log by color
                     count = math.exp(count)
-                text = ax.text(j, i, f"{count:.1f}%",ha="center", va="center", color="w", fontsize = fs*0.75)
+                text = ax.text(j, i, f"{count:.1f}%",ha="center", va="center", color="w", fontsize = fs)
             except:
                 continue
 
@@ -245,10 +245,10 @@ if __name__ == "__main__":
     aln_coord_files,aln_coord_files_cmac = get_aln_coord_files(username=username)
     outdir_wga = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/pairwise_wga"
 
-    if False:
+    if True:
         ###### chrysomelidae between-species comparison
 
-        logtr = False
+        logtr = True
         # when percentages are really low, log-transform the heatmap colors to still see the variation
         if logtr:
             log_text = "log"
@@ -262,7 +262,7 @@ if __name__ == "__main__":
             plot_heatmap(counts_array=perc_X_overlap, species_list=species_list, log_data=logtr,
             filename = f"{outdir_wga}/{chr}_chr_{log_text}_alignment_coverage_heatmap.png", title = f"{chr}-Chromosome aln. coverage")
 
-    if True:
+    if False:
         ###### Cmac within-species comparison
 
         logtr = False
