@@ -68,9 +68,10 @@ make_annotation_df_from_eggnog <- function(annotation_path){
     return(annotation_df)
 }
 
-annotation_path="/Users/miltr339/work/c_maculatus/C_mac_eggnog_diamond.emapper.annotations_geneIDs" # created from the eggnogmapper output with /Users/miltr339/work/PhD_code/PhD_chapter4/src/make_annot_with_geneIDs.py
-## Dcar annotation:
-#/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/eggnog/Dcar/Dcar_eggnog_diamond.emapper.annotations
+annotation_path="/Users/miltr339/work/chapter2/eggnog/Dcar_eggnog_diamond.emapper.annotations" # created from the eggnogmapper output with /Users/miltr339/work/PhD_code/PhD_chapter4/src/make_annot_with_geneIDs.py
+# maybe this has the "_1" suffix in the proteinID that gffread (i think?) adds, then this wont work
+# remove it with (inplace editing):
+# sed -i '' -E $'s/^([^\t]*)_1(\t|$)/\\1\\2/' file.tsv
 
 annotation_df <- make_annotation_df_from_eggnog(annotation_path)
 ```
@@ -78,7 +79,7 @@ annotation_df <- make_annotation_df_from_eggnog(annotation_path)
 
 ## run enrichment
 
-make GO enrichment object for each contrast
+make GO enrichment for each contrast, optionally do semantic clustering of significant GO terms
 ```{r}
 GO_enrichment_analysis <- function(sig_infile, annotation_df, semantic_clustering=FALSE){
   # prepare input data
@@ -131,9 +132,9 @@ GO_enrichment_analysis <- function(sig_infile, annotation_df, semantic_clusterin
 list for genes that are sig line-biased in males in both day14 and day16
 ```{r}
 sig_list = "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/Dcar_ancestralA.txt"
-GO_enrichment_analysis(sig_infile = sig_list, annotation_df = annotation_df)
+GO_enrichment_analysis(sig_infile = sig_list, annotation_df = annotation_df, semantic_clustering=TRUE)
 sig_list = "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/Dcar_ancestralX.txt"
-GO_enrichment_analysis(sig_infile = sig_list, annotation_df = annotation_df)
+GO_enrichment_analysis(sig_infile = sig_list, annotation_df = annotation_df, semantic_clustering=TRUE)
 ```
 
 

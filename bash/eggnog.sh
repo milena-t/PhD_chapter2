@@ -14,11 +14,13 @@
 # Load modules
 module load eggnog-mapper/2.1.12-foss-2024a
 
+SPECIES=Cmac
+
 DBDIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter3/Cmac_func_annot/
 INDIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter4/annotation/
-OutDIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/eggnog/Dcar
-InFAA=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/D_carinulata.faa
-GFF=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/native_annotations/D_carinulata.gff
+OutDIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/eggnog/${SPECIES}
+InFAA=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/C_maculatus.faa
+GFF=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/native_annotations/C_maculatus.gff
 
 
 ## download eggnog database
@@ -44,7 +46,7 @@ fi
 
 #Limit annotation to Arthropods (6656)
 emapper.py \
-    -i $InFAA --output_dir $OutDIR -o C_mac_eggnog_diamond \
+    -i $InFAA --output_dir $OutDIR -o ${SPECIES}_eggnog_diamond \
     --cpu 16 \
     --scratch_dir $scratchDIR \
     --data_dir ${DBDIR}eggnog/eggnog_db \

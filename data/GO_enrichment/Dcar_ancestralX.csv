@@ -1,0 +1,187 @@
+"","GO.ID","Term","Annotated","Significant","Expected","classicFisher"
+"1","GO:0002028","regulation of sodium ion transport",6,6,0.32,2.4e-08
+"2","GO:0040011","locomotion",459,45,24.8,0.00013
+"3","GO:0032370","positive regulation of lipid transport",3,3,0.16,0.00016
+"4","GO:0044703","multi-organism reproductive process",698,59,37.71,0.00018
+"5","GO:0007280","pole cell migration",19,6,1.03,0.00035
+"6","GO:0048477","oogenesis",461,41,24.91,0.00077
+"7","GO:0002064","epithelial cell development",252,26,13.61,0.00094
+"8","GO:0051674","localization of cell",241,25,13.02,0.00109
+"9","GO:0007612","learning",50,9,2.7,0.00121
+"10","GO:0007417","central nervous system development",167,19,9.02,0.00149
+"11","GO:0021782","glial cell development",25,6,1.35,0.00174
+"12","GO:0007166","cell surface receptor signaling pathway",468,40,25.28,0.00193
+"13","GO:0007601","visual perception",6,3,0.32,0.00276
+"14","GO:0031887","lipid droplet transport along microtubul...",2,2,0.11,0.00291
+"15","GO:0032486","Rap protein signal transduction",2,2,0.11,0.00291
+"16","GO:0007267","cell-cell signaling",331,30,17.88,0.00309
+"17","GO:0045793","positive regulation of cell size",28,6,1.51,0.00323
+"18","GO:0007424","open tracheal system development",167,18,9.02,0.00359
+"19","GO:0048569","post-embryonic animal organ development",335,30,18.1,0.0037
+"20","GO:0003007","heart morphogenesis",29,6,1.57,0.00389
+"21","GO:0007040","lysosome organization",14,4,0.76,0.00542
+"22","GO:0034330","cell junction organization",252,27,13.61,0.00567
+"23","GO:0002009","morphogenesis of an epithelium",452,37,24.42,0.00597
+"24","GO:0048052","R1/R6 cell differentiation",8,3,0.43,0.00713
+"25","GO:0065008","regulation of biological quality",852,65,46.03,0.00717
+"26","GO:0006897","endocytosis",139,15,7.51,0.00752
+"27","GO:0019991","septate junction assembly",33,6,1.78,0.00757
+"28","GO:0007616","long-term memory",54,8,2.92,0.00777
+"29","GO:0035239","tube morphogenesis",368,31,19.88,0.00785
+"30","GO:0098657","import into cell",127,14,6.86,0.00806
+"31","GO:0048592","eye morphogenesis",233,24,12.59,0.0083
+"32","GO:0002065","columnar/cuboidal epithelial cell differ...",237,22,12.8,0.00831
+"33","GO:0051349","positive regulation of lyase activity",3,2,0.16,0.00841
+"34","GO:0043970","histone H3-K9 acetylation",3,2,0.16,0.00841
+"35","GO:1990386","mitotic cleavage furrow ingression",3,2,0.16,0.00841
+"36","GO:0097374","sensory neuron axon guidance",3,2,0.16,0.00841
+"37","GO:1903321","negative regulation of protein modificat...",3,2,0.16,0.00841
+"38","GO:0031281","positive regulation of cyclase activity",3,2,0.16,0.00841
+"39","GO:0051764","actin crosslink formation",3,2,0.16,0.00841
+"40","GO:0060173","limb development",3,2,0.16,0.00841
+"41","GO:0043087","regulation of GTPase activity",90,11,4.86,0.00859
+"42","GO:0009791","post-embryonic development",450,36,24.31,0.00957
+"43","GO:0008049","male courtship behavior",45,7,2.43,0.00962
+"44","GO:0045727","positive regulation of translation",25,5,1.35,0.00965
+"45","GO:0034332","adherens junction organization",35,6,1.89,0.01013
+"46","GO:0030707","ovarian follicle cell development",227,21,12.26,0.01021
+"47","GO:0002066","columnar/cuboidal epithelial cell develo...",227,21,12.26,0.01021
+"48","GO:0060562","epithelial tube morphogenesis",345,29,18.64,0.01035
+"49","GO:0050808","synapse organization",199,19,10.75,0.01038
+"50","GO:0048699","generation of neurons",601,49,32.47,0.01069
+"51","GO:0016477","cell migration",225,25,12.16,0.01208
+"52","GO:0045475","locomotor rhythm",47,7,2.54,0.01216
+"53","GO:0045216","cell-cell junction organization",70,12,3.78,0.01228
+"54","GO:0090130","tissue migration",135,14,7.29,0.0135
+"55","GO:0035335","peptidyl-tyrosine dephosphorylation",18,4,0.97,0.01396
+"56","GO:0045446","endothelial cell differentiation",10,3,0.54,0.01409
+"57","GO:0034334","adherens junction maintenance",10,3,0.54,0.01409
+"58","GO:0003158","endothelium development",10,3,0.54,0.01409
+"59","GO:0001885","endothelial cell development",10,3,0.54,0.01409
+"60","GO:0030182","neuron differentiation",531,44,28.69,0.01485
+"61","GO:0007009","plasma membrane organization",28,5,1.51,0.01564
+"62","GO:0048736","appendage development",256,24,13.83,0.01581
+"63","GO:0048863","stem cell differentiation",61,8,3.3,0.0159
+"64","GO:0007476","imaginal disc-derived wing morphogenesis",208,19,11.24,0.01614
+"65","GO:0060219","camera-type eye photoreceptor cell diffe...",4,2,0.22,0.01623
+"66","GO:0048593","camera-type eye morphogenesis",4,2,0.22,0.01623
+"67","GO:0060042","retina morphogenesis in camera-type eye",4,2,0.22,0.01623
+"68","GO:0042670","retinal cone cell differentiation",4,2,0.22,0.01623
+"69","GO:0048737","imaginal disc-derived appendage developm...",252,22,13.61,0.01637
+"70","GO:0016567","protein ubiquitination",152,15,8.21,0.01645
+"71","GO:0001667","ameboidal-type cell migration",139,14,7.51,0.01711
+"72","GO:0007419","ventral cord development",29,5,1.57,0.01809
+"73","GO:0018345","protein palmitoylation",11,3,0.59,0.01861
+"74","GO:0060856","establishment of blood-brain barrier",11,3,0.59,0.01861
+"75","GO:0060857","establishment of glial blood-brain barri...",11,3,0.59,0.01861
+"76","GO:0035212","cell competition in a multicellular orga...",11,3,0.59,0.01861
+"77","GO:0007318","pole plasm protein localization",11,3,0.59,0.01861
+"78","GO:1905114","cell surface receptor signaling pathway ...",88,10,4.75,0.01935
+"79","GO:0001745","compound eye morphogenesis",223,22,12.05,0.02015
+"80","GO:0048870","cell motility",252,26,13.61,0.02104
+"81","GO:0042330","taxis",248,23,13.4,0.02105
+"82","GO:0007472","wing disc morphogenesis",214,19,11.56,0.0212
+"83","GO:0006935","chemotaxis",204,20,11.02,0.0213
+"84","GO:0022008","neurogenesis",626,52,33.82,0.02131
+"85","GO:0008045","motor neuron axon guidance",41,6,2.22,0.02144
+"86","GO:0007474","imaginal disc-derived wing vein specific...",41,6,2.22,0.02144
+"87","GO:0016055","Wnt signaling pathway",77,9,4.16,0.02193
+"88","GO:0051146","striated muscle cell differentiation",90,10,4.86,0.02233
+"89","GO:0042303","molting cycle",65,8,3.51,0.02266
+"90","GO:0007591","molting cycle, chitin-based cuticle",65,8,3.51,0.02266
+"91","GO:0007155","cell adhesion",117,12,6.32,0.02314
+"92","GO:0010631","epithelial cell migration",131,13,7.08,0.02366
+"93","GO:0045217","cell-cell junction maintenance",12,3,0.65,0.02384
+"94","GO:0007464","R3/R4 cell fate commitment",12,3,0.65,0.02384
+"95","GO:0051179","localization",1391,107,75.15,0.02476
+"96","GO:0090132","epithelium migration",132,13,7.13,0.02502
+"97","GO:0032446","protein modification by small protein co...",160,15,8.64,0.02506
+"98","GO:0007560","imaginal disc morphogenesis",293,24,15.83,0.02519
+"99","GO:0048563","post-embryonic animal organ morphogenesi...",293,24,15.83,0.02519
+"100","GO:0061061","muscle structure development",175,16,9.45,0.02597
+"101","GO:0021675","nerve development",5,2,0.27,0.02608
+"102","GO:0048036","central complex development",5,2,0.27,0.02608
+"103","GO:0000741","karyogamy",5,2,0.27,0.02608
+"104","GO:0007344","pronuclear fusion",5,2,0.27,0.02608
+"105","GO:0050908","detection of light stimulus involved in ...",5,2,0.27,0.02608
+"106","GO:0007158","neuron cell-cell adhesion",5,2,0.27,0.02608
+"107","GO:0008587","imaginal disc-derived wing margin morpho...",43,6,2.32,0.02658
+"108","GO:0008306","associative learning",43,6,2.32,0.02658
+"109","GO:0055002","striated muscle cell development",55,7,2.97,0.02725
+"110","GO:0048646","anatomical structure formation involved ...",359,28,19.4,0.02904
+"111","GO:0045596","negative regulation of cell differentiat...",94,10,5.08,0.02925
+"112","GO:0008360","regulation of cell shape",56,7,3.03,0.02976
+"113","GO:0055001","muscle cell development",56,7,3.03,0.02976
+"114","GO:0016126","sterol biosynthetic process",13,3,0.7,0.02978
+"115","GO:0070633","transepithelial transport",13,3,0.7,0.02978
+"116","GO:0048056","R3/R4 cell differentiation",13,3,0.7,0.02978
+"117","GO:0042045","epithelial fluid transport",13,3,0.7,0.02978
+"118","GO:0030177","positive regulation of Wnt signaling pat...",33,5,1.78,0.03036
+"119","GO:0050794","regulation of cellular process",2079,138,112.32,0.03036
+"120","GO:0007411","axon guidance",184,18,9.94,0.03226
+"121","GO:0009790","embryo development",394,30,21.29,0.03235
+"122","GO:2000026","regulation of multicellular organismal d...",395,30,21.34,0.03332
+"123","GO:0008038","neuron recognition",70,8,3.78,0.03367
+"124","GO:0043547","positive regulation of GTPase activity",83,9,4.48,0.03381
+"125","GO:0000904","cell morphogenesis involved in different...",338,28,18.26,0.03395
+"126","GO:0048707","instar larval or pupal morphogenesis",333,26,17.99,0.0344
+"127","GO:0007517","muscle organ development",71,8,3.84,0.03625
+"128","GO:0007279","pole cell formation",14,3,0.76,0.03643
+"129","GO:0048085","adult chitin-containing cuticle pigmenta...",24,4,1.3,0.03765
+"130","GO:0007354","zygotic determination of anterior/poster...",24,4,1.3,0.03765
+"131","GO:0006482","protein demethylation",6,2,0.32,0.03775
+"132","GO:0002011","morphogenesis of an epithelial sheet",6,2,0.32,0.03775
+"133","GO:0043010","camera-type eye development",6,2,0.32,0.03775
+"134","GO:0070076","histone lysine demethylation",6,2,0.32,0.03775
+"135","GO:0007523","larval visceral muscle development",6,2,0.32,0.03775
+"136","GO:0003407","neural retina development",6,2,0.32,0.03775
+"137","GO:0016577","histone demethylation",6,2,0.32,0.03775
+"138","GO:0007053","spindle assembly involved in male meiosi...",6,2,0.32,0.03775
+"139","GO:0060041","retina development in camera-type eye",6,2,0.32,0.03775
+"140","GO:0042065","glial cell growth",6,2,0.32,0.03775
+"141","GO:2000637","positive regulation of miRNA-mediated ge...",6,2,0.32,0.03775
+"142","GO:0008214","protein dealkylation",6,2,0.32,0.03775
+"143","GO:0050962","detection of light stimulus involved in ...",6,2,0.32,0.03775
+"144","GO:0006613","cotranslational protein targeting to mem...",6,2,0.32,0.03775
+"145","GO:1990255","subsynaptic reticulum organization",6,2,0.32,0.03775
+"146","GO:0045137","development of primary sexual characteri...",35,5,1.89,0.03807
+"147","GO:0008406","gonad development",35,5,1.89,0.03807
+"148","GO:0051345","positive regulation of hydrolase activit...",126,12,6.81,0.03837
+"149","GO:0035120","post-embryonic appendage morphogenesis",244,20,13.18,0.03894
+"150","GO:0008037","cell recognition",72,8,3.89,0.03895
+"151","GO:0009653","anatomical structure morphogenesis",1066,84,57.59,0.03932
+"152","GO:0048666","neuron development",439,34,23.72,0.03942
+"153","GO:0002165","instar larval or pupal development",402,30,21.72,0.04083
+"154","GO:0198738","cell-cell signaling by wnt",86,9,4.65,0.04117
+"155","GO:0061458","reproductive system development",60,7,3.24,0.04136
+"156","GO:0048608","reproductive structure development",60,7,3.24,0.04136
+"157","GO:0031098","stress-activated protein kinase signalin...",73,8,3.94,0.04179
+"158","GO:0007389","pattern specification process",371,28,20.04,0.04193
+"159","GO:0008283","cell population proliferation",277,22,14.97,0.04223
+"160","GO:0034968","histone lysine methylation",36,5,1.94,0.04233
+"161","GO:0048599","oocyte development",114,11,6.16,0.0427
+"162","GO:0048749","compound eye development",273,24,14.75,0.04338
+"163","GO:0097485","neuron projection guidance",191,18,10.32,0.0435
+"164","GO:0045433","male courtship behavior, veined wing gen...",15,3,0.81,0.04376
+"165","GO:0045176","apical protein localization",15,3,0.81,0.04376
+"166","GO:0099173","postsynapse organization",15,3,0.81,0.04376
+"167","GO:0016545","male courtship behavior, veined wing vib...",15,3,0.81,0.04376
+"168","GO:0048065","male courtship behavior, veined wing ext...",15,3,0.81,0.04376
+"169","GO:0007632","visual behavior",15,3,0.81,0.04376
+"170","GO:0042063","gliogenesis",62,11,3.35,0.04386
+"171","GO:0009886","post-embryonic animal morphogenesis",341,26,18.42,0.04414
+"172","GO:0048468","cell development",992,84,53.59,0.04429
+"173","GO:0030718","germ-line stem cell population maintenan...",61,7,3.3,0.04466
+"174","GO:0048512","circadian behavior",74,8,4,0.04476
+"175","GO:0042692","muscle cell differentiation",101,10,5.46,0.04482
+"176","GO:0035114","imaginal disc-derived appendage morphoge...",248,20,13.4,0.04498
+"177","GO:0007167","enzyme-linked receptor protein signaling...",188,16,10.16,0.04596
+"178","GO:0003002","regionalization",343,26,18.53,0.04687
+"179","GO:0022404","molting cycle process",37,5,2,0.04687
+"180","GO:0001752","compound eye photoreceptor fate commitme...",37,5,2,0.04687
+"181","GO:0140238","presynaptic endocytosis",37,5,2,0.04687
+"182","GO:0048488","synaptic vesicle endocytosis",37,5,2,0.04687
+"183","GO:0000902","cell morphogenesis",413,32,22.31,0.04697
+"184","GO:0035107","appendage morphogenesis",250,20,13.51,0.04824
+"185","GO:0007593","chitin-based cuticle sclerotization",26,4,1.4,0.04872
+"186","GO:0009994","oocyte differentiation",131,12,7.08,0.04937

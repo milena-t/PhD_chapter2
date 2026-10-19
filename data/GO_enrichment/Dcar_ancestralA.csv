@@ -1,0 +1,87 @@
+"","GO.ID","Term","Annotated","Significant","Expected","classicFisher"
+"1","GO:0060857","establishment of glial blood-brain barri...",12,4,0.62,0.0024
+"2","GO:0019991","septate junction assembly",33,6,1.7,0.006
+"3","GO:0018279","protein N-linked glycosylation via aspar...",8,3,0.41,0.0062
+"4","GO:0016320","endoplasmic reticulum membrane fusion",3,2,0.15,0.0076
+"5","GO:0045213","neurotransmitter receptor metabolic proc...",3,2,0.15,0.0076
+"6","GO:0043525","positive regulation of neuron apoptotic ...",3,2,0.15,0.0076
+"7","GO:0090276","regulation of peptide hormone secretion",9,3,0.46,0.009
+"8","GO:0007179","transforming growth factor beta receptor...",17,4,0.87,0.0096
+"9","GO:0009100","glycoprotein metabolic process",80,12,4.11,0.0101
+"10","GO:0009101","glycoprotein biosynthetic process",68,11,3.5,0.0103
+"11","GO:0009583","detection of light stimulus",37,6,1.9,0.0106
+"12","GO:0009584","detection of visible light",27,5,1.39,0.011
+"13","GO:0099003","vesicle-mediated transport in synapse",100,11,5.14,0.013
+"14","GO:0034329","cell junction assembly",178,20,9.16,0.0141
+"15","GO:0006551","leucine metabolic process",4,2,0.21,0.0148
+"16","GO:0060395","SMAD protein signal transduction",4,2,0.21,0.0148
+"17","GO:0090278","negative regulation of peptide hormone s...",4,2,0.21,0.0148
+"18","GO:0044528","regulation of mitochondrial mRNA stabili...",4,2,0.21,0.0148
+"19","GO:0046888","negative regulation of hormone secretion",4,2,0.21,0.0148
+"20","GO:0071482","cellular response to light stimulus",29,5,1.49,0.0149
+"21","GO:0035212","cell competition in a multicellular orga...",11,3,0.57,0.0163
+"22","GO:0008582","regulation of synaptic assembly at neuro...",90,10,4.63,0.0164
+"23","GO:0099504","synaptic vesicle cycle",90,10,4.63,0.0164
+"24","GO:0036465","synaptic vesicle recycling",41,6,2.11,0.0172
+"25","GO:0030048","actin filament-based movement",20,4,1.03,0.0172
+"26","GO:1904396","regulation of neuromuscular junction dev...",93,10,4.78,0.0202
+"27","GO:0007603","phototransduction, visible light",21,4,1.08,0.0205
+"28","GO:0007416","synapse assembly",135,13,6.94,0.0206
+"29","GO:0098693","regulation of synaptic vesicle cycle",12,3,0.62,0.0209
+"30","GO:0061057","peptidoglycan recognition protein signal...",12,3,0.62,0.0209
+"31","GO:0104004","cellular response to environmental stimu...",43,6,2.21,0.0214
+"32","GO:0071214","cellular response to abiotic stimulus",43,6,2.21,0.0214
+"33","GO:0007030","Golgi organization",68,8,3.5,0.0223
+"34","GO:0010862","positive regulation of pathway-restricte...",5,2,0.26,0.0238
+"35","GO:0030073","insulin secretion",5,2,0.26,0.0238
+"36","GO:0071763","nuclear membrane organization",5,2,0.26,0.0238
+"37","GO:0060393","regulation of pathway-restricted SMAD pr...",5,2,0.26,0.0238
+"38","GO:0060389","pathway-restricted SMAD protein phosphor...",5,2,0.26,0.0238
+"39","GO:0009081","branched-chain amino acid metabolic proc...",5,2,0.26,0.0238
+"40","GO:0007378","amnioserosa formation",5,2,0.26,0.0238
+"41","GO:0050796","regulation of insulin secretion",5,2,0.26,0.0238
+"42","GO:0043649","dicarboxylic acid catabolic process",5,2,0.26,0.0238
+"43","GO:0034330","cell junction organization",249,24,12.81,0.0238
+"44","GO:0050808","synapse organization",197,17,10.13,0.0239
+"45","GO:0051963","regulation of synapse assembly",96,10,4.94,0.0247
+"46","GO:0043413","macromolecule glycosylation",53,9,2.73,0.0251
+"47","GO:0006486","protein glycosylation",53,9,2.73,0.0251
+"48","GO:0006487","protein N-linked glycosylation",21,6,1.08,0.0255
+"49","GO:0022400","regulation of rhodopsin mediated signali...",13,3,0.67,0.0262
+"50","GO:0031110","regulation of microtubule polymerization...",13,3,0.67,0.0262
+"51","GO:1901888","regulation of cell junction assembly",98,10,5.04,0.0281
+"52","GO:0007602","phototransduction",34,5,1.75,0.0283
+"53","GO:0007528","neuromuscular junction development",141,13,7.25,0.0284
+"54","GO:0003383","apical constriction",14,3,0.72,0.0321
+"55","GO:0043666","regulation of phosphoprotein phosphatase...",14,3,0.72,0.0321
+"56","GO:0009416","response to light stimulus",87,9,4.47,0.0335
+"57","GO:0031126","sno(s)RNA 3'-end processing",6,2,0.31,0.0344
+"58","GO:0017015","regulation of transforming growth factor...",6,2,0.31,0.0344
+"59","GO:0006482","protein demethylation",6,2,0.31,0.0344
+"60","GO:1903844","regulation of cellular response to trans...",6,2,0.31,0.0344
+"61","GO:0007193","adenylate cyclase-inhibiting G protein-c...",6,2,0.31,0.0344
+"62","GO:0002792","negative regulation of peptide secretion",6,2,0.31,0.0344
+"63","GO:0008214","protein dealkylation",6,2,0.31,0.0344
+"64","GO:0071478","cellular response to radiation",36,5,1.85,0.0353
+"65","GO:0010921","regulation of phosphatase activity",15,3,0.77,0.0386
+"66","GO:0070252","actin-mediated cell contraction",15,3,0.77,0.0386
+"67","GO:0051123","RNA polymerase II preinitiation complex ...",15,3,0.77,0.0386
+"68","GO:0008586","imaginal disc-derived wing vein morphoge...",37,5,1.9,0.0392
+"69","GO:0048488","synaptic vesicle endocytosis",37,5,1.9,0.0392
+"70","GO:0140238","presynaptic endocytosis",37,5,1.9,0.0392
+"71","GO:0048137","spermatocyte division",16,3,0.82,0.0458
+"72","GO:0006897","endocytosis",136,12,6.99,0.0459
+"73","GO:1903421","regulation of synaptic vesicle recycling",7,2,0.36,0.0466
+"74","GO:0050650","chondroitin sulfate proteoglycan biosynt...",7,2,0.36,0.0466
+"75","GO:0050654","chondroitin sulfate proteoglycan metabol...",7,2,0.36,0.0466
+"76","GO:0043144","sno(s)RNA processing",7,2,0.36,0.0466
+"77","GO:0006515","protein quality control for misfolded or...",7,2,0.36,0.0466
+"78","GO:1900087","positive regulation of G1/S transition o...",7,2,0.36,0.0466
+"79","GO:0016075","rRNA catabolic process",7,2,0.36,0.0466
+"80","GO:0060250","germ-line stem-cell niche homeostasis",7,2,0.36,0.0466
+"81","GO:0043687","post-translational protein modification",7,2,0.36,0.0466
+"82","GO:0030204","chondroitin sulfate metabolic process",7,2,0.36,0.0466
+"83","GO:0030206","chondroitin sulfate biosynthetic process",7,2,0.36,0.0466
+"84","GO:0070085","glycosylation",60,9,3.09,0.0468
+"85","GO:0003007","heart morphogenesis",27,4,1.39,0.0472
+"86","GO:0042048","olfactory behavior",52,6,2.67,0.0489
