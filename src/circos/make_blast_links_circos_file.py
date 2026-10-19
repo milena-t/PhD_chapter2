@@ -389,7 +389,7 @@ if __name__ == "__main__":
     #################################################
     ######## between species tblastn paralogs #######
     #################################################
-    if False:
+    if True:
         data_dir = "/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/paralogs_tblastn/"
 
         blast_outfiles_dict = {
@@ -451,7 +451,7 @@ if __name__ == "__main__":
                     miniprot_aln_file=minaln_file)
 
     ##### miniprot paralogs only
-    if True:
+    if False:
 
         for species1 in species_list:
 
