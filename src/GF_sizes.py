@@ -242,7 +242,9 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
         
         for species, sexchr_dict in sexchr_species_dict.items():
             
-            # if get_sexchr_gf_size(sexchr_dict=sexchr_dict) ==0:
+            if min_GF_size<0 and get_sexchr_gf_size(sexchr_dict=sexchr_dict) >1:
+                continue
+
             if get_sexchr_gf_size(sexchr_dict=sexchr_dict) <=min_GF_size:
                 continue
 
@@ -280,13 +282,14 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
                 elif sum(A_count.values())>0:
                     O_sizes[species].append(get_sexchr_gf_size(sexchr_dict=sexchr_dict))
 
-    print(f"  orthogroups per species that are excluded because they are X and Y linked at the same time:")
-    for s, xy_count in count_xy_linked.items():
-        if len(xy_count)>1:
-            sem_s = sem(xy_count)
-        else:
-            sem_s = np.nan
-        print(f"   - {s} ({len(xy_count)}) -->\t mean {mean(xy_count):.3f} [SEM: {sem_s:.3f}])")
+    if min_GF_size >= 0:
+        print(f"  orthogroups per species that are excluded because they are X and Y linked at the same time:")
+        for s, xy_count in count_xy_linked.items():
+            if len(xy_count)>1:
+                sem_s = sem(xy_count)
+            else:
+                sem_s = np.nan
+            print(f"   - {s} ({len(xy_count)}) -->\t mean {mean(xy_count):.3f} [SEM: {sem_s:.3f}])")
 
     hog_excl = [og for og in excl_OG if "HOG" in og]
     print(f"  {len(excl_OG)} gene families excluded since they have a size < {min_OG_size}\n  {len(excl_OG)-len(hog_excl)} true unplaced genes and {len(hog_excl)} HOGs (not sigletons, but might be part of Cmac_C and only one other species making them effectively singletons for this analysis) ")
@@ -697,7 +700,7 @@ def orthogroups_summary_stats(hog_sexchr_dict = {}, filepath = "", annot_species
                     
 
 
-def make_GF_size_correction_factor(fai_indices_dict, sex_chromosome_contigs):
+def make_GF_size_correction_factor(fai_indices_dict, sex_chromosome_contigs, bp_counts=False):
     """
     this accounts for the fact that only-A or Y-linked orthogroups are restricted to a smaller set of genomic material than the X-linked ones 
     which may bias the average gene family size down for them comparatively just due to the more "restricted" space they can occupy
@@ -720,17 +723,31 @@ def make_GF_size_correction_factor(fai_indices_dict, sex_chromosome_contigs):
             if not sexchr:
                 dna_amounts[species]["O"] += size
 
-    for species in fai_indices_dict.keys():
-        dna_amounts[species]["X"] = dna_amounts[species]["O"] + dna_amounts[species]["X"]
-        dna_amounts[species]["Y"] = dna_amounts[species]["O"] + dna_amounts[species]["Y"]
-    
-        dna_amounts[species]["X"] = dna_amounts[species]["O"] / dna_amounts[species]["X"]
-        dna_amounts[species]["Y"] = dna_amounts[species]["O"] / dna_amounts[species]["Y"]
-        dna_amounts[species]["O"] = dna_amounts[species]["O"] / dna_amounts[species]["O"]
+    if bp_counts:
+        return dna_amounts
+    else:
+        for species in fai_indices_dict.keys():
+            dna_amounts[species]["X"] = dna_amounts[species]["O"] + dna_amounts[species]["X"]
+            dna_amounts[species]["Y"] = dna_amounts[species]["O"] + dna_amounts[species]["Y"]
         
-    return dna_amounts
+            dna_amounts[species]["X"] = dna_amounts[species]["O"] / dna_amounts[species]["X"]
+            dna_amounts[species]["Y"] = dna_amounts[species]["O"] / dna_amounts[species]["Y"]
+            dna_amounts[species]["O"] = dna_amounts[species]["O"] / dna_amounts[species]["O"]
+            
+        return dna_amounts
 
 
+def compute_single_copy_GF_stats(chr_sizes,O_sizes, fasta_indices):
+    ochr="O"
+    xchr="X"
+    ychr="Y"  
+    print(f"count single-copy gene families in all species on the chromosomes, and \ncount single-copy gene families per Mbp")
+    for species,O_sizes_species in O_sizes.items():
+        A_single = len(O_sizes_species)
+        x_single = len(chr_sizes[xchr][species])
+        y_single = len(chr_sizes[ychr][species])
+        print(f"{species} --> A:{A_single}, X:{x_single}, Y:{y_single}")
+        print(f"\t\t --> A:{1e6*A_single/fasta_indices[species][ochr]:.4f}, X:{1e6*x_single/fasta_indices[species][xchr]:.4f}, Y:{1e6*y_single/fasta_indices[species][ychr]:.4f}")
 
 
 
@@ -812,6 +829,7 @@ if __name__ == "__main__":
             mdt=False
             for mingf in [-1,0,2]:
                 # gene families need to have at least two members in the species or not
+                # -1 counts all single-member gene families
                 print(f"\n ----------------------- min GF size: {mingf} -----------------------")
                 if mingf>0:
                     mdt=True
@@ -824,8 +842,9 @@ if __name__ == "__main__":
 
                 if vals!=None:
                     chr_sizes,O_sizes=vals
-                    print(chr_sizes.keys())
-                    # break
+                    chr_size_bp = make_GF_size_correction_factor(fai_indices_dict=fai_indices, sex_chromosome_contigs=sex_chromosome_contigs, bp_counts=True)
+                    compute_single_copy_GF_stats(chr_sizes,O_sizes, fasta_indices=chr_size_bp)
+                    break
 
     if False:
         mini_hog_sexchr_dict = parse_orthogroups_with_gff_class(filepath=orthogroups_file, annotations_dict=annot_dict, unassigned_genes_path=unassigned_genes_path, sex_chr_dict=sex_chromosome_contigs, miniprot_paths_dict=miniprot_dict)
