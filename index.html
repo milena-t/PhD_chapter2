@@ -3276,8 +3276,15 @@ The min. sequence identity threshold is 95%, for min intron length see methods s
     <h4>Mean gene family size split by X or Y-linkage</h4>
     <p>
         Any gene families that are still single-member after including the miniprot paralogs are excluded since Y-linkage cannot be the product of a duplication.
-        Therefore they are not included when investigating expansions onto the X and Y here
+        Therefore they are not included when investigating expansions onto the X and Y here.
     </p>
+    <p>
+        The gene family sizes are adjusted according to the chromosome category, because gene families restricted to autosomes have a smaller portion of the genome 
+        available compared to those who are X-linked (and have all autosomes and also the X available to them). I correct for this by calculating the proportions 
+        that the X and Y linked gene families have available in addition to the autosomes and then dividing, so the X correction factor is <code> genome_A / (genome_A+genome_X)</code>
+        with Y being defined accordingly as well, and A being not corrected (since that would be a factor of 1).
+    </p>
+
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'XY_gf_size_gff_mini_upset')">including miniprot paralogs</button>
         <button class="tablinks" onclick="openTab(event, 'XY_gf_size_gff_upset')">only gff annotation</button>

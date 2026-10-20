@@ -472,7 +472,10 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
                 ax2.set_xticks([i+1 for i in range(len(species_list))])
                 species_list_ = [s.replace("_", ". ") for s in species_list]
                 ax2.set_xticklabels([f"\\textit{{{s}}}" for s in species_list_], fontsize=fs*fs_factor, rotation=90)
-                ax2.spines['bottom'].set_position(('outward', 55))   # 70 for below
+                if min_GF_size >0:
+                    ax2.spines['bottom'].set_position(('outward', 55))   # 70 for below
+                else:
+                    ax2.spines['bottom'].set_position(('outward', 70))   # 70 for below
                 ax2.xaxis.set_ticks_position('none')
                 ax2.spines['bottom'].set_visible(False)
                 ax2.tick_params(axis='x', labelsize=fs*fs_factor)
@@ -698,7 +701,7 @@ if __name__ == "__main__":
     ]
 
     #################################################
-    only_gff = True    # if True: only read the orthogroups from orthofinder and don't add the within-species paralogs from miniprot ; if False: include the miniprot paralogs
+    only_gff = False    # if True: only read the orthogroups from orthofinder and don't add the within-species paralogs from miniprot ; if False: include the miniprot paralogs
     #################################################
     
     if only_gff:
