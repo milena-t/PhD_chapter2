@@ -6,10 +6,10 @@
 
 import upsetplot
 import numpy as np
-import pandas as pd
 from statistics import mean,median
 from scipy.stats import sem
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 import warnings
 from typing import Literal
 
@@ -380,6 +380,7 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
         width_pixels = int(height_pixels * aspect_ratio)  # Width in pixels
 
         fig, ax = plt.subplots(1,1,figsize=(width_pixels/dpi, height_pixels/dpi))
+        ax.yaxis.set_major_locator(MaxNLocator(integer=True))
 
         # tick_labels = [f"{key}\n({len(lists)} GFs)" for key,lists in data_dict.items()]
         tick_labels = [k.split(":")[0] for k in data_dict.keys()]
@@ -473,15 +474,15 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
                 species_list_ = [s.replace("_", ". ") for s in species_list]
                 ax2.set_xticklabels([f"\\textit{{{s}}}" for s in species_list_], fontsize=fs*fs_factor, rotation=90)
                 if min_GF_size >0:
-                    ax2.spines['bottom'].set_position(('outward', 55))   # 70 for below
+                    bottom_offset=55
                 else:
-                    ax2.spines['bottom'].set_position(('outward', 70))   # 70 for below
+                    bottom_offset=70    
+                ax2.spines['bottom'].set_position(('outward', bottom_offset))
                 ax2.xaxis.set_ticks_position('none')
                 ax2.spines['bottom'].set_visible(False)
                 ax2.tick_params(axis='x', labelsize=fs*fs_factor)
 
-        # ax.set_yscale('log')
-        ax.set_xlabel("")
+        ax.set_xlabel("Chromosome linkage category and (number of gene families) per species", fontsize = fs, labelpad = 25)
         ax.tick_params(axis='x', labelsize=fs) 
         ax.set_xticks(ticks = tick_pos, labels = tick_labels, fontsize=fs, rotation=90)
         ax.tick_params(axis='y', labelsize=fs)
@@ -688,6 +689,7 @@ if __name__ == "__main__":
     orthogroups_file = f"{data_dir}/N0.tsv" 
     unassigned_genes_path = f"{data_dir}/unassigned_genes.tsv" 
     sex_chromosome_contigs = get_contig_names()
+    fai_indices,_ = fasta_indices(username=username)
     annot_dict = data_paths.annotations_dict(username=username)
     miniprot_dict = data_paths.get_miniprot_paths(username=username)
     species_order = [
@@ -728,7 +730,6 @@ if __name__ == "__main__":
 
     ### check if gene fmailies with X/Y members are on average larger
     if True:
-        fai_indices,_ = fasta_indices(username=username)
         ### make genome size adjustment factors per species 
         gf_size_correction_factors = make_GF_size_correction_factor(fai_indices_dict=fai_indices, sex_chromosome_contigs=sex_chromosome_contigs)
 
@@ -754,22 +755,24 @@ if __name__ == "__main__":
                 filename = f"{data_dir}/GF_sizes_{chr_}-linked_vs_A_comparison_no_miniprot.png"
             else:
                 filename = f"{data_dir}/GF_sizes_{chr_}-linked_vs_A_comparison.png"
-            
-            mingf = 0 # gene families need to have at least two members in the species
-            if mingf>0:
-                filename = filename.replace(".png", f"_gfsize_min{mingf}.png")
 
-            print(f"\n\n>>>>> {chr_} <<<<< ")
-            check_sex_linked_GF_size(hog_sexchr_dict=mini_hog_sexchr_dict, species_list=species_order, chr_string=chr_, min_GF_size = mingf, outfile=filename, plot_type="means_bar", correction_factors = gf_size_correction_factors)
+            for mingf in [0,2]:
+                # gene families need to have at least two members in the species or not
+                if mingf>0:
+                    filename = filename.replace(".png", f"_gfsize_min{mingf}.png")
+                print(f"\n\n>>>>> {chr_} <<<<< ")
+                check_sex_linked_GF_size(hog_sexchr_dict=mini_hog_sexchr_dict, species_list=species_order, chr_string=chr_, min_GF_size = mingf, outfile=filename, plot_type="means_bar", correction_factors = gf_size_correction_factors)
 
     if False:
         mini_hog_sexchr_dict = parse_orthogroups_with_gff_class(filepath=orthogroups_file, annotations_dict=annot_dict, unassigned_genes_path=unassigned_genes_path, sex_chr_dict=sex_chromosome_contigs, miniprot_paths_dict=miniprot_dict)
+        ### make genome size adjustment factors per species 
+        gf_size_correction_factors = make_GF_size_correction_factor(fai_indices_dict=fai_indices, sex_chromosome_contigs=sex_chromosome_contigs)
 
         mingf = 2 # gene families need to have at least 2 members in the species, default 0 
         if mingf>0:
             filename = f"{data_dir}/GF_sizes_min{mingf}_chr-linked_vs_GS.png"
         else:
             filename = f"{data_dir}/GF_sizes_chr-linked_vs_GS.png"
-        xy_sizes,O_sizes = check_sex_linked_GF_size(hog_sexchr_dict=mini_hog_sexchr_dict, species_list=species_order, chr_string="XY", min_GF_size = mingf, outfile="", plot_type="no_plot")
+        xy_sizes,O_sizes = check_sex_linked_GF_size(hog_sexchr_dict=mini_hog_sexchr_dict, species_list=species_order, chr_string="XY", min_GF_size = mingf, outfile="", plot_type="no_plot", correction_factors = gf_size_correction_factors)
         sizes_dict = xy_sizes | {"O" : O_sizes}
         scatter_GF_GS_comparison(sizes_dict, GS_dict=genome_sizes, outfile=filename)
