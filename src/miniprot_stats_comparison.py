@@ -19,7 +19,7 @@ def plot_single_exon_no_species_specific_three_annot(native_numbers, miniprot_nu
     # figure proportions according to the data included (longer or shorter)
 
     # fontsize scales with the dpi somehow which i have to do extra because i change the aspect ratio manually below
-    fs = 60 # 37 originally
+    fs = 70 
     plt.rcParams['text.usetex'] = True # use \textit{} for species names
     plt.rcParams['text.latex.preamble'] = r'\usepackage{sfmath} \renewcommand{\familydefault}{\sfdefault}'
     plt.rcParams['font.family'] = 'sans-serif'
@@ -47,33 +47,34 @@ def plot_single_exon_no_species_specific_three_annot(native_numbers, miniprot_nu
     num_single_exon_genes = native_numbers["num_single_exon_genes"]
     num_total_genes = native_numbers["num_total_genes"]
 
-    single_exon_genes = [num_single_exon_genes[species] for species in species_names]
-    multi_exon_genes = [num_total_genes[species]-num_single_exon_genes[species] for species in species_names]
+    single_exon_genes_annot = [num_single_exon_genes[species] for species in species_names]
+    print(f"single_exon_genes_annot: {single_exon_genes_annot}")
+    multi_exon_genes_annot = [num_total_genes[species]-num_single_exon_genes[species] for species in species_names]
+    print(f"multi_exon_genes_annot: {multi_exon_genes_annot}")
 
     color = [colors["native"], colors["native"]]
     hatching = ["//", "" ]
 
-    category = " (genome annotation)"
     x_subtr = width/2
     
     print(f"bar width = {width}")
 
     # total number of genes from annotations (with single-exons hatched)
-    native_rects1_base = ax.bar(x - x_subtr, single_exon_genes, width, label=hatch_label, color= color[0], hatch=hatching[0])
-    native_rects1_top = ax.bar(x - x_subtr, multi_exon_genes, width, bottom=single_exon_genes, label='all genes'+category, color= color[1], hatch=hatching[1])
+    native_rects1_base = ax.bar(x - x_subtr, single_exon_genes_annot, width, label=hatch_label, color= color[0], hatch=hatching[0])
+    native_rects1_top = ax.bar(x - x_subtr, multi_exon_genes_annot, width, bottom=single_exon_genes_annot, label='genes in the genome annotation', color= color[1], hatch=hatching[1])
 
     #### plot miniprot gene structures ####
     num_single_exon_genes = miniprot_numbers["num_single_exon_genes"]
     num_total_genes = miniprot_numbers["num_total_genes"]
-    single_exon_genes = [num_single_exon_genes[species] for species in species_names]
-    multi_exon_genes = [num_total_genes[species]-num_single_exon_genes[species] for species in species_names]
+    single_exon_genes = [num_single_exon_genes[species] - single_exon_genes_annot[i] for i,species in enumerate(species_names)]
+    multi_exon_genes = [num_total_genes[species]-num_single_exon_genes[species] - multi_exon_genes_annot[i] for i,species in enumerate(species_names)]
 
     color = [colors["minimap"], colors["minimap"]]
     hatching = ["//", ""]
 
     # total number of genes (with single-exons hatched)            
     orthodb_rects1_base = ax.bar(x + x_subtr, single_exon_genes, width, label=hatch_label, color= color[0], hatch=hatching[0])            
-    orthodb_rects1_top = ax.bar(x + x_subtr, multi_exon_genes, width, bottom=single_exon_genes, label='miniprot gene structures', color= color[1], hatch=hatching[1])  
+    orthodb_rects1_top = ax.bar(x + x_subtr, multi_exon_genes, width, bottom=single_exon_genes, label='miniprot paralogs', color= color[1], hatch=hatching[1])  
 
     plt.rcParams.update({'hatch.color': hatch_color})
     ymax_factor = 1.3
@@ -82,7 +83,7 @@ def plot_single_exon_no_species_specific_three_annot(native_numbers, miniprot_nu
     #### set up labels and stuff ####
     
     ax.set_ylabel('Number of genes', fontsize=fs+4)
-    ax.set_title('Proportion of single-exon genes', fontsize=fs+4)
+    ax.set_title('Proportion of single-exon genes', fontsize=fs*1.2)
     ax.set_xticks(x)
     xtick_labels = [species.replace("_", ". ") for species in species_names]
     ax.set_xlabel('', fontsize=fs+4)
