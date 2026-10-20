@@ -266,8 +266,9 @@ if __name__ == "__main__":
         GS_vs_LG_number_correlations(orthogroups, species_order=species_order, filename_prefix=f"{data_dir}/translocations_sexchr_vs_A_numbers.png", max_GF_size=50)
 
     if True:
-        # !!! remove duplicate cds from aobt bvar cchi cmac with 
+        # !!! remove cds from aobt bvar cchi cmac with 
         # sed '/^[^#\t]*\t[^\t]*\tCDS\t/d'
+        # !!! so that they don't make duplicates for existing exons
         
         c = plot_LG_GFsize(
             orthogroups_dict = orthogroups,
