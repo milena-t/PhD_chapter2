@@ -220,7 +220,7 @@ def get_sexchr_gf_size(sexchr_dict):
     return size
 
 
-def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal["X", "Y", "XY"], excl_chr:Literal["X", "Y",""] = "", outfile="boxplot.png", min_OG_size = 2, min_GF_size = 0, ymax_plot = 0, plot_type:Literal["medians_box", "means_bar", "no_plot"]="means_bar", correction_factors={}):
+def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal["X", "Y", "XY"], excl_chr:Literal["X", "Y",""] = "", outfile="boxplot.png", min_OG_size = 2, min_GF_size = 0, ymax_plot = 0, plot_type:Literal["medians_box", "means_bar", "no_plot"]="means_bar", correction_factors={}, mean_diff_test=False):
     """
     Take sexchr size dict and make list of orthogroup sizes that are X-linked/Y-linked 
     if excl_chr is specified, then all orthogroups that have members on this chromosome are excluded from any analysis
@@ -438,7 +438,7 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
                         tick_pos[i] =1+ i//3 
                     if i%3 == 2:
                         tick_pos[i] =1+ i//3 +pos_adjust
-                    print(f"{i} : {tick_pos[i]}")
+                    # print(f"{i} : {tick_pos[i]}")
             else:
                 box_width = 0.7
                 pos_adjust=box_width*0.125
@@ -482,6 +482,59 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
                 ax2.spines['bottom'].set_visible(False)
                 ax2.tick_params(axis='x', labelsize=fs*fs_factor)
 
+            ### plot comparisons between X and Y 
+            if mean_diff_test:
+                import scipy.stats as sts
+                def add_significance_bar_log(ax, x,y,tick_pos,data, y_raise=0, factor=1.07, color='black', lw=lw, fs=fs):
+                    """
+                    This function was modified from one created by claude code
+                    """
+                    x1=tick_pos[x]+0.025
+                    x2=tick_pos[y]+0.025
+                    data1=data[x]
+                    data2=data[y]
+
+                    # run the test
+                    stat, p = sts.mannwhitneyu(data1, data2, alternative='two-sided')
+
+                    if y_raise==0:
+                        y_ = max([mean(data1), mean(data2)]) +2
+                    else:
+                        y_=y_raise
+
+                    # convert p-value to stars
+                    text = 'ns'
+                    color="#B78F85" #light grey
+                    tick_top = y_ * factor
+                    if p < 0.05:
+                        text = '*'
+                        color="#5C433D"# darker grey
+                        ax.text((x1+x2)/2, tick_top*1.01, text, ha='center', va='bottom', color=color, fontsize=fs)
+                        print(f"\t* Mann-Whitney {bar_labels_for_stats[x]}-{bar_labels_for_stats[y]} : \t U = {stat:.0f}, p-value = {p:.4f}")
+                    else:
+                        print(f"\t  Mann-Whitney {bar_labels_for_stats[x]}-{bar_labels_for_stats[y]} : \t U = {stat:.0f}, p-value = {p:.4f}")
+                        # ax.text((x1+x2)/2, tick_top*1.012, text, ha='center', va='bottom', color=color, fontsize=fs)
+                    if y>0:
+                        bar_raise = 0
+                    else:
+                        bar_raise = 0
+                    ax.plot([x1, x1, x2, x2], [y_+bar_raise, tick_top, tick_top, y_+bar_raise], lw=lw, color=color)
+
+                    return y_
+
+                bar_labels_for_stats = tick_labels
+                ymax_,ymin_ = ax.get_ylim()
+                nums = list(range(21))  # 0..20
+                s = 0
+                for i in range(0, len(nums), 3):
+                    species = species_list_[s]
+                    print(f" - {species}")
+                    x, y, a = nums[i:i+3]
+                    # y_raise = add_significance_bar_log(ax=ax,x=x,y=y, tick_pos=tick_pos, data=lists, lw=lw, fs=fs,y_raise=0)
+                    y_raise = add_significance_bar_log(ax=ax,x=y,y=a, tick_pos=tick_pos, data=lists, lw=lw, fs=fs,y_raise=10.5)
+                    y_raise = add_significance_bar_log(ax=ax,x=x,y=a, tick_pos=tick_pos, data=lists, lw=lw, fs=fs,y_raise=12)
+                    s+=1
+
         ax.set_xlabel("Chromosome linkage category and (number of gene families) per species", fontsize = fs, labelpad = 25)
         ax.tick_params(axis='x', labelsize=fs) 
         ax.set_xticks(ticks = tick_pos, labels = tick_labels, fontsize=fs, rotation=90)
@@ -490,7 +543,7 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
             chr_string_ = "X or Y"
         else:
             chr_string_ = chr_string
-        title = f"Sizes of A and {chr_string_}-linked gene families"
+        title = f"Sizes of autosomal or {chr_string_}-linked gene families"
         if min_GF_size >0:
             title = f"{title} " + r"(min. GF size $\geq 2$)"
         ax.set_title(title, fontsize=fs)
@@ -756,12 +809,23 @@ if __name__ == "__main__":
             else:
                 filename = f"{data_dir}/GF_sizes_{chr_}-linked_vs_A_comparison.png"
 
-            for mingf in [0,2]:
+            mdt=False
+            for mingf in [-1,0,2]:
                 # gene families need to have at least two members in the species or not
+                print(f"\n ----------------------- min GF size: {mingf} -----------------------")
                 if mingf>0:
+                    mdt=True
                     filename = filename.replace(".png", f"_gfsize_min{mingf}.png")
+                    plot_type="means_bar"
+                elif mingf<0:
+                    plot_type="no_plot"
                 print(f"\n\n>>>>> {chr_} <<<<< ")
-                check_sex_linked_GF_size(hog_sexchr_dict=mini_hog_sexchr_dict, species_list=species_order, chr_string=chr_, min_GF_size = mingf, outfile=filename, plot_type="means_bar", correction_factors = gf_size_correction_factors)
+                vals = check_sex_linked_GF_size(hog_sexchr_dict=mini_hog_sexchr_dict, species_list=species_order, chr_string=chr_, min_GF_size = mingf, outfile=filename, plot_type=plot_type, correction_factors = gf_size_correction_factors, mean_diff_test=mdt)
+
+                if vals!=None:
+                    chr_sizes,O_sizes=vals
+                    print(chr_sizes.keys())
+                    # break
 
     if False:
         mini_hog_sexchr_dict = parse_orthogroups_with_gff_class(filepath=orthogroups_file, annotations_dict=annot_dict, unassigned_genes_path=unassigned_genes_path, sex_chr_dict=sex_chromosome_contigs, miniprot_paths_dict=miniprot_dict)
