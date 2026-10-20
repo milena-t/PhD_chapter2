@@ -40,7 +40,7 @@ def plot_single_exon_no_species_specific_three_annot(native_numbers, miniprot_nu
     }
     hatch_color = '#ffffff' # '#E2D4CA' #kind of eggshell white
     plt.rcParams['hatch.color'] = hatch_color
-    plt.rcParams['hatch.linewidth'] = 2  # default is 1.0
+    plt.rcParams['hatch.linewidth'] = 4  # default is 1.0
     hatch_label = f"proportion of which are intronless"
 
     #### plot native annotation ####
@@ -53,7 +53,7 @@ def plot_single_exon_no_species_specific_three_annot(native_numbers, miniprot_nu
     print(f"multi_exon_genes_annot: {multi_exon_genes_annot}")
 
     color = [colors["native"], colors["native"]]
-    hatching = ["//", "" ]
+    hatching = ["/", "" ]
 
     x_subtr = width/2
     
@@ -70,7 +70,7 @@ def plot_single_exon_no_species_specific_three_annot(native_numbers, miniprot_nu
     multi_exon_genes = [num_total_genes[species]-num_single_exon_genes[species] - multi_exon_genes_annot[i] for i,species in enumerate(species_names)]
 
     color = [colors["minimap"], colors["minimap"]]
-    hatching = ["//", ""]
+    hatching = ["/", ""]
 
     # total number of genes (with single-exons hatched)            
     orthodb_rects1_base = ax.bar(x + x_subtr, single_exon_genes, width, label=hatch_label, color= color[0], hatch=hatching[0])            
