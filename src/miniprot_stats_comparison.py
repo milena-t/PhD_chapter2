@@ -92,7 +92,7 @@ def plot_single_exon_no_species_specific_three_annot(native_numbers, miniprot_nu
 
     # make custom legend patch for the dashed bars
     plt.rcParams.update({'hatch.color': "#3f3832ff"})
-    dashed_handle = mpatches.Patch(hatch = "//", alpha = 0.0)
+    dashed_handle = mpatches.Patch(hatch = "/", alpha = 0.0)
     dashed_label = "proportion of genes \nthat are single-exon"
 
     # Legend with custom order
