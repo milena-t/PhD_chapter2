@@ -37,6 +37,14 @@ def get_orthogroup_sizes(orthogroup_dict, q = 0):
 
 
 def parse_orthogroups_dict(filepath, species_list ="", OG_header = "HOG"):
+    """
+    parse N0.tsv into a dict like {
+        HOG_ID : {
+            species : [ transcriptID, ...],
+            ...
+        }
+    }
+    """
     orthogroups_df = pd.read_csv(filepath, sep="\t")
     headers = set(orthogroups_df.columns)
     if species_list != "":
@@ -325,7 +333,7 @@ class EarliestDuplication:
     
 
 
-def parse_duplications(duplications_path, orthogroups_path, min_support = 0.5 ):
+def parse_duplications(duplications_path, orthogroups_path, min_support = 0.5 , remove_species_specific=True):
     """
     parse the duplications file from orthofinder and filter it to only include the oldest duplication event in any orthogroup
     gives a dict with HOGID keys and duplication values as classes like: 
@@ -354,7 +362,8 @@ def parse_duplications(duplications_path, orthogroups_path, min_support = 0.5 ):
     ## read duplications, make depth metric (lower is closer to root and therefore earlier) from node names
     df = pd.read_csv(duplications_path, sep="\t")
     df = df[df["Support"]>min_support]
-    df = df[df["Type"] != "Terminal"] # remove terminal duplications since i don't care about those for sure
+    if remove_species_specific:
+        df = df[df["Type"] != "Terminal"] # remove terminal duplications since i don't care about those for sure
     df["Depth"] = df["Species Tree Node"].apply(lambda x : int(x[-1]) if len(x)==2 else x)
     df["Genes 1"] = df["Genes 1"].apply(lambda x : x.split(", "))
     df["Genes 2"] = df["Genes 2"].apply(lambda x : x.split(", "))
