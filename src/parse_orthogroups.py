@@ -320,7 +320,18 @@ class EarliestDuplication:
 
 
 def parse_duplications(duplications_path, orthogroups_path, min_support = 0.5 ):
-    
+    """
+    parse the duplications file from orthofinder and filter it to only include the oldest duplication event in any orthogroup
+    gives a dict with HOGID keys and duplication values as classes like: 
+    {
+        HOG_ID : EarliestDuplication(
+                    HOG_ID 
+                    geneIDs_side1,
+                    geneIDs_side2,
+                    support,
+                    tree_node)
+    }
+    """
     ### make lookup table for {geneID : orthogroup}
     orthogroup_hogdict = parse_orthogroups_dict(orthogroups_path)
     # print(orthogroup_hogdict["N0.HOG0000001"])
