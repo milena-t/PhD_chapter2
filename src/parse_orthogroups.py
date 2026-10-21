@@ -317,6 +317,12 @@ class EarliestDuplication:
         self.support=support
         self.tree_node=tree_node
 
+    def __str__(self) -> str:
+        s = f"""Orthogroup: {self.HOG_ID} has its earliest duplication with support {self.support} at tree node {self.tree_node}
+ - geneIDs_side1 = {self.geneIDs_side1}
+ - geneIDs_side2 = {self.geneIDs_side2}"""
+        return s
+    
 
 
 def parse_duplications(duplications_path, orthogroups_path, min_support = 0.5 ):
