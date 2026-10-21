@@ -14,16 +14,17 @@
 # Load modules
 module load eggnog-mapper/2.1.12-foss-2024a
 
-SPECIES=Cmac
+SPECIES=$1
+cd /proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/eggnog
 
 DBDIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter3/Cmac_func_annot/
-INDIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter4/annotation/
 OutDIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/eggnog/${SPECIES}
-InFAA=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/C_maculatus.faa
-GFF=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/native_annotations/C_maculatus.gff
+InFAA=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/protein_data/${SPECIES}.faa
+GFF=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/native_annotations/${SPECIES}.gff
 
 
 ## download eggnog database
+    # INDIR=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter4/annotation/
     # Limit annotation to Arthropods (6656)
     # python3 ${INDIR}eggnog/create_dbs.py -m diamond -y --taxids 6656 --dbname arthropoda --data_dir ${INDIR}eggnog/eggnog_db
 
@@ -35,6 +36,8 @@ GFF=/proj/coleoptera-genomics-2025/snic2021-6-30/Milena/chapter2/native_annotati
     # wget -nH --user-agent=Mozilla/5.0 --relative --no-parent --reject "index.html*" --cut-dirs=4 -e robots=off -O eggnog.taxa.tar.gz http://eggnog5.embl.de/download/emapperdb-5.0.2/eggnog.taxa.tar.gz && echo Decompressing... && tar -zxf eggnog.taxa.tar.gz && rm eggnog.taxa.tar.gz
     # wget -nH --user-agent=Mozilla/5.0 --relative --no-parent --reject "index.html*" --cut-dirs=4 -e robots=off -O eggnog_proteins.dmnd.gz http://eggnog5.embl.de/download/emapperdb-5.0.2/eggnog_proteins.dmnd.gz && echo Decompressing... && gunzip eggnog_proteins.dmnd.gz
 #Use/Make scratch dir
+
+mkdir $OutDIR
 export scratchDIR=${SNIC_TMP}/Dcar_eggnog_diamond
 
 if [ -d ${scratchDIR} ]; then
