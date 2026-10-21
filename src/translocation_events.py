@@ -240,7 +240,7 @@ if __name__ == "__main__":
     miniprot_dict = data_paths.get_miniprot_paths(username=username)
 
 
-    if True:
+    if False:
         species_order = [
             "A_obtectus",
             "C_maculatus",
@@ -265,7 +265,7 @@ if __name__ == "__main__":
     if False:
         GS_vs_LG_number_correlations(orthogroups, species_order=species_order, filename_prefix=f"{data_dir}/translocations_sexchr_vs_A_numbers.png", max_GF_size=50)
 
-    if True:
+    if False:
         # !!! remove cds from aobt bvar cchi cmac with 
         # sed '/^[^#\t]*\t[^\t]*\tCDS\t/d'
         # !!! so that they don't make duplicates for existing exons
@@ -274,8 +274,7 @@ if __name__ == "__main__":
             orthogroups_dict = orthogroups,
             outfile_name=f"{data_dir}/GFsize_on_linkagegroups.png"
         )
-        # ## TODO no intronless annotations?
-        ## TODO what exactly am i computing even, the mean GF size seems absurd???
+        
         # print(c)
-    if False:
+    if True:
         earliest_duplications, unassigned_geneIDs = og.parse_duplications(duplications_path=f"{data_dir}/Duplications.tsv", orthogroups_path=orthogroups_file, min_support=0.5)

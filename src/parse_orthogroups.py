@@ -40,7 +40,7 @@ def parse_orthogroups_dict(filepath, species_list ="", OG_header = "HOG"):
     """
     parse N0.tsv into a dict like {
         HOG_ID : {
-            species : [ transcriptID, ...],
+            species : 'transcriptID, transcriptID',
             ...
         }
     }

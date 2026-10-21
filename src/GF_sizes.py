@@ -6,6 +6,7 @@
 
 import upsetplot
 import numpy as np
+import pandas as pd
 from statistics import mean,median
 from scipy.stats import sem
 import matplotlib.pyplot as plt
@@ -17,7 +18,8 @@ import parse_gff as gff
 from sex_chromosomes import get_contig_names
 import miniprot_stats_comparison as minialn
 import plot_gene_counts as data_paths
-from parse_orthogroups import  parse_orthogroups_dict
+import parse_orthogroups as og
+import linkage_groups as lg
 from pairwise_wga_heatmap import fasta_indices
 
 
@@ -32,7 +34,7 @@ genome_sizes = {
     "D_sublineata" : 456.2,
 }
 
-def parse_orthogroups_with_gff_class(filepath, annotations_dict, sex_chr_dict, unassigned_genes_path = "", miniprot_paths_dict = {}):
+def parse_orthogroups_with_gff_class(filepath, annotations_dict, sex_chr_dict, unassigned_genes_path = "", miniprot_paths_dict = {}, return_annotdict = False):
     """
     Get a dictionary of all the orthogroups with counts for the sex chromosomes
     dict_out = { 
@@ -46,11 +48,11 @@ def parse_orthogroups_with_gff_class(filepath, annotations_dict, sex_chr_dict, u
     """
 
     annot_species = list(annotations_dict.keys())
-    annot_placed_dict = parse_orthogroups_dict(filepath=filepath, species_list=annot_species, OG_header="HOG")
+    annot_placed_dict = og.parse_orthogroups_dict(filepath=filepath, species_list=annot_species, OG_header="HOG")
     if unassigned_genes_path == "":
         annot_HOG_dict = annot_placed_dict
     else:
-        annot_unplaced_dict = parse_orthogroups_dict(filepath=unassigned_genes_path, species_list=annot_species, OG_header="Orthogroup")
+        annot_unplaced_dict = og.parse_orthogroups_dict(filepath=unassigned_genes_path, species_list=annot_species, OG_header="Orthogroup")
         annot_HOG_dict = annot_placed_dict | annot_unplaced_dict
         # print(annot_HOG_dict["OG0014394"])
 
@@ -131,7 +133,10 @@ def parse_orthogroups_with_gff_class(filepath, annotations_dict, sex_chr_dict, u
                 sexchr_counts_dict[species] = sex_chr_counts
             hog_sexchr_dict[HOG_id] = sexchr_counts_dict
     
-    return(hog_sexchr_dict)
+    if return_annotdict:
+        return hog_sexchr_dict,annot_gff_dict
+    else:    
+        return hog_sexchr_dict
 
 
 
@@ -140,9 +145,11 @@ def upset_HOG_sex_chromosomes(hog_sexchr_dict, chr_string = "Y", plot_filename =
     hog_sexchr_unnested = []
     autosome_excl = 0
     chr_linked = 0
+    sexchr_ratio = []
 
     for HOG_id, sexchr_species_dict in hog_sexchr_dict.items():
         species_incl = []
+        ratio = []
         for species, sexchr_dict in sexchr_species_dict.items():
             allchr_present = 0
             for chr in chr_string:
@@ -152,16 +159,22 @@ def upset_HOG_sex_chromosomes(hog_sexchr_dict, chr_string = "Y", plot_filename =
                 species_ = species.replace("_", ". ")
                 species_incl.append(f"\\textit{{{species_}}}")
 
+            if len(chr_string)==1:
+                sx = sexchr_dict[chr_string]
+                all = sum([int(v) for v in sexchr_dict.values()])
+                if all==0:
+                    continue
+                ratio.append(sx/all)
         
         # only plot ones with at least one {chr}-linked member
         if species_incl !=[]:
             hog_sexchr_unnested.append(species_incl)
+            sexchr_ratio.append(ratio)
             chr_linked += 1
         else:
             autosome_excl+=1
         
     print(f"{autosome_excl} orthogroups autosome-exclusive, {chr_linked} are {chr}-linked in at least one species")
-
 
     plt.rcParams['text.usetex'] = True # use \textit{} for species names
     plt.rcParams['text.latex.preamble'] = r'\usepackage{sfmath} \renewcommand{\familydefault}{\sfdefault}'
@@ -171,8 +184,34 @@ def upset_HOG_sex_chromosomes(hog_sexchr_dict, chr_string = "Y", plot_filename =
 
     warnings.filterwarnings("ignore", category=FutureWarning)
     warnings.filterwarnings("ignore", category=UserWarning)
-    data = upsetplot.from_memberships(hog_sexchr_unnested)
-    upsetplot.UpSet(data, subset_size="count", sort_by="cardinality", sort_categories_by="input", show_counts=True, min_subset_size=min_intersection_size).plot(fig=fig)
+
+    og_mean_ratio = [np.mean(r) if r else np.nan for r in sexchr_ratio]
+    data = upsetplot.from_memberships(hog_sexchr_unnested, data=pd.DataFrame({'mean_ratio': og_mean_ratio}))
+
+    upset = upsetplot.UpSet(data, subset_size="count", sort_by="cardinality", sort_categories_by="input", show_counts=True, min_subset_size=min_intersection_size)
+    
+    if len(chr_string)==1:
+        colors_dict = {
+            "Y" : "#495E83", # dusk blue
+            "Y_edge" : "#374C6E", # dusk blue darker
+            "X" : "#AB354A", # cherry rose
+            "X_edge" : "#771C2C", # dark amaranth
+            "O" : "#51997C", # seagrass
+            "O_edge" : "#376F59", # deep teal
+            "vline" : '#9499A5', # cool steel
+            "vtext" : "#5B6378", #blue slate
+        }
+        upset.add_catplot(
+            value='mean_ratio', kind='violin', elements=4,
+            color=colors_dict[chr_string],   # fill
+            linecolor=colors_dict[chr_string],         # outline (and inner lines)
+            linewidth=1.2,
+            saturation=1,
+            )
+    axes=upset.plot(fig=fig)
+
+    if len(chr_string)==1:
+        axes['extra1'].set_ylabel(f"prop. of\nGF members\nthat are\n{chr_string}-linked")
 
     if len(chr_string)==1:
         chr = chr_string
@@ -191,6 +230,8 @@ def upset_HOG_sex_chromosomes(hog_sexchr_dict, chr_string = "Y", plot_filename =
     plt.clf()
     plt.cla()
     plt.close()
+    
+    return hog_sexchr_unnested
 
 
 def get_sexchr_hog_size(sexchr_dict):
@@ -675,7 +716,7 @@ def orthogroups_summary_stats(hog_sexchr_dict = {}, filepath = "", annot_species
         filepath_ = filepath.split("/")[-1]
         print(f" results directly from {filepath_}, no sex chromosome assignment")
         
-        orthogroups_dict = parse_orthogroups_dict(filepath=filepath, species_list=annot_species, OG_header="HOG")
+        orthogroups_dict = og.parse_orthogroups_dict(filepath=filepath, species_list=annot_species, OG_header="HOG")
         # print(orthogroups_dict["N0.HOG0000061"])
         OG_sizes = {og : 0 for og in orthogroups_dict.keys()}
         GF_sizes = {s : [] for s in annot_species}
@@ -750,6 +791,49 @@ def compute_single_copy_GF_stats(chr_sizes,O_sizes, fasta_indices):
         print(f"\t\t --> A:{1e6*A_single/fasta_indices[species][ochr]:.4f}, X:{1e6*x_single/fasta_indices[species][xchr]:.4f}, Y:{1e6*y_single/fasta_indices[species][ychr]:.4f}")
 
 
+def get_HOG_ancestor(hog_sexchr_dict, species_list, sexchr, verbose=False):
+    """
+    (1) get HOG IDs list of HOGs that are sexchr-linked in only one species (for each species) and sexchr-linked in all.
+    (2) check how many are sexchr vs nonsexchr linked, make ratio of sexchr/all
+    """
+
+    ### (1) get HOG lists
+    sexchr_excl_HOGid = {}
+    for HOG_id, species_sexchr_counts in hog_sexchr_dict.items():
+        sexchr_sp_presence = [ s for s,sexchr_presence in species_sexchr_counts.items() if sexchr_presence[sexchr]>0]
+        if len(sexchr_sp_presence) == 1:
+            sp = sexchr_sp_presence[0]
+        elif len(sexchr_sp_presence)==len(species_list):
+            sp = "all"
+        else:
+            continue
+        sexchr_excl_HOGid.setdefault(sp, []).append(HOG_id)
+    
+    outdict = {}
+    for sp, hoglist in sexchr_excl_HOGid.items():
+        ratios = []
+        if sp == "all":
+            species_list_curr = species_list
+        else:
+            species_list_curr = [sp]
+        for hog in hoglist:
+            try:
+                sx = sum([hog_sexchr_dict[hog][sp][sexchr] for sp in species_list_curr])
+                all = sum([v for sp in species_list_curr for v in hog_sexchr_dict[hog][sp].values()])
+                ratios.append(sx/all)
+            except:
+                print(f"{hog}:{sp} - {hog_sexchr_dict[hog][sp]}")
+                raise RuntimeError
+        outdict[sp] = ratios
+
+    
+    if verbose:
+        ## double check numbers with upset plot --> agrees
+        print(f"mean abundance via {sexchr}-linked/all_GF_members")
+        for sp,ratio_list in outdict.items():
+            print(f" * {sp}: ({len(sexchr_excl_HOGid[sp])} gene families) = {mean(ratio_list):.3f}")
+
+
 
 if __name__ == "__main__":
     
@@ -789,17 +873,39 @@ if __name__ == "__main__":
     
 
     ### plot the upsetplot for the different chromosome categories
-    if False:
+    if True:
         ### read dict with sex chromosome 
-        mini_hog_sexchr_dict = parse_orthogroups_with_gff_class(filepath=orthogroups_file, annotations_dict=annot_dict, unassigned_genes_path=unassigned_genes_path, sex_chr_dict=sex_chromosome_contigs, miniprot_paths_dict=miniprot_dict)
+        mini_hog_sexchr_dict, parsed_gff_dict = parse_orthogroups_with_gff_class(
+            filepath=orthogroups_file, 
+            annotations_dict=annot_dict, 
+            unassigned_genes_path=unassigned_genes_path, 
+            sex_chr_dict=sex_chromosome_contigs, 
+            miniprot_paths_dict=miniprot_dict,
+            return_annotdict=True)
+
+        plot_upset=True
+
+        earliest_duplications, unassigned_geneIDs = og.parse_duplications(
+            duplications_path=f"{data_dir}/Duplications.tsv", 
+            orthogroups_path=orthogroups_file, 
+            min_support=0, 
+            remove_species_specific=False)
 
         min_intersection_size = {"X" : 20, "Y" : 0, "XY" : 0}
-        for chr in ["Y","X","XY"]:
+        for chr in ["Y","X"]:#,"XY"]:
             print(f"\n\n>>>>> {chr} <<<<<")
-            upset_HOG_sex_chromosomes(hog_sexchr_dict=mini_hog_sexchr_dict, chr_string=chr, plot_filename=f"{data_dir}/orthogroup_presence_{mini_filename}{chr}_upsetplot.png", min_intersection_size=min_intersection_size[chr])
+            if plot_upset:
+                upset_HOG_sex_chromosomes(hog_sexchr_dict=mini_hog_sexchr_dict, chr_string=chr, plot_filename=f"{data_dir}/orthogroup_presence_{mini_filename}{chr}_upsetplot.png", min_intersection_size=min_intersection_size[chr])
+            
+            ## make orthogroups list of chr-species-specific and of chr-linked-in-all-species
+            if len(chr)==1:
+                get_HOG_ancestor(
+                    hog_sexchr_dict=mini_hog_sexchr_dict, 
+                    species_list=species_order, sexchr=chr, verbose=True
+                )
 
     ### check if gene fmailies with X/Y members are on average larger
-    if True:
+    if False:
         ### make genome size adjustment factors per species 
         gf_size_correction_factors = make_GF_size_correction_factor(fai_indices_dict=fai_indices, sex_chromosome_contigs=sex_chromosome_contigs)
 
