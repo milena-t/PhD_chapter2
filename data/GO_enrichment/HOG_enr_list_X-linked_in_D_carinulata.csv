@@ -1,0 +1,35 @@
+"","GO.ID","Term","Annotated","Significant","Expected","classicFisher"
+"1","GO:0015746","citrate transport",1,1,0.01,0.0096
+"2","GO:0010889","regulation of sequestering of triglyceri...",1,1,0.01,0.0096
+"3","GO:0043433","negative regulation of DNA-binding trans...",1,1,0.01,0.0096
+"4","GO:1901475","pyruvate transmembrane transport",1,1,0.01,0.0096
+"5","GO:0071422","succinate transmembrane transport",1,1,0.01,0.0096
+"6","GO:0035674","tricarboxylic acid transmembrane transpo...",1,1,0.01,0.0096
+"7","GO:0045464","R8 cell fate specification",2,1,0.02,0.0192
+"8","GO:0048665","neuron fate specification",2,1,0.02,0.0192
+"9","GO:0043704","photoreceptor cell fate specification",2,1,0.02,0.0192
+"10","GO:0007275","multicellular organism development",221,5,2.13,0.0234
+"11","GO:1904263","positive regulation of TORC1 signaling",3,1,0.03,0.0287
+"12","GO:0007398","ectoderm development",3,1,0.03,0.0287
+"13","GO:1903432","regulation of TORC1 signaling",3,1,0.03,0.0287
+"14","GO:0007460","R8 cell fate commitment",3,1,0.03,0.0287
+"15","GO:0046628","positive regulation of insulin receptor ...",3,1,0.03,0.0287
+"16","GO:0045465","R8 cell differentiation",3,1,0.03,0.0287
+"17","GO:0006855","xenobiotic transmembrane transport",3,1,0.03,0.0287
+"18","GO:0032006","regulation of TOR signaling",3,1,0.03,0.0287
+"19","GO:0032008","positive regulation of TOR signaling",3,1,0.03,0.0287
+"20","GO:1900078","positive regulation of cellular response...",3,1,0.03,0.0287
+"21","GO:0042908","xenobiotic transport",3,1,0.03,0.0287
+"22","GO:0048856","anatomical structure development",244,5,2.35,0.0368
+"23","GO:0046626","regulation of insulin receptor signaling...",4,1,0.04,0.0381
+"24","GO:0045455","ecdysteroid metabolic process",4,1,0.04,0.0381
+"25","GO:1900076","regulation of cellular response to insul...",4,1,0.04,0.0381
+"26","GO:0031057","negative regulation of histone modificat...",4,1,0.04,0.0381
+"27","GO:0034754","cellular hormone metabolic process",4,1,0.04,0.0381
+"28","GO:0042445","hormone metabolic process",4,1,0.04,0.0381
+"29","GO:0009267","cellular response to starvation",5,1,0.05,0.0475
+"30","GO:0008202","steroid metabolic process",5,1,0.05,0.0475
+"31","GO:0031668","cellular response to extracellular stimu...",5,1,0.05,0.0475
+"32","GO:0031669","cellular response to nutrient levels",5,1,0.05,0.0475
+"33","GO:0038202","TORC1 signaling",5,1,0.05,0.0475
+"34","GO:0042180","cellular ketone metabolic process",5,1,0.05,0.0475

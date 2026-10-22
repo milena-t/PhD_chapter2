@@ -1,0 +1,29 @@
+"","GO.ID","Term","Annotated","Significant","Expected","classicFisher"
+"1","GO:0008380","RNA splicing",8,2,0.19,0.013
+"2","GO:0000398","mRNA splicing, via spliceosome",8,2,0.19,0.013
+"3","GO:0000375","RNA splicing, via transesterification re...",8,2,0.19,0.013
+"4","GO:0000377","RNA splicing, via transesterification re...",8,2,0.19,0.013
+"5","GO:0006397","mRNA processing",10,2,0.24,0.02
+"6","GO:0006119","oxidative phosphorylation",1,1,0.02,0.024
+"7","GO:0070584","mitochondrion morphogenesis",1,1,0.02,0.024
+"8","GO:0009593","detection of chemical stimulus",1,1,0.02,0.024
+"9","GO:0008053","mitochondrial fusion",1,1,0.02,0.024
+"10","GO:0022900","electron transport chain",1,1,0.02,0.024
+"11","GO:0022904","respiratory electron transport chain",1,1,0.02,0.024
+"12","GO:0042773","ATP synthesis coupled electron transport",1,1,0.02,0.024
+"13","GO:0042775","mitochondrial ATP synthesis coupled elec...",1,1,0.02,0.024
+"14","GO:0050907","detection of chemical stimulus involved ...",1,1,0.02,0.024
+"15","GO:0010821","regulation of mitochondrion organization",1,1,0.02,0.024
+"16","GO:0010635","regulation of mitochondrial fusion",1,1,0.02,0.024
+"17","GO:0050911","detection of chemical stimulus involved ...",1,1,0.02,0.024
+"18","GO:0016071","mRNA metabolic process",11,2,0.26,0.024
+"19","GO:0006396","RNA processing",14,2,0.33,0.039
+"20","GO:0006139","nucleobase-containing compound metabolic...",95,5,2.25,0.043
+"21","GO:0001895","retina homeostasis",2,1,0.05,0.047
+"22","GO:0009205","purine ribonucleoside triphosphate metab...",2,1,0.05,0.047
+"23","GO:0046034","ATP metabolic process",2,1,0.05,0.047
+"24","GO:0007608","sensory perception of smell",2,1,0.05,0.047
+"25","GO:0072347","response to anesthetic",2,1,0.05,0.047
+"26","GO:0009144","purine nucleoside triphosphate metabolic...",2,1,0.05,0.047
+"27","GO:0009199","ribonucleoside triphosphate metabolic pr...",2,1,0.05,0.047
+"28","GO:0045494","photoreceptor cell maintenance",2,1,0.05,0.047

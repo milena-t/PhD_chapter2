@@ -1,0 +1,58 @@
+"","GO.ID","Term","Annotated","Significant","Expected","classicFisher"
+"1","GO:0006367","transcription initiation at RNA polymera...",2,2,0.1,0.0023
+"2","GO:0019752","carboxylic acid metabolic process",11,3,0.54,0.0125
+"3","GO:0071824","protein-DNA complex subunit organization",4,2,0.2,0.0128
+"4","GO:0045893","positive regulation of DNA-templated tra...",21,4,1.04,0.0137
+"5","GO:1903508","positive regulation of nucleic acid-temp...",21,4,1.04,0.0137
+"6","GO:0043933","protein-containing complex organization",21,4,1.04,0.0137
+"7","GO:0051254","positive regulation of RNA metabolic pro...",21,4,1.04,0.0137
+"8","GO:1902680","positive regulation of RNA biosynthetic ...",21,4,1.04,0.0137
+"9","GO:0043436","oxoacid metabolic process",12,3,0.59,0.0162
+"10","GO:0006082","organic acid metabolic process",12,3,0.59,0.0162
+"11","GO:0045935","positive regulation of nucleobase-contai...",22,4,1.08,0.0163
+"12","GO:0010557","positive regulation of macromolecule bio...",24,4,1.18,0.0222
+"13","GO:0045944","positive regulation of transcription by ...",14,3,0.69,0.0252
+"14","GO:0031328","positive regulation of cellular biosynth...",25,4,1.23,0.0257
+"15","GO:0009891","positive regulation of biosynthetic proc...",25,4,1.23,0.0257
+"16","GO:0010628","positive regulation of gene expression",26,4,1.28,0.0295
+"17","GO:0065003","protein-containing complex assembly",15,3,0.74,0.0306
+"18","GO:0006950","response to stress",40,5,1.97,0.0329
+"19","GO:0008152","metabolic process",157,12,7.74,0.0387
+"20","GO:1990748","cellular detoxification",1,1,0.05,0.0493
+"21","GO:0097164","ammonium ion metabolic process",1,1,0.05,0.0493
+"22","GO:0031334","positive regulation of protein-containin...",1,1,0.05,0.0493
+"23","GO:0045898","regulation of RNA polymerase II transcri...",1,1,0.05,0.0493
+"24","GO:0045899","positive regulation of RNA polymerase II...",1,1,0.05,0.0493
+"25","GO:0009445","putrescine metabolic process",1,1,0.05,0.0493
+"26","GO:0009446","putrescine biosynthetic process",1,1,0.05,0.0493
+"27","GO:0030588","pseudocleavage",1,1,0.05,0.0493
+"28","GO:0030589","pseudocleavage involved in syncytial bla...",1,1,0.05,0.0493
+"29","GO:0045454","cell redox homeostasis",1,1,0.05,0.0493
+"30","GO:0044106","cellular amine metabolic process",1,1,0.05,0.0493
+"31","GO:0098869","cellular oxidant detoxification",1,1,0.05,0.0493
+"32","GO:0006591","ornithine metabolic process",1,1,0.05,0.0493
+"33","GO:0006595","polyamine metabolic process",1,1,0.05,0.0493
+"34","GO:0006596","polyamine biosynthetic process",1,1,0.05,0.0493
+"35","GO:0040001","establishment of mitotic spindle localiz...",1,1,0.05,0.0493
+"36","GO:0035092","sperm DNA condensation",1,1,0.05,0.0493
+"37","GO:0035498","carnosine metabolic process",1,1,0.05,0.0493
+"38","GO:0009308","amine metabolic process",1,1,0.05,0.0493
+"39","GO:0009309","amine biosynthetic process",1,1,0.05,0.0493
+"40","GO:0043409","negative regulation of MAPK cascade",1,1,0.05,0.0493
+"41","GO:0042401","cellular biogenic amine biosynthetic pro...",1,1,0.05,0.0493
+"42","GO:0070303","negative regulation of stress-activated ...",1,1,0.05,0.0493
+"43","GO:0098754","detoxification",1,1,0.05,0.0493
+"44","GO:0006576","cellular biogenic amine metabolic proces...",1,1,0.05,0.0493
+"45","GO:0032873","negative regulation of stress-activated ...",1,1,0.05,0.0493
+"46","GO:0043254","regulation of protein-containing complex...",1,1,0.05,0.0493
+"47","GO:0046329","negative regulation of JNK cascade",1,1,0.05,0.0493
+"48","GO:0030433","ubiquitin-dependent ERAD pathway",1,1,0.05,0.0493
+"49","GO:0051123","RNA polymerase II preinitiation complex ...",1,1,0.05,0.0493
+"50","GO:0060260","regulation of transcription initiation b...",1,1,0.05,0.0493
+"51","GO:0070897","transcription preinitiation complex asse...",1,1,0.05,0.0493
+"52","GO:0060261","positive regulation of transcription ini...",1,1,0.05,0.0493
+"53","GO:0036503","ERAD pathway",1,1,0.05,0.0493
+"54","GO:0033387","putrescine biosynthetic process from orn...",1,1,0.05,0.0493
+"55","GO:0000387","spliceosomal snRNP assembly",1,1,0.05,0.0493
+"56","GO:2000142","regulation of DNA-templated transcriptio...",1,1,0.05,0.0493
+"57","GO:2000144","positive regulation of DNA-templated tra...",1,1,0.05,0.0493

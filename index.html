@@ -3189,7 +3189,6 @@ The min. sequence identity threshold is 95%, for min intron length see methods s
     'D_sublineata': 6}</code></pre>
         </p>
     </div>
-    <p><span style="color:#BD351E">Investigate the species-exclusive OGs? GO-term enrichment?</span></p>
 </div>
 
 <div style="float: right;width: 48%;">
@@ -3240,6 +3239,122 @@ The min. sequence identity threshold is 95%, for min intron length see methods s
     <i>B. siliquastri</i> the number of species-exclusive X-linked genes even decreases. This can be the case if an orthogroup member 
     in another species that was previously only autosomal has an X-linked miniprot paralog (e.g. <i>B. siliquastri</i> and <i>B. varius</i> X-linked genes increase).
 </p>
+
+<h4>GO-enrichment of X-linked orthogroups</h4>
+
+<p>
+    GO-enrichment of select upset intersections on a gene family level. This is only X-linked gene families because the enrichment doesn't work for the Y linked ones, 
+    there are too few annotated genes I think so the stats don't work out, I will check at some point.
+</p>
+
+<p style="color: #BD351E;"><i>D. carinulata</i>-exclusive X-linked genes have an enrichment for insulin/TOR signaling!</p>
+
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'go_hog_x_all')">X-linked in all</button>
+    <button class="tablinks" onclick="openTab(event, 'HOG_enr_list_X_linked_in_A_obtectus')"><i>A. obtectus</i></button>
+    <button class="tablinks" onclick="openTab(event, 'HOG_enr_list_X_linked_in_B_siliquastri')"><i>B. siliquastri</i></button>
+    <button class="tablinks" onclick="openTab(event, 'HOG_enr_list_X_linked_in_B_varius')"><i>B. varius</i></button>
+    <button class="tablinks" onclick="openTab(event, 'HOG_enr_list_X_linked_in_C_chinensis')"><i>C. chinensis</i></button>
+    <button class="tablinks" onclick="openTab(event, 'HOG_enr_list_X_linked_in_C_maculatus')"><i>C. maculatus</i></button>
+    <button class="tablinks" onclick="openTab(event, 'HOG_enr_list_X_linked_in_D_carinulata')"><i>D. carinulata</i></button>
+    <button class="tablinks" onclick="openTab(event, 'HOG_enr_list_X_linked_in_D_sublineata')"><i>D. sublineata</i></button>
+</div>
+
+<div id="go_hog_x_all" class="tabcontent">
+    <div style="float: left;width: 60%;">
+        <p><img loading="lazy" src="data/GO_enrichment/HOG_enr_list_X-linked_in_all.png" width="98%" /></p>
+    </div>
+    <div style="float: right;width: 38%;">
+        <p><code>data/GO_enrichment/HOG_enr_list_X-linked_in_all.csv</code></p>
+        <div id="HOG_enr_list_X_linked_in_all_gotable" class="tableframe"></div>
+        <script>loadCSVTable("data/GO_enrichment/HOG_enr_list_X-linked_in_all.csv", "HOG_enr_list_X_linked_in_all_gotable");</script>
+    </div>
+    <div style="clear: both;"></div>
+</div>
+
+<div id="HOG_enr_list_X_linked_in_A_obtectus" class="tabcontent">
+    <div style="float: left;width: 60%;">
+        <p><img loading="lazy" src="data/GO_enrichment/HOG_enr_list_X-linked_in_A_obtectus.png" width="98%" /></p>
+    </div>
+    <div style="float: right;width: 38%;">
+        <p><code>data/GO_enrichment/HOG_enr_list_X-linked_in_A_obtectus.csv</code></p>
+        <div id="HOG_enr_list_X_linked_in_A_obtectus_gotable" class="tableframe"></div>
+        <script>loadCSVTable("data/GO_enrichment/HOG_enr_list_X-linked_in_A_obtectus.csv", "HOG_enr_list_X_linked_in_A_obtectus_gotable");</script>
+    </div>
+    <div style="clear: both;"></div>
+</div>
+
+<div id="HOG_enr_list_X_linked_in_B_siliquastri" class="tabcontent">
+    <div style="float: left;width: 60%;">
+        <p><img loading="lazy" src="data/GO_enrichment/HOG_enr_list_X-linked_in_B_siliquastri.png" width="98%" /></p>
+    </div>
+    <div style="float: right;width: 38%;">
+        <p><code>data/GO_enrichment/HOG_enr_list_X-linked_in_B_siliquastri.csv</code></p>
+        <div id="HOG_enr_list_X_linked_in_B_siliquastri_gotable" class="tableframe"></div>
+        <script>loadCSVTable("data/GO_enrichment/HOG_enr_list_X-linked_in_B_siliquastri.csv", "HOG_enr_list_X_linked_in_B_siliquastri_gotable");</script>
+    </div>
+    <div style="clear: both;"></div>
+</div>
+
+<div id="HOG_enr_list_X_linked_in_B_varius" class="tabcontent">
+    <div style="float: left;width: 60%;">
+        <p><img loading="lazy" src="data/GO_enrichment/HOG_enr_list_X-linked_in_B_varius.png" width="98%" /></p>
+    </div>
+    <div style="float: right;width: 38%;">
+        <p><code>data/GO_enrichment/HOG_enr_list_X-linked_in_B_varius.csv</code></p>
+        <div id="HOG_enr_list_X_linked_in_B_varius_gotable" class="tableframe"></div>
+        <script>loadCSVTable("data/GO_enrichment/HOG_enr_list_X-linked_in_B_varius.csv", "HOG_enr_list_X_linked_in_B_varius_gotable");</script>
+    </div>
+    <div style="clear: both;"></div>
+</div>
+
+<div id="HOG_enr_list_X_linked_in_C_chinensis" class="tabcontent">
+    <div style="float: left;width: 60%;">
+        <p><img loading="lazy" src="data/GO_enrichment/HOG_enr_list_X-linked_in_C_chinensis.png" width="98%" /></p>
+    </div>
+    <div style="float: right;width: 38%;">
+        <p><code>data/GO_enrichment/HOG_enr_list_X-linked_in_C_chinensis.csv</code></p>
+        <div id="HOG_enr_list_X_linked_in_C_chinensis_gotable" class="tableframe"></div>
+        <script>loadCSVTable("data/GO_enrichment/HOG_enr_list_X-linked_in_C_chinensis.csv", "HOG_enr_list_X_linked_in_C_chinensis_gotable");</script>
+    </div>
+    <div style="clear: both;"></div>
+</div>
+
+<div id="HOG_enr_list_X_linked_in_C_maculatus" class="tabcontent">
+    <div style="float: left;width: 60%;">
+        <p><img loading="lazy" src="data/GO_enrichment/HOG_enr_list_X-linked_in_C_maculatus.png" width="98%" /></p>
+    </div>
+    <div style="float: right;width: 38%;">
+        <p><code>data/GO_enrichment/HOG_enr_list_X-linked_in_C_maculatus.csv</code></p>
+        <div id="HOG_enr_list_X_linked_in_C_maculatus_gotable" class="tableframe"></div>
+        <script>loadCSVTable("data/GO_enrichment/HOG_enr_list_X-linked_in_C_maculatus.csv", "HOG_enr_list_X_linked_in_C_maculatus_gotable");</script>
+    </div>
+    <div style="clear: both;"></div>
+</div>
+
+<div id="HOG_enr_list_X_linked_in_D_carinulata" class="tabcontent">
+    <div style="float: left;width: 60%;">
+        <p><img loading="lazy" src="data/GO_enrichment/HOG_enr_list_X-linked_in_D_carinulata.png" width="98%" /></p>
+    </div>
+    <div style="float: right;width: 38%;">
+        <p><code>data/GO_enrichment/HOG_enr_list_X-linked_in_D_carinulata.csv</code></p>
+        <div id="HOG_enr_list_X_linked_in_D_carinulata_gotable" class="tableframe"></div>
+        <script>loadCSVTable("data/GO_enrichment/HOG_enr_list_X-linked_in_D_carinulata.csv", "HOG_enr_list_X_linked_in_D_carinulata_gotable");</script>
+    </div>
+    <div style="clear: both;"></div>
+</div>
+
+<div id="HOG_enr_list_X_linked_in_D_sublineata" class="tabcontent">
+    <div style="float: left;width: 60%;">
+        <p><img loading="lazy" src="data/GO_enrichment/HOG_enr_list_X-linked_in_D_sublineata.png" width="98%" /></p>
+    </div>
+    <div style="float: right;width: 38%;">
+        <p><code>data/GO_enrichment/HOG_enr_list_X-linked_in_D_sublineata.csv</code></p>
+        <div id="HOG_enr_list_X_linked_in_D_sublineata_gotable" class="tableframe"></div>
+        <script>loadCSVTable("data/GO_enrichment/HOG_enr_list_X-linked_in_D_sublineata.csv", "HOG_enr_list_X_linked_in_D_sublineata_gotable");</script>
+    </div>
+    <div style="clear: both;"></div>
+</div>
 
 <h4>Orthologs that are on the X and Y chromosome</h4>
 

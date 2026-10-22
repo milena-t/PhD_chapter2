@@ -1,0 +1,20 @@
+"","GO.ID","Term","Annotated","Significant","Expected","classicFisher"
+"1","GO:0048468","cell development",58,55,48.29,0.0028
+"2","GO:0040011","locomotion",27,27,22.48,0.0048
+"3","GO:0032989","cellular component morphogenesis",22,22,18.32,0.0138
+"4","GO:0007267","cell-cell signaling",22,22,18.32,0.0138
+"5","GO:0000902","cell morphogenesis",21,21,17.48,0.017
+"6","GO:0050793","regulation of developmental process",19,19,15.82,0.0256
+"7","GO:0048609","multicellular organismal reproductive pr...",37,35,30.8,0.0277
+"8","GO:0044703","multi-organism reproductive process",37,35,30.8,0.0277
+"9","GO:0019953","sexual reproduction",37,35,30.8,0.0277
+"10","GO:0032504","multicellular organism reproduction",37,35,30.8,0.0277
+"11","GO:0000904","cell morphogenesis involved in different...",18,18,14.99,0.0314
+"12","GO:0051239","regulation of multicellular organismal p...",17,17,14.15,0.0384
+"13","GO:0009628","response to abiotic stimulus",17,17,14.15,0.0384
+"14","GO:0000003","reproduction",42,39,34.97,0.0435
+"15","GO:0022414","reproductive process",42,39,34.97,0.0435
+"16","GO:0022008","neurogenesis",34,32,28.31,0.0451
+"17","GO:0006812","cation transport",16,16,13.32,0.0469
+"18","GO:0030855","epithelial cell differentiation",16,16,13.32,0.0469
+"19","GO:0048736","appendage development",16,16,13.32,0.0469

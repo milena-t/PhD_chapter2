@@ -1,0 +1,33 @@
+"","GO.ID","Term","Annotated","Significant","Expected","classicFisher"
+"1","GO:0042273","ribosomal large subunit biogenesis",2,2,0.08,0.0016
+"2","GO:0010639","negative regulation of organelle organiz...",3,2,0.12,0.0046
+"3","GO:0019935","cyclic-nucleotide-mediated signaling",4,2,0.16,0.009
+"4","GO:0032268","regulation of cellular protein metabolic...",37,5,1.52,0.0113
+"5","GO:0051246","regulation of protein metabolic process",38,5,1.56,0.0127
+"6","GO:0019538","protein metabolic process",90,8,3.71,0.013
+"7","GO:1901564","organonitrogen compound metabolic proces...",111,9,4.57,0.0133
+"8","GO:0006325","chromatin organization",25,4,1.03,0.0139
+"9","GO:0040029","epigenetic regulation of gene expression",14,3,0.58,0.0155
+"10","GO:0044260","cellular macromolecule metabolic process",125,9,5.15,0.031
+"11","GO:0036211","protein modification process",66,6,2.72,0.0352
+"12","GO:0043412","macromolecule modification",67,6,2.76,0.0377
+"13","GO:0048644","muscle organ morphogenesis",1,1,0.04,0.0412
+"14","GO:0033313","meiotic cell cycle checkpoint signaling",1,1,0.04,0.0412
+"15","GO:0046958","nonassociative learning",1,1,0.04,0.0412
+"16","GO:0046959","habituation",1,1,0.04,0.0412
+"17","GO:0140053","mitochondrial gene expression",1,1,0.04,0.0412
+"18","GO:0051445","regulation of meiotic cell cycle",1,1,0.04,0.0412
+"19","GO:0051447","negative regulation of meiotic cell cycl...",1,1,0.04,0.0412
+"20","GO:0051784","negative regulation of nuclear division",1,1,0.04,0.0412
+"21","GO:2000757","negative regulation of peptidyl-lysine a...",1,1,0.04,0.0412
+"22","GO:0040020","regulation of meiotic nuclear division",1,1,0.04,0.0412
+"23","GO:0060912","cardiac cell fate specification",1,1,0.04,0.0412
+"24","GO:0051598","meiotic recombination checkpoint signali...",1,1,0.04,0.0412
+"25","GO:0060415","muscle tissue morphogenesis",1,1,0.04,0.0412
+"26","GO:0032543","mitochondrial translation",1,1,0.04,0.0412
+"27","GO:0045835","negative regulation of meiotic nuclear d...",1,1,0.04,0.0412
+"28","GO:0031057","negative regulation of histone modificat...",1,1,0.04,0.0412
+"29","GO:0000470","maturation of LSU-rRNA",1,1,0.04,0.0412
+"30","GO:0035067","negative regulation of histone acetylati...",1,1,0.04,0.0412
+"31","GO:1901984","negative regulation of protein acetylati...",1,1,0.04,0.0412
+"32","GO:0051172","negative regulation of nitrogen compound...",35,4,1.44,0.0447

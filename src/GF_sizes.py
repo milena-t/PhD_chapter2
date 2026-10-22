@@ -791,14 +791,14 @@ def compute_single_copy_GF_stats(chr_sizes,O_sizes, fasta_indices):
         print(f"\t\t --> A:{1e6*A_single/fasta_indices[species][ochr]:.4f}, X:{1e6*x_single/fasta_indices[species][xchr]:.4f}, Y:{1e6*y_single/fasta_indices[species][ychr]:.4f}")
 
 
-def get_HOG_ancestor(hog_sexchr_dict, species_list, sexchr, verbose=False):
+def make_HOG_enr_lists(hog_sexchr_dict, species_list, sexchr, enrichment_filename_prefix):
     """
-    (1) get HOG IDs list of HOGs that are sexchr-linked in only one species (for each species) and sexchr-linked in all.
-    (2) check how many are sexchr vs nonsexchr linked, make ratio of sexchr/all
+    make hog lists for go enrichment
     """
 
     ### (1) get HOG lists
     sexchr_excl_HOGid = {}
+    background_HOGid = {}
     for HOG_id, species_sexchr_counts in hog_sexchr_dict.items():
         sexchr_sp_presence = [ s for s,sexchr_presence in species_sexchr_counts.items() if sexchr_presence[sexchr]>0]
         if len(sexchr_sp_presence) == 1:
@@ -806,32 +806,33 @@ def get_HOG_ancestor(hog_sexchr_dict, species_list, sexchr, verbose=False):
         elif len(sexchr_sp_presence)==len(species_list):
             sp = "all"
         else:
+            for s in sexchr_sp_presence:
+                if sum(hog_sexchr_dict[HOG_id][s].values())>0:
+                    background_HOGid.setdefault(s, []).append(HOG_id)    
             continue
         sexchr_excl_HOGid.setdefault(sp, []).append(HOG_id)
     
-    outdict = {}
-    for sp, hoglist in sexchr_excl_HOGid.items():
-        ratios = []
-        if sp == "all":
-            species_list_curr = species_list
+    outfile_header = "geneID,sig_DE\n"
+    for sp, fg_hoglist in sexchr_excl_HOGid.items():
+
+        # make background of all bg and non-current foreground
+        if sp in background_HOGid:
+            bg_hoglist = background_HOGid[sp]
         else:
-            species_list_curr = [sp]
-        for hog in hoglist:
-            try:
-                sx = sum([hog_sexchr_dict[hog][sp][sexchr] for sp in species_list_curr])
-                all = sum([v for sp in species_list_curr for v in hog_sexchr_dict[hog][sp].values()])
-                ratios.append(sx/all)
-            except:
-                print(f"{hog}:{sp} - {hog_sexchr_dict[hog][sp]}")
-                raise RuntimeError
-        outdict[sp] = ratios
+            bg_hoglist =[]
+        bg_hoglist.extend([i for s,l in sexchr_excl_HOGid.items() if s != sp for i in l])
+
+        enr_filename = f"{enrichment_filename_prefix}_{sp}.txt"
+        with open(enr_filename, "w") as hog_enr_file:
+            hog_enr_file.write(outfile_header)
+            for hog in fg_hoglist:
+                hog_enr_file.write(f"{hog},1\n")
+            for hog in bg_hoglist:
+                hog_enr_file.write(f"{hog},0\n")
+        print(f"\nfile written to:\n - {enr_filename}")
+        
 
     
-    if verbose:
-        ## double check numbers with upset plot --> agrees
-        print(f"mean abundance via {sexchr}-linked/all_GF_members")
-        for sp,ratio_list in outdict.items():
-            print(f" * {sp}: ({len(sexchr_excl_HOGid[sp])} gene families) = {mean(ratio_list):.3f}")
 
 
 
@@ -883,7 +884,7 @@ if __name__ == "__main__":
             miniprot_paths_dict=miniprot_dict,
             return_annotdict=True)
 
-        plot_upset=True
+        plot_upset=False
 
         earliest_duplications, unassigned_geneIDs = og.parse_duplications(
             duplications_path=f"{data_dir}/Duplications.tsv", 
@@ -899,9 +900,10 @@ if __name__ == "__main__":
             
             ## make orthogroups list of chr-species-specific and of chr-linked-in-all-species
             if len(chr)==1:
-                get_HOG_ancestor(
+                make_HOG_enr_lists(
                     hog_sexchr_dict=mini_hog_sexchr_dict, 
-                    species_list=species_order, sexchr=chr, verbose=True
+                    species_list=species_order, sexchr=chr, 
+                    enrichment_filename_prefix=f"/Users/{username}/work/PhD_code/PhD_chapter2/data/GO_enrichment/HOG_enr_list_{chr}-linked_in"
                 )
 
     ### check if gene fmailies with X/Y members are on average larger

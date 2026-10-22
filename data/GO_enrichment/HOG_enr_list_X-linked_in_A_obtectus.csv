@@ -1,0 +1,42 @@
+"","GO.ID","Term","Annotated","Significant","Expected","classicFisher"
+"1","GO:0006308","DNA catabolic process",3,2,0.09,0.0025
+"2","GO:0034660","ncRNA metabolic process",4,2,0.12,0.0049
+"3","GO:0003333","amino acid transmembrane transport",5,2,0.15,0.008
+"4","GO:0014070","response to organic cyclic compound",5,2,0.15,0.008
+"5","GO:0046942","carboxylic acid transport",7,2,0.21,0.0163
+"6","GO:0009410","response to xenobiotic stimulus",1,1,0.03,0.0306
+"7","GO:0032196","transposition",1,1,0.03,0.0306
+"8","GO:0010528","regulation of transposition",1,1,0.03,0.0306
+"9","GO:0010529","negative regulation of transposition",1,1,0.03,0.0306
+"10","GO:0045022","early endosome to late endosome transpor...",1,1,0.03,0.0306
+"11","GO:0051560","mitochondrial calcium ion homeostasis",1,1,0.03,0.0306
+"12","GO:0072383","plus-end-directed vesicle transport alon...",1,1,0.03,0.0306
+"13","GO:0072386","plus-end-directed organelle transport al...",1,1,0.03,0.0306
+"14","GO:0045665","negative regulation of neuron differenti...",1,1,0.03,0.0306
+"15","GO:0010353","response to trehalose",1,1,0.03,0.0306
+"16","GO:0035074","pupation",1,1,0.03,0.0306
+"17","GO:0047496","vesicle transport along microtubule",1,1,0.03,0.0306
+"18","GO:0006851","mitochondrial calcium ion transmembrane ...",1,1,0.03,0.0306
+"19","GO:0098927","vesicle-mediated transport between endos...",1,1,0.03,0.0306
+"20","GO:1990511","piRNA biosynthetic process",1,1,0.03,0.0306
+"21","GO:0031000","response to caffeine",1,1,0.03,0.0306
+"22","GO:0014074","response to purine-containing compound",1,1,0.03,0.0306
+"23","GO:0042480","negative regulation of eye photoreceptor...",1,1,0.03,0.0306
+"24","GO:0140024","plus-end-directed endosome transport alo...",1,1,0.03,0.0306
+"25","GO:0034587","piRNA metabolic process",1,1,0.03,0.0306
+"26","GO:0050912","detection of chemical stimulus involved ...",1,1,0.03,0.0306
+"27","GO:0050916","sensory perception of sweet taste",1,1,0.03,0.0306
+"28","GO:0043279","response to alkaloid",1,1,0.03,0.0306
+"29","GO:1990822","basic amino acid transmembrane transport",1,1,0.03,0.0306
+"30","GO:0046533","negative regulation of photoreceptor cel...",1,1,0.03,0.0306
+"31","GO:0098586","cellular response to virus",1,1,0.03,0.0306
+"32","GO:0034285","response to disaccharide",1,1,0.03,0.0306
+"33","GO:0009597","detection of virus",1,1,0.03,0.0306
+"34","GO:0036270","response to diuretic",1,1,0.03,0.0306
+"35","GO:0009744","response to sucrose",1,1,0.03,0.0306
+"36","GO:0001582","detection of chemical stimulus involved ...",1,1,0.03,0.0306
+"37","GO:0045316","negative regulation of compound eye phot...",1,1,0.03,0.0306
+"38","GO:0099518","vesicle cytoskeletal trafficking",1,1,0.03,0.0306
+"39","GO:1901698","response to nitrogen compound",10,2,0.31,0.0333
+"40","GO:0098656","anion transmembrane transport",11,2,0.34,0.04
+"41","GO:0015711","organic anion transport",12,2,0.37,0.0472

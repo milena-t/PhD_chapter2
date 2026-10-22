@@ -67,12 +67,15 @@ make_annotation_df_from_eggnog <- function(annotation_path){
 
     return(annotation_df)
 }
-
-annotation_path="/Users/miltr339/work/chapter2/eggnog/Dcar_eggnog_diamond.emapper.annotations" # created from the eggnogmapper output with /Users/miltr339/work/PhD_code/PhD_chapter4/src/make_annot_with_geneIDs.py
+# created from the eggnogmapper output with /Users/miltr339/work/PhD_code/PhD_chapter4/src/make_annot_with_geneIDs.py
 # maybe this has the "_1" suffix in the proteinID that gffread (i think?) adds, then this wont work
 # remove it with (inplace editing):
 # sed -i '' -E $'s/^([^\t]*)_1(\t|$)/\\1\\2/' file.tsv
+```
 
+transcript annotations
+```{r}
+annotation_path="/Users/miltr339/work/chapter2/eggnog/Dcar_eggnog_diamond.emapper.annotations" # created from the eggnogmapper output with /Users/miltr339/work/PhD_code/PhD_chapter4/src/make_annot_with_geneIDs.py
 annotation_df <- make_annotation_df_from_eggnog(annotation_path)
 ```
 
@@ -98,11 +101,6 @@ D_carinulata_hog_annot <- make_annotation_df_from_eggnog(D_carinulata_hog_annot_
 
 D_sublineata_hog_annot_path <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/D_sublineata_HOG_GO_annotations.tsv"
 D_sublineata_hog_annot <- make_annotation_df_from_eggnog(D_sublineata_hog_annot_path)
-
-T_castaneum_hog_annot_path <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/T_castaneum_HOG_GO_annotations.tsv"
-T_castaneum_hog_annot <- make_annotation_df_from_eggnog(T_castaneum_hog_annot_path)
-
-
 ```
 
 ## run enrichment
@@ -119,7 +117,7 @@ GO_enrichment_analysis <- function(sig_infile, annotation_df, semantic_clusterin
   sigs_num <- length(geneList[geneList==1])
 
   ## only run if there are at least 10 significantly differentially expressed genes! # nolint
-  if (sigs_num > 9){
+  if (sigs_num > 5){
     gene2GO <- annotation_df[names(annotation_df) %in% names(geneList)]
     ## create topGO object
     # ontology = BP means that it's all biological process level GOs
@@ -165,32 +163,51 @@ sig_list = "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/Dcar_a
 GO_enrichment_analysis(sig_infile = sig_list, annotation_df = annotation_df, semantic_clustering=TRUE)
 ```
 
-
-analyze GO term enrichment from upsetplot intersection lists
+enrichment for gene families from upsetplot intersections
 ```{r}
-semantic_clistering_from_table <- function(sig_infile){
-  # prepare input data
-  sig_df <- read.csv(sig_infile, sep="\t", header=FALSE)
-  go_ids <- sig_df$V1
-  sigs_num <- length(go_ids)
+### X-linked
+infile <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/HOG_enr_list_X-linked_in_A_obtectus.txt"
+GO_enrichment_analysis(sig_infile = infile, annotation_df = A_obtectus_hog_annot, semantic_clustering=TRUE)
+infile <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/HOG_enr_list_X-linked_in_B_siliquastri.txt"
+GO_enrichment_analysis(sig_infile = infile, annotation_df = B_siliquastri_hog_annot, semantic_clustering=TRUE)
+infile <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/HOG_enr_list_X-linked_in_B_varius.txt"
+GO_enrichment_analysis(sig_infile = infile, annotation_df = B_varius_hog_annot, semantic_clustering=TRUE)
+infile <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/HOG_enr_list_X-linked_in_C_chinensis.txt"
+GO_enrichment_analysis(sig_infile = infile, annotation_df = C_chinensis_hog_annot, semantic_clustering=TRUE)
+infile <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/HOG_enr_list_X-linked_in_C_maculatus.txt"
+GO_enrichment_analysis(sig_infile = infile, annotation_df = C_maculatus_hog_annot, semantic_clustering=TRUE)
+infile <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/HOG_enr_list_X-linked_in_D_carinulata.txt"
+GO_enrichment_analysis(sig_infile = infile, annotation_df = D_carinulata_hog_annot, semantic_clustering=TRUE)
+infile <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/HOG_enr_list_X-linked_in_D_sublineata.txt"
+GO_enrichment_analysis(sig_infile = infile, annotation_df = D_sublineata_hog_annot, semantic_clustering=TRUE)
 
-  ## only run if there are at least 10 significantly differentially expressed genes! # nolint
-  if (sigs_num > 9){
-    outfile_name <- str_replace(sig_infile, ".txt", ".png") 
-
-    ## make enrichment visualization
-    # use simplifyEnrichment
-    mat <- GO_similarity(go_ids, ont = "BP")  # biological process (BP) like above! needs to match
-    # do the clustering, this takes quite a while
-    png(outfile_name, width = 10, height = 8, units = "in", res = 300)
-    df <- simplifyGO(mat, use_raster = FALSE)
-    dev.off()
-  }
-}
+## use the Dcar annotation since it has the most annotated gene families overall
+infile <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/HOG_enr_list_X-linked_in_all.txt"
+GO_enrichment_analysis(sig_infile = infile, annotation_df = D_carinulata_hog_annot, semantic_clustering=TRUE)
 ```
 
-Full dataset line fixed effect: genes that are sex-biased on all days
+
 ```{r}
-sig_list = "/Users/miltr339/work/PhD_code/PhD_chapter4/data/DE_figures_python/GO_enrichment/upsetplot_GO_terms_no_separation_line_random_line_ign_alldays.txt"
-semantic_clistering_from_table(sig_infile=sig_list)
+### Y-linked
+infile <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/HOG_enr_list_Y-linked_in_A_obtectus.txt"
+GO_enrichment_analysis(sig_infile = infile, annotation_df = A_obtectus_hog_annot, semantic_clustering=FALSE)
+
+infile <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/HOG_enr_list_Y-linked_in_B_siliquastri.txt"
+GO_enrichment_analysis(sig_infile = infile, annotation_df = B_siliquastri_hog_annot, semantic_clustering=FALSE)
+
+infile <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/HOG_enr_list_Y-linked_in_B_varius.txt"
+GO_enrichment_analysis(sig_infile = infile, annotation_df = B_varius_hog_annot, semantic_clustering=FALSE)
+
+infile <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/HOG_enr_list_Y-linked_in_C_chinensis.txt"
+GO_enrichment_analysis(sig_infile = infile, annotation_df = C_chinensis_hog_annot, semantic_clustering=FALSE)
+
+infile <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/HOG_enr_list_Y-linked_in_C_maculatus.txt"
+GO_enrichment_analysis(sig_infile = infile, annotation_df = C_maculatus_hog_annot, semantic_clustering=FALSE)
+
+infile <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/HOG_enr_list_Y-linked_in_D_carinulata.txt"
+GO_enrichment_analysis(sig_infile = infile, annotation_df = D_carinulata_hog_annot, semantic_clustering=FALSE)
+
+infile <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/HOG_enr_list_Y-linked_in_D_sublineata.txt"
+GO_enrichment_analysis(sig_infile = infile, annotation_df = D_sublineata_hog_annot, semantic_clustering=FALSE)
+
 ```

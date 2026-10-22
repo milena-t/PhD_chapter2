@@ -1,0 +1,60 @@
+"","GO.ID","Term","Annotated","Significant","Expected","classicFisher"
+"1","GO:0048812","neuron projection morphogenesis",29,5,0.95,0.0011
+"2","GO:0048667","cell morphogenesis involved in neuron di...",30,5,0.99,0.0013
+"3","GO:0051254","positive regulation of RNA metabolic pro...",34,5,1.12,0.0024
+"4","GO:0018990","ecdysis, chitin-based cuticle",3,2,0.1,0.0029
+"5","GO:0010557","positive regulation of macromolecule bio...",38,5,1.25,0.004
+"6","GO:0031328","positive regulation of cellular biosynth...",40,5,1.31,0.0051
+"7","GO:0007218","neuropeptide signaling pathway",4,2,0.13,0.0057
+"8","GO:0048149","behavioral response to ethanol",4,2,0.13,0.0057
+"9","GO:1902680","positive regulation of RNA biosynthetic ...",33,4,1.08,0.0158
+"10","GO:1903508","positive regulation of nucleic acid-temp...",33,4,1.08,0.0158
+"11","GO:0046677","response to antibiotic",7,2,0.23,0.0189
+"12","GO:0051493","regulation of cytoskeleton organization",7,2,0.23,0.0189
+"13","GO:0030036","actin cytoskeleton organization",20,3,0.66,0.0222
+"14","GO:0030029","actin filament-based process",20,3,0.66,0.0222
+"15","GO:0007015","actin filament organization",8,2,0.26,0.0247
+"16","GO:0042051","compound eye photoreceptor development",8,2,0.26,0.0247
+"17","GO:0042462","eye photoreceptor cell development",8,2,0.26,0.0247
+"18","GO:0008045","motor neuron axon guidance",8,2,0.26,0.0247
+"19","GO:0031032","actomyosin structure organization",8,2,0.26,0.0247
+"20","GO:0007611","learning or memory",21,3,0.69,0.0254
+"21","GO:0051247","positive regulation of protein metabolic...",21,3,0.69,0.0254
+"22","GO:0050890","cognition",21,3,0.69,0.0254
+"23","GO:0050877","nervous system process",40,4,1.31,0.031
+"24","GO:0010628","positive regulation of gene expression",40,4,1.31,0.031
+"25","GO:0048813","dendrite morphogenesis",9,2,0.3,0.0312
+"26","GO:0016358","dendrite development",9,2,0.3,0.0312
+"27","GO:0008354","germ cell migration",9,2,0.3,0.0312
+"28","GO:0007411","axon guidance",23,3,0.76,0.0325
+"29","GO:0097485","neuron projection guidance",23,3,0.76,0.0325
+"30","GO:0007409","axonogenesis",23,3,0.76,0.0325
+"31","GO:0000288","nuclear-transcribed mRNA catabolic proce...",1,1,0.03,0.0328
+"32","GO:0000289","nuclear-transcribed mRNA poly(A) tail sh...",1,1,0.03,0.0328
+"33","GO:1903313","positive regulation of mRNA metabolic pr...",1,1,0.03,0.0328
+"34","GO:0060211","regulation of nuclear-transcribed mRNA p...",1,1,0.03,0.0328
+"35","GO:0060213","positive regulation of nuclear-transcrib...",1,1,0.03,0.0328
+"36","GO:0061157","mRNA destabilization",1,1,0.03,0.0328
+"37","GO:0007366","periodic partitioning by pair rule gene",1,1,0.03,0.0328
+"38","GO:0006919","activation of cysteine-type endopeptidas...",1,1,0.03,0.0328
+"39","GO:0043280","positive regulation of cysteine-type end...",1,1,0.03,0.0328
+"40","GO:0043281","regulation of cysteine-type endopeptidas...",1,1,0.03,0.0328
+"41","GO:0050779","RNA destabilization",1,1,0.03,0.0328
+"42","GO:0000956","nuclear-transcribed mRNA catabolic proce...",1,1,0.03,0.0328
+"43","GO:1900151","regulation of nuclear-transcribed mRNA c...",1,1,0.03,0.0328
+"44","GO:1900153","positive regulation of nuclear-transcrib...",1,1,0.03,0.0328
+"45","GO:0061014","positive regulation of mRNA catabolic pr...",1,1,0.03,0.0328
+"46","GO:0006355","regulation of DNA-templated transcriptio...",62,5,2.04,0.0347
+"47","GO:0006351","DNA-templated transcription",63,5,2.07,0.0371
+"48","GO:2001141","regulation of RNA biosynthetic process",63,5,2.07,0.0371
+"49","GO:1903506","regulation of nucleic acid-templated tra...",63,5,2.07,0.0371
+"50","GO:0042461","photoreceptor cell development",10,2,0.33,0.0383
+"51","GO:0097659","nucleic acid-templated transcription",64,5,2.1,0.0395
+"52","GO:0032774","RNA biosynthetic process",64,5,2.1,0.0395
+"53","GO:0061564","axon development",25,3,0.82,0.0407
+"54","GO:0006935","chemotaxis",25,3,0.82,0.0407
+"55","GO:0007616","long-term memory",11,2,0.36,0.0459
+"56","GO:0009636","response to toxic substance",11,2,0.36,0.0459
+"57","GO:0009952","anterior/posterior pattern specification",11,2,0.36,0.0459
+"58","GO:0003008","system process",45,4,1.48,0.0462
+"59","GO:2000112","regulation of cellular macromolecule bio...",67,5,2.2,0.0475
