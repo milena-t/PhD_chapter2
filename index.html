@@ -639,13 +639,25 @@ coleoptera_samples/chinensis-M3new_ref.bam.idxstats </code></pre>
 
 </ul>
 
+<h2 id="funcannot">Functional annotation and GO enrichment</h2>
 
+<p>
+    I want to run a GO enrichment on the level of orthogroups to see if e.g. orthogroups that are Y-linked have different functions than the rest of the genome, 
+    but if i just group this by individual genes, I will bias the analysis towards large gene families. Therefore I will summarize transcript GO-terms annotated 
+    with eggnog mapper for each gene family in a species, and then run the enrichment for each species with gene families.
+</p>
 
+<p><pre><code>    C. maculatus : 14631 transcript IDs, 11127 orthogroups, 5862 of which have functional annotations
+    C. chinensis : 13270 transcript IDs, 10600 orthogroups, 5842 of which have functional annotations
+    A. obtectus : 14393 transcript IDs, 10614 orthogroups, 5805 of which have functional annotations
+    B. siliquastri : 14495 transcript IDs, 11033 orthogroups, 6075 of which have functional annotations
+    B. varius : 12185 transcript IDs, 9979 orthogroups, 5644 of which have functional annotations
+    D. carinulata : 11786 transcript IDs, 10669 orthogroups, 6132 of which have functional annotations
+    D. sublineata : 11598 transcript IDs, 10459 orthogroups, 6114 of which have functional annotations</code></pre></p>
 
 
 
 <h1 id="results">Results</h1>
-
 
 <h2 id="basic-stats">Basic summary statistics</h2>
 

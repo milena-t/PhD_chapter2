@@ -76,6 +76,34 @@ annotation_path="/Users/miltr339/work/chapter2/eggnog/Dcar_eggnog_diamond.emappe
 annotation_df <- make_annotation_df_from_eggnog(annotation_path)
 ```
 
+Transcript-level GO annotations
+```{r}
+A_obtectus_hog_annot_path <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/A_obtectus_HOG_GO_annotations.tsv"
+A_obtectus_hog_annot <- make_annotation_df_from_eggnog(A_obtectus_hog_annot_path)
+
+B_siliquastri_hog_annot_path <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/B_siliquastri_HOG_GO_annotations.tsv"
+B_siliquastri_hog_annot <- make_annotation_df_from_eggnog(B_siliquastri_hog_annot_path)
+
+B_varius_hog_annot_path <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/B_varius_HOG_GO_annotations.tsv"
+B_varius_hog_annot <- make_annotation_df_from_eggnog(B_varius_hog_annot_path)
+
+C_chinensis_hog_annot_path <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/C_chinensis_HOG_GO_annotations.tsv"
+C_chinensis_hog_annot <- make_annotation_df_from_eggnog(C_chinensis_hog_annot_path)
+
+C_maculatus_hog_annot_path <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/C_maculatus_HOG_GO_annotations.tsv"
+C_maculatus_hog_annot <- make_annotation_df_from_eggnog(C_maculatus_hog_annot_path)
+
+D_carinulata_hog_annot_path <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/D_carinulata_HOG_GO_annotations.tsv"
+D_carinulata_hog_annot <- make_annotation_df_from_eggnog(D_carinulata_hog_annot_path)
+
+D_sublineata_hog_annot_path <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/D_sublineata_HOG_GO_annotations.tsv"
+D_sublineata_hog_annot <- make_annotation_df_from_eggnog(D_sublineata_hog_annot_path)
+
+T_castaneum_hog_annot_path <- "/Users/miltr339/work/PhD_code/PhD_chapter2/data/GO_enrichment/T_castaneum_HOG_GO_annotations.tsv"
+T_castaneum_hog_annot <- make_annotation_df_from_eggnog(T_castaneum_hog_annot_path)
+
+
+```
 
 ## run enrichment
 
