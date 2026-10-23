@@ -3701,13 +3701,34 @@ The min. sequence identity threshold is 95%, for min intron length see methods s
 <p>
     Does X-linkage regulate sex-specific expression patterns? make a Boxplot of log2FC vals in different categories of genes in...
     <ul>
-        <li>exclusively autosomal gene families</li>
-        <li>autosomal members of X-linked gene families</li>
+        <li>
+            exclusively autosomal gene families (comparison, e.g. reproductive tissues are always slightly female-biased, but mind that 
+            this is by magnitude, not significant genes)
+        </li>
+        <li>autosomal members of X-linked gene families (only one expressed &rarr; no conclusion)</li>
         <li>X-linked genes that are in X-linked gene families in all species</li>
         <li>X-linked genes that are X-linked only in <i>C. maculatus</i></li>
     </ul>
-
 </p>
+
+<div style="float:left;width:48%;">
+    <p float="right"><img loading="lazy" src="data/DE_analysis/logFC_boxplot_X_ab.png" width="80%" /></p>
+    <p>
+        All members of X-linked gene families are female-biased (except the one A member of the conserved X-linked gene families), 
+        even the autosomal members of the species-specific X-linked gene families.
+    </p>
+    <p>
+        The autosomal members of the X and Y-linked gene families are male biased, but the X-linked members of the same gene families are female-biased.
+    </p>
+</div>
+<div style="float:right;width:48%">
+    <p float="right"><img loading="lazy" src="data/DE_analysis/logFC_boxplot_X_ht.png" width="80%" /></p>
+    <p>
+        Mostly unbiased, but the X-linked members of both conserved and species-specific X-linked gene families are more male-biased?
+    </p>
+</div>
+<div style="clear:both"></div>
+
 
 <h3>Y-linked gene families</h3>
 
@@ -3720,6 +3741,20 @@ The min. sequence identity threshold is 95%, for min intron length see methods s
         <li>autosomal members of X and Y-linked gene families</li>
     </ul>
 </p>
+
+<div style="float:left;width:48%;">
+    <p float="right"><img loading="lazy" src="data/DE_analysis/logFC_boxplot_Y_ab.png" width="80%" /></p>
+    <p>
+        Autosomal members of y-linked gene families are more male biased
+    </p>
+</div>
+<div style="float:right;width:48%">
+    <p float="right"><img loading="lazy" src="data/DE_analysis/logFC_boxplot_Y_ht.png" width="80%" /></p>
+    <p>
+        Autosomal members of y-linked gene families are more male biased
+    </p>
+</div>
+<div style="clear:both"></div>
 
 
 
