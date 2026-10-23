@@ -18,7 +18,7 @@ def logFC_files_dict(username="miltr339"):
     return outdict
 
 
-def plot_logFC_change(hog_sexchr_dict, parsed_gff_dict, logFC_dict, sexchr = "X", outfile = "", species = "C_maculatus"):
+def plot_logFC_change(hog_sexchr_dict, parsed_gff_dict, logFC_dict, N0_file, species_sexchr_dict, sexchr = "X", outfile = "", species = "C_maculatus",):
     """
     partition the geneIDs by their gene family assignment into groups and plot the logFC boxplots for them
     sort into: 
@@ -41,6 +41,8 @@ def plot_logFC_change(hog_sexchr_dict, parsed_gff_dict, logFC_dict, sexchr = "X"
 
     for hog , species_sexchr_linkage in hog_sexchr_dict.items():
         hog_species = list(species_sexchr_linkage.keys())
+        if species not in hog_species:
+            continue
         # count in how many species the HOG is sex-linked
         sexchr_link_count = sum([1 for s,linkd in species_sexchr_linkage.items() if linkd[sexchr] >0 and linkd[other_sexchr]==0])
         A_link_count = sum([1 for s,linkd in species_sexchr_linkage.items() if linkd["O"] >0 and linkd[sexchr]==0 and linkd[other_sexchr]==0])
@@ -56,6 +58,59 @@ def plot_logFC_change(hog_sexchr_dict, parsed_gff_dict, logFC_dict, sexchr = "X"
     
     for c,l in hog_class_dict.items():
         print(f"{c} : {len(l)} HOGs")
+    print(f"---------------------------------")
+
+    ## sort genes from orthogroup classes
+    annot_placed_dict = og.parse_orthogroups_dict(filepath=N0_file, species_list=[species], OG_header="HOG")
+    gene_class_dict = {
+        "A_in_A_gf" : [],
+        
+        f"A_in_{sexchr}_all_gf" : [],
+        f"X_in_{sexchr}_all_gf" : [],        ## always genes on X !! sex-bias in Y is not very informative
+        
+        f"A_in_{sexchr}_{species}_gf" : [],
+        f"X_in_{sexchr}_{species}_gf" : [],  ## always genes on X !! sex-bias in Y is not very informative
+
+        f"A_in_{sexchr}{other_sexchr}_all_gf" : [],
+        f"X_in_{sexchr}{other_sexchr}_{species}_gf" : [],  ## always genes on X !! sex-bias in Y is not very informative
+    }
+
+    for hog_category, hog_list in hog_class_dict.items():
+        for hog in hog_list:
+            for sp,tr_string in annot_placed_dict[hog].items():
+                assert sp == species
+                tr_list = tr_string.split(", ")
+                for trID in tr_list:
+                    tr_contig = "A"
+                    for sc, clist in species_sexchr_dict.items():
+                        if parsed_gff_dict[trID].contig in clist:
+                            tr_contig=sc
+
+                    if tr_contig=="Y":
+                        continue
+                    gID = parsed_gff_dict[trID].parent_id
+
+                    if hog_category == "A" and tr_contig == "A":
+                        gene_class_dict["A_in_A_gf"].append(gID)
+
+                    if hog_category == f"{sexchr}_all" and tr_contig == "A":
+                        gene_class_dict[f"A_in_{sexchr}_all_gf"].append(gID)
+                    if hog_category == f"{sexchr}_all" and tr_contig == "X":
+                        gene_class_dict[f"X_in_{sexchr}_all_gf"].append(gID) 
+                    if hog_category == f"{sexchr}_{species}" and tr_contig == "A":
+                        gene_class_dict[f"A_in_{sexchr}_{species}_gf"].append(gID)
+                    if hog_category == f"{sexchr}_{species}" and tr_contig == "X":
+                        gene_class_dict[f"X_in_{sexchr}_{species}_gf"].append(gID) 
+                    if hog_category ==  f"{sexchr}{other_sexchr}_{species}" and tr_contig == "A":
+                        gene_class_dict[f"A_in_{sexchr}{other_sexchr}_all_gf"].append(gID)
+                    if hog_category ==  f"{sexchr}{other_sexchr}_{species}" and tr_contig == "X":
+                        gene_class_dict[f"X_in_{sexchr}{other_sexchr}_{species}_gf"].append(gID) 
+
+    for c,l in gene_class_dict.items():
+        print(f"{c} : {len(l)} genes, {l[:10]}...")
+    print(f"---------------------------------")
+
+    
 
 
 
@@ -92,21 +147,24 @@ if __name__ == "__main__":
         else:
             miniprot_dict = {}
 
-        hog_sexchr_dict, parsed_gff_dict = parse_orthogroups_with_gff_class(
+        hog_sexchr_dict,_ = parse_orthogroups_with_gff_class(
             filepath=orthogroups_file, 
             annotations_dict=annot_dict,  
             sex_chr_dict=sex_chromosome_contigs, 
             miniprot_paths_dict=miniprot_dict,
             return_annotdict=True)
 
-
+        focal_species ="C_maculatus"
+        species_full_GFFdict = gff.parse_gff3_general(filepath=annot_dict[focal_species], verbose=False)
         for sexchr in ["X", "Y"]:
-            print(f"\n\n>>>>> {sexchr} <<<<<")
+            print(f"\n\n>>>>>>>>>>>>>>> {sexchr} <<<<<<<<<<<<<<<")
             plot_logFC_change(
                 hog_sexchr_dict=hog_sexchr_dict, 
-                parsed_gff_dict=parsed_gff_dict, 
+                parsed_gff_dict=species_full_GFFdict, 
                 logFC_dict=logfc_files,
-                sexchr = sexchr, species="C_maculatus",
+                species_sexchr_dict = sex_chromosome_contigs[focal_species],
+                sexchr = sexchr, species=focal_species,
+                N0_file = orthogroups_file,
                 outfile=f"{outdir}/logFC_boxplot_{sexchr}.png"
             )
         
