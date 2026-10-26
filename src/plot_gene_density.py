@@ -8,6 +8,7 @@ import miniprot_stats_comparison as minialn
 import parse_gff as gff
 from statistics import mean
 from scipy.stats import sem
+from scipy.stats import spearmanr
 import matplotlib.pyplot as plt
 from circos.make_circos_karyotype_file import autosomes_lists
 from matplotlib.ticker import FuncFormatter
@@ -217,7 +218,8 @@ def plot_gene_density_vs_GS(gene_density_dict, annot,  outfile_name = "", chromo
         fontsize=fs*0.8, color=colors_dict["vtext"]
     )
     x_offset = {c:i*max(GS_list)/150 for c,i in zip(chromosome_categories,range(-1,2))}
-
+    
+    print(f"----------------------------------------------------")
     for i,cat in enumerate(chromosome_categories):
         gene_density = [0.0 for s in species_names]
         gd_errors = [0.0 for s in species_names]
@@ -234,7 +236,7 @@ def plot_gene_density_vs_GS(gene_density_dict, annot,  outfile_name = "", chromo
                 gd_errors[j] = sem(gene_density_dict[species][cat])
         x_coord = [i+x_offset[cat] for i in GS_list]
         # ax.plot(xtick_pos, mean_list, label = legend_label[cat], color = colors[cat], linewidth = 4) 
-        print(f"\t{cat}: {gene_density}")
+        # print(f"\t{cat}: {gene_density}")
 
         ax.scatter(x_coord, gene_density, color = colors_dict[cat], s=ps, label = legend_label[cat])
         ax.errorbar(x_coord, gene_density, yerr=gd_errors, 
@@ -243,7 +245,12 @@ def plot_gene_density_vs_GS(gene_density_dict, annot,  outfile_name = "", chromo
             capsize=4, elinewidth=lw, 
             linestyle = ":", linewidth =lw*0.5)
         # ax.errorbar(xtick_pos, mean_list, yerr = stderr_list, color=colors[cat], linewidth =3, marker = ".", markersize=20, linestyle = ":", label = legend_label[cat])
-
+        
+        ## calculate spearman correlation
+        statistic, pval = spearmanr(a=x_coord, b=gene_density, alternative="greater")
+        print(f"\t- Spearman's correlation for {cat}: $rho$ = {statistic:.3f}, p = {pval:.3f}")
+    print(f"----------------------------------------------------")    
+    
     ax.yaxis.set_major_formatter(FuncFormatter(lambda x, pos: '' if x > 1 else f'{x*100.0:.0f}\%'))
     ylab = f"gene density"
     ax.set_ylabel(ylab, fontsize = fs)
@@ -263,6 +270,52 @@ def plot_gene_density_vs_GS(gene_density_dict, annot,  outfile_name = "", chromo
     print("Figure saved as: "+outfile_annot)
 
 
+
+def calcuate_spearman_genecounts(genome_sizes, annot_path_dict, sex_chromosomes_dict, chromosome_categories = ["A", "X", "Y"]):
+    species_list = list(genome_sizes.keys())
+
+    gene_counts = {s : {"A":0, "X":0, "Y":0} for s in genome_sizes}
+    for species in species_list:
+        if plot_miniprot:
+            ann = minialn.miniprot_parse_alignment(miniprot_file=annot_path_dict[species], queryIDs=False)
+            for id, minipar in ann.items():
+                try:
+                    contig = minipar.contig
+                except:
+                    print(minipar)
+                    raise RuntimeError
+                if contig in sex_chromosomes_dict[species]["X"]:
+                    gene_counts[species]["X"] += 1
+                elif contig in sex_chromosomes_dict[species]["Y"]:
+                    gene_counts[species]["Y"] += 1
+                else:
+                    gene_counts[species]["A"] += 1
+        else:
+            ann = gff.parse_gff3_by_contig(annot_path_dict[species], verbose=False)
+            for contig,genelist in ann.items():
+                if contig in sex_chromosomes_dict[species]["X"]:
+                    gene_counts[species]["X"] += len(genelist)
+                elif contig in sex_chromosomes_dict[species]["Y"]:
+                    gene_counts[species]["Y"] += len(genelist)
+                else:
+                    gene_counts[species]["A"] += len(genelist)
+
+    # print(gene_counts)
+
+    print(f"----------------------------------------------------")
+    for cat in chromosome_categories:
+        gs = [genome_sizes[s] for s in species_list]
+        # print(f"genome size : {gs}")
+        gc = [gene_counts[s][cat] for s in species_list]
+        # print(f"gene count : {gc}")
+        statistic, pval = spearmanr(a=gs, b=gc, alternative="greater")
+        print(f"\t- Spearman's correlation for {cat}: $rho$ = {statistic:.3f}, p = {pval:.3f}")
+    print(f"----------------------------------------------------")
+
+
+
+
+
 if __name__ == "__main__":
     username = "miltr339"
     faidx_dicts,_ = fasta_indices(username=username)
@@ -279,54 +332,68 @@ if __name__ == "__main__":
 
     plot_miniprot = False
 
+    if False:
 
-    for species, miniprot_path in miniprot_dict.items():
-        print(f"\n====================== {species} ======================")
+        for species, miniprot_path in miniprot_dict.items():
+            print(f"\n====================== {species} ======================")
+            if plot_miniprot:
+                annot_path = miniprot_path
+                get_gene_counts = False
+                annot="mini"
+            else:
+                annot_path = annot_path_dict[species]
+                get_gene_counts = True
+                annot="gene"
+            
+            gene_densities[species], gene_counts[species] = calculate_gene_density(
+                contig_lengths=faidx_dicts[species], 
+                species_gff=annot_path,
+                sex_chromosomes=sex_chromosomes_dict[species],
+                autosomes=autosomes_dict[species], 
+                miniprot=plot_miniprot, get_gene_counts=get_gene_counts
+                )
+            
+            if plot_miniprot:
+                for chr_category, density_list in gene_densities[species].items():
+                    gene_count = gene_counts[species][chr_category]
+                    try:
+                        print(f" - {chr_category} : {mean(density_list):.4f} bp annotated as exons")
+                    except:
+                        print(f" - {chr_category} : NA, ({len(density_list)} contigs)")
+
+            else:
+                for chr_category, density_list in gene_densities[species].items():
+                    gene_count = gene_counts[species][chr_category]
+                    try:
+                        print(f" - {chr_category} : {mean(density_list):.3f} bp annotated as exons ({len(density_list)} contigs), (avg. {mean(gene_count)*1000000:.3f} genes per Mb)")
+                    except:
+                        print(f" - {chr_category} : NA, ({len(density_list)} contigs)")
+
+
+        # plot_gene_density(
+        #     gene_density_dict=gene_densities, annot=annot, 
+        #     outfile_name=f"{data_dir}sex_chromosome_gene_density.png",
+        #     chromosome_categories = ["A", "X", "Y"])
+
         if plot_miniprot:
-            annot_path = miniprot_path
-            get_gene_counts = False
-            annot="mini"
+            legend_loc = "center left"
         else:
-            annot_path = annot_path_dict[species]
-            get_gene_counts = True
-            annot="gene"
-        
-        gene_densities[species], gene_counts[species] = calculate_gene_density(
-            contig_lengths=faidx_dicts[species], 
-            species_gff=annot_path,
-            sex_chromosomes=sex_chromosomes_dict[species],
-            autosomes=autosomes_dict[species], 
-            miniprot=plot_miniprot, get_gene_counts=get_gene_counts
-            )
-        
+            legend_loc = "center"
+
         if plot_miniprot:
-            for chr_category, density_list in gene_densities[species].items():
-                gene_count = gene_counts[species][chr_category]
-                try:
-                    print(f" - {chr_category} : {mean(density_list):.4f} bp annotated as exons")
-                except:
-                    print(f" - {chr_category} : NA, ({len(density_list)} contigs)")
-
+            print(f"\ncalcluate spearman correlation of genome size vs. miniprot paralog gene densities...")
         else:
-            for chr_category, density_list in gene_densities[species].items():
-                gene_count = gene_counts[species][chr_category]
-                try:
-                    print(f" - {chr_category} : {mean(density_list):.3f} bp annotated as exons ({len(density_list)} contigs), (avg. {mean(gene_count)*1000000:.3f} genes per Mb)")
-                except:
-                    print(f" - {chr_category} : NA, ({len(density_list)} contigs)")
+            print(f"\ncalcluate spearman correlation of genome size vs. densities of annotated genes...")
 
+        plot_gene_density_vs_GS(
+            gene_density_dict=gene_densities, annot=annot, # species_names=list(genome_sizes.keys()),
+            outfile_name=f"{data_dir}sex_chromosome_gene_density_vs_GS.png",
+            chromosome_categories = ["A", "X", "Y"],genome_sizes=genome_sizes, legend_loc=legend_loc)
 
-    # plot_gene_density(
-    #     gene_density_dict=gene_densities, annot=annot, 
-    #     outfile_name=f"{data_dir}sex_chromosome_gene_density.png",
-    #     chromosome_categories = ["A", "X", "Y"])
 
     if plot_miniprot:
-        legend_loc = "center left"
+        print(f"\ncalcluate spearman correlation of genome size vs. miniprot paralog gene counts...")
+        calcuate_spearman_genecounts(genome_sizes=genome_sizes, annot_path_dict=miniprot_dict, sex_chromosomes_dict=sex_chromosomes_dict)
     else:
-        legend_loc = "center"
-
-    plot_gene_density_vs_GS(
-        gene_density_dict=gene_densities, annot=annot, # species_names=list(genome_sizes.keys()),
-        outfile_name=f"{data_dir}sex_chromosome_gene_density_vs_GS.png",
-        chromosome_categories = ["A", "X", "Y"],genome_sizes=genome_sizes, legend_loc=legend_loc)
+        print(f"\ncalcluate spearman correlation of genome size vs. counts of annotated genes...")
+        calcuate_spearman_genecounts(genome_sizes=genome_sizes, annot_path_dict=annot_path_dict, sex_chromosomes_dict=sex_chromosomes_dict)

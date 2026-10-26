@@ -266,8 +266,7 @@ class MiniAln:
     """
     read miniprot alignment data 
     """
-    def __init__(self, ID:str, target:str, rank:int, identity:float, contig:str, start:int, end:int, child_ids_list:list[str]
-                 ) -> None:
+    def __init__(self, ID:str, target:str, rank:int, identity:float, contig:str, start:int, end:int, child_ids_list:list[str] = None) -> None:
         self.ID=ID
         self.target=target
         self.rank=rank

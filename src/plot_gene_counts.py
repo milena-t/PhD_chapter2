@@ -13,6 +13,9 @@ import linkage_groups as lg
 from sex_chromosomes import get_contig_names
 import miniprot_stats_comparison as minialn
 from pairwise_wga_heatmap import fasta_indices
+from scipy.stats import spearmanr
+
+
 
 def annotations_dict(username="miltr339"):
     dirname = f"/Users/{username}/work/chapter2/native_annotations"
