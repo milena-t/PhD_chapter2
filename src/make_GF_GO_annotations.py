@@ -8,6 +8,9 @@ from sex_chromosomes import get_contig_names
 import plot_gene_counts as data_paths
 import pandas as pd
 from collections import defaultdict
+import parse_gff as gff
+from GF_sizes import parse_orthogroups_with_gff_class
+
 
 def eggnog_paths(username="miltr339"):
     datadir = f"/Users/{username}/work/chapter2/eggnog/"
@@ -78,6 +81,33 @@ def get_orthogroups_lookup_dict(orthogroups_path, species):
     return outdict
 
 
+def make_species_Y_linkage_table(eggnog_paths, sex_chromosome_contigs, annot_dict,filename_prefix):
+    """
+    make files with functional annotation info for Y-linked genes
+    """
+
+    header_list = ["#query","seed_ortholog","evalue","score","eggNOG_OGs","max_annot_lvl","COG_category","Description","Preferred_name","GOs","EC","KEGG_ko","KEGG_Pathway","KEGG_Module","KEGG_Reaction","KEGG_rclass","BRITE","KEGG_TC","CAZy","BiGG_Reaction","PFAMs"]
+    
+    for species, eggnog_path in eggnog_paths.items():
+
+        print(f"\n=========================== {species} ===========================")
+
+        df = pd.read_csv(eggnog_path, sep="\t", comment="#", names=header_list)
+        ann = gff.parse_gff3_general(annot_dict[species], verbose=False, keep_feature_category=gff.FeatureCategory.Transcript)
+
+        df["Y_linked"] = df["#query"].apply(lambda x : ann[x].contig  in sex_chromosome_contigs[species]["Y"])
+        df.drop(columns=["seed_ortholog","evalue","score","eggNOG_OGs","max_annot_lvl","COG_category","GOs","EC","KEGG_ko","KEGG_Pathway","KEGG_Module","KEGG_Reaction","KEGG_rclass","BRITE","KEGG_TC","CAZy","BiGG_Reaction","PFAMs"], inplace=True)
+        
+        # df.set_index("#query", drop=True, inplace=True)
+        species_ = species.replace("_",". ")
+        df.rename(columns={"#query" : f"{species_} transcript ID"}, inplace=True)
+        df_Y = df[df["Y_linked"] & (df["Description"] != "-")]
+        df_Y.drop(columns=["Y_linked"], inplace=True)
+        print(df_Y)
+
+        df_Y.to_csv(f"{filename_prefix}_{species}.csv", index=False)
+
+
 if __name__ == "__main__":
     
     username="miltr339"
@@ -101,8 +131,18 @@ if __name__ == "__main__":
     ]
 
 
-    for species in species_order:
-        print(f"\n---<>--> {species}")
-        trIDs_lookup = get_orthogroups_lookup_dict(orthogroups_path = orthogroups_file, species=species)
-        make_gf_eggnog(eggnog_path=eggnog_dict[species], trID_hog_lookup=trIDs_lookup, outfile_name=f"{outdir}{species}_HOG_GO_annotations.tsv")
-        
+    #### actually make annotations
+    if False:
+        for species in species_order:
+            print(f"\n---<>--> {species}")
+            trIDs_lookup = get_orthogroups_lookup_dict(orthogroups_path = orthogroups_file, species=species)
+            make_gf_eggnog(eggnog_path=eggnog_dict[species], trID_hog_lookup=trIDs_lookup, outfile_name=f"{outdir}{species}_HOG_GO_annotations.tsv")
+    
+    ### make tables of Y-linked annotations per species
+    ## TODO continue here
+    make_species_Y_linkage_table(
+        eggnog_paths = {s : eggnog_dict[s] for s in species_order}, 
+        sex_chromosome_contigs=sex_chromosome_contigs, 
+        annot_dict=annot_dict, 
+        filename_prefix=f"{outdir}Y_linked_genes_annotation"
+    )
