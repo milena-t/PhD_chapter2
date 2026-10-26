@@ -8,8 +8,9 @@ import parse_gff as gff
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
+from matplotlib.ticker import FuncFormatter
 
-def plot_single_exon_no_species_specific_three_annot(native_numbers, miniprot_numbers, species_names, filename = ""):
+def plot_single_exon_proportion(native_numbers, miniprot_numbers, species_names, filename = ""):
 
     print(f" plotting for these {len(species_names)} species: \n{species_names}")
 
@@ -88,7 +89,9 @@ def plot_single_exon_no_species_specific_three_annot(native_numbers, miniprot_nu
     xtick_labels = [species.replace("_", ". ") for species in species_names]
     ax.set_xlabel('', fontsize=fs+4)
     ax.set_xticklabels([f"\\textit{{{species}}}" for species in xtick_labels], rotation=90, fontsize=fs)
-    ax.set_yticklabels([f'{int(tick)/1e3:.0f}k' for tick in ax.get_yticks()], fontsize=fs)
+    # ax.set_yticklabels([f'{int(tick)/1e3:.0f}k' for tick in ax.get_yticks()], fontsize=fs)
+    ax.tick_params(axis='y', labelsize=fs)
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda x, pos: f'{int(x/1e3)}k'))
 
     # make custom legend patch for the dashed bars
     plt.rcParams.update({'hatch.color': "#3f3832ff"})
@@ -438,7 +441,7 @@ if __name__ == "__main__":
         print()
 
         data_dir = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/single_exon_stats"
-        plot_single_exon_no_species_specific_three_annot(native_numbers=SE_numbers_native, miniprot_numbers=SE_numbers_miniprot, species_names=native_annot.keys(), filename = f"{data_dir}/single_exon_proportions.png")
+        plot_single_exon_proportion(native_numbers=SE_numbers_native, miniprot_numbers=SE_numbers_miniprot, species_names=native_annot.keys(), filename = f"{data_dir}/single_exon_proportions.png")
 
     if False:
         counts_dict = {}
