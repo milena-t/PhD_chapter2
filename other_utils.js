@@ -29,19 +29,21 @@ function loadCSVTable(csvPath, elementId) {
   Papa.parse(csvPath, {
     download: true,
     header: false,
+    skipEmptyLines: true,
     complete: function(results) {
       const rows = results.data;
-      let html = "<table style='width:100%; border-collapse:collapse;'>";
+      let html = "<div style='overflow-x:auto;'>";
+      html += "<table style='border-collapse:collapse;'>";
 
       rows.forEach(row => {
         html += "<tr>";
         row.forEach(cell => {
-          html += `<td style="border:1px solid #ccc; padding:4px;">${cell}</td>`;
+          html += `<td style="border:1px solid #ccc; padding:4px; white-space:nowrap;">${cell}</td>`;
         });
         html += "</tr>";
       });
 
-      html += "</table>";
+      html += "</table></div>";
       document.getElementById(elementId).innerHTML = html;
     }
   });
