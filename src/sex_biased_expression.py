@@ -127,14 +127,14 @@ def plot_logFC_change(hog_sexchr_dict, parsed_gff_dict, logFC_path, N0_file, spe
 
         colors_dict = {
             "Y_fill" : "#495E83", # dusk blue
-            "Y_edge" : "#374C6E", # dusk blue darker
+            "Y_edge" : "#30425F", # yale blue
             "Y_medians" : "#A7CCED", # icy blue
             "X_fill" : "#AB354A", # cherry rose
             "X_edge" : "#771C2C", # dark amaranth
             "X_medians" : "#EA9AA9", # cotton candy
-            "O_fill" : "#F2933A", # dusty lavender
-            "O_edge" : "#C36711", # mauve shadow
-            "O_medians" : "#FFBB7C", # lilac ash
+            "O_fill" : "#F2933A", # orange
+            "O_edge" : "#BC6310", # orange
+            "O_medians" : "#FFBB7C", # orange
         }
         
         species_ = species.replace("_", ". ")
