@@ -96,13 +96,15 @@ def make_species_Y_linkage_table(eggnog_paths, sex_chromosome_contigs, annot_dic
         ann = gff.parse_gff3_general(annot_dict[species], verbose=False, keep_feature_category=gff.FeatureCategory.Transcript)
 
         df["Y_linked"] = df["#query"].apply(lambda x : ann[x].contig  in sex_chromosome_contigs[species]["Y"])
-        df.drop(columns=["seed_ortholog","evalue","score","eggNOG_OGs","max_annot_lvl","COG_category","GOs","EC","KEGG_ko","KEGG_Pathway","KEGG_Module","KEGG_Reaction","KEGG_rclass","BRITE","KEGG_TC","CAZy","BiGG_Reaction","PFAMs"], inplace=True)
+        df["Description_fix"] = df["Description"].apply(lambda x : x.replace("_", "\_").replace(',','').replace('"','')) ## escape underscore so i can automatically generate latex tables
+        df["#query"] = df["#query"].apply(lambda x : x.replace("_", "\_"))
+        df.drop(columns=["seed_ortholog","evalue","score","eggNOG_OGs","max_annot_lvl","COG_category","Description","GOs","EC","KEGG_ko","KEGG_Pathway","KEGG_Module","KEGG_Reaction","KEGG_rclass","BRITE","KEGG_TC","CAZy","BiGG_Reaction","PFAMs"], inplace=True)
         
         # df.set_index("#query", drop=True, inplace=True)
-        species_ = species.replace("_",". ")
-        df.rename(columns={"#query" : f"{species_} transcript ID"}, inplace=True)
-        df_Y = df[df["Y_linked"] & (df["Description"] != "-")]
+        df.rename(columns={"#query" : "transcript ID", "Preferred_name" : "name", "Description_fix" : "description"}, inplace=True)
+        df_Y = df[df["Y_linked"] & (df["description"] != "-")]
         df_Y.drop(columns=["Y_linked"], inplace=True)
+        df_Y = df_Y[["transcript ID","description","name"]]
         print(df_Y)
 
         df_Y.to_csv(f"{filename_prefix}_{species}.csv", index=False)
@@ -139,7 +141,6 @@ if __name__ == "__main__":
             make_gf_eggnog(eggnog_path=eggnog_dict[species], trID_hog_lookup=trIDs_lookup, outfile_name=f"{outdir}{species}_HOG_GO_annotations.tsv")
     
     ### make tables of Y-linked annotations per species
-    ## TODO continue here
     make_species_Y_linkage_table(
         eggnog_paths = {s : eggnog_dict[s] for s in species_order}, 
         sex_chromosome_contigs=sex_chromosome_contigs, 

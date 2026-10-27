@@ -1,47 +1,47 @@
-D. sublineata transcript ID,Description,Preferred_name
-rna-XM_056791329.1,Ribonuclease H protein,-
-rna-XM_056791337.1,Ribonuclease H protein,-
-rna-XM_056791338.1,Pao retrotransposon peptidase,-
-rna-XM_056791339.1,nucleic acid binding,-
-rna-XM_056791347.1,Transposase protein,-
-rna-XM_056791348.1,Ribonuclease H protein,-
-rna-XM_056791349.1,Pao retrotransposon peptidase,-
-rna-XM_056791350.1,nucleic acid binding,-
-rna-XM_056791316.1,Proteasome subunit beta,Prosbeta5
-rna-XM_056791355.1,Integrase core domain,-
-rna-XM_056791356.1,MYND finger,-
-rna-XM_056791357.1,Gag P30 core shell protein,-
-rna-XM_056791358.1,Gag P30 core shell protein,-
-rna-XM_056791361.1,KRAB-A domain containing 2,-
-rna-XM_056791314.1,K02A2.6-like,-
-rna-XM_056791363.1,K02A2.6-like,-
-rna-XM_056791365.1,Pao retrotransposon peptidase,-
-rna-XM_056791243.1,Ribonuclease H protein,-
-rna-XM_056791244.1,52 kDa repressor of the inhibitor of the protein,Prkrir
-rna-XM_056791246.1,Pao retrotransposon peptidase,-
-rna-XM_056791247.1,"DNA-binding transcription factor activity, RNA polymerase II-specific",-
-rna-XM_056791248.1,DDE superfamily endonuclease,-
-rna-XM_056791249.1,K02A2.6-like,-
-rna-XM_056791254.1,K02A2.6-like,-
-rna-XM_056791257.1,Pao retrotransposon peptidase,-
-rna-XM_056791258.1,Pao retrotransposon peptidase,-
-rna-XM_056791260.1,K02A2.6-like,-
-rna-XM_056791262.1,Proteasome subunit beta,Prosbeta5
-rna-XM_056791267.1,zinc finger,-
-rna-XM_056791268.1,Proteasome subunit beta,Prosbeta5
-rna-XM_056791269.1,Reverse transcriptase (RNA-dependent DNA polymerase),-
-rna-XM_056791274.1,Ribonuclease H protein,-
-rna-XM_056791275.1,Reverse transcriptase (RNA-dependent DNA polymerase),-
-rna-XM_056791280.1,K02A2.6-like,-
-rna-XM_056791282.1,Proteasome subunit beta,Prosbeta5
-rna-XM_056791284.1,Proteasome subunit beta,Prosbeta5
-rna-XM_056791285.1,Ribonuclease H protein,-
-rna-XM_056791286.1,Proteasome subunit beta,Prosbeta5
-rna-XM_056791289.1,Protein of unknown function (DUF1759),-
-rna-XM_056791299.1,Ribonuclease H protein,-
-rna-XM_056791300.1,Pao retrotransposon peptidase,-
-rna-XM_056791301.1,nucleic acid binding,-
-rna-XM_056791315.1,Proteasome subunit beta,Prosbeta5
-rna-XM_056791307.1,Ribonuclease H protein,-
-rna-XM_056791308.1,Proteasome subunit beta,Prosbeta5
-rna-XM_056791311.1,Ribonuclease H protein,-
+transcript ID,description,name
+rna-XM\_056791329.1,Ribonuclease H protein,-
+rna-XM\_056791337.1,Ribonuclease H protein,-
+rna-XM\_056791338.1,Pao retrotransposon peptidase,-
+rna-XM\_056791339.1,nucleic acid binding,-
+rna-XM\_056791347.1,Transposase protein,-
+rna-XM\_056791348.1,Ribonuclease H protein,-
+rna-XM\_056791349.1,Pao retrotransposon peptidase,-
+rna-XM\_056791350.1,nucleic acid binding,-
+rna-XM\_056791316.1,Proteasome subunit beta,Prosbeta5
+rna-XM\_056791355.1,Integrase core domain,-
+rna-XM\_056791356.1,MYND finger,-
+rna-XM\_056791357.1,Gag P30 core shell protein,-
+rna-XM\_056791358.1,Gag P30 core shell protein,-
+rna-XM\_056791361.1,KRAB-A domain containing 2,-
+rna-XM\_056791314.1,K02A2.6-like,-
+rna-XM\_056791363.1,K02A2.6-like,-
+rna-XM\_056791365.1,Pao retrotransposon peptidase,-
+rna-XM\_056791243.1,Ribonuclease H protein,-
+rna-XM\_056791244.1,52 kDa repressor of the inhibitor of the protein,Prkrir
+rna-XM\_056791246.1,Pao retrotransposon peptidase,-
+rna-XM\_056791247.1,DNA-binding transcription factor activity RNA polymerase II-specific,-
+rna-XM\_056791248.1,DDE superfamily endonuclease,-
+rna-XM\_056791249.1,K02A2.6-like,-
+rna-XM\_056791254.1,K02A2.6-like,-
+rna-XM\_056791257.1,Pao retrotransposon peptidase,-
+rna-XM\_056791258.1,Pao retrotransposon peptidase,-
+rna-XM\_056791260.1,K02A2.6-like,-
+rna-XM\_056791262.1,Proteasome subunit beta,Prosbeta5
+rna-XM\_056791267.1,zinc finger,-
+rna-XM\_056791268.1,Proteasome subunit beta,Prosbeta5
+rna-XM\_056791269.1,Reverse transcriptase (RNA-dependent DNA polymerase),-
+rna-XM\_056791274.1,Ribonuclease H protein,-
+rna-XM\_056791275.1,Reverse transcriptase (RNA-dependent DNA polymerase),-
+rna-XM\_056791280.1,K02A2.6-like,-
+rna-XM\_056791282.1,Proteasome subunit beta,Prosbeta5
+rna-XM\_056791284.1,Proteasome subunit beta,Prosbeta5
+rna-XM\_056791285.1,Ribonuclease H protein,-
+rna-XM\_056791286.1,Proteasome subunit beta,Prosbeta5
+rna-XM\_056791289.1,Protein of unknown function (DUF1759),-
+rna-XM\_056791299.1,Ribonuclease H protein,-
+rna-XM\_056791300.1,Pao retrotransposon peptidase,-
+rna-XM\_056791301.1,nucleic acid binding,-
+rna-XM\_056791315.1,Proteasome subunit beta,Prosbeta5
+rna-XM\_056791307.1,Ribonuclease H protein,-
+rna-XM\_056791308.1,Proteasome subunit beta,Prosbeta5
+rna-XM\_056791311.1,Ribonuclease H protein,-

@@ -1,10 +1,10 @@
-C. maculatus transcript ID,Description,Preferred_name
+transcript ID,description,name
 g5395.t1,Endonuclease-reverse transcriptase,-
 g5397.t1,Myb/SANT-like DNA-binding domain,-
 g5398.t1,DDE superfamily endonuclease,-
 g5401.t1,reverse transcriptase,-
 g5402.t1,USP8 dimerisation domain,-
-g5403.t1,"transposition, RNA-mediated",-
+g5403.t1,transposition RNA-mediated,-
 g5404.t2,USP8 dimerisation domain,-
 g5406.t1,Ribonuclease H protein,-
 g5407.t1,USP8 dimerisation domain,-

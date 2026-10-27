@@ -1,4 +1,4 @@
-B. varius transcript ID,Description,Preferred_name
+transcript ID,description,name
 anno1.g12332.t2,Helix-turn-helix of DDE superfamily endonuclease,-
 anno1.g12333.t1,zinc finger,-
 anno1.g12334.t1,Reverse transcriptase (RNA-dependent DNA polymerase),-
@@ -25,17 +25,17 @@ anno1.g12361.t1,protein MEF2BNB homolog,-
 anno1.g12362.t1,Reverse transcriptase (RNA-dependent DNA polymerase),-
 anno1.g12364.t1,Reverse transcriptase (RNA-dependent DNA polymerase),-
 anno1.g12365.t1,Transposase IS4,-
-anno1.g12374.t1,"transposition, RNA-mediated",-
+anno1.g12374.t1,transposition RNA-mediated,-
 anno1.g12375.t1,N-terminal region of glycosyl transferase group 7,-
-anno1.g12376.t1,"transposition, RNA-mediated",-
-anno1.g12383.t1,"transposition, RNA-mediated",-
+anno1.g12376.t1,transposition RNA-mediated,-
+anno1.g12383.t1,transposition RNA-mediated,-
 anno1.g12385.t1,Ryanodine-sensitive calcium-release channel activity. It is involved in the biological process described with,RyR
 anno1.g12396.t1,YqaJ-like viral recombinase domain,-
-anno1.g12397.t1,"Acts as subunit of the RNA polymerase II elongator complex, which is a histone acetyltransferase component of the RNA polymerase II (Pol II) holoenzyme and is involved in transcriptional elongation",-
+anno1.g12397.t1,Acts as subunit of the RNA polymerase II elongator complex which is a histone acetyltransferase component of the RNA polymerase II (Pol II) holoenzyme and is involved in transcriptional elongation,-
 anno1.g12398.t1,YqaJ-like viral recombinase domain,-
 anno1.g12399.t1,DDE superfamily endonuclease,-
 anno1.g12400.t1,Myb/SANT-like DNA-binding domain,-
 anno1.g12401.t1,reverse transcriptase,-
 anno1.g12402.t1,zinc finger,-
 anno1.g12403.t1,YqaJ-like viral recombinase domain,-
-anno1.g12406.t1,"transposition, RNA-mediated",-
+anno1.g12406.t1,transposition RNA-mediated,-
