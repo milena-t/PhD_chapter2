@@ -452,7 +452,7 @@ if __name__=="__main__":
             miniprot_dict=miniprot_dict,
             filename = f"{data_dir}sex_chromosome_gene_counts_tree.png")
 
-    if True:
+    if False:
         ## check how many Dcar-Tcas orthologs are X-linked
         infile = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/BRH_orthologs/D_carinulata_vs_T_castaneum_BRHs.tsv"
         infile_cmac = f"/Users/{username}/work/PhD_code/PhD_chapter2/data/BRH_orthologs/C_maculatus_vs_D_carinulata_BRHs.tsv"
@@ -527,4 +527,26 @@ if __name__=="__main__":
             assign_LG=True)
 
         plot_LG_stacked_bar(df_dict["A in bruchini"], filename=f"/Users/{username}/work/PhD_code/PhD_chapter2/data/BRH_orthologs/X_diorhabda_gene_source.png")
-            
+    
+    if True:
+        # calculate single-exon proportion of X or Y-genes
+        sexchr = "X" # "X" or "Y"
+
+        for species, annotpath in annot_dict.items():
+            print(f"==================== {species} ====================")
+
+            y_singleexon = 0
+            y_multiexon = 0
+            ann = gff.parse_gff3_general(annotpath, verbose=False, contig_list=sex_chromosome_contigs[species][sexchr])
+
+            for trID, transcript in ann.items():
+                if transcript.category != gff.FeatureCategory.Transcript:
+                    continue
+                if transcript.is_intronless():
+                    y_singleexon +=1
+                else:
+                    y_multiexon +=1
+
+            all_tr = y_singleexon+y_multiexon
+            perc = 100*y_singleexon/all_tr
+            print(f" of {all_tr} annotated transcripts, {y_singleexon} are single-exon \t --> {perc:.0f}%")
