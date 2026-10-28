@@ -390,10 +390,11 @@ if __name__ == "__main__":
             outfile_name=f"{data_dir}sex_chromosome_gene_density_vs_GS.png",
             chromosome_categories = ["A", "X", "Y"],genome_sizes=genome_sizes, legend_loc=legend_loc)
 
-
-    if plot_miniprot:
-        print(f"\ncalcluate spearman correlation of genome size vs. miniprot paralog gene counts...")
-        calcuate_spearman_genecounts(genome_sizes=genome_sizes, annot_path_dict=miniprot_dict, sex_chromosomes_dict=sex_chromosomes_dict)
-    else:
-        print(f"\ncalcluate spearman correlation of genome size vs. counts of annotated genes...")
-        calcuate_spearman_genecounts(genome_sizes=genome_sizes, annot_path_dict=annot_path_dict, sex_chromosomes_dict=sex_chromosomes_dict)
+    if True:
+        ## calculate correlations of gene density and number with spearman rho. 
+        if plot_miniprot:
+            print(f"\ncalcluate spearman correlation of genome size vs. miniprot paralog gene counts...")
+            calcuate_spearman_genecounts(genome_sizes=genome_sizes, annot_path_dict=miniprot_dict, sex_chromosomes_dict=sex_chromosomes_dict)
+        else:
+            print(f"\ncalcluate spearman correlation of genome size vs. counts of annotated genes...")
+            calcuate_spearman_genecounts(genome_sizes=genome_sizes, annot_path_dict=annot_path_dict, sex_chromosomes_dict=sex_chromosomes_dict)
