@@ -27,9 +27,9 @@ genome_sizes = {
     ## in Mb, from the ncbi entries of all of the assemblies unless otherwise stated
     "A_obtectus" : 917.4,
     "B_siliquastri" : 375.6,
-    "B_varius" : 1153.97, #https://insect-genome.com/genome/IBG_03258
+    "B_varius" : 1210.1, # ncbi assembly stats at https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/964/204/745/GCA_964204745.1_icBruVari1.hap1.1/GCA_964204745.1_icBruVari1.hap1.1_assembly_stats.txt
     "C_chinensis" : 633.3,
-    "C_maculatus" : 1020.40, #https://insect-genome.com/genome/IBG_00154, #but NCBI says 1200
+    "C_maculatus" : 1246.7,  # YS assembly stats from ncbi
     "D_carinulata" : 415.4,
     "D_sublineata" : 456.2,
 }

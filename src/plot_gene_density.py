@@ -195,7 +195,7 @@ def plot_gene_density_vs_GS(gene_density_dict, annot,  outfile_name = "", chromo
         "X" : "X chromosome",
         "Y" : "Y chromosome"
     }
-    fs = 15 # font size
+    fs = 20 # font size
     ps = 20
     lw = 2
     
@@ -210,14 +210,9 @@ def plot_gene_density_vs_GS(gene_density_dict, annot,  outfile_name = "", chromo
     for x,s in zip(GS_list,species_names):
         ax.axvline(x=x, color=colors_dict["vline"], linestyle='-', linewidth=lw*0.25)
         species = s.replace("_", ". ")
-        ax.text(
-        x, 0.98, f"\\textit{{{species}}}",
-        rotation=90,transform=ax.get_xaxis_transform(),  # x: data, y: axes fraction
-        va="top",        # text hangs down from y=0.98
-        ha="right",      # sits just left of the line (use "left" for right side)
-        fontsize=fs*0.8, color=colors_dict["vtext"]
-    )
-    x_offset = {c:i*max(GS_list)/150 for c,i in zip(chromosome_categories,range(-1,2))}
+        ax.text(x, 0.98, f"\\textit{{{species}}}",rotation=90,transform=ax.get_xaxis_transform(), va="top", ha="right",fontsize=fs*0.65, color=colors_dict["vtext"])
+
+    x_offset = {c:i*max(GS_list)/200 for c,i in zip(chromosome_categories,range(-1,2))}
     
     print(f"----------------------------------------------------")
     for i,cat in enumerate(chromosome_categories):
@@ -226,8 +221,11 @@ def plot_gene_density_vs_GS(gene_density_dict, annot,  outfile_name = "", chromo
         for j, species in enumerate(species_names):
             if gene_density_dict[species][cat]==[]:
                 if species == "C_chinensis" and cat == "A":
-                    gene_density[j] = mean(gene_density_dict[species]["unplaced"])
-                    gd_errors[j] = sem(gene_density_dict[species]["unplaced"])
+                    gene_density[j] = mean(gene_density_dict[species]["A"] + gene_density_dict[species]["unplaced"])
+                    gd_errors[j] = sem(gene_density_dict[species]["A"] + gene_density_dict[species]["unplaced"])
+                elif species == "C_maculatus" and cat == "A":
+                    gene_density[j] = mean(gene_density_dict[species]["A"] + gene_density_dict[species]["unplaced"])
+                    gd_errors[j] = sem(gene_density_dict[species]["A"] + gene_density_dict[species]["unplaced"])
                 else:
                     gene_density[j] = np.nan
                     gd_errors[j] = np.nan
@@ -261,7 +259,7 @@ def plot_gene_density_vs_GS(gene_density_dict, annot,  outfile_name = "", chromo
     # ax.set_ylim(0,ymax)
     
     ax.tick_params(axis='y', labelsize=fs)
-    ax.legend(fontsize=fs, loc=legend_loc)
+    ax.legend(fontsize=fs*0.75, loc=legend_loc)
 
     plt.tight_layout()
 
@@ -308,7 +306,7 @@ def calcuate_spearman_genecounts(genome_sizes, annot_path_dict, sex_chromosomes_
         # print(f"genome size : {gs}")
         gc = [gene_counts[s][cat] for s in species_list]
         # print(f"gene count : {gc}")
-        statistic, pval = spearmanr(a=gs, b=gc, alternative="greater")
+        statistic, pval = spearmanr(a=gs, b=gc, alternative="two-sided") # two-sided or greater
         print(f"\t- Spearman's correlation for {cat}: $rho$ = {statistic:.3f}, p = {pval:.3f}")
     print(f"----------------------------------------------------")
 
@@ -332,7 +330,7 @@ if __name__ == "__main__":
 
     plot_miniprot = False
 
-    if False:
+    if True:
 
         for species, miniprot_path in miniprot_dict.items():
             print(f"\n====================== {species} ======================")
