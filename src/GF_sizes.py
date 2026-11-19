@@ -845,7 +845,7 @@ def make_HOG_enr_lists(hog_sexchr_dict, species_list, sexchr, enrichment_filenam
         
 
     
-def make_regression_df(mini_hog_sexchr_dict, correctionfactor, minGS=2):
+def make_regression_df(mini_hog_sexchr_dict, correctionfactor, minGS=2, rem_x_excl=False):
     dfdict = {"GFsize" : [], "chr" : [], "GS" : []}
     for hogdict in mini_hog_sexchr_dict.values():
         for species,gfdict in hogdict.items():
@@ -854,6 +854,8 @@ def make_regression_df(mini_hog_sexchr_dict, correctionfactor, minGS=2):
                 continue
             chr_="A"
             if gfdict["X"]>0:
+                if rem_x_excl and gfdict["O"]==0:
+                    continue
                 chr_="X"
                 gfsize_mod = gfsize*correctionfactor[species]["X"]
             dfdict["chr"].append(chr_)    
@@ -911,20 +913,21 @@ if __name__ == "__main__":
             miniprot_paths_dict=miniprot_dict,
             return_annotdict=True)
 
-        if False:
+        if True:
             # do median regression with miniprot tables
             ## read mini_hog_sexchr_dict into table 
             gf_size_correction_factors = make_GF_size_correction_factor(fai_indices_dict=fai_indices, sex_chromosome_contigs=sex_chromosome_contigs)
             minGS=2
-            data_df = make_regression_df(mini_hog_sexchr_dict=mini_hog_sexchr_dict, correctionfactor=gf_size_correction_factors, minGS=minGS)
+            data_df = make_regression_df(mini_hog_sexchr_dict=mini_hog_sexchr_dict, correctionfactor=gf_size_correction_factors, minGS=minGS, rem_x_excl=False)
             # chr=0 is A, chr=1 is X
-            data_df["chr"] = pd.Categorical(data_df["chr"], categories=["A", "X"])
-            #model = smf.negativebinomial("GFsize ~ C(chr) * GS", data=data_df).fit()
-
-            ## make small/large genomes instead of continuous GS values
-            ## the GS cutoff is 600Mb
-            data_df["GS_cat"] = pd.Categorical(np.where(data_df["GS"] <= 600, "small", "large"),categories=["small", "large"])
-            model = smf.negativebinomial("GFsize ~ C(chr) * C(GS_cat)", data=data_df).fit()
+            if True:
+                data_df["chr"] = pd.Categorical(data_df["chr"], categories=["A", "X"])
+                model = smf.negativebinomial("GFsize ~ C(chr) * GS", data=data_df).fit()
+            else:
+                ## make small/large genomes instead of continuous GS values
+                ## the GS cutoff is 600Mb
+                data_df["GS_cat"] = pd.Categorical(np.where(data_df["GS"] <= 600, "small", "large"),categories=["small", "large"])
+                model = smf.negativebinomial("GFsize ~ C(chr) * C(GS_cat)", data=data_df).fit()
             
             print(f"------------------------------------")
             print(f"\n --- smf.negativebinomial")
@@ -975,7 +978,7 @@ if __name__ == "__main__":
                     )
 
     ### check if gene fmailies with X/Y members are on average larger
-    if False:
+    if True:
         ### make genome size adjustment factors per species 
         gf_size_correction_factors = make_GF_size_correction_factor(fai_indices_dict=fai_indices, sex_chromosome_contigs=sex_chromosome_contigs)
 
