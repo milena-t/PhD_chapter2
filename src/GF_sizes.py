@@ -6,6 +6,7 @@
 
 import upsetplot
 import numpy as np
+import scipy
 import pandas as pd
 from statistics import mean,median
 from scipy.stats import sem
@@ -22,6 +23,8 @@ import parse_orthogroups as og
 import linkage_groups as lg
 from pairwise_wga_heatmap import fasta_indices
 
+import statsmodels.formula.api as smf
+import statsmodels.api as sm
 
 genome_sizes = {
     ## in Mb, from the ncbi entries of all of the assemblies unless otherwise stated
@@ -507,6 +510,15 @@ def check_sex_linked_GF_size(hog_sexchr_dict, species_list, chr_string: Literal[
             sem_lists = [sem(gf_sizes) for gf_sizes in lists]
             ax.bar(x=tick_pos, height=means_lists, yerr=sem_lists, width=box_width, color = colors_list)
 
+            ## calculate within-species mean differences
+            diffs = [x - a for x, a in zip(means_lists[0::3], means_lists[2::3])]
+            result = scipy.stats.spearmanr(diffs, [genome_sizes[s] for s in species_list])
+            print(f"\n------------------------------------")
+            print(f"test if the difference between mean X and A GF size is correlated with GS:")
+            print(f"x-a diffs: {diffs}")
+            print(f"$rho$={result.statistic:.3f} and p={result.pvalue:.3f}")
+            print(f"------------------------------------\n")
+
             #custom errorbars for matching colors
             for xi, m, e, c in zip(tick_pos, means_lists, sem_lists, errors_colors):
                 ax.errorbar(xi, m, yerr=e, fmt="none", ecolor=c, capsize=4, elinewidth=1.5)
@@ -833,7 +845,22 @@ def make_HOG_enr_lists(hog_sexchr_dict, species_list, sexchr, enrichment_filenam
         
 
     
-
+def make_regression_df(mini_hog_sexchr_dict, correctionfactor, minGS=2):
+    dfdict = {"GFsize" : [], "chr" : [], "GS" : []}
+    for hogdict in mini_hog_sexchr_dict.values():
+        for species,gfdict in hogdict.items():
+            gfsize = sum(list(gfdict.values()))
+            if gfsize<minGS:
+                continue
+            chr_="A"
+            if gfdict["X"]>0:
+                chr_="X"
+                gfsize_mod = gfsize*correctionfactor[species]["X"]
+            dfdict["chr"].append(chr_)    
+            dfdict["GS"].append(genome_sizes[species])
+            dfdict["GFsize"].append(gfsize_mod)
+    df = pd.DataFrame.from_dict(dfdict)
+    return df
 
 
 if __name__ == "__main__":
@@ -884,27 +911,68 @@ if __name__ == "__main__":
             miniprot_paths_dict=miniprot_dict,
             return_annotdict=True)
 
-        plot_upset=False
+        if False:
+            # do median regression with miniprot tables
+            ## read mini_hog_sexchr_dict into table 
+            gf_size_correction_factors = make_GF_size_correction_factor(fai_indices_dict=fai_indices, sex_chromosome_contigs=sex_chromosome_contigs)
+            minGS=2
+            data_df = make_regression_df(mini_hog_sexchr_dict=mini_hog_sexchr_dict, correctionfactor=gf_size_correction_factors, minGS=minGS)
+            # chr=0 is A, chr=1 is X
+            data_df["chr"] = pd.Categorical(data_df["chr"], categories=["A", "X"])
+            #model = smf.negativebinomial("GFsize ~ C(chr) * GS", data=data_df).fit()
 
-        earliest_duplications, unassigned_geneIDs = og.parse_duplications(
-            duplications_path=f"{data_dir}/Duplications.tsv", 
-            orthogroups_path=orthogroups_file, 
-            min_support=0, 
-            remove_species_specific=False)
-
-        min_intersection_size = {"X" : 20, "Y" : 0, "XY" : 0}
-        for chr in ["Y","X"]:#,"XY"]:
-            print(f"\n\n>>>>> {chr} <<<<<")
-            if plot_upset:
-                upset_HOG_sex_chromosomes(hog_sexchr_dict=mini_hog_sexchr_dict, chr_string=chr, plot_filename=f"{data_dir}/orthogroup_presence_{mini_filename}{chr}_upsetplot.png", min_intersection_size=min_intersection_size[chr])
+            ## make small/large genomes instead of continuous GS values
+            ## the GS cutoff is 600Mb
+            data_df["GS_cat"] = pd.Categorical(np.where(data_df["GS"] <= 600, "small", "large"),categories=["small", "large"])
+            model = smf.negativebinomial("GFsize ~ C(chr) * C(GS_cat)", data=data_df).fit()
             
-            ## make orthogroups list of chr-species-specific and of chr-linked-in-all-species
-            if len(chr)==1:
-                make_HOG_enr_lists(
-                    hog_sexchr_dict=mini_hog_sexchr_dict, 
-                    species_list=species_order, sexchr=chr, 
-                    enrichment_filename_prefix=f"/Users/{username}/work/PhD_code/PhD_chapter2/data/GO_enrichment/HOG_enr_list_{chr}-linked_in"
-                )
+            print(f"------------------------------------")
+            print(f"\n --- smf.negativebinomial")
+            print(f"{data_df.shape[0]} gene families with at least {minGS} members in a species")
+            print(model.summary())
+            print(f"------------------------------------")
+
+        elif True:
+            ## check what those shared-Y diorhabda are
+            sharedY = {}
+            annot_placed_dict = og.parse_orthogroups_dict(filepath=orthogroups_file, species_list=["D_carinulata", "D_sublineata"], OG_header="HOG")
+            for hogid, hogdict in mini_hog_sexchr_dict.items():
+                diorhabdaY=0
+                for species,gfdict in hogdict.items():
+                    if "D_" in species and gfdict["Y"]>0 and gfdict["X"]==0:
+                        diorhabdaY += 1
+                if diorhabdaY>1:
+                    sharedY[hogid] = annot_placed_dict[hogid]
+                    # print(f"{hogid}:{annot_placed_dict[hogid]}")
+            for s in ["D_carinulata", "D_sublineata"]:
+                gids = []
+                for hogid,hogdict in sharedY.items():
+                    gids.extend(hogdict[s].split(", "))
+                gids = set(gids)
+                print(f"{s} ({len(gids)}): {gids}")
+
+        else:
+            plot_upset=False
+
+            earliest_duplications, unassigned_geneIDs = og.parse_duplications(
+                duplications_path=f"{data_dir}/Duplications.tsv", 
+                orthogroups_path=orthogroups_file, 
+                min_support=0, 
+                remove_species_specific=False)
+
+            min_intersection_size = {"X" : 20, "Y" : 0, "XY" : 0}
+            for chr in ["Y","X"]:#,"XY"]:
+                print(f"\n\n>>>>> {chr} <<<<<")
+                if plot_upset:
+                    upset_HOG_sex_chromosomes(hog_sexchr_dict=mini_hog_sexchr_dict, chr_string=chr, plot_filename=f"{data_dir}/orthogroup_presence_{mini_filename}{chr}_upsetplot.png", min_intersection_size=min_intersection_size[chr])
+                
+                ## make orthogroups list of chr-species-specific and of chr-linked-in-all-species
+                if len(chr)==1:
+                    make_HOG_enr_lists(
+                        hog_sexchr_dict=mini_hog_sexchr_dict, 
+                        species_list=species_order, sexchr=chr, 
+                        enrichment_filename_prefix=f"/Users/{username}/work/PhD_code/PhD_chapter2/data/GO_enrichment/HOG_enr_list_{chr}-linked_in"
+                    )
 
     ### check if gene fmailies with X/Y members are on average larger
     if False:
@@ -935,7 +1003,7 @@ if __name__ == "__main__":
                 filename = f"{data_dir}/GF_sizes_{chr_}-linked_vs_A_comparison.png"
 
             mdt=False
-            for mingf in [-1,0,2]:
+            for mingf in [2]: #[-1,0,2]
                 # gene families need to have at least two members in the species or not
                 # -1 counts all single-member gene families
                 print(f"\n ----------------------- min GF size: {mingf} -----------------------")
